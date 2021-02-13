@@ -1,113 +1,538 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
+// Initial Function ============================================================
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false, // Avoid the debug message
+      home: Home(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+// Initial screen, shows only the start button (COMENZAR) ======================
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Avoid the debug message
+      home: Material(
+        child: Stack(
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            // Background Image ================================================
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/start_image.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            // Start buttom (COMENZAR) =========================================
+            Container(
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 347.0),
+                  child: SizedBox(
+                    width: 200.0,
+                    height: 42.0,
+                    child: ElevatedButton(
+                      child: Text(
+                        "COMENZAR",
+                        style: TextStyle(
+                            fontSize: 21.0,
+                            color: Colors.black,
+                            letterSpacing: 3,
+                            fontFamily: 'PoppinSemiBold'),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+// Screen of user that wants to register or login ==============================
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        extendBodyBehindAppBar: true,
+        // Header of screen, image with title ==================================
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(165.0),
+          child: AppBar(
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: const Radius.circular(100.0),
+                bottomRight: const Radius.circular(100.0),
+              ),
+            ),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/appBar.png"),
+                  fit: BoxFit.none,
+                ),
+              ),
+            ),
+            elevation: 16,
+            backgroundColor: Colors.transparent,
+          ),
+        ),
+        // Body of the screen ==================================================
+        body: Stack(
+          children: <Widget>[
+            // Background image ================================================
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            // Button of "Necesito Ayuda" ======================================
+            Transform.translate(
+              offset: Offset(43.0, 231.1),
+              child: SizedBox(
+                width: 146.0,
+                height: 196.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.perm_phone_msg_rounded,
+                        size: 100,
+                        color: const Color(0xffe45865),
+                      ),
+                      Text(
+                        "Necesito \nAyuda",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Qué hay pa hacer" ====================================
+            Transform.translate(
+              offset: Offset(224.0, 231.12),
+              child: SizedBox(
+                width: 146.0,
+                height: 140.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.people_alt_rounded,
+                        size: 78.67,
+                        color: const Color(0xffC08EF2),
+                      ),
+                      Text(
+                        "Qué hay \npa´ hacer",
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Cartas" ==============================================
+            Transform.translate(
+              offset: Offset(43.0, 452.24),
+              child: SizedBox(
+                width: 146.0,
+                height: 128.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.send_rounded,
+                        size: 63.68,
+                        color: const Color(0xffFCD06B),
+                      ),
+                      Text(
+                        "Cartas",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Quiero un momento" ===================================
+            Transform.translate(
+              offset: Offset(226.0, 387.24),
+              child: SizedBox(
+                width: 146.0,
+                height: 193.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.favorite_border_rounded,
+                        size: 84.04,
+                        color: const Color(0xffA5DF6E),
+                      ),
+                      Text(
+                        "Quiero un \nmomento",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Redes" ===============================================
+            Transform.translate(
+              offset: Offset(224.0, 611.12),
+              child: SizedBox(
+                width: 146.0,
+                height: 128.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.tablet_mac_rounded,
+                        size: 75.0,
+                        color: const Color(0xffFFD4C4),
+                      ),
+                      Text(
+                        "Redes",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Información" =========================================
+            Transform.translate(
+              offset: Offset(43.0, 611.12),
+              child: SizedBox(
+                width: 146.0,
+                height: 128.0,
+                child: FloatingActionButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.message_rounded,
+                        size: 85.67,
+                        color: const Color(0xff46D4E1),
+                      ),
+                      Text(
+                        "Información",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: const Color(0xff302b2b),
+                          height: 1.1111111111111112,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    _settingBottomSheet(context);
+                  },
+                ),
+              ),
+            ),
+            // Button of "Iniciar Sesión" ======================================
+            Transform.translate(
+              offset: Offset(0.0, 770.0),
+              child: SizedBox(
+                width: 206.0,
+                height: 77.0,
+                child: FloatingActionButton(
+                  child: Text(
+                    "Iniciar Sesión",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: const Color(0xffE45865),
+                      height: 1.1111111111111112,
+                      fontFamily: 'PoppinsRegular',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  backgroundColor: const Color(0xffFCD06B),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            // Button of "Registrarme" =========================================
+            Transform.translate(
+              offset: Offset(206.0, 770.0),
+              child: SizedBox(
+                width: 206.0,
+                height: 77.0,
+                child: FloatingActionButton(
+                  child: Text(
+                    "Registrarme",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: const Color(0xff202830),
+                      height: 1.1111111111111112,
+                      fontFamily: 'PoppinsRegular',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  backgroundColor: const Color(0xffFCD06B),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Function of the bottom sheet of the "Información" button ====================
+void _settingBottomSheet(context) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext bc) {
+        return Container(
+          height: 141,
+          child: _buildItems(context),
+        );
+      });
+}
+
+// Buttons of bottom sheet =====================================================
+Widget _buildItems(BuildContext context) {
+  return Container(
+    // Bottom sheet properties =================================================
+    width: 412.0,
+    height: 141.44,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.only(
+        topLeft: const Radius.circular(70.0),
+        topRight: const Radius.circular(70.0),
+      ),
+      color: const Color(0xff8EE8D8),
+    ),
+    // Buttons =================================================================
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        // Button of "Foro" ====================================================
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: 140.75,
+              height: 80.67,
+              child: FloatingActionButton(
+                child: Icon(
+                  Icons.comment_bank_outlined,
+                  size: 84.71,
+                  color: const Color(0xff205072),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(81.0),
+                ),
+                backgroundColor: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
+              ),
+            ),
+            Text(
+              "Foro",
+              style: TextStyle(
+                fontSize: 18,
+                color: const Color(0xff302b2b),
+                height: 1.1111111111111112,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        // Button of "Salud Mental" ============================================
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: 140.75,
+              height: 80.67,
+              child: FloatingActionButton(
+                child: Icon(
+                  Icons.monitor,
+                  size: 84.71,
+                  color: const Color(0xff205072),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(81.0),
+                ),
+                backgroundColor: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
+              ),
+            ),
+            Text(
+              "Salud Mental",
+              style: TextStyle(
+                fontSize: 18,
+                color: const Color(0xff302b2b),
+                height: 1.1111111111111112,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
