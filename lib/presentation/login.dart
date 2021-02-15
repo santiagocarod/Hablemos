@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../ux/atoms.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
