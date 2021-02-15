@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
