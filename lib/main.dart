@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'start.dart';
+import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/routes/routes.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +10,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Avoid the debug message
-      home: Home(),
+      initialRoute: '/',
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        );
+      },
     );
   }
 }
