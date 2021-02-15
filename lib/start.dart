@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
 class Home extends StatelessWidget {
+  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
