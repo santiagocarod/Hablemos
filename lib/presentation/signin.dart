@@ -196,31 +196,6 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget _crearBoton() {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Container(
-        height: 50,
-        child: Center(
-          child: Text(
-            'Crear Cuenta',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromRGBO(252, 208, 107, 1),
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-    );
-  }
-
   Widget _crearTextoObligatorio() {
     return Container(
       padding: EdgeInsets.all(10.0),
