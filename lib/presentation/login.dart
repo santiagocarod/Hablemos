@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/inh_widget.dart';
 
 import '../ux/atoms.dart';
 
@@ -54,24 +55,26 @@ class _TopTitleWButton extends StatelessWidget {
 }
 
 class _CenterLogin extends StatelessWidget {
-  final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final bloc = InhWidget.of(context);
+
     return Expanded(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            emailTextBox(emailTextController),
+            emailTextBox(bloc),
             SizedBox(height: 40.0),
-            passwordTextBox(passwordTextController),
+            passwordTextBox(bloc),
             SizedBox(height: 70.0),
             iconButton(
                 "Iniciar Sesión",
                 () => {print(passwordTextController.text)},
                 Icons.login,
-                Colors.yellow[700]),
+                Colors.yellow[700],
+                bloc),
             SizedBox(height: 20.0),
             GestureDetector(
                 onTap: () => {print("haisd")},

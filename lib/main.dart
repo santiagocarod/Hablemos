@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'start.dart';
+import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/start.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,9 +8,11 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // Avoid the debug message
-      home: Home(),
+    return InhWidget(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false, // Avoid the debug message
+        home: Home(),
+      ),
     );
   }
 }
