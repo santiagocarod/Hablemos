@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/services/auth.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
 class Home extends StatelessWidget {
