@@ -1,10 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/services/auth.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
 class Home extends StatelessWidget {
-  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +44,10 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        /*AuthService authService = new AuthService();
+                        authService.signUp("santiago@gmail.com", "123456");
+                        print(
+                            "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomeScreen()),
