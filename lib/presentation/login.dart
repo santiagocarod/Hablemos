@@ -41,7 +41,9 @@ class _TopTitleWButton extends StatelessWidget {
             Icons.keyboard_backspace,
             size: 40,
           ),
-          onPressed: () => {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         Text(
           "Inicio de Sesión",
