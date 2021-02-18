@@ -29,10 +29,12 @@ class ColumnasInicio extends StatelessWidget {
                   topLeft: Radius.circular(60), topRight: Radius.circular(60)),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       //Construye Boton Foro
                       GestureDetector(
@@ -40,8 +42,8 @@ class ColumnasInicio extends StatelessWidget {
                         child: Container(
                             width: 140,
                             height: 80,
-                            margin:
-                                EdgeInsets.only(left: 45, right: 10, top: 5),
+                            //margin:
+                            //  EdgeInsets.only(left: 45, right: 10, top: 5),
                             decoration: BoxDecoration(
                               color: kBlanco,
                               borderRadius:
@@ -75,7 +77,7 @@ class ColumnasInicio extends StatelessWidget {
                         child: Container(
                           width: 140,
                           height: 80,
-                          margin: EdgeInsets.only(left: 10, right: 45, top: 5),
+                          //margin: EdgeInsets.only(left: 10, right: 45, top: 5),
                           decoration: BoxDecoration(
                             color: kBlanco,
                             borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -106,9 +108,10 @@ class ColumnasInicio extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 30, right: 27),
+                  //alignment: Alignment.center,
+                  //padding: EdgeInsets.only(left: 30, right: 27),
                   child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Flexible(
                         flex: 2,
@@ -140,11 +143,11 @@ class ColumnasInicio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       margin: EdgeInsets.only(
-        right: size.width / 25,
         bottom: 29,
       ),
-      width: size.width * 0.4,
+      //width: size.width * 0.3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

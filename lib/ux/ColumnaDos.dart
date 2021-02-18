@@ -18,11 +18,11 @@ class ColumnaDos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       margin: EdgeInsets.only(
         bottom: 67,
-        right: size.width / 25,
       ),
-      width: size.width * 0.4,
+      //width: size.width * 0.2,
       child: Column(
         children: <Widget>[
           //Construye Boton Citas
