@@ -44,6 +44,10 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        /*AuthService authService = new AuthService();
+                        authService.signUp("santiago@gmail.com", "123456");
+                        print(
+                            "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomeScreen()),
