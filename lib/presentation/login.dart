@@ -53,32 +53,26 @@ Widget _topTitleWButton(BuildContext context) {
   );
 }
 
-class _CenterLogin extends StatelessWidget {
-  final passwordTextController = TextEditingController();
+Widget _centerLogin(BuildContext context) {
+  final bloc = InhWidget.of(context);
 
-  @override
-  Widget build(BuildContext context) {
-    final bloc = InhWidget.of(context);
-
-    return Expanded(
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            emailTextBox(bloc),
-            SizedBox(height: 40.0),
-            passwordTextBox(bloc),
-            SizedBox(height: 70.0),
-            iconButton(
-                "Iniciar Sesión",
-                () => {Navigator.pushNamed(context, 'inicio')},
-                Icons.login,
-                Colors.yellow[700],
-                bloc),
-            SizedBox(height: 20.0),
-            GestureDetector(
-                onTap: () => {print("haisd")},
-                child: Text("¿Olvidaste tu Contraseña?"))
-          ]),
-    );
-  }
+  return Expanded(
+    child:
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      emailTextBox(bloc),
+      SizedBox(height: 40.0),
+      passwordTextBox(bloc),
+      SizedBox(height: 70.0),
+      iconButton(
+          "Iniciar Sesión",
+          () => {Navigator.pushNamed(context, 'inicio')},
+          Icons.login,
+          Colors.yellow[700],
+          bloc),
+      SizedBox(height: 20.0),
+      GestureDetector(
+          onTap: () => {print("haisd")},
+          child: Text("¿Olvidaste tu Contraseña?"))
+    ]),
+  );
 }
