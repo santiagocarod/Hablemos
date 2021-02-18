@@ -1,74 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Initial screen, shows only the start button (COMENZAR) ======================
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // Avoid the debug message
-      home: Material(
-        child: Stack(
-          children: <Widget>[
-            _background(context, size),
-            _startButton(context, size),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-Widget _background(BuildContext context, Size size) {
-  return SingleChildScrollView(
-    child: Image(
-      height: size.height,
-      width: size.width,
-      image: AssetImage("assets/images/start_image.png"),
-      fit: BoxFit.cover,
-    ),
-  );
-}
-
-Widget _startButton(BuildContext context, Size size) {
-  return SingleChildScrollView(
-    // Start buttom (COMENZAR) =========================================
-    child: Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: 100, vertical: (size.height / 2) + 30),
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 347.0),
-        child: SizedBox(
-          width: 200.0,
-          height: 42.0,
-          child: ElevatedButton(
-            child: Text(
-              "COMENZAR",
-              style: TextStyle(
-                  fontSize: 21.0,
-                  color: Colors.black,
-                  letterSpacing: 3,
-                  fontFamily: 'PoppinSemiBold'),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            },
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
 // Screen of user that wants to register or login ==============================
 class HomeScreen extends StatelessWidget {
   @override
@@ -87,6 +18,7 @@ Widget _appBar(BuildContext context, Size size) {
   return PreferredSize(
     preferredSize: Size.fromHeight(165.0),
     child: AppBar(
+      leading: Container(),
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: const Radius.circular(100.0),
@@ -99,7 +31,7 @@ Widget _appBar(BuildContext context, Size size) {
         width: size.width,
         image: AssetImage("assets/images/appBar.png"),
       ),
-      elevation: 16,
+      elevation: 0,
       backgroundColor: Colors.transparent,
     ),
   );
@@ -107,25 +39,23 @@ Widget _appBar(BuildContext context, Size size) {
 
 // Body of the screen ==================================================
 Widget _content(BuildContext context, Size size) {
-  return Expanded(
-    child: SingleChildScrollView(
-      child: Stack(
-        children: <Widget>[
-          _background2(context, size),
-          _button7(context, size),
-          _button8(context, size),
-          Column(
-            children: <Widget>[
-              _button1(context, size),
-              _button2(context, size),
-              _button3(context, size),
-              _button4(context, size),
-              _button5(context, size),
-              _button6(context, size),
-            ],
-          ),
-        ],
-      ),
+  return SingleChildScrollView(
+    child: Stack(
+      children: <Widget>[
+        _background2(context, size),
+        _button7(context, size),
+        _button8(context, size),
+        Column(
+          children: <Widget>[
+            _button1(context, size),
+            _button2(context, size),
+            _button3(context, size),
+            _button4(context, size),
+            _button5(context, size),
+            _button6(context, size),
+          ],
+        ),
+      ],
     ),
   );
 }
@@ -148,6 +78,7 @@ Widget _button1(BuildContext context, Size size) {
       width: 146.0,
       height: 196.0,
       child: FloatingActionButton(
+        heroTag: 'btn1',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,10 +105,7 @@ Widget _button1(BuildContext context, Size size) {
         ),
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          Navigator.pushNamed(context, 'centrosayuda');
         },
       ),
     ),
@@ -192,6 +120,7 @@ Widget _button2(BuildContext context, Size size) {
       width: 146.0,
       height: 140.0,
       child: FloatingActionButton(
+        heroTag: 'btn2',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -218,10 +147,7 @@ Widget _button2(BuildContext context, Size size) {
         ),
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          // Navigator.pushNamed(context, 'eventos');
         },
       ),
     ),
@@ -236,6 +162,7 @@ Widget _button3(BuildContext context, Size size) {
       width: 146.0,
       height: 128.0,
       child: FloatingActionButton(
+        heroTag: 'btn3',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,10 +189,7 @@ Widget _button3(BuildContext context, Size size) {
         ),
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          // Navigator.pushNamed(context, 'cartas');
         },
       ),
     ),
@@ -280,6 +204,7 @@ Widget _button4(BuildContext context, Size size) {
       width: 146.0,
       height: 193.0,
       child: FloatingActionButton(
+        heroTag: 'btn4',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -306,10 +231,7 @@ Widget _button4(BuildContext context, Size size) {
         ),
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          // Navigator.pushNamed(context, 'actividades');
         },
       ),
     ),
@@ -324,6 +246,7 @@ Widget _button5(BuildContext context, Size size) {
       width: 146.0,
       height: 128.0,
       child: FloatingActionButton(
+        heroTag: 'btn5',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,10 +273,7 @@ Widget _button5(BuildContext context, Size size) {
         ),
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          // Navigator.pushNamed(context, 'redes');
         },
       ),
     ),
@@ -368,6 +288,7 @@ Widget _button6(BuildContext context, Size size) {
       width: 146.0,
       height: 128.0,
       child: FloatingActionButton(
+        heroTag: 'btn6',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -409,6 +330,7 @@ Widget _button7(BuildContext context, Size size) {
       width: 206.0,
       height: 77.0,
       child: FloatingActionButton(
+        heroTag: 'btn7',
         child: Text(
           "Iniciar Sesión",
           style: TextStyle(
@@ -424,10 +346,7 @@ Widget _button7(BuildContext context, Size size) {
         ),
         backgroundColor: const Color(0xffFCD06B),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          Navigator.pushNamed(context, 'login');
         },
       ),
     ),
@@ -442,6 +361,7 @@ Widget _button8(BuildContext context, Size size) {
       width: 206.0,
       height: 77.0,
       child: FloatingActionButton(
+        heroTag: 'btn8',
         child: Text(
           "Registrarme",
           style: TextStyle(
@@ -457,10 +377,7 @@ Widget _button8(BuildContext context, Size size) {
         ),
         backgroundColor: const Color(0xffFCD06B),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
+          Navigator.pushNamed(context, 'registro');
         },
       ),
     ),
@@ -507,6 +424,7 @@ Widget _buildItems(BuildContext context) {
               width: 140.75,
               height: 80.67,
               child: FloatingActionButton(
+                heroTag: 'btn9',
                 child: Icon(
                   Icons.comment_bank_outlined,
                   size: 84.71,
@@ -517,10 +435,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home()),
-                  );
+                  // Navigator.pushNamed(context, 'foro');
                 },
               ),
             ),
@@ -545,6 +460,7 @@ Widget _buildItems(BuildContext context) {
               width: 140.75,
               height: 80.67,
               child: FloatingActionButton(
+                heroTag: 'btn10',
                 child: Icon(
                   Icons.monitor,
                   size: 84.71,
@@ -555,10 +471,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home()),
-                  );
+                  // Navigator.pushNamed(context, 'saludmental');
                 },
               ),
             ),
