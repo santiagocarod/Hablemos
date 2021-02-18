@@ -20,6 +20,7 @@ class PantallaInicio extends StatelessWidget {
       backgroundColor: kAzulPrincipal,
       elevation: 0,
       toolbarHeight: size.height * 0.001,
+      leading: Container(),
     );
   }
 }

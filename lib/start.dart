@@ -1,19 +1,44 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
+
+class StartFireBase extends StatelessWidget {
+  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FutureBuilder(
+        future: _firebaseApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("Error: ${snapshot.error.toString()}");
+            return Text("Algo salio Mal");
+          } else if (snapshot.hasData) {
+            return Home();
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Avoid the debug message
-      home: Material(
-        child: Stack(
-          children: <Widget>[
-            _background(context, size),
-            _startButton(context, size),
-          ],
-        ),
+      home: Stack(
+        children: <Widget>[
+          _background(context, size),
+          _startButton(context, size),
+        ],
       ),
     );
   }
@@ -34,8 +59,9 @@ Widget _startButton(BuildContext context, Size size) {
   return SingleChildScrollView(
     // Start buttom (COMENZAR) =========================================
     child: Container(
+      width: size.width,
       padding: EdgeInsets.symmetric(
-          horizontal: 100, vertical: (size.height / 2) + 30),
+          horizontal: 100, vertical: (size.height / 2) + 50),
       child: Padding(
         padding: EdgeInsets.only(bottom: 347.0),
         child: SizedBox(

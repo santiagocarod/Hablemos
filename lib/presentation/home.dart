@@ -18,6 +18,7 @@ Widget _appBar(BuildContext context, Size size) {
   return PreferredSize(
     preferredSize: Size.fromHeight(165.0),
     child: AppBar(
+      leading: Container(),
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: const Radius.circular(100.0),
@@ -30,7 +31,7 @@ Widget _appBar(BuildContext context, Size size) {
         width: size.width,
         image: AssetImage("assets/images/appBar.png"),
       ),
-      elevation: 16,
+      elevation: 0,
       backgroundColor: Colors.transparent,
     ),
   );

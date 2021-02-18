@@ -7,7 +7,7 @@ import '../presentation/login.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    'home': (context) => Home(),
+    '/': (context) => Home(),
     'start': (context) => HomeScreen(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),

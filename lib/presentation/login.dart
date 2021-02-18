@@ -14,8 +14,8 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            _TopTitleWButton(),
-            _CenterLogin(),
+            _topTitleWButton(context),
+            _centerLogin(context),
             DecoratedBox(
               child: Text('"Que nada ni nadie empañe tu día, aprovéchalo"'),
               decoration: BoxDecoration(color: Colors.blue[100]),
@@ -30,55 +30,45 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _TopTitleWButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          icon: Icon(
-            Icons.keyboard_backspace,
-            size: 40,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+Widget _topTitleWButton(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      IconButton(
+        icon: Icon(
+          Icons.keyboard_backspace,
+          size: 40,
         ),
-        Text(
-          "Inicio de Sesión",
-          style: TextStyle(fontSize: 25),
-        ),
-        SizedBox()
-      ],
-    );
-  }
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      Text(
+        "Inicio de Sesión",
+        style: TextStyle(fontSize: 25),
+      ),
+      SizedBox()
+    ],
+  );
 }
 
-class _CenterLogin extends StatelessWidget {
+Widget _centerLogin(BuildContext context) {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            emailTextBox(emailTextController),
-            SizedBox(height: 40.0),
-            passwordTextBox(passwordTextController),
-            SizedBox(height: 70.0),
-            iconButton(
-                "Iniciar Sesión",
-                () => {print(passwordTextController.text)},
-                Icons.login,
-                Colors.yellow[700]),
-            SizedBox(height: 20.0),
-            GestureDetector(
-                onTap: () => {print("haisd")},
-                child: Text("¿Olvidaste tu Contraseña?"))
-          ]),
-    );
-  }
+  return Expanded(
+    child:
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      emailTextBox(emailTextController),
+      SizedBox(height: 40.0),
+      passwordTextBox(passwordTextController),
+      SizedBox(height: 70.0),
+      iconButton(
+          "Iniciar Sesión",
+          () => {Navigator.pushNamed(context, 'inicio')},
+          Icons.login,
+          Colors.yellow[700]),
+      SizedBox(height: 20.0),
+      GestureDetector(onTap: () {}, child: Text("¿Olvidaste tu Contraseña?"))
+    ]),
+  );
 }
