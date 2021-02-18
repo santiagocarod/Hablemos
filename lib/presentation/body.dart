@@ -20,13 +20,12 @@ class Body extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Image(
-            height: size.height + 70,
+            height: size.height + size.height / 2,
             width: size.width,
-            image: AssetImage("imagenes/pantallaInicio.png"),
+            image: AssetImage("assets/images/pantallaInicio.png"),
             fit: BoxFit.cover,
           ),
           Container(
-            height: size.height + 70,
             child: Column(
               children: <Widget>[
                 EncabezadoHablemos(
@@ -35,10 +34,8 @@ class Body extends StatelessWidget {
                 ),
                 Espacio(size: size),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Espacio(
-                      size: size * 0.4,
-                    ),
                     ColumnasInicio(
                       size: size,
                       titulo1: "Necesito Ayuda",
@@ -52,7 +49,7 @@ class Body extends StatelessWidget {
                       titulo2: "Quiero un Momento",
                       titulo3: "Que hay \n pa hacer",
                       titulo4: "Mi Cuenta",
-                    )
+                    ),
                   ],
                 )
               ],
@@ -75,11 +72,10 @@ class Espacio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width * 0.2,
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(),
           )
         ],
