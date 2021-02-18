@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/inh_widget.dart';
-import 'package:hablemos/start.dart';
+import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/routes/routes.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 // Initial Function ============================================================
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InhWidget(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false, // Avoid the debug message
-        home: Home(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Avoid the debug message
+      initialRoute: '/',
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        );
+      },
     );
   }
 }
