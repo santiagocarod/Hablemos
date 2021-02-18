@@ -1,15 +1,15 @@
 class Cita {
-  String _uidPaciente;
-  String _uidProfesional;
-  DateTime _dateTime;
-  int _costo;
-  String _lugar;
-  String _especialidad;
-  String _tipo;
-  bool _estado;
+  String uidPaciente;
+  String uidProfesional;
+  DateTime dateTime;
+  int costo;
+  String lugar;
+  String especialidad;
+  String tipo;
+  bool estado;
 
-  Cita(this._uidPaciente, this._uidProfesional, this._dateTime, this._costo,
-      this._lugar, this._especialidad, this._tipo) {
-    this._estado = false;
+  Cita(this.uidPaciente, this.uidProfesional, this.dateTime, this.costo,
+      this.lugar, this.especialidad, this.tipo) {
+    this.estado = false;
   }
 }
