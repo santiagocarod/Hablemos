@@ -3,22 +3,18 @@ import 'dart:math';
 
 String _randomString(int length) {
   var rand = new Random();
-  var codeUnits = new List.generate(
-      length,
-          (index){
-        return rand.nextInt(33)+89;
-      }
-  );
+  var codeUnits = new List.generate(length, (index) {
+    return rand.nextInt(33) + 89;
+  });
 
   return new String.fromCharCodes(codeUnits);
 }
 
-
 class CitasProvider {
-  static List<Cita> getCitas (){
+  static List<Cita> getCitas() {
     /*Aqui va la comunicación con Firebase para traer las citas.*/
     List<Cita> citas = [];
-    for(int i = 0 ; i < 2 ;i++){
+    for (int i = 0; i < 2; i++) {
       String uid1 = _randomString(10);
       String uid2 = _randomString(10);
       DateTime dateTime = DateTime.now();
@@ -26,7 +22,8 @@ class CitasProvider {
       String lugar = _randomString(5);
       String especialidad = _randomString(8);
       String tipo = _randomString(3);
-      citas.add(new Cita(uid1,uid2,dateTime,costo,lugar,especialidad,tipo));
+      citas.add(
+          new Cita(uid1, uid2, dateTime, costo, lugar, especialidad, tipo));
     }
     return citas;
   }
