@@ -22,8 +22,14 @@ class CitasProvider {
       String lugar = _randomString(5);
       String especialidad = _randomString(8);
       String tipo = _randomString(3);
-      citas.add(
-          new Cita(uid1, uid2, dateTime, costo, lugar, especialidad, tipo));
+      citas.add(new Cita(
+          uidPaciente: uid1,
+          uidProfesional: uid2,
+          dateTime: dateTime,
+          costo: costo,
+          lugar: lugar,
+          especialidad: especialidad,
+          tipo: tipo));
     }
     return citas;
   }

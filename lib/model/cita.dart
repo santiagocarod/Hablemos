@@ -8,8 +8,14 @@ class Cita {
   String tipo;
   bool estado;
 
-  Cita(this.uidPaciente, this.uidProfesional, this.dateTime, this.costo,
-      this.lugar, this.especialidad, this.tipo) {
+  Cita(
+      {this.uidPaciente,
+      this.uidProfesional,
+      this.dateTime,
+      this.costo,
+      this.lugar,
+      this.especialidad,
+      this.tipo}) {
     this.estado = false;
   }
 }
