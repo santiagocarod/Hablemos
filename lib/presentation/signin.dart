@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/ux/atoms.dart';
+
+import '../inh_widget.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -22,6 +25,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Widget _signinForm(BuildContext context) {
+    final bloc = InhWidget.of(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,15 +68,16 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(height: 20.0),
                       _crearApellido(),
                       SizedBox(height: 20.0),
-                      _crearCorreo(),
+                      emailTextBox(bloc),
                       SizedBox(height: 20.0),
-                      _crearContra(),
+                      passwordTextBox(bloc),
                       SizedBox(height: 20.0),
                       _crearCiudad(),
                       SizedBox(height: 20.0),
                       _crearEdad(context),
                       SizedBox(height: 30.0),
-                      _crearBoton(),
+                      iconButton("Crear Cuenta", () {}, Icons.login,
+                          Colors.yellow[700], bloc),
                       SizedBox(height: 50.0),
                       _crearTextoObligatorio(),
                       SizedBox(height: 50.0),
@@ -137,58 +142,6 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget _crearCorreo() {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            hintText: 'Escriba su correo',
-            labelText: 'Correo Electrónico',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Widget _crearContra() {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          obscureText: true,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            hintText: 'Escriba su contraseña',
-            labelText: 'Contraseña',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
   Widget _crearCiudad() {
     return Theme(
       data: ThemeData(
@@ -238,31 +191,6 @@ class _SignInPageState extends State<SignInPage> {
             FocusScope.of(context).requestFocus(new FocusNode());
             _selectDate(context);
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _crearBoton() {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Container(
-        height: 50,
-        child: Center(
-          child: Text(
-            'Crear Cuenta',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromRGBO(252, 208, 107, 1),
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );

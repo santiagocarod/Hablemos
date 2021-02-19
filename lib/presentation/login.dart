@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/inh_widget.dart';
 
 import '../ux/atoms.dart';
 
@@ -53,22 +54,25 @@ Widget _topTitleWButton(BuildContext context) {
 }
 
 Widget _centerLogin(BuildContext context) {
-  final emailTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
+  final bloc = InhWidget.of(context);
+
   return Expanded(
     child:
         Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      emailTextBox(emailTextController),
+      emailTextBox(bloc),
       SizedBox(height: 40.0),
-      passwordTextBox(passwordTextController),
+      passwordTextBox(bloc),
       SizedBox(height: 70.0),
       iconButton(
           "Iniciar Sesión",
           () => {Navigator.pushNamed(context, 'inicio')},
           Icons.login,
-          Colors.yellow[700]),
+          Colors.yellow[700],
+          bloc),
       SizedBox(height: 20.0),
-      GestureDetector(onTap: () {}, child: Text("¿Olvidaste tu Contraseña?"))
+      GestureDetector(
+          onTap: () => {print("haisd")},
+          child: Text("¿Olvidaste tu Contraseña?"))
     ]),
   );
 }

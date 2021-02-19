@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/blocs/inputs_bloc.dart';
+export 'package:hablemos/blocs/inputs_bloc.dart';
 
 class InhWidget extends InheritedWidget {
   static InhWidget _instancia;
@@ -11,14 +13,16 @@ class InhWidget extends InheritedWidget {
     return _instancia;
   }
 
-  InhWidget._internal({Key key, Widget child}) : super(key: key, child: child);
+  final emailPasswordBloc = InputsBloc();
 
-  // final signinBloc = SignInBloc();
+  InhWidget._internal({Key key, Widget child}) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  // static SignInBloc of(BuildContext context) {
-  //   return context.dependOnInheritedWidgetOfExactType<InhWidget>().signinBloc;
-  // }
+  static InputsBloc of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<InhWidget>()
+        .emailPasswordBloc;
+  }
 }

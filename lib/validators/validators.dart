@@ -1,6 +1,6 @@
 import 'dart:async';
 
-class SignInValidator {
+class Validator {
   final validarEmail = StreamTransformer<String, String>.fromHandlers(
     handleData: (email, sink) {
       Pattern pattern =
@@ -11,7 +11,7 @@ class SignInValidator {
       if (regExp.hasMatch(email)) {
         sink.add(email);
       } else {
-        sink.addError('Email no es correcto');
+        sink.addError('Correo debe ser: tucorreo@correo.com');
       }
     },
   );
@@ -22,6 +22,16 @@ class SignInValidator {
         sink.add(password);
       } else {
         sink.addError('Contraseña minimo de 6 caracteres');
+      }
+    },
+  );
+
+  final validarNombre = StreamTransformer<String, String>.fromHandlers(
+    handleData: (name, sink) {
+      if (name.length == 0) {
+        sink.add(name);
+      } else {
+        sink.addError('Este campo es necesario');
       }
     },
   );
