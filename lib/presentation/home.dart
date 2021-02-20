@@ -47,7 +47,7 @@ Widget _content(BuildContext context, Size size) {
   return SingleChildScrollView(
     child: Stack(
       children: <Widget>[
-        _background2(context, size),
+        _background(context, size),
         _button7(context, size),
         _button8(context, size),
         Column(
@@ -66,7 +66,7 @@ Widget _content(BuildContext context, Size size) {
 }
 
 // Background image ================================================
-Widget _background2(BuildContext context, Size size) {
+Widget _background(BuildContext context, Size size) {
   return Image(
     height: size.height,
     width: size.width,

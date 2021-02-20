@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/presentation/pacient/dateDetails.dart';
 import '../constants.dart';
+import 'package:hablemos/services/providers/citas_provider.dart';
+import 'package:hablemos/model/cita.dart';
+
+final List<Cita> citas = CitasProvider.getCitas();
+final Cita cita = citas[0];
 
 class ColumnaDos extends StatelessWidget {
   const ColumnaDos({
@@ -27,7 +33,13 @@ class ColumnaDos extends StatelessWidget {
         children: <Widget>[
           //Construye Boton Citas
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              //Navigator.pushNamed(context,'dateDetails');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DateDetails(cita: citas[0])));
+            },
             child: Stack(children: [
               Container(
                 width: 146,
