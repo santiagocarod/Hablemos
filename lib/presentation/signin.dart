@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:intl/intl.dart';
 
 import '../inh_widget.dart';
 
@@ -15,11 +16,30 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _crearAppBar(),
       body: Stack(
         children: <Widget>[
           //_crearFondo(),
           _signinForm(context),
         ],
+      ),
+    );
+  }
+
+  AppBar _crearAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      title: Text(
+        'Registro',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 25.0,
+        ),
+      ),
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: Colors.black, //change your color here
       ),
     );
   }
@@ -30,56 +50,34 @@ class _SignInPageState extends State<SignInPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SafeArea(
-            child: Container(
-              height: 50.0,
-              width: double.infinity,
-            ),
-          ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.keyboard_arrow_left,
-                        size: 40,
-                      ),
-                      onPressed: () {},
-                    ),
-                    Text(
-                      'Registro',
-                      style: TextStyle(
-                        fontSize: 26.0,
-                      ),
-                    ),
-                    SizedBox(width: 50.0)
-                  ],
-                ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 50.0),
-                      _crearNombre(),
+                      inputTextBox('Escriba su nombre', 'Nombre',
+                          Icons.person), //Input para el nombre
                       SizedBox(height: 20.0),
-                      _crearApellido(),
+                      inputTextBox('Escriba sus apellidos', 'Apellidos',
+                          Icons.person), //Input para el apellido
                       SizedBox(height: 20.0),
-                      emailTextBox(bloc),
+                      emailTextBox(bloc), //Input para el email
                       SizedBox(height: 20.0),
-                      passwordTextBox(bloc),
+                      passwordTextBox(bloc), //Input para el contraseña
                       SizedBox(height: 20.0),
-                      _crearCiudad(),
+                      inputTextBox('Escriba su ciudad', 'Ciudad residencia',
+                          Icons.location_on), //Input para el ciudad
                       SizedBox(height: 20.0),
-                      _crearEdad(context),
+                      _crearEdad(context), //Input crear edad
                       SizedBox(height: 30.0),
                       iconButton("Crear Cuenta", () {}, Icons.login,
-                          Colors.yellow[700], bloc),
+                          Colors.yellow[700], bloc), //IconButton para el boton
                       SizedBox(height: 50.0),
-                      _crearTextoObligatorio(),
+                      textoFinalRojo(
+                          'Todos los campos son obligatorios'), //Texto final
                       SizedBox(height: 50.0),
                     ],
                   ),
@@ -92,127 +90,24 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget _crearNombre() {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            hintText: 'Escriba su nombre',
-            labelText: 'Nombre',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Widget _crearApellido() {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            hintText: 'Escriba su apellidos',
-            labelText: 'Apellidos',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Widget _crearCiudad() {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          obscureText: true,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            hintText: 'Escriba su ciudad',
-            labelText: 'Ciudad residencia',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
   Widget _crearEdad(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: Container(
-        child: TextField(
-          controller: _inputFieldDateController,
-          enableInteractiveSelection: false,
-          decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-            hintText: 'Fecha de nacimiento',
-            labelText: 'Fecha de nacimiento',
-            labelStyle: TextStyle(
-              color: Colors.blue[600],
-            ),
-            isDense: true,
-          ),
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-            _selectDate(context);
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _crearTextoObligatorio() {
     return Container(
-      padding: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(228, 88, 101, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      height: 80.0,
-      child: Center(
-        child: Text(
-          'Todos los campos son obligatorios',
-          style: TextStyle(
-            color: Color.fromRGBO(228, 88, 101, 1),
-            fontSize: 17.0,
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
+      child: TextField(
+        controller: _inputFieldDateController,
+        enableInteractiveSelection: false,
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.date_range,
+            color: Colors.yellow[700],
           ),
-          textAlign: TextAlign.center,
+          hintText: 'Fecha de nacimiento',
+          labelText: 'Fecha de nacimiento',
         ),
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+          _selectDate(context);
+        },
       ),
     );
   }
@@ -225,9 +120,11 @@ class _SignInPageState extends State<SignInPage> {
       lastDate: new DateTime(2025),
     );
 
+    var myFormat = DateFormat('d-MM-yyyy');
+
     if (picked != null) {
       setState(() {
-        _date = picked.toString();
+        _date = myFormat.format(picked).toString();
         _inputFieldDateController.text = _date;
       });
     }

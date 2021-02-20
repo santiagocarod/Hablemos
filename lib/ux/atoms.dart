@@ -70,3 +70,40 @@ Widget passwordTextBox(InputsBloc bloc) {
     },
   );
 }
+
+Widget inputTextBox(String hText, String lText, IconData icon) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    child: TextField(
+      decoration: InputDecoration(
+        icon: Icon(
+          icon,
+          color: Colors.yellow[700],
+        ),
+        hintText: hText,
+        labelText: lText,
+      ),
+    ),
+  );
+}
+
+Widget textoFinalRojo(String texto) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 30.0),
+    decoration: BoxDecoration(
+      color: Color.fromRGBO(228, 88, 101, 0.5),
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+    ),
+    height: 80.0,
+    child: Center(
+      child: Text(
+        texto,
+        style: TextStyle(
+          color: Color.fromRGBO(228, 88, 101, 1),
+          fontSize: 17.0,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ),
+  );
+}

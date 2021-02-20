@@ -6,50 +6,39 @@ import '../ux/atoms.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            _topTitleWButton(context),
-            _centerLogin(context),
-            DecoratedBox(
-              child: Text('"Que nada ni nadie empañe tu día, aprovéchalo"'),
-              decoration: BoxDecoration(color: Colors.blue[100]),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-          ],
-        ),
+    return Scaffold(
+      appBar: _crearAppBar('Inicio de Sesión'),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 30,
+          ),
+          _centerLogin(context),
+          textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
+          SizedBox(
+            height: 15,
+          ),
+        ],
       ),
     );
   }
 }
 
-Widget _topTitleWButton(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      IconButton(
-        icon: Icon(
-          Icons.keyboard_backspace,
-          size: 40,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+AppBar _crearAppBar(String texto) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0,
+    title: Text(
+      texto,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 25.0,
       ),
-      Text(
-        "Inicio de Sesión",
-        style: TextStyle(fontSize: 25),
-      ),
-      SizedBox()
-    ],
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
   );
 }
 
