@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
 
 import '../inh_widget.dart';
 
