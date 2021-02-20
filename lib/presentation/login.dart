@@ -13,8 +13,8 @@ class LoginPage extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
+          //background aquii
           _centerLogin(context),
-          textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
           SizedBox(
             height: 15,
           ),
@@ -46,22 +46,27 @@ Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
 
   return Expanded(
-    child:
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      emailTextBox(bloc),
-      SizedBox(height: 40.0),
-      passwordTextBox(bloc),
-      SizedBox(height: 70.0),
-      iconButton(
-          "Iniciar Sesión",
-          () => {Navigator.pushNamed(context, 'inicio')},
-          Icons.login,
-          Colors.yellow[700],
-          bloc),
-      SizedBox(height: 20.0),
-      GestureDetector(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        emailTextBox(bloc),
+        SizedBox(height: 40.0),
+        passwordTextBox(bloc),
+        SizedBox(height: 70.0),
+        iconButton(
+            "Iniciar Sesión",
+            () => {Navigator.pushNamed(context, 'inicio')},
+            Icons.login,
+            Colors.yellow[700],
+            bloc),
+        SizedBox(height: 20.0),
+        GestureDetector(
           onTap: () => {print("haisd")},
-          child: Text("¿Olvidaste tu Contraseña?"))
-    ]),
+          child: Text("¿Olvidaste tu Contraseña?"),
+        ),
+        SizedBox(height: 20.0),
+        textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
+      ],
+    ),
   );
 }
