@@ -14,6 +14,8 @@ class Profesional {
   List<String> proyectos;
   String descripcion;
   Image foto;
+  int numeroCuenta;
+  int celular;
 
   //Externas
   List<Cita> citas;
@@ -28,7 +30,9 @@ class Profesional {
       this.convenios,
       this.redes,
       this.proyectos,
-      this.citas}) {
+      this.citas,
+      this.numeroCuenta,
+      this.celular}) {
     this.foto = null;
     this.descripcion = '';
   }

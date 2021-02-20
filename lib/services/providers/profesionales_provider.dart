@@ -22,6 +22,8 @@ class ProfesionalesProvider {
       'instagram': '@juan_sd'
     };
     List<String> proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3'];
+    int cuenta = 31092938919;
+    int numero = 3164448201;
 
     profesional = new Profesional(
       nombre: nombre,
@@ -33,6 +35,8 @@ class ProfesionalesProvider {
       redes: redes,
       proyectos: proyectos,
       citas: citas,
+      numeroCuenta: cuenta,
+      celular: numero,
     );
 
     return profesional;
