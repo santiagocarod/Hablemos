@@ -8,11 +8,6 @@ import '../inh_widget.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Profesional p = ProfesionalesProvider.getProfesional();
-    print(p.nombre);
-    print(p.citas);
-    print(p.redes);
-
     Size size = MediaQuery.of(context).size;
     final bloc = InhWidget.of(context);
     bloc.changeEmail('');
