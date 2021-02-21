@@ -34,7 +34,7 @@ class ColumnaDos extends StatelessWidget {
           //Construye Boton Citas
           GestureDetector(
             onTap: () {
-              //Navigator.pushNamed(context,'dateDetails');
+              //Navigator.pushNamed(context, 'dateDetails');
               Navigator.push(
                   context,
                   MaterialPageRoute(
