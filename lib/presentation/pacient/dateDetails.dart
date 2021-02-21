@@ -51,11 +51,11 @@ Widget _header(
             children: [
               IconButton(
                 icon: Icon(
-                  Icons.keyboard_arrow_left,
+                  Icons.keyboard_backspace,
                   size: 40,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'citasPaciente');
+                  Navigator.pop(context);
                 },
               ),
               Text(
@@ -81,8 +81,11 @@ Widget _boxInfo(
     BuildContext context, Size size, Cita cita, Profesional profesional) {
   final DateFormat houformat = DateFormat('hh:mm a');
   final String hour = houformat.format(cita.dateTime);
-  final DateFormat format = DateFormat('dd/mm/yyyy');
-  final String date = format.format(cita.dateTime);
+  final String date = cita.dateTime.day.toString() +
+      '/' +
+      cita.dateTime.month.toString() +
+      '/' +
+      cita.dateTime.year.toString();
   final price = NumberFormat('#,###');
   final String pay = '\$' + price.format(cita.costo);
   final String count = profesional.numeroCuenta.toString();
