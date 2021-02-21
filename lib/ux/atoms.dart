@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/constants.dart';
 
-Widget iconButton(String text, Function function, IconData iconData,
+Widget iconButtonBig(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(
     stream: bloc.formValidStream,
@@ -11,6 +12,27 @@ Widget iconButton(String text, Function function, IconData iconData,
         label: Text(text, style: TextStyle(fontSize: 20)),
         icon: Padding(
             padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+            child: Icon(iconData)),
+        style: ElevatedButton.styleFrom(
+            primary: color,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))),
+      );
+    },
+  );
+}
+
+Widget iconButtonSmall(String text, Function function, IconData iconData,
+    Color color, InputsBloc bloc) {
+  return StreamBuilder(
+    stream: bloc.formValidStream,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      return ElevatedButton.icon(
+        onPressed: snapshot.hasData ? function : null,
+        label: Text(text, style: TextStyle(fontSize: 20)),
+        icon: Padding(
+            padding: EdgeInsets.only(left: 10, top: 5, right: 5, bottom: 5),
             child: Icon(iconData)),
         style: ElevatedButton.styleFrom(
             primary: color,
@@ -122,6 +144,50 @@ AppBar crearAppBar(String texto) {
     centerTitle: true,
     iconTheme: IconThemeData(
       color: Colors.black, //change your color here
+    ),
+  );
+}
+
+Widget cardLine({String title, String text}) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    child: Stack(
+      children: <Widget>[
+        Container(
+          child: Text(
+            '$title:',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14.0,
+                color: kLetras,
+                fontFamily: 'PoppinsRegular',
+                decoration: TextDecoration.none),
+          ),
+        ),
+        Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 14),
+              child: Text(
+                '$text',
+                style: TextStyle(
+                    fontSize: 14.0,
+                    color: kLetras,
+                    fontFamily: 'PoppinsRegular',
+                    decoration: TextDecoration.none),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              height: 4,
+              child: Divider(
+                color: Colors.black.withOpacity(0.40),
+                thickness: 3.0,
+              ),
+            ),
+          ],
+        ),
+      ],
     ),
   );
 }
