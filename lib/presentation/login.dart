@@ -7,7 +7,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _crearAppBar('Inicio de Sesión'),
+      appBar: crearAppBar('Inicio de Sesión'),
       body: Column(
         children: [
           SizedBox(
@@ -24,24 +24,6 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-AppBar _crearAppBar(String texto) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    title: Text(
-      texto,
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 25.0,
-      ),
-    ),
-    centerTitle: true,
-    iconTheme: IconThemeData(
-      color: Colors.black, //change your color here
-    ),
-  );
-}
-
 Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
 
@@ -53,7 +35,7 @@ Widget _centerLogin(BuildContext context) {
         SizedBox(height: 40.0),
         passwordTextBox(bloc),
         SizedBox(height: 70.0),
-        iconButton(
+        iconButtonBig(
             "Iniciar Sesión",
             () => {Navigator.pushNamed(context, 'inicio')},
             Icons.login,
