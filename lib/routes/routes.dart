@@ -12,7 +12,6 @@ import 'package:hablemos/model/cita.dart';
 final List<Cita> citas = CitasProvider.getCitas();
 final Cita cita = citas[0];
 
-
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (context) => Home(),
@@ -22,6 +21,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'inicio': (context) => PantallaInicio(),
     'citasPaciente': (context) => ListCitas(),
     'dateDetails': (context) => DateDetails(cita: citas[0]),
-
   };
 }
