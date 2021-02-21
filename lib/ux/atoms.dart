@@ -191,3 +191,45 @@ Widget cardLine({String title, String text}) {
     ),
   );
 }
+
+Widget secction(String tittle, String text) {
+  return Container(
+    width: 270.0,
+    height: 46,
+    child: Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Text(
+          tittle,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 14.0,
+            color: Colors.black,
+            fontFamily: 'PoppinsRegular',
+          ),
+        ),
+        Column(
+          children: <Widget>[
+            Text(
+              '\n$text',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Expanded(
+              child: Container(
+                child: Divider(
+                  color: Colors.black.withOpacity(0.40),
+                  thickness: 3.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}

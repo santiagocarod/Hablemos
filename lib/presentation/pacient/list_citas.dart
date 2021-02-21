@@ -3,6 +3,8 @@ import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/services/providers/citas_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/presentation/pacient/dateDetails.dart';
+import 'package:intl/intl.dart';
 
 class ListCitas extends StatelessWidget {
   final List<Cita> citas = CitasProvider.getCitas();
@@ -23,6 +25,7 @@ class ListCitas extends StatelessWidget {
 }
 
 List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
+  final DateFormat format = DateFormat('hh:mm a');
   List<Widget> cards = [];
   citas.forEach((element) {
     Card card = Card(
@@ -42,10 +45,7 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
           SizedBox(
             height: 10,
           ),
-          cardLine(
-              title: "Hora",
-              text:
-                  '${element.dateTime.hour.toString()}:${element.dateTime.minute.toString()}'),
+          cardLine(title: "Hora", text: '${format.format(element.dateTime)}'),
           cardLine(
               title: "Fecha",
               text:
@@ -60,8 +60,10 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
     InkWell inkWell = InkWell(
       splashColor: kAmarillo,
       onTap: () {
-        print('Card tapped.');
-        /* TODO: enviar a la pagina de detalles.*/
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DateDetails(cita: element)));
       },
       child: card,
     );
