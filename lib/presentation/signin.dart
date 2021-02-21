@@ -16,30 +16,12 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _crearAppBar(),
+      appBar: crearAppBar("Registro"),
       body: Stack(
         children: <Widget>[
           //_crearFondo(),
           _signinForm(context),
         ],
-      ),
-    );
-  }
-
-  AppBar _crearAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      title: Text(
-        'Registro',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 25.0,
-        ),
-      ),
-      centerTitle: true,
-      iconTheme: IconThemeData(
-        color: Colors.black, //change your color here
       ),
     );
   }
@@ -73,7 +55,7 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(height: 20.0),
                       _crearEdad(context), //Input crear edad
                       SizedBox(height: 30.0),
-                      iconButton("Crear Cuenta", () {}, Icons.login,
+                      iconButtonBig("Crear Cuenta", () {}, Icons.login,
                           Colors.yellow[700], bloc), //IconButton para el boton
                       SizedBox(height: 50.0),
                       textoFinalRojo(
