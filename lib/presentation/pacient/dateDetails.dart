@@ -103,12 +103,6 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
           _type(context, cita),
           _contact(context, cita),
           _state(context, cita),
-          SafeArea(
-            child: Container(
-              height: 10.0,
-              width: double.infinity,
-            ),
-          ),
           _buttons(context),
         ],
       ),
@@ -122,7 +116,7 @@ Widget _name(BuildContext context, Cita cita) {
   return Stack(
     children: <Widget>[
       Container(
-        margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 85.0),
+        margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 75.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +145,7 @@ Widget _name(BuildContext context, Cita cita) {
 // Edit button
 Widget _editButton(BuildContext context) {
   return Container(
-    margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 290.0, right: 0.0),
+    margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 260.0, right: 0.0),
     child: Icon(
       Icons.edit_outlined,
       size: 47,
