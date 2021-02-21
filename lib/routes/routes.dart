@@ -5,6 +5,13 @@ import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
 import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/list_citas.dart';
+import '../presentation/pacient/dateDetails.dart';
+import 'package:hablemos/services/providers/citas_provider.dart';
+import 'package:hablemos/model/cita.dart';
+
+final List<Cita> citas = CitasProvider.getCitas();
+final Cita cita = citas[0];
+
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
@@ -14,5 +21,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicio(),
     'citasPaciente': (context) => ListCitas(),
+    'dateDetails': (context) => DateDetails(cita: citas[0]),
+
   };
 }
