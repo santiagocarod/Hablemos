@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
-import 'package:hablemos/constants.dart';
 
 Widget iconButtonBig(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
