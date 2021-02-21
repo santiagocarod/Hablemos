@@ -8,10 +8,11 @@ import 'package:hablemos/presentation/pacient/list_citas.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => ListCitas(),
+    '/': (context) => Home(),
     'start': (context) => HomeScreen(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicio(),
+    'citasPaciente': (context) => ListCitas(),
   };
 }
