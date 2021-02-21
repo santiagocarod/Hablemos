@@ -107,3 +107,21 @@ Widget textoFinalRojo(String texto) {
     ),
   );
 }
+
+AppBar crearAppBar(String texto) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0,
+    title: Text(
+      texto,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 25.0,
+      ),
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
+  );
+}

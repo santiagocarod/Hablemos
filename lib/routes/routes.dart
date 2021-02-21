@@ -4,10 +4,11 @@ import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
 import '../presentation/login.dart';
+import 'package:hablemos/presentation/pacient/list_citas.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => Home(),
+    '/': (context) => ListCitas(),
     'start': (context) => HomeScreen(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
