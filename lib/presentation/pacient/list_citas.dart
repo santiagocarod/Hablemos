@@ -45,12 +45,12 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
           SizedBox(
             height: 10,
           ),
-          cardLine(title: "Hora", text: '${format.format(element.dateTime)}'),
-          cardLine(
+          secction(title: "Hora", text: '${format.format(element.dateTime)}'),
+          secction(
               title: "Fecha",
               text:
                   '${element.dateTime.day}/${element.dateTime.month}/${element.dateTime.year}'),
-          cardLine(title: "Costo", text: "\$${element.costo}"),
+          secction(title: "Costo", text: "\$${element.costo}"),
           SizedBox(
             height: 20,
           )

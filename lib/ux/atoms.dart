@@ -148,51 +148,7 @@ AppBar crearAppBar(String texto) {
   );
 }
 
-Widget cardLine({String title, String text}) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 40.0),
-    child: Stack(
-      children: <Widget>[
-        Container(
-          child: Text(
-            '$title:',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                fontSize: 14.0,
-                color: kLetras,
-                fontFamily: 'PoppinsRegular',
-                decoration: TextDecoration.none),
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 14),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                    fontSize: 14.0,
-                    color: kLetras,
-                    fontFamily: 'PoppinsRegular',
-                    decoration: TextDecoration.none),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              height: 4,
-              child: Divider(
-                color: Colors.black.withOpacity(0.40),
-                thickness: 3.0,
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Widget secction(String tittle, String text) {
+Widget secction({String title, String text}) {
   return Container(
     width: 270.0,
     height: 46,
@@ -200,7 +156,7 @@ Widget secction(String tittle, String text) {
       fit: StackFit.expand,
       children: <Widget>[
         Text(
-          tittle,
+          title,
           textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: 14.0,
