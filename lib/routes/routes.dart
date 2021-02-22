@@ -8,7 +8,7 @@ import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
 import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/list_citas.dart';
-import 'package:hablemos/presentation/professional/VerPagoPro.dart';
+import 'package:hablemos/presentation/professional/verPagoPro.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
