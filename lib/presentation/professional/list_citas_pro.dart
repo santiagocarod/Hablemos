@@ -74,7 +74,7 @@ class ListCitasPro extends StatelessWidget {
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          //Navigator.pushNamed(context, 'detalleslistapro', {});
+          Navigator.pushNamed(context, 'detalleCitasProfesional');
         },
         child: card,
       );
