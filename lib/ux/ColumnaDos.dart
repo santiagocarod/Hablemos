@@ -33,7 +33,7 @@ class ColumnaDos extends StatelessWidget {
           //Construye Boton Citas
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'citaPaciente');
+              Navigator.pushNamed(context, 'citasPaciente');
             },
             child: Stack(children: [
               Container(

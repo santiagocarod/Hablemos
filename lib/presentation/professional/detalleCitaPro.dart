@@ -228,7 +228,9 @@ Widget _buttons(BuildContext context, Cita cita) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'VerPagoPro');
+            },
             child: Container(
                 alignment: Alignment.center,
                 width: 126,

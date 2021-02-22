@@ -44,7 +44,7 @@ class VerPagoPro extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, 'CitaProfesional');
+                        Navigator.pushNamed(context, 'citasProfesional');
                       },
                       child: Container(
                           margin: EdgeInsets.only(top: 80),
