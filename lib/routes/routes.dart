@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/professional/list_citas_pro.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
@@ -14,5 +15,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicio(),
     'citasPaciente': (context) => ListCitas(),
+    'citasProfesional': (context) => ListCitasPro(),
   };
 }
