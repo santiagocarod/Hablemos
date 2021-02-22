@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 //Screen of date details
 class DateDetails extends StatelessWidget {
-  final Cita cita;
-
   DateDetails({Key key, @required this.cita}) : super(key: key);
+  final Cita cita;
+  final Profesional profesional = ProfesionalesProvider.getProfesional();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class DateDetails extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          _header(context, size, cita),
+          _header(context, size, cita, profesional),
         ],
       ),
     );
@@ -30,7 +33,8 @@ class DateDetails extends StatelessWidget {
 }
 
 // Header of the screen arrow, center text and white box
-Widget _header(BuildContext context, Size size, Cita cita) {
+Widget _header(
+    BuildContext context, Size size, Cita cita, Profesional profesional) {
   return SingleChildScrollView(
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -47,11 +51,11 @@ Widget _header(BuildContext context, Size size, Cita cita) {
             children: [
               IconButton(
                 icon: Icon(
-                  Icons.keyboard_arrow_left,
+                  Icons.keyboard_backspace,
                   size: 40,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'inicio');
+                  Navigator.pop(context);
                 },
               ),
               Text(
@@ -65,7 +69,7 @@ Widget _header(BuildContext context, Size size, Cita cita) {
               SizedBox(width: 50.0)
             ],
           ),
-          _boxInfo(context, size, cita),
+          _boxInfo(context, size, cita, profesional),
         ],
       ),
     ),
@@ -73,7 +77,23 @@ Widget _header(BuildContext context, Size size, Cita cita) {
 }
 
 // White Box wich contains all de information
-Widget _boxInfo(BuildContext context, Size size, Cita cita) {
+Widget _boxInfo(
+    BuildContext context, Size size, Cita cita, Profesional profesional) {
+  final DateFormat houformat = DateFormat('hh:mm a');
+  final String hour = houformat.format(cita.dateTime);
+  final String date = cita.dateTime.day.toString() +
+      '/' +
+      cita.dateTime.month.toString() +
+      '/' +
+      cita.dateTime.year.toString();
+  final price = NumberFormat('#,###');
+  final String pay = '\$' + price.format(cita.costo);
+  final String count = profesional.numeroCuenta.toString();
+  final String place = cita.lugar;
+  final String specialty = cita.especialidad;
+  final String type = cita.especialidad;
+  final String contact = profesional.celular.toString();
+
   return SingleChildScrollView(
     child: Container(
       alignment: Alignment.center,
@@ -93,22 +113,16 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
       ),
       child: Column(
         children: <Widget>[
-          _name(context, cita),
-          _hour(context, cita),
-          _date(context, cita),
-          _cost(context, cita),
-          _payment(context, cita),
-          _place(context, cita),
-          _specialty(context, cita),
-          _type(context, cita),
-          _contact(context, cita),
+          _name(context, profesional),
+          secction(title: 'Hora:', text: hour),
+          secction(title: 'Fecha:', text: date),
+          secction(title: 'Costo', text: pay),
+          secction(title: 'Detalles de pago:', text: count),
+          secction(title: 'Lugar:', text: place),
+          secction(title: 'Especialidad:', text: specialty),
+          secction(title: 'Tipo:', text: type),
+          secction(title: 'Contacto:', text: contact),
           _state(context, cita),
-          SafeArea(
-            child: Container(
-              height: 10.0,
-              width: double.infinity,
-            ),
-          ),
           _buttons(context),
         ],
       ),
@@ -117,396 +131,38 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
 }
 
 // Name of the professional and edit button
-Widget _name(BuildContext context, Cita cita) {
-  final String text = cita.uidProfesional.toString();
-  return Stack(
-    children: <Widget>[
-      Container(
-        margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 85.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.place,
-              size: 24,
+Widget _name(BuildContext context, Profesional profesional) {
+  final String text = profesional.toString();
+  return Container(
+    width: 359.0,
+    child: Stack(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+          alignment: Alignment.center,
+          child: Icon(Icons.location_on),
+        ),
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(
+                top: 15.0,
+              ),
+              child: Icon(Icons.edit, size: 47)),
+        ),
+        Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
+          child: Text(
+            'Cita con $text',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 14.0,
               color: Colors.black,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              'Cita con $text',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ],
-        ),
-      ),
-      _editButton(context),
-    ],
-  );
-}
-
-// Edit button
-Widget _editButton(BuildContext context) {
-  return Container(
-    margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 290.0, right: 0.0),
-    child: Icon(
-      Icons.edit_outlined,
-      size: 47,
-      color: Colors.black,
-    ),
-  );
-}
-
-// Hour of the date
-Widget _hour(BuildContext context, Cita cita) {
-  final DateFormat format = DateFormat('hh:mm a');
-  final String text = format.format(cita.dateTime);
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Hora:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
           ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Appointment date
-Widget _date(BuildContext context, Cita cita) {
-  final DateFormat format = DateFormat('dd/mm/yyyy');
-  final String text = format.format(cita.dateTime);
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Fecha:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Cost of date
-Widget _cost(BuildContext context, Cita cita) {
-  final format = NumberFormat('#,###');
-  final String text = format.format(cita.costo);
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Costo:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n\$$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Payment details
-Widget _payment(BuildContext context, Cita cita) {
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Detalles de pago:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\nBancolombia #123123-213-213',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Place of the date
-Widget _place(BuildContext context, Cita cita) {
-  final String text = cita.lugar;
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Lugar:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Specialty of the date
-Widget _specialty(BuildContext context, Cita cita) {
-  final String text = cita.especialidad;
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Especialidad:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Type of the date
-Widget _type(BuildContext context, Cita cita) {
-  final String text = cita.especialidad;
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Tipo:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n$text',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-// Contact information (professional)
-Widget _contact(BuildContext context, Cita cita) {
-  return Container(
-    width: 270.0,
-    height: 46,
-    child: Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Text(
-          'Contacto:',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.black,
-            fontFamily: 'PoppinsRegular',
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              '\n3124153',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                child: Divider(
-                  color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
-                ),
-              ),
-            ),
-          ],
         ),
       ],
     ),

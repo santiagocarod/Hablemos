@@ -4,6 +4,7 @@ import 'cita.dart';
 
 class Profesional {
   //Unias del profesional
+  String uid;
   String nombre;
   String apellido;
   DateTime fechaNacimiento;
@@ -22,7 +23,8 @@ class Profesional {
 
   //
   Profesional(
-      {this.nombre,
+      {this.uid,
+      this.nombre,
       this.apellido,
       this.fechaNacimiento,
       this.especialidades,
