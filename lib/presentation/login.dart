@@ -8,24 +8,37 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: crearAppBar('Inicio de Sesión'),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: double.infinity,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30,
-              ),
-              //background aquii
-              _centerLogin(context),
-              SizedBox(
-                height: 15,
-              ),
-            ],
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/yellowBack.png',
+            alignment: Alignment.center,
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
           ),
-        ),
+          SingleChildScrollView(
+            child: Container(
+              height: size.height,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //background aquii
+                  _centerLogin(context),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
