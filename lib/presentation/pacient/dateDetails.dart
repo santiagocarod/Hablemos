@@ -132,7 +132,7 @@ Widget _boxInfo(
 
 // Name of the professional and edit button
 Widget _name(BuildContext context, Profesional profesional) {
-  final String text = profesional.toString();
+  final String text = profesional.nombre + " " + profesional.apellido;
   return Container(
     width: 359.0,
     child: Stack(
@@ -143,7 +143,9 @@ Widget _name(BuildContext context, Profesional profesional) {
           child: Icon(Icons.location_on),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, 'detalleProfesional');
+          },
           child: Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.only(

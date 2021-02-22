@@ -11,14 +11,31 @@ class ListCitas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: crearAppBar("Citas"),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: citasToCard(citas, context),
-        ),
+      body: Stack(
+        children: <Widget>[
+          //Background Image
+          Image.asset(
+            'assets/images/dateBack.png',
+            alignment: Alignment.center,
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
+          ),
+          // Contents
+          Material(
+            type: MaterialType.transparency,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: citasToCard(citas, context),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -31,6 +48,9 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
     Card card = Card(
       elevation: 5,
       margin: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      shadowColor: Colors.black.withOpacity(1.0),
       child: Center(
           child: Column(
         children: <Widget>[
