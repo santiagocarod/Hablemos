@@ -3,6 +3,7 @@ import 'package:hablemos/model/cita.dart';
 
 class Paciente {
   //Unias del profesional
+  String uid;
   String nombre;
   String apellido;
   Image foto;
@@ -19,7 +20,8 @@ class Paciente {
 
   //
   Paciente(
-      {this.nombre,
+      {this.uid,
+      this.nombre,
       this.apellido,
       this.correo,
       this.ciudad,

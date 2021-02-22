@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
-import 'package:hablemos/constants.dart';
 
 Widget iconButtonBig(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -148,41 +147,41 @@ AppBar crearAppBar(String texto) {
   );
 }
 
-Widget cardLine({String title, String text}) {
+Widget secction({String title, String text}) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    width: 270.0,
+    height: 46,
     child: Stack(
+      fit: StackFit.expand,
       children: <Widget>[
-        Container(
-          child: Text(
-            '$title:',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                fontSize: 14.0,
-                color: kLetras,
-                fontFamily: 'PoppinsRegular',
-                decoration: TextDecoration.none),
+        Text(
+          title,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 14.0,
+            color: Colors.black,
+            fontFamily: 'PoppinsRegular',
+            decoration: TextDecoration.none,
           ),
         ),
         Column(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 14),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                    fontSize: 14.0,
-                    color: kLetras,
-                    fontFamily: 'PoppinsRegular',
-                    decoration: TextDecoration.none),
-                textAlign: TextAlign.center,
+            Text(
+              '\n$text',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black,
+                fontFamily: 'PoppinsRegular',
+                decoration: TextDecoration.none,
               ),
+              textAlign: TextAlign.center,
             ),
-            Container(
-              height: 4,
-              child: Divider(
-                color: Colors.black.withOpacity(0.40),
-                thickness: 3.0,
+            Expanded(
+              child: Container(
+                child: Divider(
+                  color: Colors.black.withOpacity(0.40),
+                  thickness: 3.0,
+                ),
               ),
             ),
           ],
