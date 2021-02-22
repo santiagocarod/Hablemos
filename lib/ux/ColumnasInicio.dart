@@ -42,8 +42,6 @@ class ColumnasInicio extends StatelessWidget {
                         child: Container(
                             width: 140,
                             height: 80,
-                            //margin:
-                            //  EdgeInsets.only(left: 45, right: 10, top: 5),
                             decoration: BoxDecoration(
                               color: kBlanco,
                               borderRadius:
@@ -77,7 +75,6 @@ class ColumnasInicio extends StatelessWidget {
                         child: Container(
                           width: 140,
                           height: 80,
-                          //margin: EdgeInsets.only(left: 10, right: 45, top: 5),
                           decoration: BoxDecoration(
                             color: kBlanco,
                             borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -108,8 +105,6 @@ class ColumnasInicio extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  //alignment: Alignment.center,
-                  //padding: EdgeInsets.only(left: 30, right: 27),
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -147,7 +142,6 @@ class ColumnasInicio extends StatelessWidget {
       margin: EdgeInsets.only(
         bottom: 29,
       ),
-      //width: size.width * 0.3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
