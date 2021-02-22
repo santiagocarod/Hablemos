@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/presentation/pacient/list_citas.dart';
 import 'package:hablemos/services/providers/pacientes_provider.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
