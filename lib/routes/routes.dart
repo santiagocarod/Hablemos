@@ -3,6 +3,7 @@ import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/detalleCitaPro.dart';
+import 'package:hablemos/presentation/professional/list_citas_pro.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
@@ -21,6 +22,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'inicio': (context) => PantallaInicio(),
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
-    'citasProfesional': (context) => DetalleCitaPro(profesional: profesional)
+    'detalleCitasProfesional': (context) =>
+        DetalleCitaPro(profesional: profesional),
+    'citasProfesional': (context) => ListCitasPro(),
   };
 }
