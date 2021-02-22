@@ -14,3 +14,6 @@ const kVerdeClaro = Color(0xFFA5DF6E);
 const kMostaza = Color(0xFFF6B662);
 const kAguaMarina = Color(0xFF46D4E1);
 const kMarino = Color(0xFF8EE8D8);
+const kNegro = Color(0xFF000000);
+const kVerde = Color(0xFF4CAF50);
+const kRojo = Color(0xFFF44336);

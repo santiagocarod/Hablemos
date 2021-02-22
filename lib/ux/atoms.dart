@@ -161,6 +161,7 @@ Widget secction({String title, String text}) {
             fontSize: 14.0,
             color: Colors.black,
             fontFamily: 'PoppinsRegular',
+            decoration: TextDecoration.none,
           ),
         ),
         Column(
@@ -171,6 +172,7 @@ Widget secction({String title, String text}) {
                 fontSize: 14.0,
                 color: Colors.black,
                 fontFamily: 'PoppinsRegular',
+                decoration: TextDecoration.none,
               ),
               textAlign: TextAlign.center,
             ),
