@@ -33,65 +33,56 @@ class ColumnaDos extends StatelessWidget {
           //Construye Boton Citas
           GestureDetector(
             onTap: () {
-              PageRouteBuilder(
-                  transitionDuration: Duration(seconds: 5),
-                  transitionsBuilder:
-                      (context, animation, animationTime, child) {
-                    return ScaleTransition(
-                      alignment: Alignment.center,
-                      scale: animation,
-                      child: child,
-                    );
-                  },
-                  pageBuilder: (context, animation, animationTime) {
-                    Navigator.pushNamed(context, 'citasPaciente');
-                  });
+              Navigator.pushNamed(context, 'citasPaciente');
             },
-            child: Stack(children: [
-              Container(
-                width: 146,
-                height: 128,
-                padding: EdgeInsets.only(
-                  left: 5,
-                  right: 5,
-                  top: 75,
-                ),
-                decoration: BoxDecoration(
-                  color: kBlanco,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5)),
-                  ],
-                ),
-                child: Center(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.tight,
-                        child: Text(
-                          '$titulo1',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(fontSize: 18),
-                        ),
-                      )
+            child: Hero(
+              tag: heroCita,
+              child: Stack(children: [
+                Container(
+                  width: 146,
+                  height: 128,
+                  padding: EdgeInsets.only(
+                    left: 5,
+                    right: 5,
+                    top: 75,
+                  ),
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5)),
                     ],
                   ),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          fit: FlexFit.tight,
+                          child: Text(
+                            '$titulo1',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(fontSize: 18),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Positioned(
-                child: Icon(
-                  Icons.calendar_today_outlined,
-                  size: 70,
-                  color: kRojoOscuro,
+                Positioned(
+                  child: Icon(
+                    Icons.calendar_today_outlined,
+                    size: 70,
+                    color: kRojoOscuro,
+                  ),
+                  top: 10,
+                  left: 40,
                 ),
-                top: 10,
-                left: 40,
-              ),
-            ]),
+              ]),
+            ),
           ),
           //Construye Boton Quiero un Momento
           GestureDetector(

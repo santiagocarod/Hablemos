@@ -17,3 +17,5 @@ const kMarino = Color(0xFF8EE8D8);
 const kNegro = Color(0xFF000000);
 const kVerde = Color(0xFF4CAF50);
 const kRojo = Color(0xFFF44336);
+
+const heroCita = 1;

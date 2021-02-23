@@ -14,28 +14,31 @@ class ListCitas extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: crearAppBar("Citas"),
-      body: Stack(
-        children: <Widget>[
-          //Background Image
-          Image.asset(
-            'assets/images/dateBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          // Contents
-          Material(
-            type: MaterialType.transparency,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: citasToCard(citas, context),
+      body: Hero(
+        tag: heroCita,
+        child: Stack(
+          children: <Widget>[
+            //Background Image
+            Image.asset(
+              'assets/images/dateBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            // Contents
+            Material(
+              type: MaterialType.transparency,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: citasToCard(citas, context),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
