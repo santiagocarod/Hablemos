@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/inh_widget.dart';
 
 import '../ux/atoms.dart';

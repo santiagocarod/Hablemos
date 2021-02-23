@@ -16,7 +16,10 @@ class ListCitasPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: crearAppBar('Citas', null, 0, null),
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: crearAppBar(
+          "Citas", Icons.calendar_today_outlined, heroCita, kRojoOscuro),
       body: Stack(
         children: <Widget>[
           Image.asset(
