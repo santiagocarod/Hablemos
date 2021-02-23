@@ -45,7 +45,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
                         _imagenDesdeGaleria();
-                        Navigator.of(context).pop();
+                        //Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
@@ -53,7 +53,6 @@ class _AttatchPaymentState extends State<AttatchPayment> {
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
                       _imagenDesdeCamara();
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -81,6 +80,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
             _showPicker(context);
           }, Icons.cloud_upload, Colors.yellow[700]),
         ),
+        Text(_image.toString())
       ]),
     );
   }
