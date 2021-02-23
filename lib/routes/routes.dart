@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/detalleCitaPro.dart';
+import 'package:hablemos/presentation/professional/list_citas_pro.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
@@ -20,7 +22,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicio(),
     'citasPaciente': (context) => ListCitas(),
-    'citasProfesional': (context) => DetalleCitaPro(profesional: profesional),
+    'detalleProfesional': (context) => ListProfessional(),
+    'detalleCitasProfesional': (context) =>
+        DetalleCitaPro(profesional: profesional),
+    'citasProfesional': (context) => ListCitasPro(),
     'VerPagoPro': (context) => VerPagoPro(),
   };
 }
