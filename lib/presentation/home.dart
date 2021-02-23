@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../inh_widget.dart';
-
 // Screen of user that wants to register or login ==============================
 class HomeScreen extends StatelessWidget {
   @override
