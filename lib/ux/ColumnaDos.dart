@@ -89,51 +89,54 @@ class ColumnaDos extends StatelessWidget {
             onTap: () {},
             child: new Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 30,
-                  ),
-                  width: 146,
-                  height: 196,
-                  padding: EdgeInsets.only(
-                    top: 30,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: <Widget>[
-                            Container(
-                              child: Icon(
-                                Icons.favorite_border_outlined,
-                                size: 80,
-                                color: kVerdeClaro,
-                              ),
-                              margin: EdgeInsets.only(bottom: 15),
-                            ),
-                          ],
-                        ),
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo2',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
+                Hero(
+                  tag: heroActividades,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    width: 146,
+                    height: 196,
+                    padding: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
+                    ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                child: Icon(
+                                  Icons.favorite_border_outlined,
+                                  size: 80,
+                                  color: kVerdeClaro,
+                                ),
+                                margin: EdgeInsets.only(bottom: 15),
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo2',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -145,47 +148,50 @@ class ColumnaDos extends StatelessWidget {
             onTap: () {},
             child: new Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 30,
-                  ),
-                  width: 146,
-                  height: 128,
-                  padding: EdgeInsets.only(
-                    top: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.people_outline_outlined,
-                            size: 70,
-                            color: kMorado,
-                          ),
-                          //margin: EdgeInsets.only(bottom: 1),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo3',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 17),
-                          ),
+                Hero(
+                  tag: heroEventos,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    width: 146,
+                    height: 128,
+                    padding: EdgeInsets.only(
+                      top: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
+                    ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.people_outline_outlined,
+                              size: 70,
+                              color: kMorado,
+                            ),
+                            //margin: EdgeInsets.only(bottom: 1),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo3',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 17),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -197,47 +203,50 @@ class ColumnaDos extends StatelessWidget {
             onTap: () {},
             child: new Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 30,
-                  ),
-                  width: 146,
-                  height: 128,
-                  padding: EdgeInsets.only(
-                    top: 20,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.account_circle_outlined,
-                            size: 70,
-                            color: kMostaza,
-                          ),
-                          //margin: EdgeInsets.only(bottom: 1),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo4',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
+                Hero(
+                  tag: heroCuenta,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    width: 146,
+                    height: 128,
+                    padding: EdgeInsets.only(
+                      top: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
+                    ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.account_circle_outlined,
+                              size: 70,
+                              color: kMostaza,
+                            ),
+                            //margin: EdgeInsets.only(bottom: 1),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo4',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

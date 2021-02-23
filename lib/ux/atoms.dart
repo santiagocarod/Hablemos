@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
 import 'package:hablemos/inh_widget.dart';
 
 Widget iconButtonBig(String text, Function function, IconData iconData,
@@ -129,10 +130,19 @@ Widget textoFinalRojo(String texto) {
   );
 }
 
-AppBar crearAppBar(String texto) {
+AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
+    actions: [
+      Hero(
+        tag: constante,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Icon(icono, color: color),
+        ),
+      ),
+    ],
     title: Text(
       texto,
       style: TextStyle(
