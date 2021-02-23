@@ -192,7 +192,9 @@ Widget _buttons(BuildContext context, Cita cita) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
             child: Container(
                 alignment: Alignment.center,
                 width: 126,
@@ -228,7 +230,9 @@ Widget _buttons(BuildContext context, Cita cita) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'VerPagoPro');
+            },
             child: Container(
                 alignment: Alignment.center,
                 width: 126,
@@ -293,7 +297,7 @@ Widget _pageHeader(BuildContext context, Size size) {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, 'inicio');
+            Navigator.pop(context);
           },
           child: Container(
               padding: EdgeInsets.only(left: size.width * 0.05),

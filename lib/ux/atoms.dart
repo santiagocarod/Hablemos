@@ -131,7 +131,7 @@ Widget textoFinalRojo(String texto) {
 
 AppBar crearAppBar(String texto) {
   return AppBar(
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     elevation: 0,
     title: Text(
       texto,

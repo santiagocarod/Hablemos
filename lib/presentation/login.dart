@@ -6,17 +6,37 @@ import '../ux/atoms.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: crearAppBar('Inicio de Sesión'),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(
-            height: 30,
+          Image.asset(
+            'assets/images/yellowBack.png',
+            alignment: Alignment.center,
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
           ),
-          //background aquii
-          _centerLogin(context),
-          SizedBox(
-            height: 15,
+          SingleChildScrollView(
+            child: Container(
+              height: size.height,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //background aquii
+                  _centerLogin(context),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
