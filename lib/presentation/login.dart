@@ -55,7 +55,7 @@ Widget _centerLogin(BuildContext context) {
         SizedBox(height: 40.0),
         passwordTextBox(bloc),
         SizedBox(height: 70.0),
-        iconButtonBig(
+        iconButtonBigBloc(
             "Iniciar Sesión",
             () => {Navigator.pushNamed(context, 'inicio')},
             Icons.login,
