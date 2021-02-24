@@ -66,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
                         SizedBox(height: 20.0),
                         _crearEdad(context), //Input crear edad
                         SizedBox(height: 30.0),
-                        iconButtonBig(
+                        iconButtonBigBloc(
                             "Crear Cuenta",
                             () {},
                             Icons.login,

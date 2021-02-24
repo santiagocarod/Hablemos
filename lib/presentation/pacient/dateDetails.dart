@@ -205,7 +205,9 @@ Widget _buttons(BuildContext context) {
               ),
               shadowColor: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, 'AdjuntarPago');
+            },
           ),
         ),
         SizedBox(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 
-Widget iconButtonBig(String text, Function function, IconData iconData,
+Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(
     stream: bloc.formValidStream,
@@ -19,6 +19,21 @@ Widget iconButtonBig(String text, Function function, IconData iconData,
                 borderRadius: BorderRadius.circular(20))),
       );
     },
+  );
+}
+
+Widget iconButtonBig(
+    String text, Function function, IconData iconData, Color color) {
+  return ElevatedButton.icon(
+    onPressed: function,
+    label: Text(text, style: TextStyle(fontSize: 20)),
+    icon: Padding(
+        padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+        child: Icon(iconData)),
+    style: ElevatedButton.styleFrom(
+        primary: color,
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
   );
 }
 
