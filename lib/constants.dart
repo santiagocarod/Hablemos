@@ -17,3 +17,13 @@ const kMarino = Color(0xFF8EE8D8);
 const kNegro = Color(0xFF000000);
 const kVerde = Color(0xFF4CAF50);
 const kRojo = Color(0xFFF44336);
+
+const heroCita = 1;
+const heroCentrosAtencion = 2;
+const heroForo = 3;
+const heroActividades = 4;
+const heroCartas = 5;
+const heroEventos = 6;
+const heroRedes = 7;
+const heroCuenta = 8;
+const heroSaludMental = 9;
