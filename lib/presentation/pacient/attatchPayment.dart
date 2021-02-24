@@ -66,7 +66,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: crearAppBar("Adjuntar Pago"),
+      appBar: crearAppBar("Adjuntar Pago", null, 0, null),
       body: Stack(children: [
         Image.asset(
           'assets/images/yellowBack.png',
