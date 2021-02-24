@@ -75,12 +75,27 @@ class _AttatchPaymentState extends State<AttatchPayment> {
           width: size.width,
           height: size.height,
         ),
-        Center(
-          child: iconButtonBig("Subir prueba de pago", () {
-            _showPicker(context);
-          }, Icons.cloud_upload, Colors.yellow[700]),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: iconButtonBig("Subir prueba de pago", () {
+                _showPicker(context);
+              }, Icons.cloud_upload, Colors.yellow[700]),
+            ),
+            _image == null
+                ? SizedBox(
+                    height: 10,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Image.file(
+                      _image,
+                      height: size.height / 2,
+                    ),
+                  )
+          ],
         ),
-        Text(_image.toString())
       ]),
     );
   }
