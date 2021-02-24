@@ -19,7 +19,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Registro"),
+      appBar: crearAppBar("Registro", null, 0, null),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -37,46 +37,53 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _signinForm(BuildContext context) {
     final bloc = InhWidget.of(context);
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 50.0),
-                      inputTextBox('Escriba su nombre', 'Nombre',
-                          Icons.person), //Input para el nombre
-                      SizedBox(height: 20.0),
-                      inputTextBox('Escriba sus apellidos', 'Apellidos',
-                          Icons.person), //Input para el apellido
-                      SizedBox(height: 20.0),
-                      emailTextBox(bloc), //Input para el email
-                      SizedBox(height: 20.0),
-                      passwordTextBox(bloc), //Input para el contraseña
-                      SizedBox(height: 20.0),
-                      inputTextBox('Escriba su ciudad', 'Ciudad residencia',
-                          Icons.location_on), //Input para el ciudad
-                      SizedBox(height: 20.0),
-                      _crearEdad(context), //Input crear edad
-                      SizedBox(height: 30.0),
-                      iconButtonBig("Crear Cuenta", () {}, Icons.login,
-                          Colors.yellow[700], bloc), //IconButton para el boton
-                      SizedBox(height: 50.0),
-                      textoFinalRojo(
-                          'Todos los campos son obligatorios'), //Texto final
-                      SizedBox(height: 50.0),
-                    ],
+    return Padding(
+      padding: EdgeInsets.only(top: 100.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 50.0),
+                        inputTextBox('Escriba su nombre', 'Nombre',
+                            Icons.person), //Input para el nombre
+                        SizedBox(height: 20.0),
+                        inputTextBox('Escriba sus apellidos', 'Apellidos',
+                            Icons.person), //Input para el apellido
+                        SizedBox(height: 20.0),
+                        emailTextBox(bloc), //Input para el email
+                        SizedBox(height: 20.0),
+                        passwordTextBox(bloc), //Input para el contraseña
+                        SizedBox(height: 20.0),
+                        inputTextBox('Escriba su ciudad', 'Ciudad residencia',
+                            Icons.location_on), //Input para el ciudad
+                        SizedBox(height: 20.0),
+                        _crearEdad(context), //Input crear edad
+                        SizedBox(height: 30.0),
+                        iconButtonBig(
+                            "Crear Cuenta",
+                            () {},
+                            Icons.login,
+                            Colors.yellow[700],
+                            bloc), //IconButton para el boton
+                        SizedBox(height: 50.0),
+                        textoFinalRojo(
+                            'Todos los campos son obligatorios'), //Texto final
+                        SizedBox(height: 50.0),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

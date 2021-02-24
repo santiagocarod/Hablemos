@@ -13,7 +13,10 @@ class ListCitas extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: crearAppBar("Citas"),
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: crearAppBar(
+          "Citas", Icons.calendar_today_outlined, heroCita, kRojoOscuro),
       body: Stack(
         children: <Widget>[
           //Background Image
@@ -25,13 +28,16 @@ class ListCitas extends StatelessWidget {
             height: size.height,
           ),
           // Contents
-          Material(
-            type: MaterialType.transparency,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: citasToCard(citas, context),
+          Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Material(
+              type: MaterialType.transparency,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: citasToCard(citas, context),
+                ),
               ),
             ),
           ),

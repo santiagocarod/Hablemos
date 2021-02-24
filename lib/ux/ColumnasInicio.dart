@@ -39,7 +39,45 @@ class ColumnasInicio extends StatelessWidget {
                       //Construye Boton Foro
                       GestureDetector(
                         onTap: () {},
-                        child: Container(
+                        child: Hero(
+                          tag: heroForo,
+                          child: Container(
+                              width: 140,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                color: kBlanco,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(40)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 5,
+                                      color: Colors.grey.withOpacity(0.5)),
+                                ],
+                              ),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.only(top: 3),
+                                      child: Icon(
+                                        Icons.sms_outlined,
+                                        size: 75,
+                                        color: kAzulOscuro,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ),
+                      //Construye Boton Informacion Salud Mental
+                      GestureDetector(
+                        onTap: () {},
+                        child: Hero(
+                          tag: heroSaludMental,
+                          child: Container(
                             width: 140,
                             height: 80,
                             decoration: BoxDecoration(
@@ -58,45 +96,14 @@ class ColumnasInicio extends StatelessWidget {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.only(top: 3),
                                     child: Icon(
-                                      Icons.sms_outlined,
+                                      Icons.monitor,
                                       size: 75,
                                       color: kAzulOscuro,
                                     ),
                                   ),
                                 ],
                               ),
-                            )),
-                      ),
-                      //Construye Boton Informacion Salud Mental
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 140,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(Radius.circular(40)),
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: Offset(0, 0),
-                                  blurRadius: 5,
-                                  color: Colors.grey.withOpacity(0.5)),
-                            ],
-                          ),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.monitor,
-                                    size: 75,
-                                    color: kAzulOscuro,
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -151,37 +158,40 @@ class ColumnasInicio extends StatelessWidget {
             onTap: () {},
             child: Stack(
               children: [
-                Container(
-                  width: 146,
-                  height: 196,
-                  padding: EdgeInsets.only(
-                    left: 5,
-                    right: 5,
-                    top: 125,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.5)),
-                    ],
-                  ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo1\n',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
-                        )
+                Hero(
+                  tag: heroCentrosAtencion,
+                  child: Container(
+                    width: 146,
+                    height: 196,
+                    padding: EdgeInsets.only(
+                      left: 5,
+                      right: 5,
+                      top: 125,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 5,
+                            color: Colors.grey.withOpacity(0.5)),
                       ],
+                    ),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo1\n',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -257,46 +267,49 @@ class ColumnasInicio extends StatelessWidget {
             onTap: () {},
             child: new Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20,
-                  ),
-                  width: 146,
-                  height: 128,
-                  padding: EdgeInsets.only(
-                    top: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.send_outlined,
-                            size: 75,
-                            color: kMostaza,
-                          ),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo3\n',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
+                Hero(
+                  tag: heroCartas,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 20,
+                    ),
+                    width: 146,
+                    height: 128,
+                    padding: EdgeInsets.only(
+                      top: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
+                    ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.send_outlined,
+                              size: 75,
+                              color: kMostaza,
+                            ),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo3\n',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -306,53 +319,56 @@ class ColumnasInicio extends StatelessWidget {
           //Construye Boton Redes
           GestureDetector(
             onTap: () {},
-            child: new Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20,
-                  ),
-                  width: 146,
-                  height: 196,
-                  padding: EdgeInsets.only(
-                    top: 30,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.smartphone_outlined,
-                            color: kAmarillo,
-                            size: 100,
-                          ),
-                          margin: EdgeInsets.only(bottom: 10),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo4\n',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
+            child: Hero(
+              tag: heroRedes,
+              child: new Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 20,
+                    ),
+                    width: 146,
+                    height: 196,
+                    padding: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBlanco,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
                     ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.smartphone_outlined,
+                              color: kAmarillo,
+                              size: 100,
+                            ),
+                            margin: EdgeInsets.only(bottom: 10),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              '$titulo4\n',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

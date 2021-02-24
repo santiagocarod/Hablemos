@@ -10,7 +10,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar('Inicio de Sesión'),
+      appBar: crearAppBar('Inicio de Sesión', null, 0, null),
       body: Stack(
         children: [
           Image.asset(
@@ -20,21 +20,24 @@ class LoginPage extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          SingleChildScrollView(
-            child: Container(
-              height: size.height,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  //background aquii
-                  _centerLogin(context),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
+          Padding(
+            padding: EdgeInsets.only(top: 0.0),
+            child: SingleChildScrollView(
+              child: Container(
+                height: size.height,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    //background aquii
+                    _centerLogin(context),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

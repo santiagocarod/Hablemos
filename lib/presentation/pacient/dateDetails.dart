@@ -15,6 +15,9 @@ class DateDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: crearAppBar('Detalle de Cita', null, 0, null),
       body: Stack(
         children: <Widget>[
           //Background Image
@@ -25,55 +28,11 @@ class DateDetails extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          _header(context, size, cita, profesional),
+          _boxInfo(context, size, cita, profesional),
         ],
       ),
     );
   }
-}
-
-// Header of the screen arrow, center text and white box
-Widget _header(
-    BuildContext context, Size size, Cita cita, Profesional profesional) {
-  return SingleChildScrollView(
-    child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: [
-          SafeArea(
-            child: Container(
-              height: 50.0,
-              width: double.infinity,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.keyboard_backspace,
-                  size: 40,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Text(
-                'Detalle de Cita',
-                style: TextStyle(
-                  fontSize: 26.0,
-                  color: Colors.black,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-              SizedBox(width: 50.0)
-            ],
-          ),
-          _boxInfo(context, size, cita, profesional),
-        ],
-      ),
-    ),
-  );
 }
 
 // White Box wich contains all de information
@@ -94,37 +53,41 @@ Widget _boxInfo(
   final String type = cita.especialidad;
   final String contact = profesional.celular.toString();
 
-  return SingleChildScrollView(
-    child: Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.all(20),
-      height: 599,
-      width: 359,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.14),
-            spreadRadius: 6,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          _name(context, profesional),
-          secction(title: 'Hora:', text: hour),
-          secction(title: 'Fecha:', text: date),
-          secction(title: 'Costo', text: pay),
-          secction(title: 'Detalles de pago:', text: count),
-          secction(title: 'Lugar:', text: place),
-          secction(title: 'Especialidad:', text: specialty),
-          secction(title: 'Tipo:', text: type),
-          secction(title: 'Contacto:', text: contact),
-          _state(context, cita),
-          _buttons(context),
-        ],
+  return Container(
+    padding: EdgeInsets.only(top: 80.0),
+    alignment: Alignment.center,
+    child: SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.all(20),
+        height: 599,
+        width: 359,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.14),
+              spreadRadius: 6,
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: <Widget>[
+            _name(context, profesional),
+            secction(title: 'Hora:', text: hour),
+            secction(title: 'Fecha:', text: date),
+            secction(title: 'Costo', text: pay),
+            secction(title: 'Detalles de pago:', text: count),
+            secction(title: 'Lugar:', text: place),
+            secction(title: 'Especialidad:', text: specialty),
+            secction(title: 'Tipo:', text: type),
+            secction(title: 'Contacto:', text: contact),
+            _state(context, cita),
+            _buttons(context),
+          ],
+        ),
       ),
     ),
   );
