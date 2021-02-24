@@ -53,8 +53,9 @@ Widget _boxInfo(
   final String type = cita.especialidad;
   final String contact = profesional.celular.toString();
 
-  return Padding(
+  return Container(
     padding: EdgeInsets.only(top: 80.0),
+    alignment: Alignment.center,
     child: SingleChildScrollView(
       child: Container(
         alignment: Alignment.center,
