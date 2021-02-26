@@ -4,20 +4,24 @@ class Taller {
   String titulo;
   String fecha;
   String hora;
-  int valor;
+  String valor;
   int numeroSesiones;
   String descripcion;
   Image foto;
   String ubicacion;
+  String numCuenta;
+  String banco;
 
-  Taller(
+  Taller({
     this.titulo,
     this.valor,
     this.numeroSesiones,
     this.descripcion,
-    this.foto,
+    //this.foto,
     this.ubicacion,
-  ) {
+    this.numCuenta,
+    this.banco,
+  }) {
     this.fecha = DateTime.now().day.toString() +
         '/' +
         DateTime.now().month.toString() +

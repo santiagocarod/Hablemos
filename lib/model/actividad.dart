@@ -4,20 +4,24 @@ class Actividad {
   String titulo;
   String fecha;
   String hora;
-  int valor;
+  String valor;
   int numeroSesiones;
   String descripcion;
   Image foto;
   String ubicacion;
+  String numeroCuenta;
+  String banco;
 
-  Actividad(
+  Actividad({
     this.titulo,
     this.valor,
     this.numeroSesiones,
     this.descripcion,
-    this.foto,
+    //this.foto,
     this.ubicacion,
-  ) {
+    this.numeroCuenta,
+    this.banco,
+  }) {
     this.fecha = DateTime.now().day.toString() +
         '/' +
         DateTime.now().month.toString() +
