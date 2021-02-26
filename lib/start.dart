@@ -1,32 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
-
-class StartFireBase extends StatelessWidget {
-  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FutureBuilder(
-        future: _firebaseApp,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("Error: ${snapshot.error.toString()}");
-            return Text("Algo salio Mal");
-          } else if (snapshot.hasData) {
-            return Home();
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
 
 class Home extends StatelessWidget {
   @override
@@ -37,7 +11,7 @@ class Home extends StatelessWidget {
       home: Stack(
         children: <Widget>[
           _background(context, size),
-          _startButton(context, size),
+          _startButton(context, size)
         ],
       ),
     );

@@ -1,4 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:hablemos/routes/routes.dart';
+
+class StartFireBase extends StatelessWidget {
+  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        );
+      },
+      home: FutureBuilder(
+        future: _firebaseApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("Error: ${snapshot.error.toString()}");
+            return Text("Algo salio Mal");
+          } else if (snapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
 
 // Screen of user that wants to register or login ==============================
 class HomeScreen extends StatelessWidget {

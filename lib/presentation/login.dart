@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../ux/atoms.dart';
 
@@ -49,7 +51,6 @@ class LoginPage extends StatelessWidget {
 
 Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
-
   return Expanded(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -58,12 +59,18 @@ Widget _centerLogin(BuildContext context) {
         SizedBox(height: 40.0),
         passwordTextBox(bloc),
         SizedBox(height: 70.0),
-        iconButtonBigBloc(
-            "Iniciar Sesión",
-            () => {Navigator.pushNamed(context, 'inicio')},
-            Icons.login,
-            Colors.yellow[700],
-            bloc),
+        iconButtonBigBloc("Iniciar Sesión", () {
+          print('${bloc.email} : ${bloc.password}');
+          AuthService authService = new AuthService();
+          Future<User> user = authService.logIn("santiago@gmail.com", "123456");
+          user.then((value) {
+            if (value != null) {
+              Navigator.pushNamed(context, 'inicio');
+            } else {
+              print("Usuario y/o Contraseña erroneos");
+            }
+          });
+        }, Icons.login, Colors.yellow[700], bloc),
         SizedBox(height: 20.0),
         GestureDetector(
           onTap: () => {print("haisd")},
