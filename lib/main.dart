@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return InhWidget(
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // Avoid the debug message
-        initialRoute: 'home',
+        initialRoute: '/',
         routes: getApplicationRoutes(),
         onGenerateRoute: (RouteSettings settings) {
           return MaterialPageRoute(

@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hablemos/routes/routes.dart';
 
 class StartFireBase extends StatelessWidget {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: getApplicationRoutes(),
-      onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        );
-      },
-      home: FutureBuilder(
+    return Scaffold(
+      body: FutureBuilder(
         future: _firebaseApp,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
