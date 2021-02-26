@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 // Initial screen, shows only the start button (COMENZAR) ======================
 
 class StartFireBase extends StatelessWidget {
@@ -36,6 +38,7 @@ class Home extends StatelessWidget {
     return Stack(
       children: <Widget>[
         _background(context, size),
+        _letras(context, size),
         _startButton(context, size),
       ],
     );
@@ -43,13 +46,94 @@ class Home extends StatelessWidget {
 }
 
 Widget _background(BuildContext context, Size size) {
-  return SingleChildScrollView(
-    child: Image(
-      height: size.height,
-      width: size.width,
-      image: AssetImage("assets/images/start_image.png"),
-      fit: BoxFit.cover,
-    ),
+  return Image(
+    height: size.height,
+    width: size.width,
+    image: AssetImage("assets/images/start_image.png"),
+    fit: BoxFit.cover,
+  );
+}
+
+Widget _letras(BuildContext context, Size size) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SizedBox(
+        width: double.infinity,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          SizedBox(width: 20.0),
+          Container(
+              child: Text(
+            'H',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kRojoOscuro,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'a',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kRosado,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'b',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kAmarillo,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'l',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kAzulClaro,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'e',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kRojoOscuro,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'm',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kRosado,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            'o',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kAmarillo,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          Container(
+              child: Text(
+            's',
+            style: Theme.of(context).textTheme.headline3.copyWith(
+                color: kAzulClaro,
+                fontWeight: FontWeight.bold,
+                fontSize: size.width * 0.15),
+          )),
+          SizedBox(width: 20.0),
+        ],
+      ),
+    ],
   );
 }
 
