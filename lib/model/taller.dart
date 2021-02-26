@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Taller {
+  String uid;
   String titulo;
   String fecha;
   String hora;
@@ -13,6 +14,7 @@ class Taller {
   String banco;
 
   Taller({
+    this.uid,
     this.titulo,
     this.valor,
     this.numeroSesiones,

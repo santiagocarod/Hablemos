@@ -1,4 +1,5 @@
 class CentroAtencion {
+  String uid;
   String nombre;
   String ciudad;
   String departamento;
@@ -9,6 +10,7 @@ class CentroAtencion {
   bool gratuito;
 
   CentroAtencion({
+    this.uid,
     this.nombre,
     this.ciudad,
     this.departamento,

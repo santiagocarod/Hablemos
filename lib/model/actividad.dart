@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Actividad {
+  String uid;
   String titulo;
   String fecha;
   String hora;
@@ -13,6 +14,7 @@ class Actividad {
   String banco;
 
   Actividad({
+    this.uid,
     this.titulo,
     this.valor,
     this.numeroSesiones,

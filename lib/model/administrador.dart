@@ -1,4 +1,5 @@
 class Administrador {
+  String uid;
   String correo;
   String ciudad;
   String permisos;
@@ -6,6 +7,7 @@ class Administrador {
   String apellido;
 
   Administrador({
+    this.uid,
     this.ciudad,
     this.apellido,
     this.correo,
