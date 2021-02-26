@@ -1,11 +1,11 @@
-class Trastornos {
+class Trastorno {
   String nombre;
   String definicion;
-  String sintomas;
+  List<String> sintomas;
   String autoayuda;
   List<String> fuentes;
 
-  Trastornos(
+  Trastorno(
       {this.nombre,
       this.definicion,
       this.autoayuda,
