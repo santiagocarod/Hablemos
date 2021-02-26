@@ -6,6 +6,7 @@ class CentroAtencion {
   String horaAtencion;
   String correo;
   String ubicacion;
+  bool gratuito;
 
   CentroAtencion({
     this.nombre,
@@ -14,6 +15,7 @@ class CentroAtencion {
     this.telefono,
     this.correo,
     this.ubicacion,
+    this.gratuito,
   }) {
     this.horaAtencion =
         DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
