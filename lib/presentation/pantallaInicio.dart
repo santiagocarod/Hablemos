@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'body.dart';
+import 'package:hablemos/services/auth.dart';
 
-class PantallaInicio extends StatelessWidget {
+class PantallaInicio extends StatefulWidget {
+  @override
+  _PantallaInicioState createState() => _PantallaInicioState();
+}
+
+class _PantallaInicioState extends State<PantallaInicio> {
+  String username;
+  AuthService _authService = new AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    _authService.getCurrentUser().then((value) {
+      setState(() {
+        username = value.email;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -10,17 +29,17 @@ class PantallaInicio extends StatelessWidget {
         appBar: buildAppBar(size),
         body: Body(
           size: size,
-          username: "Diana",
+          username: username,
         ));
   }
+}
 
-  AppBar buildAppBar(Size size) {
-    //EncabezadoHablemos(size: size, text1: "Diana");
-    return AppBar(
-      backgroundColor: kAzulPrincipal,
-      elevation: 0,
-      toolbarHeight: size.height * 0.001,
-      leading: Container(),
-    );
-  }
+AppBar buildAppBar(Size size) {
+  //EncabezadoHablemos(size: size, text1: "Diana");
+  return AppBar(
+    backgroundColor: kAzulPrincipal,
+    elevation: 0,
+    toolbarHeight: size.height * 0.001,
+    leading: Container(),
+  );
 }
