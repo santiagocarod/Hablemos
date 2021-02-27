@@ -62,7 +62,7 @@ Widget _centerLogin(BuildContext context) {
         iconButtonBigBloc("Iniciar Sesión", () {
           print('${bloc.email} : ${bloc.password}');
           AuthService authService = new AuthService();
-          Future<User> user = authService.logIn("santiago@gmail.com", "123456");
+          Future<User> user = authService.logIn(bloc.email, bloc.password);
           user.then((value) {
             if (value != null) {
               Navigator.pushNamed(context, 'inicio');
