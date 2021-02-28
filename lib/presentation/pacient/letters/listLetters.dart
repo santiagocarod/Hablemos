@@ -89,7 +89,9 @@ List<Widget> letterToCard(BuildContext context, List<Carta> cartas) {
       );
       InkWell inkWell = InkWell(
         splashColor: kRosado,
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "verCarta", arguments: element);
+        },
         child: card,
       );
       cards.add(inkWell);
