@@ -4,6 +4,7 @@ import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/list_citas_pro.dart';
+import 'package:hablemos/presentation/user/exercises/options_exercises.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
@@ -29,5 +30,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasProfesional': (context) => ListCitasPro(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
+    'OpcionesEjercicios': (context) => OptionsExercises(),
   };
 }

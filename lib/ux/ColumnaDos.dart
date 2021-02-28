@@ -86,7 +86,9 @@ class ColumnaDos extends StatelessWidget {
           ),
           //Construye Boton Quiero un Momento
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'OpcionesEjercicios');
+            },
             child: new Column(
               children: <Widget>[
                 Hero(
