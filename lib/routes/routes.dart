@@ -12,12 +12,13 @@ import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/list_citas.dart';
 import 'package:hablemos/presentation/professional/verPagoPro.dart';
 import 'package:hablemos/presentation/pacient/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/listLetters.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => Home(),
+    '/': (context) => ListLetters(),
     'start': (context) => HomeScreen(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
@@ -29,5 +30,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasProfesional': (context) => ListCitasPro(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
+    'listaCartasPaciente': (context) => ListLetters(),
   };
 }
