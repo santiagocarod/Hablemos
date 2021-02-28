@@ -264,7 +264,10 @@ class ColumnasInicio extends StatelessWidget {
           ),
           //Construye Boton Cartas
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              //TODO: Aplicar el Hero para la animación.
+              Navigator.pushNamed(context, "listaCartasPaciente");
+            },
             child: new Column(
               children: <Widget>[
                 Hero(

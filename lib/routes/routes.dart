@@ -20,7 +20,7 @@ final Profesional profesional = ProfesionalesProvider.getProfesional();
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => ListLetters(),
+    '/': (context) => Home(),
     'start': (context) => HomeScreen(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
