@@ -123,6 +123,25 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
   );
 }
 
+Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    child: TextField(
+      keyboardType: TextInputType.multiline,
+      minLines: 20,
+      maxLines: 50,
+      decoration: InputDecoration(
+        icon: Icon(
+          icon,
+          color: Colors.yellow[700],
+        ),
+        hintText: hText,
+        labelText: lText,
+      ),
+    ),
+  );
+}
+
 Widget textoFinalRojo(String texto) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 30.0),

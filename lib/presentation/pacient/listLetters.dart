@@ -43,7 +43,9 @@ class ListLetters extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: kMostaza,
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, "agregarCarta");
+        },
       ),
     );
   }

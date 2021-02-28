@@ -13,6 +13,7 @@ import 'package:hablemos/presentation/pacient/list_citas.dart';
 import 'package:hablemos/presentation/professional/verPagoPro.dart';
 import 'package:hablemos/presentation/pacient/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/listLetters.dart';
+import 'package:hablemos/presentation/pacient/addLetter.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
@@ -31,5 +32,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
     'listaCartasPaciente': (context) => ListLetters(),
+    'agregarCarta': (context) => AddLetter(),
   };
 }
