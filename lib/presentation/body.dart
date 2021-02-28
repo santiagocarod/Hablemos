@@ -19,12 +19,7 @@ class Body extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Stack(
         children: <Widget>[
-          Image(
-            height: size.height + size.height / 2,
-            width: size.width,
-            image: AssetImage("assets/images/pantallaInicio.png"),
-            fit: BoxFit.cover,
-          ),
+          _background(context, size),
           Container(
             child: Column(
               children: <Widget>[
@@ -47,7 +42,7 @@ class Body extends StatelessWidget {
                       size: size,
                       titulo1: "Citas",
                       titulo2: "Quiero un Momento",
-                      titulo3: "Que hay \n pa hacer",
+                      titulo3: "¿Qué hay \n pa' hacer?",
                       titulo4: "Mi Cuenta",
                     ),
                   ],
@@ -59,6 +54,15 @@ class Body extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _background(BuildContext context, Size size) {
+  return Image(
+    height: size.height * 1.2,
+    width: size.width,
+    image: AssetImage("assets/images/pantallaInicio.png"),
+    fit: BoxFit.cover,
+  );
 }
 
 class Espacio extends StatelessWidget {
@@ -75,7 +79,7 @@ class Espacio extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(),
           )
         ],
