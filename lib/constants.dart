@@ -20,6 +20,9 @@ const kRojo = Color(0xFFF44336);
 const kVerdeMuyClaro = Color(0xFFF0FFE2);
 const kAmarilloMuyClaro = Color(0xFFF7F6DD);
 const kRojoMuyClaro = Color(0xFFF9E8E1);
+const kAzul1 = Color(0xFFE2FFEE);
+const kAzul2 = Color(0xFFCFFFF7);
+const kAzul3 = Color(0xFFAFF6EC);
 
 const heroCita = 1;
 const heroCentrosAtencion = 2;

@@ -1,11 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 class OptionsBreathe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text("holiamor"),
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: crearAppBar('', null, 0, null),
+      body: Stack(
+        children: <Widget>[
+          _inferior(size),
+          _superior(size),
+        ],
+      ),
+    );
+  }
+
+  Widget _superior(Size size) {
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.access_alarm_outlined,
+              size: 60.0,
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              'Quiero respirar',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 50.0),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              child: Text(
+                'Seleccciona lo que mejor se ajuste a tus necesidades',
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+      width: size.width,
+      height: size.height * 0.5,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadiusDirectional.only(
+            bottomStart: Radius.circular(30.0),
+            bottomEnd: Radius.circular(30.0)),
+        color: kVerdeMuyClaro,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 10.0,
+            spreadRadius: 0.0,
+            offset: Offset(0.0, 2.0),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inferior(Size size) {
+    return Container(
+      width: size.width,
+      height: size.height,
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: size.width,
+            height: size.height * 0.5,
+          ),
+          Container(
+              height: size.height * 0.5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  colorButton('Conectar con el presente', () {}, kAzul1,
+                      size * 0.75, 50.0),
+                  colorButton(
+                      'Siento ansiedad', () {}, kAzul2, size * 0.75, 50.0),
+                  colorButton('Dormir', () {}, kAzul3, size * 0.75, 50.0),
+                ],
+              ))
+        ],
       ),
     );
   }

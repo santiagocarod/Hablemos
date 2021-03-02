@@ -62,9 +62,11 @@ class OptionsExercises extends StatelessWidget {
             ),
             colorButton('Quiero respirar', () {
               Navigator.pushNamed(context, 'opcionesRespirar');
-            }, kVerdeMuyClaro, size),
-            colorButton('Mindfulness', () {}, kAmarilloMuyClaro, size),
-            colorButton('Quiero meditar', () {}, kRojoMuyClaro, size),
+            }, kVerdeMuyClaro, size * 0.9, 20.0),
+            colorButton(
+                'Mindfulness', () {}, kAmarilloMuyClaro, size * 0.9, 20.0),
+            colorButton(
+                'Quiero meditar', () {}, kRojoMuyClaro, size * 0.9, 20.0),
           ],
         ),
       ),
