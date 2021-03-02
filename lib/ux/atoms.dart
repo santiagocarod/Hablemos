@@ -212,5 +212,25 @@ Widget secction({String title, String text}) {
         ),
       ],
     ),
+  ); //Boton como los de ejercicios queiro respirar, mindfulness, quiero meditar
+}
+
+Widget colorButton(String texto, Function funcion, Color color, Size size) {
+  return Container(
+    width: size.width * 0.75,
+    height: size.height * 0.15,
+    child: ElevatedButton(
+      onPressed: funcion,
+      child: Text(
+        texto,
+        style: TextStyle(color: Colors.black, fontSize: 30.0),
+      ),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+          shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0))),
+          elevation: MaterialStateProperty.all<double>(5.0)),
+    ),
   );
 }

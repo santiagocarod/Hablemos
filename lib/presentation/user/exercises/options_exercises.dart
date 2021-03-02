@@ -11,13 +11,12 @@ class OptionsExercises extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar(
-          'Ejercicios', Icons.favorite_border_outlined, 0, kVerdeClaro),
+      appBar: crearAppBar('', null, 0, null),
       body: Center(
         child: Stack(
           children: <Widget>[
             _background(size),
-            _opciones(),
+            _opciones(context, size),
           ],
         ),
       ),
@@ -34,11 +33,40 @@ class OptionsExercises extends StatelessWidget {
     );
   }
 
-  Widget _opciones() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[],
+  Widget _opciones(BuildContext context, Size size) {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Column(
+                children: [
+                  Hero(
+                    tag: heroActividades,
+                    child: Icon(
+                      Icons.favorite_border_outlined,
+                      size: 50.0,
+                    ),
+                  ),
+                  Text(
+                    'Ejercicios',
+                    style: TextStyle(
+                        fontSize: 30.0,
+                        fontFamily: 'assets/fonts/Poppins-Regular.ttf',
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            colorButton('Quiero respirar', () {
+              Navigator.pushNamed(context, 'opcionesRespirar');
+            }, kVerdeMuyClaro, size),
+            colorButton('Mindfulness', () {}, kAmarilloMuyClaro, size),
+            colorButton('Quiero meditar', () {}, kRojoMuyClaro, size),
+          ],
+        ),
       ),
     );
   }

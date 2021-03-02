@@ -17,6 +17,9 @@ const kMarino = Color(0xFF8EE8D8);
 const kNegro = Color(0xFF000000);
 const kVerde = Color(0xFF4CAF50);
 const kRojo = Color(0xFFF44336);
+const kVerdeMuyClaro = Color(0xFFF0FFE2);
+const kAmarilloMuyClaro = Color(0xFFF7F6DD);
+const kRojoMuyClaro = Color(0xFFF9E8E1);
 
 const heroCita = 1;
 const heroCentrosAtencion = 2;
