@@ -12,7 +12,7 @@ class OptionsBreathe extends StatelessWidget {
       appBar: crearAppBar('', null, 0, null),
       body: Stack(
         children: <Widget>[
-          _inferior(size),
+          _inferior(context, size),
           _superior(size),
         ],
       ),
@@ -67,7 +67,7 @@ class OptionsBreathe extends StatelessWidget {
     );
   }
 
-  Widget _inferior(Size size) {
+  Widget _inferior(BuildContext context, Size size) {
     return Container(
       width: size.width,
       height: size.height,
@@ -82,11 +82,15 @@ class OptionsBreathe extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  colorButton('Conectar con el presente', () {}, kAzul1,
-                      size * 0.75, 50.0),
-                  colorButton(
-                      'Siento ansiedad', () {}, kAzul2, size * 0.75, 50.0),
-                  colorButton('Dormir', () {}, kAzul3, size * 0.75, 50.0),
+                  colorButton('Conectar con el presente', () {
+                    Navigator.pushNamed(context, 'respirar');
+                  }, kAzul1, size * 0.75, 50.0),
+                  colorButton('Siento ansiedad', () {
+                    Navigator.pushNamed(context, 'respirar');
+                  }, kAzul2, size * 0.75, 50.0),
+                  colorButton('Dormir', () {
+                    Navigator.pushNamed(context, 'respirar');
+                  }, kAzul3, size * 0.75, 50.0),
                 ],
               ))
         ],
