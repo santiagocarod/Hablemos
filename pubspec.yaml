@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.25.0
   intl: ^0.16.1
+  confetti: ^0.5.4+1
 
 dev_dependencies:
   flutter_test:
