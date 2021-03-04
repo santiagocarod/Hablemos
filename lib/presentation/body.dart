@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 import '../ux/ColumnaDos.dart';
 import '../ux/ColumnasInicio.dart';
 import '../ux/Encabezado.dart';
@@ -60,15 +59,6 @@ class Body extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _background(BuildContext context, Size size) {
-  return Image(
-    height: size.height * 1.2,
-    width: size.width,
-    image: AssetImage("assets/images/pantallaInicio.png"),
-    fit: BoxFit.cover,
-  );
 }
 
 class Espacio extends StatelessWidget {
