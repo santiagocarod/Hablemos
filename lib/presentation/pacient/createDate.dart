@@ -37,9 +37,9 @@ class _CreateDate extends State<CreateDate> {
 
     if (cita != null) {
       textDate = cita.dateTime.day.toString() +
-          '/' +
+          '-' +
           cita.dateTime.month.toString() +
-          '/' +
+          '-' +
           cita.dateTime.year.toString();
       textHour = format.format(cita.dateTime);
       textProf = cita.uidProfesional;
