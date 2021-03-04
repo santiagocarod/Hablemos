@@ -20,46 +20,52 @@ class CardSwiper extends StatelessWidget {
         layout: SwiperLayout.STACK,
         itemWidth: size.width * 0.8,
         itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 30.0),
-            child: Container(
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
-                  bottomStart: Radius.circular(30.0),
-                  bottomEnd: Radius.circular(30.0),
-                  topStart: Radius.circular(30.0),
-                  topEnd: Radius.circular(30.0),
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'infoEjercicio',
+                  arguments: list[index]);
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 30.0),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    bottomStart: Radius.circular(30.0),
+                    bottomEnd: Radius.circular(30.0),
+                    topStart: Radius.circular(30.0),
+                    topEnd: Radius.circular(30.0),
+                  ),
+                  color: listaColores[index % listaColores.length],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10.0,
+                      spreadRadius: 0.0,
+                      offset: Offset(0.0, 2.0),
+                    )
+                  ],
                 ),
-                color: listaColores[index % listaColores.length],
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 10.0,
-                    spreadRadius: 0.0,
-                    offset: Offset(0.0, 2.0),
-                  )
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    list[index].titulo,
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      list[index].titulo,
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    list[index].descripcion,
-                    style: TextStyle(
-                      fontSize: 20.0,
+                    Text(
+                      list[index].descripcion,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
