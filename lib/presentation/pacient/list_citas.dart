@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/services/providers/citas_provider.dart';
+import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/presentation/pacient/dateDetails.dart';
@@ -8,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class ListCitas extends StatelessWidget {
   final List<Cita> citas = CitasProvider.getCitas();
+  final Profesional profesional = ProfesionalesProvider.getProfesional();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class ListCitas extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: citasToCard(citas, context),
+                  children: citasToCard(citas, profesional, context),
                 ),
               ),
             ),
@@ -47,7 +50,8 @@ class ListCitas extends StatelessWidget {
   }
 }
 
-List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
+List<Widget> citasToCard(
+    List<Cita> citas, Profesional profesional, BuildContext context) {
   final DateFormat format = DateFormat('hh:mm a');
   List<Widget> cards = [];
   citas.forEach((element) {
@@ -67,7 +71,8 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
           SizedBox(
             height: 5,
           ),
-          Text("Cita con ${element.uidProfesional}"),
+          Text(
+              'Cita con ${profesional.nombre} ${profesional.apellido}'), //Text("Cita con ${element.uidProfesional}"),
           SizedBox(
             height: 10,
           ),
@@ -95,5 +100,19 @@ List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
     );
     cards.add(inkWell);
   });
+  // Button
+  Container button = Container(
+    alignment: Alignment.bottomRight,
+    margin: EdgeInsets.all(20),
+    child: FloatingActionButton(
+      child: Icon(Icons.add),
+      backgroundColor: kRojoOscuro,
+      onPressed: () {
+        Cita cita = new Cita();
+        Navigator.pushNamed(context, 'CrearCita', arguments: cita);
+      },
+    ),
+  );
+  cards.add(button);
   return cards;
 }

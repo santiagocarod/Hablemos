@@ -12,6 +12,7 @@ import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/list_citas.dart';
 import 'package:hablemos/presentation/professional/verPagoPro.dart';
 import 'package:hablemos/presentation/pacient/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/createDate.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
@@ -27,6 +28,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'detalleCitasProfesional': (context) =>
         DetalleCitaPro(profesional: profesional),
     'citasProfesional': (context) => ListCitasPro(),
+    'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
   };
