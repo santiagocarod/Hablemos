@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
 import '../ux/ColumnaDos.dart';
 import '../ux/ColumnasInicio.dart';
 import '../ux/Encabezado.dart';
@@ -19,8 +20,13 @@ class Body extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Stack(
         children: <Widget>[
-          _background(context, size),
           Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/pantallaInicio.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Column(
               children: <Widget>[
                 EncabezadoHablemos(
