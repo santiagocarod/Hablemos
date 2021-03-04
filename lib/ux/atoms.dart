@@ -160,9 +160,7 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
     title: Text(
       texto,
       style: TextStyle(
-        color: Colors.black,
-        fontSize: 25.0,
-      ),
+          color: Colors.black, fontSize: 25.0, fontFamily: 'PoppinsRegular'),
     ),
     centerTitle: true,
     iconTheme: IconThemeData(

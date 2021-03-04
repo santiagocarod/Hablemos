@@ -104,7 +104,7 @@ Widget _pageHeader(BuildContext context, Size size) {
           child: Container(
               padding: EdgeInsets.only(left: size.width * 0.05),
               child: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios,
                 size: 30,
                 color: Colors.black,
               )),

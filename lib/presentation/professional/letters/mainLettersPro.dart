@@ -1,12 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
 
-class CartasPrincipalPro extends StatelessWidget {
-  CartasPrincipalPro({Key key}) : super(key: key);
-
+class MainLettersPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -22,7 +19,7 @@ class CartasPrincipalPro extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(
-              top: size.height * 0.06,
+              top: size.height * 0.07,
             ),
             alignment: Alignment.center,
             width: size.width,
@@ -34,9 +31,10 @@ class CartasPrincipalPro extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _contenedor(context, size, "Leer Carta", "leerCartasPro"),
                       _contenedor(
-                          context, size, "Valorar Cartas", "valorarCartasPro")
+                          context, size, "Leer Cartas", "listarCartasPro"),
+                      _contenedor(
+                          context, size, "Valorar Cartas", "listaCartasEvaluar")
                     ],
                   )
                 ],
@@ -62,9 +60,12 @@ Widget _contenedor(
       alignment: Alignment.center,
       child: Text(
         titulo,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-            fontSize: 22, color: kNegro, decoration: TextDecoration.none),
+        style: TextStyle(
+            color: kLetras,
+            fontSize: 22.0,
+            fontFamily: 'PoppinsRegular',
+            decoration: TextDecoration.none,
+            fontStyle: FontStyle.normal),
       ),
       decoration: BoxDecoration(
         color: kBlanco,
@@ -88,13 +89,13 @@ Widget _pageHeader(BuildContext context, Size size, String titulo) {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, "inicio");
+            Navigator.pop(context);
           },
           child: Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(left: size.width * 0.05),
               child: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios,
                 size: 30,
                 color: kNegro,
               )),
@@ -104,9 +105,12 @@ Widget _pageHeader(BuildContext context, Size size, String titulo) {
             alignment: Alignment.center,
             child: Text(
               titulo,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                  fontSize: 22, color: kNegro, decoration: TextDecoration.none),
+              style: TextStyle(
+                  color: kLetras,
+                  fontSize: 22.0,
+                  fontFamily: 'PoppinsRegular',
+                  decoration: TextDecoration.none,
+                  fontStyle: FontStyle.normal),
             ),
           ),
         ),

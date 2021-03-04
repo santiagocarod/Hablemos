@@ -4,9 +4,13 @@ import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
-import 'package:hablemos/presentation/professional/letters/cartasPrincipalPro.dart';
-import 'package:hablemos/presentation/professional/letters/valorarCartasPro.dart';
-import 'package:hablemos/presentation/professional/letters/leerCartasPro.dart';
+import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/editLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/listToEvaluateLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/listAprovedLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
@@ -32,8 +36,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasProfesional': (context) => ListCitasPro(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
-    'cartasPrincipalProfesional': (context) => CartasPrincipalPro(),
-    'leerCartasPro': (context) => LeerCartasPro(),
-    'valorarCartasPro': (context) => valorarCartasPro(),
+    'cartasPrincipalProfesional': (context) => MainLettersPro(),
+    'listarCartasPro': (context) => ListAprovedLettersPro(),
+    'valorarCartaPro': (context) => AssesLetterPro(),
+    'verCartaPro': (context) => ShowLetterPro(),
+    'escribirCartaPro': (context) => AddLetterPro(),
+    'listaCartasEvaluar': (context) => ListToEvaluateLettersPro(),
+    'editarCartaPro': (context) => EditLetterPro(),
   };
 }
