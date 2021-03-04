@@ -36,15 +36,17 @@ class _CreateDate extends State<CreateDate> {
     DateFormat format = DateFormat('hh:mm a');
 
     if (cita != null) {
+      print("Entre Actualizar");
       textDate = cita.dateTime.day.toString() +
-          '-' +
+          '/' +
           cita.dateTime.month.toString() +
-          '-' +
+          '/' +
           cita.dateTime.year.toString();
       textHour = format.format(cita.dateTime);
       textProf = cita.uidProfesional;
       textType = cita.tipo;
-    } else {
+    } else if (cita == null) {
+      print("Entre Crear");
       textDate = "Fecha";
       textHour = "Hora";
       textProf = "Profesional";
@@ -159,7 +161,7 @@ class _CreateDate extends State<CreateDate> {
       firstDate: new DateTime(1945),
       lastDate: new DateTime(2025),
     );
-    var myFormat = DateFormat('d-MM-yyyy');
+    var myFormat = DateFormat('d/MM/yyyy');
     if (picked != null) {
       setState(() {
         _date = myFormat.format(picked).toString();
@@ -327,13 +329,15 @@ class _CreateDate extends State<CreateDate> {
             shadowColor: Colors.black,
           ),
           onPressed: () {
-            if (_inputFieldDateController.text.isNotEmpty &&
-                _timeController.text.isNotEmpty &&
-                _profController.text.isNotEmpty &&
-                _typeController.text.isNotEmpty) {
-              DateTime date = DateFormat('d-M-yyyy hh:mm').parse(
-                  _inputFieldDateController.text + ' ' + _timeController.text);
-              if (cita == null) {
+            if (cita == null) {
+              if (_inputFieldDateController.text.isNotEmpty &&
+                  _timeController.text.isNotEmpty &&
+                  _profController.text.isNotEmpty &&
+                  _typeController.text.isNotEmpty) {
+                DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
+                    _inputFieldDateController.text +
+                        ' ' +
+                        _timeController.text);
                 cita = new Cita(
                   uidPaciente: username,
                   uidProfesional: _profController.text,
@@ -349,11 +353,9 @@ class _CreateDate extends State<CreateDate> {
                       _buildPopupDialog(context, title, content),
                 );
               } else {
-                cita.uidProfesional = _profController.text;
-                cita.dateTime = date;
-                title = 'Cita Actualizada';
+                title = 'No se pudo crear la cita';
                 content =
-                    "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
+                    "Ha habido un error, asegurese de llenar todos los campos";
                 showDialog(
                   context: context,
                   builder: (BuildContext contex) =>
@@ -361,9 +363,18 @@ class _CreateDate extends State<CreateDate> {
                 );
               }
             } else {
-              title = 'No se pudo crear la cita';
+              if (_inputFieldDateController.text.isEmpty)
+                _inputFieldDateController.text = textDate;
+              if (_timeController.text.isEmpty) _timeController.text = textHour;
+              if (_profController.text.isEmpty) _profController.text = textProf;
+              if (_typeController.text.isEmpty) _typeController.text = textType;
+              DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
+                  _inputFieldDateController.text + ' ' + _timeController.text);
+              cita.uidProfesional = _profController.text;
+              cita.dateTime = date;
+              title = 'Cita Actualizada';
               content =
-                  "Ha habido un error, asegurese de llenar todos los campos";
+                  "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
               showDialog(
                 context: context,
                 builder: (BuildContext contex) =>

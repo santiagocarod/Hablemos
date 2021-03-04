@@ -108,7 +108,7 @@ List<Widget> citasToCard(
       child: Icon(Icons.add),
       backgroundColor: kRojoOscuro,
       onPressed: () {
-        Cita cita = new Cita();
+        Cita cita;
         Navigator.pushNamed(context, 'CrearCita', arguments: cita);
       },
     ),
