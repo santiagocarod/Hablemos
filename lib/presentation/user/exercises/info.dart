@@ -27,32 +27,6 @@ class InfoClass extends StatelessWidget {
     return Container(
       width: size.width,
       height: size.height * 0.65,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 100.0),
-          Icon(
-            Icons.access_alarm_outlined,
-            size: 60.0,
-          ),
-          SizedBox(height: 10.0),
-          Text(
-            'Meditacion',
-            style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 50.0),
-            child: Text(
-              'Seleccciona el ejercicio que desees',
-              style: TextStyle(
-                fontSize: 25.0,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.only(
           bottomStart: Radius.circular(30.0),
