@@ -25,7 +25,7 @@ class ExerciseProvider {
     List<Ejercicio> lista = [];
 
     for (int i = 0; i < 5; i++) {
-      String titulo = 'Ejercicio Meditation $i';
+      String titulo = 'Ejercicio Meditación $i';
       String descripcion =
           'Segundo: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.';
       List<String> pasos = [
