@@ -2,6 +2,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 import '../../../constants.dart';
 
@@ -12,7 +13,9 @@ class BreatheClass extends StatefulWidget {
 
 class _BreatheClassState extends State<BreatheClass> {
   ConfettiController controller;
-  int contador = 60;
+  int contador = 0;
+  CountDownController _controllerTimer = CountDownController();
+  bool _isPause = true;
 
   @override
   void initState() {
@@ -150,7 +153,7 @@ class _BreatheClassState extends State<BreatheClass> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          'Holi',
+                          'What is Lorem Ipsum?',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
@@ -167,7 +170,7 @@ class _BreatheClassState extends State<BreatheClass> {
                         alignment: Alignment.centerRight,
                         child: ElevatedButton(
                           child: Text('Siguiente'),
-                          onPressed: () {},
+                          onPressed: playState,
                         ),
                       ),
                     ],
@@ -186,7 +189,28 @@ class _BreatheClassState extends State<BreatheClass> {
     return Container(
       height: size.height * 0.35,
       width: size.width * 0.6,
-      child: Align(alignment: Alignment.center, child: Text('oooo')),
+      child: Align(
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            CircularCountDownTimer(
+              width: size.width * 0.25,
+              height: size.height * 0.25,
+              duration: 10,
+              fillColor: Colors.amber,
+              ringColor: Colors.white,
+              controller: _controllerTimer,
+              backgroundColor: Colors.blue,
+              strokeWidth: 10.0,
+              strokeCap: StrokeCap.round,
+              isReverse: false,
+              textStyle: TextStyle(fontSize: 50.0, color: Colors.black),
+              onComplete: playState,
+            ),
+            validarBoton(),
+          ],
+        ),
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.only(
           bottomStart: Radius.circular(30.0),
@@ -209,6 +233,8 @@ class _BreatheClassState extends State<BreatheClass> {
 
   void playState() {
     controller.play();
+    contador = 60;
+    setState(() {});
   }
 
   Widget buildConfetti() {
@@ -249,5 +275,31 @@ class _BreatheClassState extends State<BreatheClass> {
         minBlastForce: 1,
       ),
     );
+  }
+
+  Widget validarBoton() {
+    if (_isPause) {
+      return ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _isPause = true;
+            _controllerTimer.start();
+            contador = 0;
+          });
+        },
+        child: Text('Empezar'),
+      );
+    } else {
+      return ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _isPause = false;
+            _controllerTimer.restart();
+            contador = 0;
+          });
+        },
+        child: Text('Reiniciar'),
+      );
+    }
   }
 }
