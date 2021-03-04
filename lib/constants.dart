@@ -24,6 +24,12 @@ const kAzul1 = Color(0xFFE2FFEE);
 const kAzul2 = Color(0xFFCFFFF7);
 const kAzul3 = Color(0xFFAFF6EC);
 
+const listaColores = [
+  kVerdeMuyClaro,
+  kRojoMuyClaro,
+  kAzul1,
+];
+
 const heroCita = 1;
 const heroCentrosAtencion = 2;
 const heroForo = 3;
