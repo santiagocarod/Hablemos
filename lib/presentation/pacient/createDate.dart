@@ -12,6 +12,7 @@ class CreateDate extends StatefulWidget {
 }
 
 class _CreateDate extends State<CreateDate> {
+  // Provisional list of professionals
   String profesional = ProfesionalesProvider.getProfesional().nombre +
       " " +
       ProfesionalesProvider.getProfesional().apellido;
@@ -20,7 +21,7 @@ class _CreateDate extends State<CreateDate> {
       ProfesionalesProvider.getProfesional().nombre +
           " " +
           ProfesionalesProvider.getProfesional().apellido);
-
+  // Provisional List of types
   var types = List<String>.filled(5, "Tipo");
   TextEditingController _inputFieldDateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();
@@ -35,6 +36,7 @@ class _CreateDate extends State<CreateDate> {
     final Cita cita = ModalRoute.of(context).settings.arguments;
     DateFormat format = DateFormat('hh:mm a');
 
+    // Validates if it is update or creation
     if (cita != null) {
       print("Entre Actualizar");
       textDate = cita.dateTime.day.toString() +
@@ -68,6 +70,7 @@ class _CreateDate extends State<CreateDate> {
             width: size.width,
             height: size.height,
           ),
+          // Information
           Padding(
             padding: const EdgeInsets.only(top: 100.0),
             child: SingleChildScrollView(
@@ -91,12 +94,14 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Date and Time text Fields
   Widget _dateInfo(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Date Text Field
           Container(
             width: (size.width / 2) - 48,
             height: 65,
@@ -123,6 +128,7 @@ class _CreateDate extends State<CreateDate> {
               },
             ),
           ),
+          // Time Text Field
           Container(
             width: (size.width / 2) - 48,
             height: 65,
@@ -154,6 +160,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Picker Date
   _selectDate(BuildContext context) async {
     DateTime picked = await showDatePicker(
       context: context,
@@ -170,6 +177,7 @@ class _CreateDate extends State<CreateDate> {
     }
   }
 
+// Picker Time
   _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
       context: context,
@@ -182,12 +190,14 @@ class _CreateDate extends State<CreateDate> {
       });
   }
 
+// Professional Text Field and Button
   Widget _professionalInfo(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // Text Field
           TextField(
             controller: _profController,
             enableInteractiveSelection: false,
@@ -211,7 +221,9 @@ class _CreateDate extends State<CreateDate> {
               _selectProfessional(context);
             },
           ),
+          // Space
           SizedBox(height: 20.0),
+          // Button Professionals
           SizedBox(
             width: 176,
             height: 46,
@@ -243,6 +255,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Scroll Picker Professionals
   _selectProfessional(BuildContext context) {
     return showMaterialScrollPicker(
       context: context,
@@ -256,6 +269,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Type Text Field
   Widget _dateType(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
@@ -285,6 +299,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Scroll Picker Types
   _selectType(BuildContext context) {
     return showMaterialScrollPicker(
       context: context,
@@ -298,11 +313,13 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Create Button
   Widget _create(BuildContext context, Cita cita) {
     String username = "Paciente";
     String title = "";
     String content = "";
     String button = "CREAR";
+    // Chage the text of button if it is an update
     if (cita != null) button = "ACTUALIZAR";
     return Container(
       padding:
@@ -329,7 +346,9 @@ class _CreateDate extends State<CreateDate> {
             shadowColor: Colors.black,
           ),
           onPressed: () {
+            // Validate if it is a create
             if (cita == null) {
+              // Validate if any text field is empty
               if (_inputFieldDateController.text.isNotEmpty &&
                   _timeController.text.isNotEmpty &&
                   _profController.text.isNotEmpty &&
@@ -352,6 +371,7 @@ class _CreateDate extends State<CreateDate> {
                   builder: (BuildContext contex) =>
                       _buildPopupDialog(context, title, content),
                 );
+                // If it is empty it shows a dialog box
               } else {
                 title = 'No se pudo crear la cita';
                 content =
@@ -362,7 +382,9 @@ class _CreateDate extends State<CreateDate> {
                       _buildPopupDialog(context, title, content),
                 );
               }
+              // Validate if it is an update
             } else {
+              // Populate the controllers whith existing information if it hasn't changed
               if (_inputFieldDateController.text.isEmpty)
                 _inputFieldDateController.text = textDate;
               if (_timeController.text.isEmpty) _timeController.text = textHour;
@@ -387,6 +409,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+// Show de dialog box
   Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(
