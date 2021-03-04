@@ -17,6 +17,9 @@ class _BreatheClassState extends State<BreatheClass> {
   CountDownController _controllerTimer = CountDownController();
   bool _isPause = true;
 
+  bool _isBreathing = false;
+  double expand = 10;
+
   @override
   void initState() {
     super.initState();
@@ -201,7 +204,7 @@ class _BreatheClassState extends State<BreatheClass> {
               ringColor: Colors.white,
               controller: _controllerTimer,
               backgroundColor: Colors.blue,
-              strokeWidth: 10.0,
+              strokeWidth: expandLine(),
               strokeCap: StrokeCap.round,
               isReverse: false,
               textStyle: TextStyle(fontSize: 50.0, color: Colors.black),
@@ -277,6 +280,18 @@ class _BreatheClassState extends State<BreatheClass> {
     );
   }
 
+  double expandLine() {
+    if (_isBreathing && expand == 15) {
+      expand++;
+      setState(() {});
+      return expand;
+    } else {
+      expand--;
+      setState(() {});
+      return expand;
+    }
+  }
+
   Widget validarBoton() {
     if (_isPause) {
       return ElevatedButton(
@@ -294,7 +309,7 @@ class _BreatheClassState extends State<BreatheClass> {
         onPressed: () {
           setState(() {
             _isPause = false;
-            _controllerTimer.restart();
+            _controllerTimer.start();
             contador = 0;
           });
         },
