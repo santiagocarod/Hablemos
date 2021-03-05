@@ -3,6 +3,7 @@ import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../constants.dart';
 import '../ux/atoms.dart';
 
 class LoginPage extends StatelessWidget {
@@ -62,12 +63,13 @@ Widget _centerLogin(BuildContext context) {
         iconButtonBigBloc("Iniciar Sesión", () {
           print('${bloc.email} : ${bloc.password}');
           AuthService authService = new AuthService();
-          Future<User> user = authService.logIn(bloc.email, bloc.password);
+          Future<String> user = authService.logIn(bloc.email, bloc.password);
           user.then((value) {
-            if (value != null) {
-              Navigator.pushNamed(context, 'inicio');
+            print("RETORNO" + value);
+            if (value[0] == "[") {
+              showAlertDialog(context);
             } else {
-              print("Usuario y/o Contraseña erroneos");
+              Navigator.pushNamed(context, 'inicio');
             }
           });
         }, Icons.login, Colors.yellow[700], bloc),
@@ -80,5 +82,32 @@ Widget _centerLogin(BuildContext context) {
         textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
       ],
     ),
+  );
+}
+
+showAlertDialog(BuildContext context) {
+  Widget okButton = FloatingActionButton(
+    child: Text("OK"),
+    backgroundColor: kMostaza,
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Hubo un error\nRevisa tu Usuario y Contraseña"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
   );
 }
