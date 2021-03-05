@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../constants.dart';
 import '../ux/atoms.dart';
