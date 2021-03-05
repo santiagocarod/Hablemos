@@ -4,7 +4,6 @@ import 'constants.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
 
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
