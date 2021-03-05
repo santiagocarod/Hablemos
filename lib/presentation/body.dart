@@ -19,13 +19,13 @@ class Body extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Stack(
         children: <Widget>[
-          Image(
-            height: size.height + size.height / 2,
-            width: size.width,
-            image: AssetImage("assets/images/pantallaInicio.png"),
-            fit: BoxFit.cover,
-          ),
           Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/pantallaInicio.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Column(
               children: <Widget>[
                 EncabezadoHablemos(
@@ -47,7 +47,7 @@ class Body extends StatelessWidget {
                       size: size,
                       titulo1: "Citas",
                       titulo2: "Quiero un Momento",
-                      titulo3: "Que hay \n pa hacer",
+                      titulo3: "¿Qué hay \n pa' hacer?",
                       titulo4: "Mi Cuenta",
                     ),
                   ],
@@ -75,7 +75,7 @@ class Espacio extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(),
           )
         ],

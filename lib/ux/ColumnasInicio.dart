@@ -19,6 +19,7 @@ class ColumnasInicio extends StatelessWidget {
   _showExtraScreen(context) {
     showModalBottomSheet(
         context: context,
+        backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
             height: 150,
@@ -41,35 +42,47 @@ class ColumnasInicio extends StatelessWidget {
                         onTap: () {},
                         child: Hero(
                           tag: heroForo,
-                          child: Container(
-                              width: 140,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: kBlanco,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(40)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0, 0),
-                                      blurRadius: 5,
-                                      color: Colors.grey.withOpacity(0.5)),
-                                ],
-                              ),
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      padding: EdgeInsets.only(top: 3),
-                                      child: Icon(
-                                        Icons.sms_outlined,
-                                        size: 75,
-                                        color: kAzulOscuro,
-                                      ),
-                                    ),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 140,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: kBlanco,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: Offset(0, 0),
+                                        blurRadius: 5,
+                                        color: Colors.grey.withOpacity(0.5)),
                                   ],
                                 ),
-                              )),
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.only(top: 3),
+                                        child: Icon(
+                                          Icons.sms_outlined,
+                                          size: 75,
+                                          color: kAzulOscuro,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  'Foro',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       //Construye Boton Informacion Salud Mental
@@ -77,60 +90,46 @@ class ColumnasInicio extends StatelessWidget {
                         onTap: () {},
                         child: Hero(
                           tag: heroSaludMental,
-                          child: Container(
-                            width: 140,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: kBlanco,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(40)),
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(0, 0),
-                                    blurRadius: 5,
-                                    color: Colors.grey.withOpacity(0.5)),
-                              ],
-                            ),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Icon(
-                                      Icons.monitor,
-                                      size: 75,
-                                      color: kAzulOscuro,
-                                    ),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 140,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: kBlanco,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: Offset(0, 0),
+                                        blurRadius: 5,
+                                        color: Colors.grey.withOpacity(0.5)),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Icon(
+                                          Icons.monitor,
+                                          size: 75,
+                                          color: kAzulOscuro,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                child: Text(
+                                  'Salud Mental',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(fontSize: 18),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.tight,
-                        child: Text(
-                          'Foro',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(fontSize: 18),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.tight,
-                        child: Text(
-                          'Salud Mental',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(fontSize: 18),
                         ),
                       ),
                     ],
