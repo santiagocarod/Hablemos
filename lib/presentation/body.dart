@@ -19,8 +19,13 @@ class Body extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Stack(
         children: <Widget>[
-          _background(context, size),
           Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/pantallaInicio.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Column(
               children: <Widget>[
                 EncabezadoHablemos(
@@ -54,15 +59,6 @@ class Body extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _background(BuildContext context, Size size) {
-  return Image(
-    height: size.height * 1.2,
-    width: size.width,
-    image: AssetImage("assets/images/pantallaInicio.png"),
-    fit: BoxFit.cover,
-  );
 }
 
 class Espacio extends StatelessWidget {

@@ -15,6 +15,7 @@ class PantallaInicio extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: buildAppBar(size),
+        backgroundColor: Colors.transparent,
         body: Body(
           size: size,
           username: paciente.nombre,
