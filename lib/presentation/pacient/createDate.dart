@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
@@ -13,20 +12,35 @@ class CreateDate extends StatefulWidget {
 
 class _CreateDate extends State<CreateDate> {
   // Provisional list of professionals
-  String profesional = ProfesionalesProvider.getProfesional().nombre +
-      " " +
-      ProfesionalesProvider.getProfesional().apellido;
-  var professionals = List<String>.filled(
-      5,
-      ProfesionalesProvider.getProfesional().nombre +
-          " " +
-          ProfesionalesProvider.getProfesional().apellido);
+  List<String> professionals = [
+    ProfesionalesProvider.getProfesional().nombre +
+        ' ' +
+        ProfesionalesProvider.getProfesional().apellido +
+        ' 1',
+    ProfesionalesProvider.getProfesional().nombre +
+        ' ' +
+        ProfesionalesProvider.getProfesional().apellido +
+        ' 2',
+    ProfesionalesProvider.getProfesional().nombre +
+        ' ' +
+        ProfesionalesProvider.getProfesional().apellido +
+        ' 3',
+    ProfesionalesProvider.getProfesional().nombre +
+        ' ' +
+        ProfesionalesProvider.getProfesional().apellido +
+        ' 4',
+    ProfesionalesProvider.getProfesional().nombre +
+        ' ' +
+        ProfesionalesProvider.getProfesional().apellido +
+        ' 5'
+  ];
   // Provisional List of types
-  var types = List<String>.filled(5, "Tipo");
+  List<String> types = ['Tipo 1', 'Tipo 2', 'Tipo 3', 'Tipo 4', 'Tipo 5'];
+  // Text Controllers
   TextEditingController _inputFieldDateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();
-  TextEditingController _profController = new TextEditingController();
-  TextEditingController _typeController = new TextEditingController();
+  String _profController;
+  String _typeController;
 
   String textDate, textHour, textProf, textType;
   String _date = '', _hour = '';
@@ -38,7 +52,6 @@ class _CreateDate extends State<CreateDate> {
 
     // Validates if it is update or creation
     if (cita != null) {
-      print("Entre Actualizar");
       textDate = cita.dateTime.day.toString() +
           '/' +
           cita.dateTime.month.toString() +
@@ -48,7 +61,6 @@ class _CreateDate extends State<CreateDate> {
       textProf = cita.uidProfesional;
       textType = cita.tipo;
     } else if (cita == null) {
-      print("Entre Crear");
       textDate = "Fecha";
       textHour = "Hora";
       textProf = "Profesional";
@@ -56,6 +68,7 @@ class _CreateDate extends State<CreateDate> {
     }
     Size size = MediaQuery.of(context).size;
 
+    // Screen
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -197,32 +210,56 @@ class _CreateDate extends State<CreateDate> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Text Field
-          TextField(
-            controller: _profController,
-            enableInteractiveSelection: false,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.list,
-                color: Colors.black,
-                size: 48,
+          Row(
+            children: <Widget>[
+              // Icon
+              SizedBox(
+                width: 48,
+                height: 48,
+                child: Icon(
+                  Icons.list,
+                  color: Colors.black,
+                  size: 48,
+                ),
               ),
-              contentPadding: EdgeInsets.only(right: 48.0, top: 20.0),
-              hintText: textProf,
-              hintStyle: TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-                fontFamily: 'PoppinRegular',
+              // Scroll List
+              SizedBox(
+                width: size.width - 88,
+                height: 42,
+                child: DropdownButton(
+                  isExpanded: true,
+                  hint: Center(
+                      child: Text(
+                    textProf,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontFamily: 'PoppinRegular',
+                    ),
+                  )),
+                  value: _profController,
+                  items: professionals.map((prof) {
+                    return DropdownMenuItem<String>(
+                      child: Center(child: Text(prof)),
+                      value: prof,
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _profController = value;
+                    });
+                  },
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    fontFamily: 'PoppinRegular',
+                  ),
+                ),
               ),
-            ),
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-              _selectProfessional(context);
-            },
+            ],
           ),
           // Space
-          SizedBox(height: 20.0),
+          SizedBox(height: 15.0),
           // Button Professionals
           SizedBox(
             width: 176,
@@ -255,61 +292,58 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Scroll Picker Professionals
-  _selectProfessional(BuildContext context) {
-    return showMaterialScrollPicker(
-      context: context,
-      title: "Profesionales",
-      items: professionals,
-      selectedItem: profesional,
-      showDivider: false,
-      onChanged: (value) => setState(() {
-        _profController.text = value.toString();
-      }),
-    );
-  }
-
 // Type Text Field
   Widget _dateType(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-      child: TextField(
-        controller: _typeController,
-        enableInteractiveSelection: false,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(right: 48.0, top: 20.0),
-          prefixIcon: Icon(
-            Icons.list,
-            color: Colors.black,
-            size: 48,
+      child: Row(
+        children: <Widget>[
+          // Icon
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: Icon(
+              Icons.list,
+              color: Colors.black,
+              size: 48,
+            ),
           ),
-          hintText: textType,
-          hintStyle: TextStyle(
-            fontSize: 18.0,
-            color: Colors.black,
-            fontFamily: 'PoppinRegular',
+          // Scroll List
+          SizedBox(
+            width: size.width - 88,
+            height: 42,
+            child: DropdownButton(
+              isExpanded: true,
+              hint: Center(
+                  child: Text(
+                textType,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                  fontFamily: 'PoppinRegular',
+                ),
+              )),
+              value: _typeController,
+              items: types.map((type) {
+                return DropdownMenuItem<String>(
+                  child: Center(child: Text(type)),
+                  value: type,
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _typeController = value;
+                });
+              },
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+                fontFamily: 'PoppinRegular',
+              ),
+            ),
           ),
-        ),
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-          _selectType(context);
-        },
+        ],
       ),
-    );
-  }
-
-// Scroll Picker Types
-  _selectType(BuildContext context) {
-    return showMaterialScrollPicker(
-      context: context,
-      title: "Tipos de Cita",
-      items: types,
-      selectedItem: types[0],
-      showDivider: false,
-      onChanged: (value) => setState(() {
-        _typeController.text = value.toString();
-      }),
     );
   }
 
@@ -351,17 +385,17 @@ class _CreateDate extends State<CreateDate> {
               // Validate if any text field is empty
               if (_inputFieldDateController.text.isNotEmpty &&
                   _timeController.text.isNotEmpty &&
-                  _profController.text.isNotEmpty &&
-                  _typeController.text.isNotEmpty) {
+                  _profController.isNotEmpty &&
+                  _typeController.isNotEmpty) {
                 DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
                     _inputFieldDateController.text +
                         ' ' +
                         _timeController.text);
                 cita = new Cita(
                   uidPaciente: username,
-                  uidProfesional: _profController.text,
+                  uidProfesional: _profController,
                   dateTime: date,
-                  tipo: _typeController.text,
+                  tipo: _typeController,
                 );
                 title = 'Cita Creada';
                 content =
@@ -388,12 +422,13 @@ class _CreateDate extends State<CreateDate> {
               if (_inputFieldDateController.text.isEmpty)
                 _inputFieldDateController.text = textDate;
               if (_timeController.text.isEmpty) _timeController.text = textHour;
-              if (_profController.text.isEmpty) _profController.text = textProf;
-              if (_typeController.text.isEmpty) _typeController.text = textType;
+              if (_profController == null) _profController = textProf;
+              if (_typeController == null) _typeController = textType;
               DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
                   _inputFieldDateController.text + ' ' + _timeController.text);
-              cita.uidProfesional = _profController.text;
+              cita.uidProfesional = _profController;
               cita.dateTime = date;
+              cita.tipo = _typeController;
               title = 'Cita Actualizada';
               content =
                   "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
