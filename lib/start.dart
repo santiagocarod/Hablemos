@@ -72,7 +72,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kRojoOscuro,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -80,7 +81,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kRosado,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -88,7 +90,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kAmarillo,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -96,7 +99,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kAzulClaro,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -104,7 +108,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kRojoOscuro,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -112,7 +117,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kRosado,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -120,7 +126,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kAmarillo,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           Container(
               child: Text(
@@ -128,7 +135,8 @@ Widget _letras(BuildContext context, Size size) {
             style: Theme.of(context).textTheme.headline3.copyWith(
                 color: kAzulClaro,
                 fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.15),
+                fontSize: size.width * 0.15,
+                fontFamily: 'RalewayExtraBold'),
           )),
           SizedBox(width: 20.0),
         ],

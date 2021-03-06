@@ -65,7 +65,7 @@ class ColumnasInicio extends StatelessWidget {
                                         alignment: Alignment.center,
                                         padding: EdgeInsets.only(top: 3),
                                         child: Icon(
-                                          Icons.sms_outlined,
+                                          Icons.comment_bank_outlined,
                                           size: 75,
                                           color: kAzulOscuro,
                                         ),
@@ -197,7 +197,7 @@ class ColumnasInicio extends StatelessWidget {
                 Positioned(
                   child: Center(
                     child: Icon(
-                      Icons.perm_phone_msg_outlined,
+                      Icons.perm_phone_msg_rounded,
                       size: 85,
                       color: kRojoOscuro,
                     ),
@@ -240,7 +240,7 @@ class ColumnasInicio extends StatelessWidget {
                       children: [
                         Container(
                           child: Icon(
-                            Icons.sms_outlined,
+                            Icons.message_rounded,
                             size: 75,
                             color: kAguaMarina,
                           ),
@@ -293,7 +293,7 @@ class ColumnasInicio extends StatelessWidget {
                         children: [
                           Container(
                             child: Icon(
-                              Icons.send_outlined,
+                              Icons.send_rounded,
                               size: 75,
                               color: kMostaza,
                             ),
@@ -347,7 +347,7 @@ class ColumnasInicio extends StatelessWidget {
                         children: [
                           Container(
                             child: Icon(
-                              Icons.smartphone_outlined,
+                              Icons.smartphone_rounded,
                               color: kAmarillo,
                               size: 100,
                             ),

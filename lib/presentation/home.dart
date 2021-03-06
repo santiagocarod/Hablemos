@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
+import '../ux/Encabezado.dart';
 
 // Screen of user that wants to register or login ==============================
 class HomeScreen extends StatelessWidget {
@@ -6,9 +8,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: _appBar(context, size),
-      body: _content(context, size),
+      body: Stack(
+        children: <Widget>[
+          _background(context, size),
+          _content(context, size),
+        ],
+      ),
     );
   }
 }
@@ -25,361 +33,359 @@ Widget _appBar(BuildContext context, Size size) {
           bottomRight: const Radius.circular(100.0),
         ),
       ),
-      flexibleSpace: Image(
-        fit: BoxFit.none,
-        height: size.height,
-        width: size.width,
-        image: AssetImage("assets/images/appBar.png"),
+      flexibleSpace: Column(
+        children: [
+          SizedBox(height: 30.0),
+          EncabezadoHablemos(
+            size: size,
+            text1: "",
+          ),
+        ],
       ),
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: kAzulPrincipal,
     ),
   );
 }
 
 // Body of the screen ==================================================
 Widget _content(BuildContext context, Size size) {
-  return SingleChildScrollView(
-    child: Stack(
-      children: <Widget>[
-        _background(context, size),
-        _button7(context, size),
-        _button8(context, size),
-        Column(
-          children: <Widget>[
-            _button1(context, size),
-            _button2(context, size),
-            _button3(context, size),
-            _button4(context, size),
-            _button5(context, size),
-            _button6(context, size),
-          ],
-        ),
-      ],
+  return Container(
+    padding: EdgeInsets.only(top: 180.0),
+    alignment: Alignment.center,
+    child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Stack(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  _button1(context, size),
+                  _button3(context, size),
+                  _button6(context, size),
+                  _button7(context, size),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  _button2(context, size),
+                  _button4(context, size),
+                  _button5(context, size),
+                  _button8(context, size),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }
 
 // Background image ================================================
 Widget _background(BuildContext context, Size size) {
-  return Image(
+  return Image.asset(
+    "assets/images/pantallaInicio.png",
+    alignment: Alignment.center,
     height: size.height,
     width: size.width,
-    image: AssetImage("assets/images/background.png"),
-    fit: BoxFit.cover,
+    fit: BoxFit.fill,
   );
 }
 
 // Button of "Necesito Ayuda" ======================================
 Widget _button1(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) - 163.0, 235.1),
-    child: SizedBox(
-      width: 146.0,
-      height: 196.0,
-      child: FloatingActionButton(
-        heroTag: 'btn1',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.perm_phone_msg_rounded,
-              size: 100,
-              color: const Color(0xffe45865),
+  return Container(
+    width: 146.0,
+    height: 196.0,
+    child: FloatingActionButton(
+      heroTag: 'btn1',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.perm_phone_msg_rounded,
+            size: 100,
+            color: const Color(0xffe45865),
+          ),
+          Text(
+            "Necesito \nAyuda",
+            style: TextStyle(
+              fontSize: 18,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Necesito \nAyuda",
-              style: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.pushNamed(context, 'centrosayuda');
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        Navigator.pushNamed(context, 'centrosayuda');
+      },
     ),
   );
 }
 
 // Button of "Qué hay pa hacer" ====================================
 Widget _button2(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) + 20.0, 38.0),
-    child: SizedBox(
-      width: 146.0,
-      height: 140.0,
-      child: FloatingActionButton(
-        heroTag: 'btn2',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.people_alt_rounded,
-              size: 78.67,
-              color: const Color(0xffC08EF2),
+  return Container(
+    width: 146.0,
+    height: 128.0,
+    child: FloatingActionButton(
+      heroTag: 'btn2',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.people_alt_rounded,
+            size: 78.67,
+            color: const Color(0xffC08EF2),
+          ),
+          Text(
+            "Qué hay \npa´ hacer",
+            style: TextStyle(
+              fontSize: 17,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Qué hay \npa´ hacer",
-              style: TextStyle(
-                fontSize: 17,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // Navigator.pushNamed(context, 'eventos');
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        // Navigator.pushNamed(context, 'eventos');
+      },
     ),
   );
 }
 
 // Button of "Cartas" ==============================================
 Widget _button3(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) - 163.0, 112.24),
-    child: SizedBox(
-      width: 146.0,
-      height: 128.0,
-      child: FloatingActionButton(
-        heroTag: 'btn3',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.send_rounded,
-              size: 63.68,
-              color: const Color(0xffFCD06B),
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: 146.0,
+    height: 128.0,
+    child: FloatingActionButton(
+      heroTag: 'btn3',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.send_rounded,
+            size: 63.68,
+            color: const Color(0xffFCD06B),
+          ),
+          Text(
+            "Cartas",
+            style: TextStyle(
+              fontSize: 18,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Cartas",
-              style: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // Navigator.pushNamed(context, 'cartas');
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        // Navigator.pushNamed(context, 'cartas');
+      },
     ),
   );
 }
 
 // Button of "Quiero un momento" ===================================
 Widget _button4(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) + 20.0, -78.0),
-    child: SizedBox(
-      width: 146.0,
-      height: 193.0,
-      child: FloatingActionButton(
-        heroTag: 'btn4',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.favorite_border_rounded,
-              size: 84.04,
-              color: const Color(0xffA5DF6E),
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: 146.0,
+    height: 193.0,
+    child: FloatingActionButton(
+      heroTag: 'btn4',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.favorite_border_rounded,
+            size: 84.04,
+            color: const Color(0xffA5DF6E),
+          ),
+          Text(
+            "Quiero un \nmomento",
+            style: TextStyle(
+              fontSize: 18,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Quiero un \nmomento",
-              style: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // Navigator.pushNamed(context, 'actividades');
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        // Navigator.pushNamed(context, 'actividades');
+      },
     ),
   );
 }
 
 // Button of "Redes" ===============================================
 Widget _button5(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) + 20.0, -58.0),
-    child: SizedBox(
-      width: 146.0,
-      height: 128.0,
-      child: FloatingActionButton(
-        heroTag: 'btn5',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.tablet_mac_rounded,
-              size: 75.0,
-              color: const Color(0xffFFD4C4),
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: 146.0,
+    height: 128.0,
+    child: FloatingActionButton(
+      heroTag: 'btn5',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.tablet_mac_rounded,
+            size: 75.0,
+            color: const Color(0xffFFD4C4),
+          ),
+          Text(
+            "Redes",
+            style: TextStyle(
+              fontSize: 20,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Redes",
-              style: TextStyle(
-                fontSize: 20,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // Navigator.pushNamed(context, 'redes');
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        // Navigator.pushNamed(context, 'redes');
+      },
     ),
   );
 }
 
 // Button of "Información" =========================================
 Widget _button6(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset((size.width / 2) - 160.0, -185.24),
-    child: SizedBox(
-      width: 146.0,
-      height: 128.0,
-      child: FloatingActionButton(
-        heroTag: 'btn6',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.message_rounded,
-              size: 85.67,
-              color: const Color(0xff46D4E1),
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: 146.0,
+    height: 128.0,
+    child: FloatingActionButton(
+      heroTag: 'btn6',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.message_rounded,
+            size: 85.67,
+            color: const Color(0xff46D4E1),
+          ),
+          Text(
+            "Información",
+            style: TextStyle(
+              fontSize: 20,
+              color: const Color(0xff302b2b),
+              height: 1.1111111111111112,
+              fontFamily: 'PoppinsRegular',
             ),
-            Text(
-              "Información",
-              style: TextStyle(
-                fontSize: 20,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
-        ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          _settingBottomSheet(context);
-        },
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(17.0),
+      ),
+      backgroundColor: Colors.white,
+      onPressed: () {
+        _settingBottomSheet(context);
+      },
     ),
   );
 }
 
 // Button of "Iniciar Sesión" ======================================
 Widget _button7(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset(0.0, (size.height / 2) + 360.0),
-    child: SizedBox(
-      width: 206.0,
-      height: 77.0,
-      child: FloatingActionButton(
-        heroTag: 'btn7',
-        child: Text(
-          "Iniciar Sesión",
-          style: TextStyle(
-            fontSize: 22,
-            color: const Color(0xffE45865),
-            height: 1.1111111111111112,
-            fontFamily: 'PoppinsRegular',
-          ),
-          textAlign: TextAlign.center,
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: size.width / 2,
+    height: 77.0,
+    child: FloatingActionButton(
+      heroTag: 'btn7',
+      child: Text(
+        "Iniciar Sesión",
+        style: TextStyle(
+          fontSize: 22,
+          color: const Color(0xffE45865),
+          height: 1.1111111111111112,
+          fontFamily: 'PoppinsRegular',
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        backgroundColor: const Color(0xffFCD06B),
-        onPressed: () {
-          Navigator.pushNamed(context, 'login');
-        },
+        textAlign: TextAlign.center,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      backgroundColor: const Color(0xffFCD06B),
+      onPressed: () {
+        Navigator.pushNamed(context, 'login');
+      },
     ),
   );
 }
 
 // Button of "Registrarme" =========================================
 Widget _button8(BuildContext context, Size size) {
-  return Transform.translate(
-    offset: Offset(206.0, (size.height / 2) + 360.0),
-    child: SizedBox(
-      width: 206.0,
-      height: 77.0,
-      child: FloatingActionButton(
-        heroTag: 'btn8',
-        child: Text(
-          "Registrarme",
-          style: TextStyle(
-            fontSize: 22,
-            color: const Color(0xff202830),
-            height: 1.1111111111111112,
-            fontFamily: 'PoppinsRegular',
-          ),
-          textAlign: TextAlign.center,
+  return Container(
+    padding: EdgeInsets.only(top: 20.0),
+    width: size.width / 2,
+    height: 77.0,
+    child: FloatingActionButton(
+      heroTag: 'btn8',
+      child: Text(
+        "Registrarme",
+        style: TextStyle(
+          fontSize: 22,
+          color: const Color(0xff202830),
+          height: 1.1111111111111112,
+          fontFamily: 'PoppinsRegular',
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        backgroundColor: const Color(0xffFCD06B),
-        onPressed: () {
-          Navigator.pushNamed(context, 'registro');
-        },
+        textAlign: TextAlign.center,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      backgroundColor: const Color(0xffFCD06B),
+      onPressed: () {
+        Navigator.pushNamed(context, 'registro');
+      },
     ),
   );
 }
@@ -391,7 +397,7 @@ void _settingBottomSheet(context) {
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
         return Container(
-          height: 141,
+          height: 141.44,
           child: _buildItems(context),
         );
       });
@@ -420,7 +426,7 @@ Widget _buildItems(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            Container(
               width: 140.75,
               height: 80.67,
               child: FloatingActionButton(
@@ -456,7 +462,7 @@ Widget _buildItems(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            Container(
               width: 140.75,
               height: 80.67,
               child: FloatingActionButton(

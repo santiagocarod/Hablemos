@@ -74,7 +74,7 @@ class ColumnaDos extends StatelessWidget {
                 ),
                 Positioned(
                   child: Icon(
-                    Icons.calendar_today_outlined,
+                    Icons.calendar_today_rounded,
                     size: 70,
                     color: kRojoOscuro,
                   ),
@@ -118,7 +118,7 @@ class ColumnaDos extends StatelessWidget {
                             children: <Widget>[
                               Container(
                                 child: Icon(
-                                  Icons.favorite_border_outlined,
+                                  Icons.favorite_border_rounded,
                                   size: 80,
                                   color: kVerdeClaro,
                                 ),
@@ -175,7 +175,7 @@ class ColumnaDos extends StatelessWidget {
                         children: [
                           Container(
                             child: Icon(
-                              Icons.people_outline_outlined,
+                              Icons.people_alt_rounded,
                               size: 70,
                               color: kMorado,
                             ),
@@ -230,7 +230,7 @@ class ColumnaDos extends StatelessWidget {
                         children: [
                           Container(
                             child: Icon(
-                              Icons.account_circle_outlined,
+                              Icons.account_circle_rounded,
                               size: 70,
                               color: kMostaza,
                             ),
