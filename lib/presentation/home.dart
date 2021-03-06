@@ -48,7 +48,7 @@ Widget _appBar(BuildContext context, Size size) {
 // Body of the screen ==================================================
 Widget _content(BuildContext context, Size size) {
   return Container(
-    padding: EdgeInsets.only(top: 180.0),
+    padding: EdgeInsets.only(top: 150.0),
     alignment: Alignment.center,
     child: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -57,6 +57,7 @@ Widget _content(BuildContext context, Size size) {
           Row(
             children: <Widget>[
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _button1(context, size),
                   _button3(context, size),
@@ -65,6 +66,7 @@ Widget _content(BuildContext context, Size size) {
                 ],
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _button2(context, size),
                   _button4(context, size),
