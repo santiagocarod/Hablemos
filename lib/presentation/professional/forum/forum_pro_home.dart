@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/ux/shape_appbar_border.dart';
 
 class ForumProfesianalHome extends StatelessWidget {
   @override
@@ -16,10 +15,37 @@ class ForumProfesianalHome extends StatelessWidget {
             height: size.height,
             width: size.width,
             child: Center(
-              child: Text('Cuerpo foros'),
+              child: bodyForos(size),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget bodyForos(Size size) {
+    return Padding(
+      padding: EdgeInsets.only(top: size.height * 0.3),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(width: size.width),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Tus publicaciones'),
+                ),
+              ),
+            ),
+            SizedBox(height: 30.0),
+            Text('Hola'),
+          ],
+        ),
       ),
     );
   }
