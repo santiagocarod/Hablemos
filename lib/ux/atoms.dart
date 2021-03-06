@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/model/foro.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
@@ -250,6 +252,70 @@ Widget crearForosUpper(Size size) {
           color: Colors.transparent,
         ),
       ],
+    ),
+  );
+}
+
+Widget boxesListForo(
+    BuildContext context, Size size, List<Foro> listadoForos, int numero) {
+  return Expanded(
+    child: ListView.builder(
+      itemCount: 5,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 40.0),
+          height: 200,
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    '${listadoForos[numero + index].titulo}',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    '${listadoForos[numero + index].descripcion}',
+                    style: TextStyle(fontSize: 20),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                ],
+              ),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.only(
+                bottomStart: Radius.circular(30.0),
+                bottomEnd: Radius.circular(30.0),
+                topStart: Radius.circular(30.0),
+                topEnd: Radius.circular(30.0),
+              ),
+              color: listColoresForo[index % listColoresForo.length],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 10.0,
+                  spreadRadius: 0.0,
+                  offset: Offset(0.0, 2.0),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     ),
   );
 }

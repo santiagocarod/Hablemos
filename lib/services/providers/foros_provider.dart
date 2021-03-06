@@ -8,9 +8,11 @@ class ForoProvider {
 
     List<Tema> temas = TemaProvider.getTema();
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 15; i++) {
       String titulo = 'Foro # $i';
-      Foro f = new Foro(titulo: titulo, temas: temas);
+      String descripcion =
+          'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC';
+      Foro f = new Foro(titulo: titulo, temas: temas, descripcion: descripcion);
       foros.add(f);
     }
 
