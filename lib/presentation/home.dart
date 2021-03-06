@@ -35,7 +35,6 @@ Widget _appBar(BuildContext context, Size size) {
       ),
       flexibleSpace: Column(
         children: [
-          SizedBox(height: 30.0, width: size.width),
           EncabezadoHablemos(
             size: size,
             text1: "",
@@ -217,7 +216,7 @@ Widget _button4(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 20.0),
     width: 146.0,
-    height: 193.0,
+    height: 196.0,
     child: FloatingActionButton(
       heroTag: 'btn4',
       child: Column(
