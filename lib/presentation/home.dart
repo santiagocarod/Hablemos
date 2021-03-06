@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
 // Header of screen, image with title ==================================
 Widget _appBar(BuildContext context, Size size) {
   return AppBar(
-    toolbarHeight: size.height * 0.25,
+    toolbarHeight: size.height * 0.18,
     leading: Container(),
     shape: ContinuousRectangleBorder(
       borderRadius: BorderRadius.only(
