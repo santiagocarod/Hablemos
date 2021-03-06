@@ -23,27 +23,25 @@ class HomeScreen extends StatelessWidget {
 
 // Header of screen, image with title ==================================
 Widget _appBar(BuildContext context, Size size) {
-  return PreferredSize(
-    preferredSize: Size.fromHeight(165.0),
-    child: AppBar(
-      leading: Container(),
-      shape: ContinuousRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: const Radius.circular(100.0),
-          bottomRight: const Radius.circular(100.0),
-        ),
+  return AppBar(
+    toolbarHeight: size.height * 0.25,
+    leading: Container(),
+    shape: ContinuousRectangleBorder(
+      borderRadius: BorderRadius.only(
+        bottomLeft: const Radius.circular(100.0),
+        bottomRight: const Radius.circular(100.0),
       ),
-      flexibleSpace: Column(
-        children: [
-          EncabezadoHablemos(
-            size: size,
-            text1: "",
-          ),
-        ],
-      ),
-      elevation: 0,
-      backgroundColor: kAzulPrincipal,
     ),
+    flexibleSpace: Column(
+      children: [
+        EncabezadoHablemos(
+          size: size,
+          text1: "",
+        ),
+      ],
+    ),
+    elevation: 0,
+    backgroundColor: kAzulPrincipal,
   );
 }
 
