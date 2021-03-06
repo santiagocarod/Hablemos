@@ -20,8 +20,8 @@ class EncabezadoHablemos extends StatelessWidget {
       decoration: BoxDecoration(
           color: kAzulPrincipal,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(57),
-            bottomRight: Radius.circular(57),
+            bottomLeft: Radius.circular(100),
+            bottomRight: Radius.circular(100),
           )),
       child: Stack(
         children: <Widget>[
