@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/ux/shape_appbar_border.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -209,6 +210,44 @@ Widget secction({String title, String text}) {
               ),
             ),
           ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget crearForosUpper(Size size) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
+          child: Container(
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.13),
+                Icon(
+                  Icons.forum,
+                  size: 50,
+                ),
+                Text(
+                  'Foros',
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          color: Colors.transparent,
         ),
       ],
     ),
