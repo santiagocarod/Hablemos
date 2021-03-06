@@ -35,7 +35,7 @@ Widget _appBar(BuildContext context, Size size) {
       ),
       flexibleSpace: Column(
         children: [
-          SizedBox(height: 30.0),
+          SizedBox(height: 30.0, width: size.width),
           EncabezadoHablemos(
             size: size,
             text1: "",
