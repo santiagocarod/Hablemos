@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/foro.dart';
 import 'package:hablemos/services/providers/foros_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
-class ForumProfesianalHome extends StatefulWidget {
+class ForumProPublicaciones extends StatefulWidget {
   @override
-  _ForumProfesianalHomeState createState() => _ForumProfesianalHomeState();
+  _ForumProPublicacionesState createState() => _ForumProPublicacionesState();
 }
 
-class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
+class _ForumProPublicacionesState extends State<ForumProPublicaciones> {
   int actual;
   int paginaActual;
 
@@ -28,7 +27,7 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.forum),
+          crearForosUpper(size, 'Tus Publicaciones', null),
           bodyForos(context, size),
         ],
       ),
@@ -45,37 +44,6 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(width: size.width),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'ForosTusPublicaciones');
-                },
-                child: Text(
-                  'Tus publicaciones',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      return grisSuave;
-                    },
-                  ),
-                  shape:
-                      MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
-                    (Set<MaterialState> states) {
-                      return RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0));
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
           SizedBox(height: 15.0),
           boxesListForo(context, size, foros, actual),
           Container(

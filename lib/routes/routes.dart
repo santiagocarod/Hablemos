@@ -4,6 +4,7 @@ import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
+import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/list_citas_pro.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
@@ -31,5 +32,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
     'ForosProfesionalHome': (context) => ForumProfesianalHome(),
+    'ForosTusPublicaciones': (context) => ForumProPublicaciones(),
   };
 }

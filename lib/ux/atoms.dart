@@ -218,7 +218,7 @@ Widget secction({String title, String text}) {
   );
 }
 
-Widget crearForosUpper(Size size) {
+Widget crearForosUpper(Size size, String text, IconData icono) {
   return Container(
     height: size.height,
     width: size.width,
@@ -239,11 +239,11 @@ Widget crearForosUpper(Size size) {
               children: <Widget>[
                 SizedBox(height: size.height * 0.13),
                 Icon(
-                  Icons.forum,
+                  icono,
                   size: 50,
                 ),
                 Text(
-                  'Foros',
+                  text,
                   style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
                 ),
               ],
