@@ -75,7 +75,7 @@ Widget _boxInfo(
         ),
         child: Column(
           children: <Widget>[
-            _name(context, profesional),
+            _name(context, profesional, cita),
             secction(title: 'Hora:', text: hour),
             secction(title: 'Fecha:', text: date),
             secction(title: 'Costo', text: pay),
@@ -94,7 +94,7 @@ Widget _boxInfo(
 }
 
 // Name of the professional and edit button
-Widget _name(BuildContext context, Profesional profesional) {
+Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   final String text = profesional.nombre + " " + profesional.apellido;
   return Container(
     width: 359.0,
@@ -105,9 +105,10 @@ Widget _name(BuildContext context, Profesional profesional) {
           alignment: Alignment.center,
           child: Icon(Icons.location_on),
         ),
+        // Edit Button
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, 'detalleProfesional');
+            Navigator.pushNamed(context, 'CrearCita', arguments: cita);
           },
           child: Container(
               alignment: Alignment.centerRight,
