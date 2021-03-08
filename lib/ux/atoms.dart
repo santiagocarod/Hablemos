@@ -256,66 +256,36 @@ Widget crearForosUpper(Size size, String text, IconData icono) {
   );
 }
 
-Widget boxesListForo(
-    BuildContext context, Size size, List<Foro> listadoForos, int numero) {
-  return Expanded(
-    child: ListView.builder(
-      itemCount: 5,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 40.0),
-          height: 200,
-          color: Colors.transparent,
+Widget crearForosUpperNoIcon(Size size, String text) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    '${listadoForos[numero + index].titulo}',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    '${listadoForos[numero + index].descripcion}',
-                    style: TextStyle(fontSize: 20),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                ],
-              ),
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.only(
-                bottomStart: Radius.circular(30.0),
-                bottomEnd: Radius.circular(30.0),
-                topStart: Radius.circular(30.0),
-                topEnd: Radius.circular(30.0),
-              ),
-              color: listColoresForo[index % listColoresForo.length],
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 10.0,
-                  spreadRadius: 0.0,
-                  offset: Offset(0.0, 2.0),
-                )
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.10),
+                Text(
+                  text,
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           ),
-        );
-      },
+          color: Colors.transparent,
+        ),
+      ],
     ),
   );
 }
