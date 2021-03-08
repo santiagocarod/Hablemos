@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/foro.dart';
 import 'package:hablemos/model/tema.dart';
 import 'package:hablemos/services/providers/foros_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class InfoForumProfesional extends StatelessWidget {
-  Tema tema = ForoProvider.getForo()[0].temas[0];
+  final Tema tema = ForoProvider.getForo()[0].temas[0];
 
   @override
   Widget build(BuildContext context) {

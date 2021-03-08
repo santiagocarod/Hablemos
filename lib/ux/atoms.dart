@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/inh_widget.dart';
-import 'package:hablemos/model/foro.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
