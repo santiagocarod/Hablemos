@@ -61,6 +61,7 @@ class InfoForumProfesional extends StatelessWidget {
             height: 10.0,
           ),
           Container(
+            height: 20.0,
             color: Colors.amber,
             child: Center(
               child: Text('Respuestas'),
@@ -174,7 +175,10 @@ class InfoForumProfesional extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Icon(Icons.drag_handle_rounded),
+                GestureDetector(
+                  onTap: () {},
+                  child: Icon(Icons.drag_handle_rounded),
+                ),
               ],
             ),
           );
