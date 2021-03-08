@@ -5,7 +5,7 @@ import 'package:hablemos/services/providers/citas_provider.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/presentation/pacient/dateDetails.dart';
+import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:intl/intl.dart';
 
 class ListCitas extends StatelessWidget {
