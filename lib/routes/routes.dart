@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/pacient/letters/showLetter.dart';
 import 'package:hablemos/presentation/pacient/list_professional.dart';
 import 'package:hablemos/presentation/professional/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/list_citas_pro.dart';
@@ -12,6 +13,8 @@ import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/list_citas.dart';
 import 'package:hablemos/presentation/professional/verPagoPro.dart';
 import 'package:hablemos/presentation/pacient/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
+import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
@@ -29,5 +32,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasProfesional': (context) => ListCitasPro(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
+    'listaCartasPaciente': (context) => ListLetters(),
+    'agregarCarta': (context) => AddLetter(),
+    'verCarta': (context) => ShowLetter(),
   };
 }
