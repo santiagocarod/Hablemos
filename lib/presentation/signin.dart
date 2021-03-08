@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
+import 'package:hablemos/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../inh_widget.dart';
 
@@ -66,11 +68,20 @@ class _SignInPageState extends State<SignInPage> {
                         SizedBox(height: 20.0),
                         _crearEdad(context), //Input crear edad
                         SizedBox(height: 30.0),
-                        iconButtonBigBloc(
-                            "Crear Cuenta",
-                            () {},
-                            Icons.login,
-                            Colors.yellow[700],
+                        iconButtonBigBloc("Crear Cuenta", () {
+                          print(bloc.email);
+                          print(bloc.password);
+                          AuthService authService = new AuthService();
+                          Future<User> user =
+                              authService.signUp(bloc.email, bloc.password);
+                          user.then((value) {
+                            if (value != null) {
+                              Navigator.pushNamed(context, 'inicio');
+                            } else {
+                              print("Usuario y/o Contraseña erroneos");
+                            }
+                          });
+                        }, Icons.login, Colors.yellow[700],
                             bloc), //IconButton para el boton
                         SizedBox(height: 50.0),
                         textoFinalRojo(
