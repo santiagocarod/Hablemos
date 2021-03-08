@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/letters/showLetter.dart';
-import 'package:hablemos/presentation/pacient/list_professional.dart';
+import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
@@ -17,9 +17,10 @@ import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
 import '../presentation/signin.dart';
 import '../presentation/login.dart';
-import 'package:hablemos/presentation/pacient/list_citas.dart';
+import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
-import 'package:hablemos/presentation/pacient/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
 
@@ -37,6 +38,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'detalleCitasProfesional': (context) =>
         DetalleCitaPro(profesional: profesional),
     'citasProfesional': (context) => ListCitasPro(),
+    'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
     'cartasPrincipalProfesional': (context) => MainLettersPro(),
