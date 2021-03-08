@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.25.0
   intl: ^0.16.1
+  confetti: ^0.5.4+1
+  circular_countdown_timer: ^0.1.0
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:

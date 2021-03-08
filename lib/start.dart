@@ -1,40 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
 // Initial screen, shows only the start button (COMENZAR) ======================
 
-class StartFireBase extends StatelessWidget {
-  final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // Avoid the debug message
-      home: FutureBuilder(
-        future: _firebaseApp,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("Error: ${snapshot.error.toString()}");
-            return Text("Algo salio Mal");
-          } else if (snapshot.hasData) {
-            return Home();
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Stack(
       children: <Widget>[
         _background(context, size),
