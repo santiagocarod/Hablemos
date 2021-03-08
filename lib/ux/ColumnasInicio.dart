@@ -39,7 +39,9 @@ class ColumnasInicio extends StatelessWidget {
                     children: <Widget>[
                       //Construye Boton Foro
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, 'ForosProfesionalHome');
+                        },
                         child: Hero(
                           tag: heroForo,
                           child: Column(
@@ -263,7 +265,10 @@ class ColumnasInicio extends StatelessWidget {
           ),
           //Construye Boton Cartas
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              //TODO: Aplicar el Hero para la animación.
+              Navigator.pushNamed(context, "listaCartasPaciente");
+            },
             child: new Column(
               children: <Widget>[
                 Hero(

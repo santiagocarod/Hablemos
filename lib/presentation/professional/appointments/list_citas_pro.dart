@@ -6,7 +6,7 @@ import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class ListCitasPro extends StatelessWidget {
   final Profesional profesional = ProfesionalesProvider.getProfesional();

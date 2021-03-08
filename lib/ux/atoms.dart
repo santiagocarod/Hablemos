@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/ux/shape_appbar_border.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -123,6 +124,25 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
   );
 }
 
+Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    child: TextField(
+      keyboardType: TextInputType.multiline,
+      minLines: 20,
+      maxLines: 50,
+      decoration: InputDecoration(
+        icon: Icon(
+          icon,
+          color: Colors.yellow[700],
+        ),
+        hintText: hText,
+        labelText: lText,
+      ),
+    ),
+  );
+}
+
 Widget textoFinalRojo(String texto) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 30.0),
@@ -157,6 +177,24 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
         ),
       ),
     ],
+    title: Text(
+      texto,
+      style: TextStyle(
+          color: Colors.black, fontSize: 25.0, fontFamily: 'PoppinsRegular'),
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
+  );
+}
+
+AppBar crearAppBarAction(String texto, IconData icono, int constante,
+    Color color, IconData icon, Function function) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    actions: [IconButton(icon: Icon(icon), onPressed: () => function())],
     title: Text(
       texto,
       style: TextStyle(
@@ -209,6 +247,100 @@ Widget secction({String title, String text}) {
               ),
             ),
           ],
+        ),
+      ],
+    ),
+  ); //Boton como los de ejercicios queiro respirar, mindfulness, quiero meditar
+}
+
+Widget colorButton(
+    String texto, Function funcion, Color color, Size size, double radius) {
+  return Container(
+    width: size.width,
+    height: size.height * 0.15,
+    child: ElevatedButton(
+      onPressed: funcion,
+      child: Text(
+        texto,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontSize: 30.0),
+      ),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+          shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius))),
+          elevation: MaterialStateProperty.all<double>(5.0)),
+    ),
+  );
+}
+
+Widget crearForosUpper(Size size, String text, IconData icono) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
+          child: Container(
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.13),
+                Icon(
+                  icono,
+                  size: 50,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          color: Colors.transparent,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget crearForosUpperNoIcon(Size size, String text) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
+          child: Container(
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.10),
+                Text(
+                  text,
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          color: Colors.transparent,
         ),
       ],
     ),
