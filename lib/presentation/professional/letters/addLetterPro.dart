@@ -9,7 +9,7 @@ class AddLetterPro extends StatelessWidget {
   final TextEditingController contenidoCarta = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final List<Carta> cartas = CartaProvider.getCarta();
+    final List<Carta> cartas = CartaProvider.getCartas();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,

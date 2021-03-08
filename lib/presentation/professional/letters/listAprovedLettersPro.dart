@@ -11,7 +11,7 @@ class ListAprovedLettersPro extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Carta> cartas = ModalRoute.of(context).settings.arguments;
     if (ModalRoute.of(context).settings.arguments == null) {
-      cartas = CartaProvider.getCarta();
+      cartas = CartaProvider.getCartas();
     }
     Size size = MediaQuery.of(context).size;
     return Scaffold(

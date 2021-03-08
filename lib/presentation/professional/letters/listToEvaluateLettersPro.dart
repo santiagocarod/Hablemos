@@ -7,7 +7,7 @@ import 'package:hablemos/services/providers/cartas_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class ListToEvaluateLettersPro extends StatelessWidget {
-  final List<Carta> cartas = CartaProvider.getCarta();
+  final List<Carta> cartas = CartaProvider.getCartas();
 
   @override
   Widget build(BuildContext context) {
