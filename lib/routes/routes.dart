@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/user/exercises/breathe.dart';
+import 'package:hablemos/presentation/user/exercises/info.dart';
+import 'package:hablemos/presentation/user/exercises/meditation.dart';
+import 'package:hablemos/presentation/user/exercises/mindfulness.dart';
+import 'package:hablemos/presentation/user/exercises/options_breathe.dart';
+import 'package:hablemos/presentation/user/exercises/options_exercises.dart';
 import 'package:hablemos/presentation/pacient/letters/showLetter.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
@@ -41,6 +47,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
+    'OpcionesEjercicios': (context) => OptionsExercises(),
+    'opcionesRespirar': (context) => OptionsBreathe(),
+    'respirar': (context) => BreatheClass(),
+    'meditar': (context) => MeditationClass(),
+    'mindfulness': (context) => MindfulnessClass(),
+    'infoEjercicio': (context) => InfoClass(),
     'cartasPrincipalProfesional': (context) => MainLettersPro(),
     'listarCartasPro': (context) => ListAprovedLettersPro(),
     'valorarCartaPro': (context) => AssesLetterPro(),
