@@ -3,6 +3,9 @@ import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/services/providers/cartas_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/constants.dart';
+import 'dart:math';
+
+import '../../../ux/atoms.dart';
 
 class ListLetters extends StatelessWidget {
   final List<Carta> cartas = CartaProvider.getCartas();
@@ -13,7 +16,10 @@ class ListLetters extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Cartas", null, 0, null),
+      appBar: crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+        Navigator.pushNamed(context, "verCarta",
+            arguments: cartas[Random().nextInt(cartas.length)]);
+      }),
       body: Stack(
         children: <Widget>[
           //Background Image

@@ -190,6 +190,26 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
   );
 }
 
+AppBar crearAppBarAction(String texto, IconData icono, int constante,
+    Color color, IconData icon, Function function) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    actions: [IconButton(icon: Icon(icon), onPressed: () => function())],
+    title: Text(
+      texto,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 25.0,
+      ),
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
+  );
+}
+
 Widget secction({String title, String text}) {
   return Container(
     width: 270.0,
