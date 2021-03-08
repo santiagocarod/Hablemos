@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/ux/shape_appbar_border.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -270,6 +271,78 @@ Widget colorButton(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(radius))),
           elevation: MaterialStateProperty.all<double>(5.0)),
+    ),
+  );
+}
+
+Widget crearForosUpper(Size size, String text, IconData icono) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
+          child: Container(
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.13),
+                Icon(
+                  icono,
+                  size: 50,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          color: Colors.transparent,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget crearForosUpperNoIcon(Size size, String text) {
+  return Container(
+    height: size.height,
+    width: size.width,
+    child: Stack(
+      children: <Widget>[
+        CustomPaint(
+          painter: CustomShapeBorder(size),
+          child: Container(
+            width: size.width,
+            height: size.height * 0.15,
+          ),
+        ),
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: size.height * 0.10),
+                Text(
+                  text,
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          color: Colors.transparent,
+        ),
+      ],
     ),
   );
 }

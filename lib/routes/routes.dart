@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
+import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
+import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
 import 'package:hablemos/presentation/user/exercises/breathe.dart';
 import 'package:hablemos/presentation/user/exercises/info.dart';
 import 'package:hablemos/presentation/user/exercises/meditation.dart';
@@ -47,6 +50,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
+    'ForosProfesionalHome': (context) => ForumProfesianalHome(),
+    'ForosTusPublicaciones': (context) => ForumProPublicaciones(),
+    'InformacionForoProfesional': (context) => InfoForumProfesional(),
     'OpcionesEjercicios': (context) => OptionsExercises(),
     'opcionesRespirar': (context) => OptionsBreathe(),
     'respirar': (context) => BreatheClass(),
