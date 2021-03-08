@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/services/auth.dart';
 
+import '../constants.dart';
 import '../ux/atoms.dart';
 
 class LoginPage extends StatelessWidget {
@@ -49,7 +51,6 @@ class LoginPage extends StatelessWidget {
 
 Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
-
   return Expanded(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -58,12 +59,19 @@ Widget _centerLogin(BuildContext context) {
         SizedBox(height: 40.0),
         passwordTextBox(bloc),
         SizedBox(height: 70.0),
-        iconButtonBigBloc(
-            "Iniciar Sesión",
-            () => {Navigator.pushNamed(context, 'inicio')},
-            Icons.login,
-            Colors.yellow[700],
-            bloc),
+        iconButtonBigBloc("Iniciar Sesión", () {
+          print('${bloc.email} : ${bloc.password}');
+          AuthService authService = new AuthService();
+          Future<String> user = authService.logIn(bloc.email, bloc.password);
+          user.then((value) {
+            print("RETORNO" + value);
+            if (value[0] == "[") {
+              showAlertDialog(context);
+            } else {
+              Navigator.pushNamed(context, 'inicio');
+            }
+          });
+        }, Icons.login, Colors.yellow[700], bloc),
         SizedBox(height: 20.0),
         GestureDetector(
           onTap: () => {print("haisd")},
@@ -73,5 +81,32 @@ Widget _centerLogin(BuildContext context) {
         textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
       ],
     ),
+  );
+}
+
+showAlertDialog(BuildContext context) {
+  Widget okButton = FloatingActionButton(
+    child: Text("OK"),
+    backgroundColor: kMostaza,
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Hubo un error\nRevisa tu Usuario y Contraseña"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
   );
 }

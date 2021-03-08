@@ -1,7 +1,7 @@
 import 'package:hablemos/model/carta.dart';
 
 class CartaProvider {
-  static List<Carta> getCarta() {
+  static List<Carta> getCartas() {
     List<Carta> cartas = [];
 
     for (int i = 0; i < 2; i++) {
