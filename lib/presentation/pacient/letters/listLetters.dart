@@ -24,7 +24,7 @@ class ListLetters extends StatelessWidget {
         children: <Widget>[
           //Background Image
           Image.asset(
-            'assets/images/background.png',
+            'assets/images/background_cartas.png',
             alignment: Alignment.center,
             fit: BoxFit.fill,
             width: size.width,

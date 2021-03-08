@@ -15,7 +15,7 @@ class ShowLetter extends StatelessWidget {
         appBar: crearAppBar("Carta", null, 0, null),
         body: Stack(children: <Widget>[
           Image.asset(
-            'assets/images/background.png',
+            'assets/images/background_cartas.png',
             alignment: Alignment.center,
             fit: BoxFit.fill,
             width: size.width,
