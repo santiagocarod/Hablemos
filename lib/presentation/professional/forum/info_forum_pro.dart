@@ -142,7 +142,7 @@ class InfoForumProfesional extends StatelessWidget {
             width: size.width * 0.5,
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () => _mostrarAlert(context),
             child: Row(
               children: [
                 Icon(Icons.remove),
@@ -180,6 +180,42 @@ class InfoForumProfesional extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  void _mostrarAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+          title: Text('Confirmacion de eliminación'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('¿Está seguro que desea eliminar esta tema?'),
+              FlutterLogo(size: 100),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Si'),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('No'),
+                ),
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }
