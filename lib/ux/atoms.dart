@@ -123,6 +123,25 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
   );
 }
 
+Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 40.0),
+    child: TextField(
+      keyboardType: TextInputType.multiline,
+      minLines: 20,
+      maxLines: 50,
+      decoration: InputDecoration(
+        icon: Icon(
+          icon,
+          color: Colors.yellow[700],
+        ),
+        hintText: hText,
+        labelText: lText,
+      ),
+    ),
+  );
+}
+
 Widget textoFinalRojo(String texto) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 30.0),
@@ -157,6 +176,24 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
         ),
       ),
     ],
+    title: Text(
+      texto,
+      style: TextStyle(
+          color: Colors.black, fontSize: 25.0, fontFamily: 'PoppinsRegular'),
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
+  );
+}
+
+AppBar crearAppBarAction(String texto, IconData icono, int constante,
+    Color color, IconData icon, Function function) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    actions: [IconButton(icon: Icon(icon), onPressed: () => function())],
     title: Text(
       texto,
       style: TextStyle(

@@ -49,7 +49,7 @@ class DetalleCitaPro extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
-                _pageHeader(context, size),
+                _pageHeader(context, size, "Detalle Cita"),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -289,7 +289,7 @@ Widget _buttons(BuildContext context, Cita cita) {
   }
 }
 
-Widget _pageHeader(BuildContext context, Size size) {
+Widget _pageHeader(BuildContext context, Size size, String titulo) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),
     child: Row(
@@ -302,7 +302,7 @@ Widget _pageHeader(BuildContext context, Size size) {
           child: Container(
               padding: EdgeInsets.only(left: size.width * 0.05),
               child: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios,
                 size: 30,
                 color: kNegro,
               )),
@@ -310,7 +310,7 @@ Widget _pageHeader(BuildContext context, Size size) {
         Container(
           child: Container(
             child: Text(
-              'Detalle de Cita',
+              titulo,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                   fontSize: 22, color: kNegro, decoration: TextDecoration.none),
