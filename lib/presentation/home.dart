@@ -243,7 +243,7 @@ Widget _button3(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        // Navigator.pushNamed(context, 'cartas');
+        Navigator.pushNamed(context, "listaCartasPaciente");
       },
     ),
   );
@@ -283,7 +283,7 @@ Widget _button4(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        // Navigator.pushNamed(context, 'actividades');
+        Navigator.pushNamed(context, 'OpcionesEjercicios');
       },
     ),
   );
