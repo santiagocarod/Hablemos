@@ -514,7 +514,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  // Navigator.pushNamed(context, 'saludmental');
+                  Navigator.pushNamed(context, 'Informacion');
                 },
               ),
             ),

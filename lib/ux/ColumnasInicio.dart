@@ -89,7 +89,9 @@ class ColumnasInicio extends StatelessWidget {
                       ),
                       //Construye Boton Informacion Salud Mental
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, 'Informacion');
+                        },
                         child: Hero(
                           tag: heroSaludMental,
                           child: Column(
