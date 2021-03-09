@@ -43,6 +43,17 @@ class HomeScreen extends StatelessWidget {
           _content(context, size),
         ],
       ),
+      bottomNavigationBar: Container(
+        width: size.width,
+        height: 77.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _button7(context, size),
+            _button8(context, size),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -74,13 +85,14 @@ Widget _appBar(BuildContext context, Size size) {
 // Body of the screen ==================================================
 Widget _content(BuildContext context, Size size) {
   return Container(
-    padding: EdgeInsets.only(top: 150.0),
+    padding: EdgeInsets.only(top: 130.0),
     alignment: Alignment.center,
     child: SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Stack(
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +100,7 @@ Widget _content(BuildContext context, Size size) {
                   _button1(context, size),
                   _button3(context, size),
                   _button6(context, size),
-                  _button7(context, size),
+                  SizedBox(height: 20.0),
                 ],
               ),
               Column(
@@ -97,7 +109,7 @@ Widget _content(BuildContext context, Size size) {
                   _button2(context, size),
                   _button4(context, size),
                   _button5(context, size),
-                  _button8(context, size),
+                  SizedBox(height: 20.0),
                 ],
               ),
             ],
@@ -360,7 +372,7 @@ Widget _button6(BuildContext context, Size size) {
 // Button of "Iniciar Sesión" ======================================
 Widget _button7(BuildContext context, Size size) {
   return Container(
-    padding: EdgeInsets.only(top: 20.0),
+    //padding: EdgeInsets.only(top: 20.0),
     width: size.width / 2,
     height: 77.0,
     child: FloatingActionButton(
@@ -389,7 +401,7 @@ Widget _button7(BuildContext context, Size size) {
 // Button of "Registrarme" =========================================
 Widget _button8(BuildContext context, Size size) {
   return Container(
-    padding: EdgeInsets.only(top: 20.0),
+    //padding: EdgeInsets.only(top: 20.0),
     width: size.width / 2,
     height: 77.0,
     child: FloatingActionButton(
