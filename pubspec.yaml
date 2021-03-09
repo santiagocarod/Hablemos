@@ -79,6 +79,12 @@ flutter:
     - family: PoppinSemiBold
       fonts:
         - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: RalewayRegular
+      fonts:
+        - asset: assets/fonts/Raleway-Regular.ttf
+    - family: RalewayExtraBold
+      fonts:
+        - asset: assets/fonts/Raleway-ExtraBold.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

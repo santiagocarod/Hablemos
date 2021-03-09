@@ -20,8 +20,8 @@ class EncabezadoHablemos extends StatelessWidget {
       decoration: BoxDecoration(
           color: kAzulPrincipal,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(57),
-            bottomRight: Radius.circular(57),
+            bottomLeft: Radius.circular(100),
+            bottomRight: Radius.circular(100),
           )),
       child: Stack(
         children: <Widget>[
@@ -37,7 +37,10 @@ class EncabezadoHablemos extends StatelessWidget {
                       child: Text(
                         'Hola $text1,',
                         style: Theme.of(context).textTheme.headline5.copyWith(
-                            color: kBlanco, fontWeight: FontWeight.normal),
+                            color: kBlanco,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 30.0,
+                            fontFamily: 'RalewayRegular'),
                       )),
                 ),
                 Flexible(
@@ -51,49 +54,73 @@ class EncabezadoHablemos extends StatelessWidget {
                             child: Text(
                           'H',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kRojoOscuro, fontWeight: FontWeight.bold),
+                              color: kRojoOscuro,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'a',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kRosado, fontWeight: FontWeight.bold),
+                              color: kRosado,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'b',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kAmarillo, fontWeight: FontWeight.bold),
+                              color: kAmarillo,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'l',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kAzulClaro, fontWeight: FontWeight.bold),
+                              color: kAzulClaro,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'e',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kRojoOscuro, fontWeight: FontWeight.bold),
+                              color: kRojoOscuro,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'm',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kRosado, fontWeight: FontWeight.bold),
+                              color: kRosado,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           'o',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kAmarillo, fontWeight: FontWeight.bold),
+                              color: kAmarillo,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                         Container(
                             child: Text(
                           's',
                           style: Theme.of(context).textTheme.headline3.copyWith(
-                              color: kAzulClaro, fontWeight: FontWeight.bold),
+                              color: kAzulClaro,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 53.0,
+                              fontFamily: 'RalewayExtraBold'),
                         )),
                       ],
                     ),
