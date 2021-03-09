@@ -365,7 +365,7 @@ class DataSearch extends SearchDelegate<String> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            query = " ";
+            query = "";
           })
     ];
   }
@@ -389,7 +389,9 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = names.where((p) => p.startsWith(query)).toList();
+    final suggestionList = names
+        .where((p) => p.toLowerCase().startsWith(query.toLowerCase()))
+        .toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
