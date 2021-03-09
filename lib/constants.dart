@@ -39,3 +39,13 @@ const heroEventos = 6;
 const heroRedes = 7;
 const heroCuenta = 8;
 const heroSaludMental = 9;
+
+const listColoresForo = [
+  Color(0xFFFCD06B),
+  Color(0xFFFFD4C4),
+  Color(0xFFE1FFFF),
+  Color(0xFFC3EDD5),
+  Color(0xFFF7F6DD),
+];
+
+const grisSuave = Color(0xFFEAECFF);

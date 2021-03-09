@@ -39,7 +39,9 @@ class ColumnasInicio extends StatelessWidget {
                     children: <Widget>[
                       //Construye Boton Foro
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, 'ForosProfesionalHome');
+                        },
                         child: Hero(
                           tag: heroForo,
                           child: Column(
