@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/pacient/forums/details.dart';
+import 'package:hablemos/presentation/pacient/forums/topicList.dart';
+import 'package:hablemos/presentation/pacient/forums/topics.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
@@ -69,5 +72,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'listaCartasPaciente': (context) => ListLetters(),
     'agregarCarta': (context) => AddLetter(),
     'verCarta': (context) => ShowLetter(),
+    'ForosPaciente': (context) => TopicInformation(),
+    'ForosTemaPaciente': (context) => TopicList(),
+    'DetalleForo': (context) => Details(),
   };
 }
