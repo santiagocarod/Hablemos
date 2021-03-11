@@ -1,10 +1,11 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/services/providers/cartas_provider.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 class ListAprovedLettersPro extends StatelessWidget {
   @override
@@ -17,6 +18,10 @@ class ListAprovedLettersPro extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
+      appBar: crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+        Navigator.pushNamed(context, "verCarta",
+            arguments: cartas[Random().nextInt(cartas.length)]);
+      }),
       body: Stack(
         children: <Widget>[
           //Background Image
@@ -28,13 +33,6 @@ class ListAprovedLettersPro extends StatelessWidget {
             height: size.height,
           ),
           // Contents
-          Container(
-            height: size.height * 0.1,
-            margin: EdgeInsets.symmetric(vertical: size.height * 0.05),
-            child: _pageHeader(context, size, "Cartas"),
-            alignment: Alignment.center,
-            width: size.width,
-          ),
           Material(
             type: MaterialType.transparency,
             child: Padding(
@@ -111,51 +109,4 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas) {
     }
   });
   return cards;
-}
-
-Widget _pageHeader(BuildContext context, Size size, String titulo) {
-  return Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, "cartasPrincipalProfesional");
-          },
-          child: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: size.width * 0.05),
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 30,
-                color: kNegro,
-              )),
-        ),
-        Container(
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              titulo,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                  fontSize: 22, color: kNegro, decoration: TextDecoration.none),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, "");
-          },
-          child: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(right: size.width * 0.05),
-              child: Icon(
-                Icons.shuffle,
-                size: 50,
-                color: kNegro,
-              )),
-        ),
-      ],
-    ),
-  );
 }

@@ -147,7 +147,9 @@ class ColumnaDos extends StatelessWidget {
           ),
           //Construye Boton Que hay pa Hacer
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'eventosPrincipal');
+            },
             child: new Column(
               children: <Widget>[
                 Hero(

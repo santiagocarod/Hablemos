@@ -4,6 +4,13 @@ import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
+import 'package:hablemos/presentation/user/eventsH/eventsMain.dart';
+import 'package:hablemos/presentation/user/eventsH/listActivities.dart';
+import 'package:hablemos/presentation/user/eventsH/listSupportGroups.dart';
+import 'package:hablemos/presentation/user/eventsH/listWorkshops.dart';
+import 'package:hablemos/presentation/user/eventsH/showActivity.dart';
+import 'package:hablemos/presentation/user/eventsH/showSupportGroup.dart';
+import 'package:hablemos/presentation/user/eventsH/showWorkShop.dart';
 import 'package:hablemos/presentation/user/exercises/breathe.dart';
 import 'package:hablemos/presentation/user/exercises/info.dart';
 import 'package:hablemos/presentation/user/exercises/meditation.dart';
@@ -69,5 +76,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'listaCartasPaciente': (context) => ListLetters(),
     'agregarCarta': (context) => AddLetter(),
     'verCarta': (context) => ShowLetter(),
+    'eventosPrincipal': (context) => EventsMain(),
+    'listarActividades': (context) => ListActivities(),
+    'listarTalleres': (context) => ListWorkShops(),
+    'listarGruposApoyo': (context) => ListSupportGroups(),
+    'verActividad': (context) => ShowActivity(),
+    'verTaller': (context) => ShowWorkShop(),
+    'verGrupoApoyo': (context) => ShowSupportGroup(),
   };
 }
