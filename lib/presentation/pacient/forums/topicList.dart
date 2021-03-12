@@ -79,7 +79,9 @@ class _TopicList extends State<TopicList> {
           ),
           shadowColor: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, 'Informacion');
+        },
       ),
     );
   }

@@ -51,7 +51,9 @@ class TopicInformation extends StatelessWidget {
             ),
             shadowColor: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, 'Informacion');
+          },
         ),
       ),
     );
