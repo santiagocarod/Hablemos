@@ -29,7 +29,7 @@ class _ForumProPublicacionesState extends State<ForumProPublicaciones> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: <Widget>[
-          crearForosUpperNoIcon(size, 'Tus Publicaciones'),
+          crearForosUpperNoIcon(size, 'Tus Publicaciones', kAzulClaro),
           bodyForos(context, size),
         ],
       ),

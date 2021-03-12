@@ -26,6 +26,7 @@ const kAzul3 = Color(0xFFAFF6EC);
 const kMoradoClaro = Color(0xFFD8D0FF);
 const kMoradoOscuro = Color(0xFF5233E8);
 const kGris = Color(0xFFC4C4C4);
+const kCuruba = Color(0xFFF8DFA5);
 
 const listaColores = [
   kVerdeMuyClaro,

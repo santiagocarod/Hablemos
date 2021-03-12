@@ -28,7 +28,7 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.forum),
+          crearForosUpper(size, 'Foros', Icons.forum, 0.13, kAzulClaro),
           bodyForos(context, size),
         ],
       ),
@@ -76,7 +76,7 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
               ),
             ),
           ),
-          SizedBox(height: 15.0),
+          //SizedBox(height: 15.0),
           _boxesListForo(context, size, foros, actual),
           Container(
             height: 50,

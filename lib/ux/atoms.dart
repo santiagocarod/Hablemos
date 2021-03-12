@@ -278,14 +278,15 @@ Widget colorButton(
   );
 }
 
-Widget crearForosUpper(Size size, String text, IconData icono) {
+Widget crearForosUpper(
+    Size size, String text, IconData icono, double heigh, Color color) {
   return Container(
-    height: size.height,
+    //height: size.height,
     width: size.width,
     child: Stack(
       children: <Widget>[
         CustomPaint(
-          painter: CustomShapeBorder(size),
+          painter: CustomShapeBorder(size, color),
           child: Container(
             width: size.width,
             height: size.height * 0.15,
@@ -293,37 +294,38 @@ Widget crearForosUpper(Size size, String text, IconData icono) {
         ),
         Container(
           width: size.width,
-          height: size.height,
           child: Center(
             child: Column(
               children: <Widget>[
-                SizedBox(height: size.height * 0.13),
+                SizedBox(height: size.height * heigh),
                 Icon(
                   icono,
                   size: 50,
                 ),
                 Text(
                   text,
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
           color: Colors.transparent,
         ),
+        SizedBox(height: 20.0),
       ],
     ),
   );
 }
 
-Widget crearForosUpperNoIcon(Size size, String text) {
+Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   return Container(
     height: size.height,
     width: size.width,
     child: Stack(
       children: <Widget>[
         CustomPaint(
-          painter: CustomShapeBorder(size),
+          painter: CustomShapeBorder(size, color),
           child: Container(
             width: size.width,
             height: size.height * 0.15,
@@ -406,4 +408,75 @@ Widget searchBar(
       ],
     ),
   );
+}
+
+class DataSearch extends SearchDelegate<String> {
+  List<String> names;
+  List<dynamic> elements;
+  String route;
+  DataSearch({
+    this.names,
+    this.elements,
+    this.route,
+  });
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            query = "";
+          })
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: () {
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = names
+        .where((p) => p.toLowerCase().startsWith(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        onTap: () {
+          if (route == 'DetalleInformacion') {
+            Navigator.pushNamed(context, route,
+                arguments: elements.firstWhere(
+                    (element) => element.nombre == suggestionList[index]));
+          }
+        },
+        title: RichText(
+          text: TextSpan(
+              text: suggestionList[index].substring(0, query.length),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(
+                  text: suggestionList[index].substring(query.length),
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ]),
+        ),
+      ),
+      itemCount: suggestionList.length,
+    );
+  }
 }
