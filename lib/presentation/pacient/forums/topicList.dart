@@ -36,14 +36,15 @@ class _TopicList extends State<TopicList> {
       appBar: crearAppBar('', null, 0, null),
       body: Stack(
         children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.comment_bank_outlined),
+          crearForosUpper(
+              size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
           Padding(
             padding: EdgeInsets.only(top: size.height * 0.32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _searchBar(size),
+                _searchBar(size, names, foros),
                 _cards(context, size, foros, actual),
                 _scroll(foros),
               ],
@@ -83,17 +84,15 @@ class _TopicList extends State<TopicList> {
     );
   }
 
-  Widget _searchBar(Size size) {
+  Widget _searchBar(Size size, List<String> names, List<Foro> foros) {
     return Container(
       padding: EdgeInsets.only(bottom: 10.0),
       child: GestureDetector(
         onTap: () {
-          // showSearch(
-          //     context: context,
-          //     delegate: DataSearch(
-          //         names: names,
-          //         elements: foros,
-          //         route: 'DetalleForo'));
+          showSearch(
+              context: context,
+              delegate: DataSearch(
+                  names: names, elements: foros, route: 'DetalleForo'));
         },
         child: Container(
           width: size.width - 120.0,

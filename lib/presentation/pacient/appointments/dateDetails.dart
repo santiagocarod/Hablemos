@@ -7,12 +7,10 @@ import 'package:hablemos/ux/atoms.dart';
 
 //Screen of date details
 class DateDetails extends StatelessWidget {
-  DateDetails({Key key, @required this.cita}) : super(key: key);
-  final Cita cita;
-  final Profesional profesional = ProfesionalesProvider.getProfesional();
-
   @override
   Widget build(BuildContext context) {
+    final Cita cita = ModalRoute.of(context).settings.arguments;
+    final Profesional profesional = ProfesionalesProvider.getProfesional();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,

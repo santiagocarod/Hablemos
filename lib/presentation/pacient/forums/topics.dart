@@ -13,17 +13,21 @@ class TopicInformation extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: crearAppBar('', null, 0, null),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.comment_bank_outlined),
-          Padding(
-            padding: EdgeInsets.only(top: 210.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _categories(context, size),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            crearForosUpper(
+                size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.1),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: _categories(context, size),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 25.0),
@@ -55,29 +59,27 @@ class TopicInformation extends StatelessWidget {
 }
 
 Widget _categories(BuildContext context, Size size) {
-  return Container(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Container(
-          width: size.width,
-          child: Text(
-            "Selecciona el tema de \ntu interés.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: kNegro,
-              fontFamily: 'PoppinsRegular',
-              fontWeight: FontWeight.bold,
-            ),
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget>[
+      Container(
+        width: size.width,
+        child: Text(
+          "Selecciona el tema de \ntu interés.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20.0,
+            color: kNegro,
+            fontFamily: 'PoppinsRegular',
+            fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 10.0),
-        _topic(context, 'DEPRESIÓN', size),
-        _topic(context, 'ANSIEDAD', size),
-        _topic(context, 'TRASTORNOS', size),
-      ],
-    ),
+      ),
+      SizedBox(height: 10.0),
+      _topic(context, 'DEPRESIÓN', size),
+      _topic(context, 'ANSIEDAD', size),
+      _topic(context, 'TRASTORNOS', size),
+    ],
   );
 }
 

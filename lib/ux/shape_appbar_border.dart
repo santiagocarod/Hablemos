@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 
 class CustomShapeBorder extends CustomPainter {
   final size;
-
-  CustomShapeBorder(this.size);
+  final color;
+  CustomShapeBorder(this.size, this.color);
 
   @override
   void paint(Canvas canvas, Size size) {
     final Gradient gradient = new LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [kAzulClaro, kAzulClaro],
+      colors: [color, color],
       tileMode: TileMode.clamp,
     );
 

@@ -14,16 +14,19 @@ class Details extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.comment_bank_outlined),
-          Padding(
-            padding: EdgeInsets.only(top: 210.0),
-            child: SingleChildScrollView(
-              child: _body(context, size, foro),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            crearForosUpper(
+                size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.102),
+              child: SingleChildScrollView(
+                child: _body(context, size, foro),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
