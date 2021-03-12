@@ -310,6 +310,7 @@ Widget crearForosUpper(
           ),
           color: Colors.transparent,
         ),
+        SizedBox(height: 20.0),
       ],
     ),
   );
