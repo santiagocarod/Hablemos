@@ -278,7 +278,7 @@ Widget colorButton(
 Widget crearForosUpper(
     Size size, String text, IconData icono, double heigh, Color color) {
   return Container(
-    height: size.height,
+    //height: size.height,
     width: size.width,
     child: Stack(
       children: <Widget>[
@@ -291,7 +291,6 @@ Widget crearForosUpper(
         ),
         Container(
           width: size.width,
-          height: size.height,
           child: Center(
             child: Column(
               children: <Widget>[

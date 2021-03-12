@@ -76,7 +76,7 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
               ),
             ),
           ),
-          SizedBox(height: 15.0),
+          //SizedBox(height: 15.0),
           _boxesListForo(context, size, foros, actual),
           Container(
             height: 50,
