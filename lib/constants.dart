@@ -24,7 +24,8 @@ const kAzul1 = Color(0xFFE2FFEE);
 const kAzul2 = Color(0xFFCFFFF7);
 const kAzul3 = Color(0xFFAFF6EC);
 const kMoradoClaro = Color(0xFFD8D0FF);
-const kBlancoTransparente = Color(0x00FFFFFF);
+const kMoradoOscuro = Color(0xFF5233E8);
+const kGris = Color(0xFFC4C4C4);
 
 const listaColores = [
   kVerdeMuyClaro,
