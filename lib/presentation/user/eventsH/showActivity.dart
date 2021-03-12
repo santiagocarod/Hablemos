@@ -121,7 +121,7 @@ class ShowActivity extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${actividad.fecha}",
+                                "${actividad.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -144,34 +144,77 @@ class ShowActivity extends StatelessWidget {
                 SizedBox(height: 10),
                 Container(
                   width: 330.5,
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Costo",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
+                      Container(
+                        width: 133.5,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Costo",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kMoradoOscuro,
+                                    fontSize: 20.0),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "${actividad.valor}",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kLetras,
+                                    fontSize: 17.0),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                height: 1.0,
+                                color: kGris,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "${actividad.valor}",
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras,
-                              fontSize: 17.0),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGris,
+                      Container(
+                        width: 183.0,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Banco",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kMoradoOscuro,
+                                    fontSize: 20.0),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "${actividad.banco}",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kLetras,
+                                    fontSize: 17.0),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                height: 1.0,
+                                color: kGris,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -180,40 +223,89 @@ class ShowActivity extends StatelessWidget {
                 SizedBox(height: 10),
                 Container(
                   width: 330.5,
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Ubicación",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
+                      Container(
+                        width: 133.5,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Ubicación",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kMoradoOscuro,
+                                    fontSize: 20.0),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: FittedBox(
+                                    child: Text(
+                                      "${actividad.ubicacion}",
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 17.0),
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.location_on, size: 26.0)
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                height: 1.0,
+                                color: kGris,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "${actividad.ubicacion}",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsRegular",
-                                  color: kLetras,
-                                  fontSize: 17.0),
+                      Container(
+                        width: 183.0,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FittedBox(
+                                child: Text(
+                                  "Número de Cuenta",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kMoradoOscuro,
+                                      fontSize: 20.0),
+                                ),
+                              ),
                             ),
-                          ),
-                          Icon(Icons.location_on, size: 26.0)
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGris,
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: FittedBox(
+                                child: Text(
+                                  "${actividad.numeroCuenta}",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kLetras,
+                                      fontSize: 17.0),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                height: 1.0,
+                                color: kGris,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -240,7 +332,7 @@ class ShowActivity extends StatelessWidget {
                       style: TextStyle(
                         color: kNegro,
                         fontSize: 20.0,
-                        fontFamily: 'PoppinsSemiBold',
+                        fontFamily: 'PoppinSemiBold',
                         letterSpacing: 2.0,
                       ),
                     ),

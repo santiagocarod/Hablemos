@@ -242,7 +242,7 @@ class ShowSupportGroup extends StatelessWidget {
                       style: TextStyle(
                         color: kNegro,
                         fontSize: 20.0,
-                        fontFamily: 'PoppinsSemiBold',
+                        fontFamily: 'PoppinSemiBold',
                         letterSpacing: 2.0,
                       ),
                     ),
