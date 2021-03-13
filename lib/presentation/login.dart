@@ -64,9 +64,10 @@ Widget _centerLogin(BuildContext context) {
           AuthService authService = new AuthService();
           Future<String> user = authService.logIn(bloc.email, bloc.password);
           user.then((value) {
-            print("RETORNO" + value);
+            print("RETORNO-->" + value);
             if (value[0] == "[") {
-              showAlertDialog(context);
+              showAlertDialog(
+                  context, "Hubo un error\nRevisa tu Usuario y Contraseña");
             } else {
               Navigator.pushNamed(context, 'inicio');
             }
@@ -81,32 +82,5 @@ Widget _centerLogin(BuildContext context) {
         textoFinalRojo("Que nada ni nadie empañe tu día, aprovéchalo"),
       ],
     ),
-  );
-}
-
-showAlertDialog(BuildContext context) {
-  Widget okButton = FloatingActionButton(
-    child: Text("OK"),
-    backgroundColor: kMostaza,
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Error"),
-    content: Text("Hubo un error\nRevisa tu Usuario y Contraseña"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
   );
 }
