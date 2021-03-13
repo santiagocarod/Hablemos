@@ -6,12 +6,18 @@ import 'package:hablemos/model/taller.dart';
 class EventoProvider {
   static List<Taller> getTalleres() {
     List<Taller> talleres = [];
-    String titulo = 'What is Lorem Ipsum?';
+    String titulo = 'Taller Tipo 1';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
     String ubicacion = 'Calle 6666 # 19 - 83';
     int numeroSes = 3;
+    String titulo1 = 'Taller Tipo 2';
+    String descripcion1 =
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+    String valor1 = '75000';
+    String ubicacion1 = 'Virtual';
+    int numeroSes1 = 5;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/workshop.png'), fit: BoxFit.cover);
 
@@ -25,11 +31,11 @@ class EventoProvider {
     );
 
     Taller t1 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      numeroSesiones: numeroSes1,
+      ubicacion: ubicacion1,
+      valor: valor1,
       foto: foto,
     );
 
@@ -43,10 +49,10 @@ class EventoProvider {
     );
 
     Taller t3 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      numeroSesiones: numeroSes1,
+      ubicacion: ubicacion1,
       valor: valor,
       foto: foto,
     );
@@ -67,13 +73,20 @@ class EventoProvider {
 
   static List<Actividad> getActividades() {
     List<Actividad> actividades = [];
-    String titulo = 'What is Lorem Ipsum?';
+    String titulo = 'Tipo Actividad 1';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
     String ubicacion = 'virtual';
     String numCuenta = '542-5126-6123';
     String banco = 'Bancolombia';
+    String titulo1 = 'Tipo Actividad 2';
+    String descripcion1 =
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+    String valor1 = '75.000 COP';
+    String ubicacion1 = 'Calle 136 #64c-75';
+    String numCuenta1 = '542-5126-6123';
+    String banco1 = 'Bancolombia';
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/activities.png'), fit: BoxFit.cover);
 
@@ -88,13 +101,13 @@ class EventoProvider {
     );
 
     Actividad a1 = new Actividad(
-      titulo: titulo,
-      descripcion: descripcion,
-      ubicacion: ubicacion,
-      valor: valor,
-      banco: banco,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      ubicacion: ubicacion1,
+      valor: valor1,
+      banco: banco1,
       foto: foto,
-      numeroCuenta: numCuenta,
+      numeroCuenta: numCuenta1,
     );
     Actividad a2 = new Actividad(
       titulo: titulo,
@@ -106,13 +119,13 @@ class EventoProvider {
       numeroCuenta: numCuenta,
     );
     Actividad a3 = new Actividad(
-      titulo: titulo,
-      descripcion: descripcion,
-      ubicacion: ubicacion,
-      valor: valor,
-      banco: banco,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      ubicacion: ubicacion1,
+      valor: valor1,
+      banco: banco1,
       foto: foto,
-      numeroCuenta: numCuenta,
+      numeroCuenta: numCuenta1,
     );
     Actividad a4 = new Actividad(
       titulo: titulo,
@@ -131,11 +144,16 @@ class EventoProvider {
 
   static List<Grupo> getGrupos() {
     List<Grupo> grupos = [];
-    String titulo = 'What is Lorem Ipsum?';
+    String titulo = 'Grupo Apoyo Tipo 1';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = 'Sin costo';
     String ubicacion = 'Carrera 123 # 111-1';
+    String titulo1 = 'Grupo Apoyo Tipo 2';
+    String descripcion1 =
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+    String valor1 = 'Sin costo';
+    String ubicacion1 = 'virtual';
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/supportGroup.png'), fit: BoxFit.cover);
 
@@ -148,10 +166,10 @@ class EventoProvider {
     );
 
     Grupo g1 = new Grupo(
-      titulo: titulo,
-      descripcion: descripcion,
-      valor: valor,
-      ubicacion: ubicacion,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      valor: valor1,
+      ubicacion: ubicacion1,
       foto: foto,
     );
 
@@ -164,10 +182,10 @@ class EventoProvider {
     );
 
     Grupo g3 = new Grupo(
-      titulo: titulo,
-      descripcion: descripcion,
-      valor: valor,
-      ubicacion: ubicacion,
+      titulo: titulo1,
+      descripcion: descripcion1,
+      valor: valor1,
+      ubicacion: ubicacion1,
       foto: foto,
     );
 

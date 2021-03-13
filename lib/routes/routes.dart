@@ -7,13 +7,14 @@ import 'package:hablemos/presentation/pacient/health%20information/informationDe
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
-import 'package:hablemos/presentation/user/eventsH/eventsMain.dart';
-import 'package:hablemos/presentation/user/eventsH/listActivities.dart';
-import 'package:hablemos/presentation/user/eventsH/listSupportGroups.dart';
-import 'package:hablemos/presentation/user/eventsH/listWorkshops.dart';
-import 'package:hablemos/presentation/user/eventsH/showActivity.dart';
-import 'package:hablemos/presentation/user/eventsH/showSupportGroup.dart';
-import 'package:hablemos/presentation/user/eventsH/showWorkShop.dart';
+import 'package:hablemos/presentation/user/events/attachPayment.dart';
+import 'package:hablemos/presentation/user/events/eventsMain.dart';
+import 'package:hablemos/presentation/user/events/listActivities.dart';
+import 'package:hablemos/presentation/user/events/listSupportGroups.dart';
+import 'package:hablemos/presentation/user/events/listWorkshops.dart';
+import 'package:hablemos/presentation/user/events/showActivity.dart';
+import 'package:hablemos/presentation/user/events/showSupportGroup.dart';
+import 'package:hablemos/presentation/user/events/showWorkShop.dart';
 import 'package:hablemos/presentation/user/exercises/breathe.dart';
 import 'package:hablemos/presentation/user/exercises/info.dart';
 import 'package:hablemos/presentation/user/exercises/meditation.dart';
@@ -89,5 +90,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'adjuntarPagoEventos': (context) => AttachPaymentEvents(),
   };
 }
