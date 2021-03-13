@@ -94,7 +94,7 @@ Widget _content(BuildContext context, Size size) {
       child: Stack(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +102,7 @@ Widget _content(BuildContext context, Size size) {
                   _button1(context, size),
                   _button3(context, size),
                   _button6(context, size),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 10.0),
                 ],
               ),
               Column(
@@ -111,7 +111,7 @@ Widget _content(BuildContext context, Size size) {
                   _button2(context, size),
                   _button4(context, size),
                   _button5(context, size),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 10.0),
                 ],
               ),
             ],

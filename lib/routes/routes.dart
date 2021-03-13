@@ -4,6 +4,8 @@ import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/health%20information/information.dart';
 import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
+import 'package:hablemos/presentation/pacient/profile/editProfile.dart';
+import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
@@ -75,5 +77,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'verPerfil': (context) => ViewProfile(),
+    'editarPerfil': (context) => EditProfile(),
   };
 }
