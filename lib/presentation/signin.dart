@@ -178,7 +178,8 @@ class _SignInPageState extends State<SignInPage> {
           showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
         } else {
           usersRef
-              .add({
+              .doc(value)
+              .set({
                 'name': this._name,
                 'lastName': this._lastName,
                 'role': 'pacient',

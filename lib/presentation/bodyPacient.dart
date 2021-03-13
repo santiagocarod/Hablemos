@@ -3,8 +3,8 @@ import '../ux/ColumnaDos.dart';
 import '../ux/ColumnasInicio.dart';
 import '../ux/Encabezado.dart';
 
-class Body extends StatelessWidget {
-  const Body({
+class BodyPacient extends StatelessWidget {
+  const BodyPacient({
     Key key,
     this.username,
     @required this.size,

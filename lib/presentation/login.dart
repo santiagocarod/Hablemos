@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../constants.dart';
 import '../ux/atoms.dart';
 
 class LoginPage extends StatelessWidget {
@@ -60,18 +60,7 @@ Widget _centerLogin(BuildContext context) {
         passwordTextBox(bloc),
         SizedBox(height: 70.0),
         iconButtonBigBloc("Iniciar Sesión", () {
-          print('${bloc.email} : ${bloc.password}');
-          AuthService authService = new AuthService();
-          Future<String> user = authService.logIn(bloc.email, bloc.password);
-          user.then((value) {
-            print("RETORNO-->" + value);
-            if (value[0] == "[") {
-              showAlertDialog(
-                  context, "Hubo un error\nRevisa tu Usuario y Contraseña");
-            } else {
-              Navigator.pushNamed(context, 'inicio');
-            }
-          });
+          loginLogic(bloc, context);
         }, Icons.login, Colors.yellow[700], bloc),
         SizedBox(height: 20.0),
         GestureDetector(
@@ -83,4 +72,31 @@ Widget _centerLogin(BuildContext context) {
       ],
     ),
   );
+}
+
+loginLogic(dynamic bloc, BuildContext context) {
+  AuthService authService = new AuthService();
+  Future<String> user = authService.logIn(bloc.email, bloc.password);
+  user.then((value) {
+    if (value[0] == "[") {
+      showAlertDialog(context, "Hubo un error\nRevisa tu Usuario y Contraseña");
+    } else {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(value)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          if (documentSnapshot.get('role') == 'pacient') {
+            Navigator.pushNamed(context, 'inicio');
+          } else if (documentSnapshot.get('role') == 'professional') {
+            Navigator.pushNamed(context, 'inicioProfesional');
+          } else {
+            Navigator.pushNamed(
+                context, 'inicio'); //TODO: CAmbiar a panatalla de admin
+          }
+        }
+      });
+    }
+  });
 }
