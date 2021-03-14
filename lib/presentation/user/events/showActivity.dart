@@ -12,7 +12,8 @@ class ShowActivity extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar(actividad.titulo, null, 0, null),
+      appBar:
+          crearAppBarEventos(context, actividad.titulo, "listarActividades"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

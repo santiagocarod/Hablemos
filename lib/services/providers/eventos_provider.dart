@@ -154,6 +154,11 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = 'Sin costo';
     String ubicacion1 = 'virtual';
+    String titulo2 = 'Grupo Apoyo Tipo 3';
+    String descripcion2 =
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+    String valor2 = '65000';
+    String ubicacion2 = 'virtual';
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/supportGroup.png'), fit: BoxFit.cover);
 
@@ -174,10 +179,10 @@ class EventoProvider {
     );
 
     Grupo g2 = new Grupo(
-      titulo: titulo,
-      descripcion: descripcion,
-      valor: valor,
-      ubicacion: ubicacion,
+      titulo: titulo2,
+      descripcion: descripcion2,
+      valor: valor2,
+      ubicacion: ubicacion2,
       foto: foto,
     );
 

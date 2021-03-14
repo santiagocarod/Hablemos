@@ -212,6 +212,34 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
   );
 }
 
+AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: Navigator.canPop(context)
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black,
+              size: 23,
+            ),
+            onPressed: () => Navigator.pushNamed(context, ruta),
+          )
+        : null,
+    centerTitle: true,
+    title: FittedBox(
+      child: Text(
+        "$titulo",
+        style: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.black,
+          fontSize: 25.0,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget secction({String title, String text}) {
   return Container(
     width: 270.0,
@@ -353,7 +381,12 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
 }
 
 Widget searchBar(
-    BuildContext context, Size size, TextEditingController searchController) {
+    BuildContext context,
+    Size size,
+    TextEditingController searchController,
+    List<String> names,
+    List<dynamic> elements,
+    String ruta) {
   return Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -375,10 +408,21 @@ Widget searchBar(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Icon(
-                Icons.search_outlined,
-                color: kMoradoClaro,
-                size: 25.0,
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: DataSearch(
+                      names: names,
+                      elements: elements,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.search_outlined,
+                  color: kMoradoClaro,
+                  size: 25.0,
+                ),
               ),
               Container(
                 width: 200,
@@ -404,7 +448,7 @@ Widget searchBar(
               ),
             ],
           ),
-        )
+        ),
       ],
     ),
   );

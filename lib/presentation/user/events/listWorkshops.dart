@@ -7,14 +7,18 @@ import '../../../constants.dart';
 
 class ListWorkShops extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
+  final List<String> names = [];
   @override
   Widget build(BuildContext context) {
     List<Taller> talleres = EventoProvider.getTalleres();
     Size size = MediaQuery.of(context).size;
+    talleres.forEach((element) {
+      names.add(element.titulo);
+    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Talleres", null, 0, null),
+      appBar: crearAppBarEventos(context, "Talleres", "eventosPrincipal"),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -24,7 +28,8 @@ class ListWorkShops extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          searchBar(context, size, searchController),
+          searchBar(
+              context, size, searchController, names, talleres, "verTaller"),
           Material(
             type: MaterialType.transparency,
             child: Padding(

@@ -14,7 +14,8 @@ class ShowSupportGroup extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar(grupoApoyo.titulo, null, 0, null),
+      appBar:
+          crearAppBarEventos(context, grupoApoyo.titulo, "listarGruposApoyo"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

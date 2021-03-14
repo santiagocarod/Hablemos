@@ -68,6 +68,8 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
     final Taller taller = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: crearAppBar("Adjuntar Pago", null, 0, null),
       body: Stack(children: [
         Image.asset(
@@ -82,15 +84,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: size.height * 0.05,
-              ),
-              Center(
-                child: Text(
-                  "Adjunte una Imagen del Pago Realizado",
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontSize: 25.0, fontFamily: "PoppinsRegular"),
-                ),
+                height: size.height * 0.15,
               ),
               Container(
                 height: size.height * 0.1,

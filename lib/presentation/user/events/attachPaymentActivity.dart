@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/taller.dart';
+import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -65,9 +65,11 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
 
   @override
   Widget build(BuildContext context) {
-    final Taller taller = ModalRoute.of(context).settings.arguments;
+    final Actividad actividad = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: crearAppBar("Adjuntar Pago", null, 0, null),
       body: Stack(children: [
         Image.asset(
@@ -82,15 +84,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: size.height * 0.05,
-              ),
-              Center(
-                child: Text(
-                  "Adjunte una Imagen del Pago Realizado",
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontSize: 25.0, fontFamily: "PoppinsRegular"),
-                ),
+                height: size.height * 0.15,
               ),
               Container(
                 height: size.height * 0.1,
@@ -145,8 +139,8 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                     ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "tallerSubscripto",
-                      arguments: taller);
+                  Navigator.pushNamed(context, "actividadSubscripto",
+                      arguments: actividad);
                 },
                 child: Container(
                   height: 55,

@@ -6,14 +6,18 @@ import 'package:hablemos/ux/atoms.dart';
 
 class ListActivities extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
+  final List<String> names = [];
+  List<Actividad> actividades = EventoProvider.getActividades();
   @override
   Widget build(BuildContext context) {
-    List<Actividad> actividades = EventoProvider.getActividades();
     Size size = MediaQuery.of(context).size;
+    actividades.forEach((element) {
+      names.add(element.titulo);
+    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Actividades", null, 0, null),
+      appBar: crearAppBarEventos(context, "Actividades", "eventosPrincipal"),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -23,7 +27,8 @@ class ListActivities extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          searchBar(context, size, searchController),
+          searchBar(context, size, searchController, names, actividades,
+              "verActividad"),
           Material(
             type: MaterialType.transparency,
             child: Padding(

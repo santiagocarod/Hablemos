@@ -14,6 +14,7 @@ import 'package:hablemos/presentation/user/events/eventsMain.dart';
 import 'package:hablemos/presentation/user/events/listActivities.dart';
 import 'package:hablemos/presentation/user/events/listSupportGroups.dart';
 import 'package:hablemos/presentation/user/events/listWorkshops.dart';
+import 'package:hablemos/presentation/user/events/mainEventsSigned.dart';
 import 'package:hablemos/presentation/user/events/showActivity.dart';
 import 'package:hablemos/presentation/user/events/showSupportGroup.dart';
 import 'package:hablemos/presentation/user/events/showWorkShop.dart';
@@ -86,6 +87,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'agregarCarta': (context) => AddLetter(),
     'verCarta': (context) => ShowLetter(),
     'eventosPrincipal': (context) => EventsMain(),
+    'eventosPrincipalUsuario': (context) => EventsMainSigned(),
     'listarActividades': (context) => ListActivities(),
     'listarTalleres': (context) => ListWorkShops(),
     'listarGruposApoyo': (context) => ListSupportGroups(),

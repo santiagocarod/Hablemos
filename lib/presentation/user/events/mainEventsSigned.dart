@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
-class EventsMain extends StatelessWidget {
+class EventsMainSigned extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'start'),
+      appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'inicio'),
       body: Stack(
         children: <Widget>[
           Image.asset(

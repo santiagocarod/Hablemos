@@ -7,14 +7,19 @@ import '../../../constants.dart';
 
 class ListSupportGroups extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
+  final List<String> names = [];
   @override
   Widget build(BuildContext context) {
     List<Grupo> grupos = EventoProvider.getGrupos();
     Size size = MediaQuery.of(context).size;
+    grupos.forEach((element) {
+      names.add(element.titulo);
+    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Grupos de Apoyo", null, 0, null),
+      appBar:
+          crearAppBarEventos(context, "Grupos de Apoyo", "eventosPrincipal"),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -24,7 +29,8 @@ class ListSupportGroups extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          searchBar(context, size, searchController),
+          searchBar(
+              context, size, searchController, names, grupos, "verGrupoApoyo"),
           Material(
             type: MaterialType.transparency,
             child: Padding(
