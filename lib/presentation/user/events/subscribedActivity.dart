@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 
-class ShowActivity extends StatelessWidget {
+import '../../../constants.dart';
+
+class SubscribedActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
+    return eventoSubcripto(context, size, actividad);
+  }
+
+  Widget eventoSubcripto(BuildContext context, Size size, Actividad actividad) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -17,7 +22,7 @@ class ShowActivity extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.15,
+              height: size.height * 0.155,
             ),
             Center(
               child: Container(
@@ -122,7 +127,7 @@ class ShowActivity extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${actividad.hora}",
+                                "${actividad.fecha}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -145,131 +150,41 @@ class ShowActivity extends StatelessWidget {
                 SizedBox(height: 10),
                 Container(
                   width: 330.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        width: 133.5,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Costo",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${actividad.valor}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Correo",
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kMoradoOscuro,
+                              fontSize: 20.0),
                         ),
                       ),
-                      Container(
-                        width: 183.0,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Banco",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${actividad.banco}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "lapapaya@gmail.com",
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kLetras,
+                              fontSize: 17.0),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          height: 1.0,
+                          color: kGris,
                         ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      _seccionUbicacion(context, actividad),
-                      Container(
-                        width: 183.0,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: FittedBox(
-                                child: Text(
-                                  "Número de Cuenta",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kMoradoOscuro,
-                                      fontSize: 20.0),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: FittedBox(
-                                child: Text(
-                                  "${actividad.numeroCuenta}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _seccionUbicacion(actividad),
                 SizedBox(height: size.height * 0.03),
                 GestureDetector(
                   onTap: () {
@@ -279,33 +194,35 @@ class ShowActivity extends StatelessWidget {
                           if (actividad.valor.toLowerCase() == "sin costo") {
                             return dialogoConfirmacion(
                               context,
+                              size,
                               actividad,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
+                              "Confirmación de Cancelación",
+                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
-                          } else if (actividad.ubicacion == "virtual" ||
-                              actividad.ubicacion == "Virtual") {
-                            return dialogoConfirmacionPago(
+                          } else if (actividad.ubicacion == "virtual") {
+                            return dialogoConfirmacionConPago(
                               context,
+                              size,
                               actividad,
-                              "Confirmación de Pago",
-                              "¿Ya realizaste el pago al número de cuenta?",
+                              "Confirmación de Cancelación",
+                              "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
                               kMoradoClaro,
                             );
                           } else {
                             return dialogoConfirmacion(
                               context,
+                              size,
                               actividad,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
+                              "Confirmación de Cancelación",
+                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
                           }
                         });
                   },
                   child: Container(
-                    width: 296.0,
+                    width: 310.0,
                     height: 55.0,
                     decoration: BoxDecoration(
                       color: kMoradoClaro,
@@ -319,11 +236,11 @@ class ShowActivity extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "INSCRIBIRME",
+                        "CANCELAR INSCRIPCIÓN",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: kNegro,
-                          fontSize: 20.0,
+                          fontSize: 19.0,
                           fontFamily: 'PoppinSemiBold',
                           letterSpacing: 2.0,
                         ),
@@ -339,86 +256,31 @@ class ShowActivity extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
-    if (actividad.ubicacion == "virtual" || actividad.ubicacion == "Virtual") {
+  Widget _seccionUbicacion(Actividad actividad) {
+    if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
               child: Text(
                 "Ubicación",
-                textAlign: TextAlign.start,
                 style: TextStyle(
                     fontFamily: "PoppinsRegular",
                     color: kMoradoOscuro,
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "${actividad.ubicacion}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                height: 1.0,
-                color: kGris,
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container(
-        width: 133.5,
-        child: Column(
-          children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Ubicación",
-                textAlign: TextAlign.start,
+                "El link llegará a su correo personal",
                 style: TextStyle(
                     fontFamily: "PoppinsRegular",
-                    color: kMoradoOscuro,
-                    fontSize: 20.0),
-              ),
-            ),
-            Container(
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "${actividad.ubicacion}",
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 17.0),
-                        maxLines: 1,
-                      ),
-                    ),
-                    Icon(Icons.location_on, size: 26.0)
-                  ],
-                ),
+                    color: kLetras,
+                    fontSize: 17.0),
               ),
             ),
             Padding(
@@ -432,10 +294,51 @@ class ShowActivity extends StatelessWidget {
         ),
       );
     }
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Ubicación",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontFamily: "PoppinsRegular",
+                  color: kMoradoOscuro,
+                  fontSize: 20.0),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "${actividad.ubicacion}",
+                  style: TextStyle(
+                      fontFamily: "PoppinsRegular",
+                      color: kLetras,
+                      fontSize: 17.0),
+                ),
+              ),
+              Icon(Icons.location_on, size: 26.0)
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Container(
+              height: 1.0,
+              color: kGris,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  AlertDialog dialogoConfirmacion(BuildContext context, Actividad actividad,
-      String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacion(BuildContext context, Size size,
+      Actividad actividad, String titulo, String pregunta, Color color) {
     return AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -474,7 +377,7 @@ class ShowActivity extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "actividadSubscripto",
+                          Navigator.pushNamed(context, 'verActividad',
                               arguments: actividad);
                         },
                         child: Container(
@@ -526,95 +429,67 @@ class ShowActivity extends StatelessWidget {
             )));
   }
 
-  AlertDialog dialogoConfirmacionPago(BuildContext context, Actividad actividad,
-      String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacionConPago(BuildContext context, Size size,
+      Actividad actividad, String titulo, String pregunta, Color color) {
     return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(37.0))),
-        backgroundColor: color,
-        content: Container(
-            height: 170.0,
-            width: 302.0,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "$titulo",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
-                ),
-                SizedBox(
-                  height: 25.0,
-                ),
-                Container(
-                  width: 259.0,
-                  height: 55.0,
-                  child: Text(
-                    "$pregunta",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                        color: kNegro,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(37.0))),
+      backgroundColor: color,
+      content: Container(
+        height: 170.0,
+        width: 302.0,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
+            SizedBox(
+              height: 25.0,
+            ),
+            Container(
+              width: 259.0,
+              height: 80.0,
+              child: Text(
+                "$pregunta",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'verActividad',
+                      arguments: actividad);
+                },
+                child: Container(
+                  height: 30,
+                  width: 99,
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(22.0),
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text("Ok",
+                        style: GoogleFonts.montserrat(
+                            color: kNegro,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300)),
                   ),
                 ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "adjuntarPagoActividad",
-                              arguments: actividad);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Si",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("No",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

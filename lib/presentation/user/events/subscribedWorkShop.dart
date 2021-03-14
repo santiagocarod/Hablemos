@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/grupo.dart';
+import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
-class ShowSupportGroup extends StatelessWidget {
-  final TextEditingController searchController = TextEditingController();
+class SubscribedWorkShop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Grupo grupoApoyo = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
+    final Taller taller = ModalRoute.of(context).settings.arguments;
+    return eventoSubcripto(context, size, taller);
+  }
+
+  Widget eventoSubcripto(BuildContext context, Size size, Taller taller) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBar(grupoApoyo.titulo, null, 0, null),
+      appBar: crearAppBar(taller.titulo, null, 0, null),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.15,
+              height: size.height * 0.155,
             ),
             Center(
               child: Container(
                 width: 272.0,
                 height: 196.0,
                 decoration: BoxDecoration(
-                  image: grupoApoyo.foto,
+                  image: taller.foto,
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
@@ -60,7 +63,7 @@ class ShowSupportGroup extends StatelessWidget {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "${grupoApoyo.descripcion}",
+                          "${taller.descripcion}",
                           style: TextStyle(
                               fontFamily: "PoppinsRegular",
                               color: kLetras,
@@ -106,7 +109,7 @@ class ShowSupportGroup extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${grupoApoyo.fecha}",
+                                "${taller.fecha}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -124,7 +127,7 @@ class ShowSupportGroup extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${grupoApoyo.fecha}",
+                                "${taller.fecha}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -148,12 +151,12 @@ class ShowSupportGroup extends StatelessWidget {
                 Container(
                   width: 330.5,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "Costo",
-                          textAlign: TextAlign.start,
+                          "Correo",
                           style: TextStyle(
                               fontFamily: "PoppinsRegular",
                               color: kMoradoOscuro,
@@ -163,7 +166,7 @@ class ShowSupportGroup extends StatelessWidget {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "${grupoApoyo.valor}",
+                          "lapapaya@gmail.com",
                           style: TextStyle(
                               fontFamily: "PoppinsRegular",
                               color: kLetras,
@@ -181,43 +184,45 @@ class ShowSupportGroup extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                _seccionUbicacion(context, grupoApoyo),
+                _seccionUbicacion(taller),
                 SizedBox(height: size.height * 0.03),
                 GestureDetector(
                   onTap: () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          if (grupoApoyo.valor.toLowerCase() == "sin costo") {
+                          if (taller.valor.toLowerCase() == "sin costo") {
                             return dialogoConfirmacion(
                               context,
-                              grupoApoyo,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
+                              size,
+                              taller,
+                              "Confirmación de Cancelación",
+                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
-                          } else if (grupoApoyo.ubicacion == "virtual" ||
-                              grupoApoyo.ubicacion == "Virtual") {
-                            return dialogoConfirmacionPago(
+                          } else if (taller.ubicacion == "virtual") {
+                            return dialogoConfirmacionConPago(
                               context,
-                              grupoApoyo,
-                              "Confirmación de Pago",
-                              "¿Ya realizaste el pago al número de cuenta?",
+                              size,
+                              taller,
+                              "Confirmación de Cancelación",
+                              "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
                               kMoradoClaro,
                             );
                           } else {
                             return dialogoConfirmacion(
                               context,
-                              grupoApoyo,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
+                              size,
+                              taller,
+                              "Confirmación de Cancelación",
+                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
                           }
                         });
                   },
                   child: Container(
-                    width: 296.0,
+                    width: 310.0,
                     height: 55.0,
                     decoration: BoxDecoration(
                       color: kMoradoClaro,
@@ -231,11 +236,11 @@ class ShowSupportGroup extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "INSCRIBIRME",
+                        "CANCELAR INSCRIPCIÓN",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: kNegro,
-                          fontSize: 20.0,
+                          fontSize: 19.0,
                           fontFamily: 'PoppinSemiBold',
                           letterSpacing: 2.0,
                         ),
@@ -251,80 +256,32 @@ class ShowSupportGroup extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
-    if (grupoApoyo.ubicacion == "virtual" ||
-        grupoApoyo.ubicacion == "Virtual") {
+  Widget _seccionUbicacion(Taller taller) {
+    if (taller.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
               child: Text(
                 "Ubicación",
-                textAlign: TextAlign.start,
                 style: TextStyle(
                     fontFamily: "PoppinsRegular",
                     color: kMoradoOscuro,
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "${grupoApoyo.ubicacion}",
-                    style: TextStyle(
-                        fontFamily: "PoppinsRegular",
-                        color: kLetras,
-                        fontSize: 17.0),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                height: 1.0,
-                color: kGris,
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Ubicación",
-                textAlign: TextAlign.start,
+                "El link llegará a su correo personal",
                 style: TextStyle(
                     fontFamily: "PoppinsRegular",
-                    color: kMoradoOscuro,
-                    fontSize: 20.0),
+                    color: kLetras,
+                    fontSize: 17.0),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "${grupoApoyo.ubicacion}",
-                    style: TextStyle(
-                        fontFamily: "PoppinsRegular",
-                        color: kLetras,
-                        fontSize: 17.0),
-                  ),
-                ),
-                Icon(Icons.location_on, size: 26.0)
-              ],
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -337,10 +294,51 @@ class ShowSupportGroup extends StatelessWidget {
         ),
       );
     }
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Ubicación",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontFamily: "PoppinsRegular",
+                  color: kMoradoOscuro,
+                  fontSize: 20.0),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "${taller.ubicacion}",
+                  style: TextStyle(
+                      fontFamily: "PoppinsRegular",
+                      color: kLetras,
+                      fontSize: 17.0),
+                ),
+              ),
+              Icon(Icons.location_on, size: 26.0)
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Container(
+              height: 1.0,
+              color: kGris,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  AlertDialog dialogoConfirmacion(BuildContext context, Grupo grupo,
-      String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacion(BuildContext context, Size size,
+      Taller taller, String titulo, String pregunta, Color color) {
     return AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -379,8 +377,8 @@ class ShowSupportGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "grupoSubscripto",
-                              arguments: grupo);
+                          Navigator.pushNamed(context, 'verTaller',
+                              arguments: taller);
                         },
                         child: Container(
                           height: 30,
@@ -431,95 +429,66 @@ class ShowSupportGroup extends StatelessWidget {
             )));
   }
 
-  AlertDialog dialogoConfirmacionPago(BuildContext context, Grupo grupo,
-      String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacionConPago(BuildContext context, Size size,
+      Taller taller, String titulo, String pregunta, Color color) {
     return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(37.0))),
-        backgroundColor: color,
-        content: Container(
-            height: 170.0,
-            width: 302.0,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "$titulo",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
-                ),
-                SizedBox(
-                  height: 25.0,
-                ),
-                Container(
-                  width: 259.0,
-                  height: 55.0,
-                  child: Text(
-                    "$pregunta",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                        color: kNegro,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(37.0))),
+      backgroundColor: color,
+      content: Container(
+        height: 170.0,
+        width: 302.0,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
+            SizedBox(
+              height: 25.0,
+            ),
+            Container(
+              width: 259.0,
+              height: 80.0,
+              child: Text(
+                "$pregunta",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'verTaller', arguments: taller);
+                },
+                child: Container(
+                  height: 30,
+                  width: 99,
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(22.0),
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text("Ok",
+                        style: GoogleFonts.montserrat(
+                            color: kNegro,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300)),
                   ),
                 ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "adjuntarPagoGrupo",
-                              arguments: grupo);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Si",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("No",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
