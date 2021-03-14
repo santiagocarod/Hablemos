@@ -148,7 +148,7 @@ class _SignInPageState extends State<SignInPage> {
       context: context,
       initialDate: new DateTime.now(),
       firstDate: new DateTime(1945),
-      lastDate: new DateTime(2025),
+      lastDate: DateTime.now(),
     );
 
     var myFormat = DateFormat('d-MM-yyyy');
@@ -164,15 +164,17 @@ class _SignInPageState extends State<SignInPage> {
   signInLogic(dynamic bloc, BuildContext context) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");
-    AuthService authService = new AuthService();
-    Future<String> user = authService.signUp(bloc.email, bloc.password);
     if (_name == '') {
       showAlertDialog(context, "Por Favor Ingresa tu Nombre");
     } else if (_lastName == '') {
       showAlertDialog(context, "Por Favor Ingresa tu Nombre");
     } else if (_city == '') {
       showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+    } else if (_inputFieldDateController.text == '') {
+      showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
     } else {
+      AuthService authService = new AuthService();
+      Future<String> user = authService.signUp(bloc.email, bloc.password);
       user.then((value) {
         if (value[0] == "[") {
           showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
@@ -183,12 +185,12 @@ class _SignInPageState extends State<SignInPage> {
                 'name': this._name,
                 'lastName': this._lastName,
                 'role': 'pacient',
-                'uid': value
+                'uid': value,
+                'bDate': _inputFieldDateController.text
               })
               .then((value) => Navigator.pushNamed(context, 'inicio'))
               .catchError((value) => showAlertDialog(
                   context, "Hubo un error\nPor Favor intentalo mas tarde"));
-          //
         }
       });
     }
