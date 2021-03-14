@@ -185,7 +185,6 @@ class _SignInPageState extends State<SignInPage> {
                 'name': this._name,
                 'lastName': this._lastName,
                 'role': 'pacient',
-                'uid': value,
                 'bDate': _inputFieldDateController.text
               })
               .then((value) => Navigator.pushNamed(context, 'inicio'))
