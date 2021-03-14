@@ -174,7 +174,8 @@ class _SignInPageState extends State<SignInPage> {
       showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
     } else {
       AuthService authService = new AuthService();
-      Future<String> user = authService.signUp(bloc.email, bloc.password);
+      Future<String> user =
+          authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
       user.then((value) {
         if (value[0] == "[") {
           showAlertDialog(context, "Hubo un error\nCorreo ya registrado");

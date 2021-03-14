@@ -44,12 +44,6 @@ class _PantallaInicioPacineteState extends State<PantallaInicioPacinete> {
         size: size,
         username: username,
       ),
-      bottomSheet: FloatingActionButton(
-        onPressed: () {
-          _authService.logOut();
-          Navigator.pushNamed(context, "/");
-        },
-      ),
     );
   }
 }

@@ -46,12 +46,6 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
         size: size,
         username: username,
       ),
-      bottomSheet: FloatingActionButton(
-        onPressed: () {
-          _authService.logOut();
-          Navigator.pushNamed(context, "/");
-        },
-      ),
     );
   }
 }
