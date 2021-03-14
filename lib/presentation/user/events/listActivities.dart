@@ -7,9 +7,9 @@ import 'package:hablemos/ux/atoms.dart';
 class ListActivities extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final List<String> names = [];
-  List<Actividad> actividades = EventoProvider.getActividades();
   @override
   Widget build(BuildContext context) {
+    List<Actividad> actividades = EventoProvider.getActividades();
     Size size = MediaQuery.of(context).size;
     actividades.forEach((element) {
       names.add(element.titulo);
