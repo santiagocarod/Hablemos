@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../ux/ColumnaDos.dart';
-import '../ux/ColumnasInicio.dart';
+import 'package:hablemos/ux/ColumnasInicioProfesional.dart';
+import '../ux/ColumnaDosProfesional.dart';
+import '../ux/ColumnasInicioProfesional.dart';
 import '../ux/Encabezado.dart';
 
 class BodyProfesional extends StatelessWidget {
@@ -36,14 +37,14 @@ class BodyProfesional extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ColumnasInicio(
+                    ColumnasInicioProfesional(
                       size: size,
                       titulo1: "Necesito Ayuda",
                       titulo2: "Información",
                       titulo3: "Cartas",
                       titulo4: "Redes",
                     ),
-                    ColumnaDos(
+                    ColumnaDosProfesional(
                       size: size,
                       titulo1: "Citas",
                       titulo2: "Quiero un Momento",

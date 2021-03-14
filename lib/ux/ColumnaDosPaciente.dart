@@ -7,8 +7,8 @@ import 'package:hablemos/model/cita.dart';
 final List<Cita> citas = CitasProvider.getCitas();
 final Cita cita = citas[0];
 
-class ColumnaDos extends StatelessWidget {
-  const ColumnaDos({
+class ColumnaDosPaciente extends StatelessWidget {
+  const ColumnaDosPaciente({
     Key key,
     @required this.size,
     this.titulo1,
