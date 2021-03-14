@@ -15,8 +15,15 @@ class Networks extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           _background(size),
-          _appBar(size),
-          _list(size),
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                _appBar(size),
+                _list(size),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -34,55 +41,51 @@ Widget _background(Size size) {
 }
 
 Widget _appBar(Size size) {
-  return Container(
-    width: size.width,
-    height: size.height * 0.20,
-    child: Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Icon(
-            Icons.phone_iphone_rounded,
-            size: 58.0,
+  return Center(
+    child: Container(
+      padding: EdgeInsets.only(top: size.height * 0.05, bottom: 10.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Icon(
+              Icons.phone_iphone_rounded,
+              size: 50.0,
+            ),
           ),
-        ),
-        Text(
-          'Redes',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'PoppinsRegular',
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+          Text(
+            'Redes',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'PoppinsRegular',
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
 
 Widget _list(Size size) {
-  return SingleChildScrollView(
-    scrollDirection: Axis.vertical,
-    child: Center(
-      child: Container(
-        padding: EdgeInsets.only(top: size.height * 0.25, bottom: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _iconText(
-                '@hablemosdesaludmental.co',
-                'https://instagram.com/hablemosdesaludmental.co?igshid=8x46trloagti',
-                'instagram.png'),
-            _iconText('Hablemos de \nSalud Mental',
-                'http://www.lapapaya.com.co/SaludMental.html', 'chrome.png'),
-            _iconText(
-                '@HdeSaludMental',
-                'https://mobile.twitter.com/HdeSaludMental?s=09',
-                'twitter.png'),
-            _iconText('Podcast', '', 'spotify.png'),
-          ],
-        ),
+  return Center(
+    child: Container(
+      padding: EdgeInsets.only(top: size.height * 0.1, bottom: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _iconText(
+              '@hablemosdesaludmental.co',
+              'https://instagram.com/hablemosdesaludmental.co?igshid=8x46trloagti',
+              'instagram.png'),
+          _iconText('Hablemos de \nSalud Mental',
+              'http://www.lapapaya.com.co/SaludMental.html', 'chrome.png'),
+          _iconText('@HdeSaludMental',
+              'https://mobile.twitter.com/HdeSaludMental?s=09', 'twitter.png'),
+          _iconText('Podcast', '', 'spotify.png'),
+        ],
       ),
     ),
   );

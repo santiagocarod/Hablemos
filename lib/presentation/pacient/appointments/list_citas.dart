@@ -5,7 +5,6 @@ import 'package:hablemos/services/providers/citas_provider.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:intl/intl.dart';
 
 class ListCitas extends StatelessWidget {
@@ -91,10 +90,7 @@ List<Widget> citasToCard(
     InkWell inkWell = InkWell(
       splashColor: kAmarillo,
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DateDetails(cita: element)));
+        Navigator.pushNamed(context, 'DetalleCita', arguments: element);
       },
       child: card,
     );

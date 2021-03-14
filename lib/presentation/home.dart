@@ -33,25 +33,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: _appBar(context, size),
-      body: Stack(
-        children: <Widget>[
-          _background(context, size),
-          _content(context, size),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        width: size.width,
-        height: 77.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: _appBar(context, size),
+        body: Stack(
           children: <Widget>[
-            _button7(context, size),
-            _button8(context, size),
+            _background(context, size),
+            _content(context, size),
           ],
+        ),
+        bottomNavigationBar: Container(
+          width: size.width,
+          height: 77.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _button7(context, size),
+              _button8(context, size),
+            ],
+          ),
         ),
       ),
     );
@@ -514,7 +516,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  // Navigator.pushNamed(context, 'saludmental');
+                  Navigator.pushNamed(context, 'Informacion');
                 },
               ),
             ),
