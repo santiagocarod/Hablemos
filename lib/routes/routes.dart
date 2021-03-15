@@ -35,12 +35,14 @@ import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
+import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
+import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => Home(),
+    '/': (context) => MainMedicalCenter(),
     'start': (context) => StartFireBase(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
@@ -75,5 +77,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'principalCentrosMedicos': (context) => MainMedicalCenter(),
+    'listCentrosMedicos': (context) => ListMedicalCenter(),
   };
 }
