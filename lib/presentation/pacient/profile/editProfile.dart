@@ -16,7 +16,6 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfile extends State<EditProfile> {
   TextEditingController _mailController = new TextEditingController();
-  TextEditingController _passController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _dateController = new TextEditingController();
   TextEditingController _phoneController = new TextEditingController();
@@ -223,7 +222,7 @@ class _EditProfile extends State<EditProfile> {
       child: Column(
         children: <Widget>[
           _editSection('Correo', paciente.correo, _mailController),
-          _editSection('Contraseña', '*******', _passController),
+          _sectionButton(),
           _editSection('Ciudad', paciente.ciudad, _cityController),
           _editSection('Fecha de Nacimiento', fecha, _dateController),
           _editSection(
@@ -425,6 +424,103 @@ class _EditProfile extends State<EditProfile> {
               ),
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  // Password section and button
+  Widget _sectionButton() {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Contraseña',
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '*******',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: kNegro,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+              Container(
+                width: 109.0,
+                height: 29.0,
+                child: ElevatedButton(
+                  child: Text(
+                    'Cambiar',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                      fontFamily: 'PoppinsRegular',
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: kRojoOscuro,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(378.0),
+                    ),
+                    shadowColor: Colors.black,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildPopupDialog(context),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Change password popup dialog
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: Text('Cambio de Contraseña'),
+      content: Text(
+        'Hemos enviado las instrucciones de restablecimiento de contraseña a tu correo electrónico.',
+        textAlign: TextAlign.justify,
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: kRojoOscuro,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(378.0),
+            ),
+            shadowColor: Colors.black,
+          ),
+          child: const Text('Cerrar'),
         ),
       ],
     );

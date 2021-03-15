@@ -128,7 +128,8 @@ class _ViewProfile extends State<ViewProfile> {
         ),
         // Draw camera icon
         Container(
-          padding: EdgeInsets.only(top: 190.0, left: (size.width / 2) - 150.0),
+          padding: EdgeInsets.only(
+              top: (size.height / 2) * 0.55, left: (size.width / 2) * 0.5),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
@@ -177,15 +178,18 @@ class _ViewProfile extends State<ViewProfile> {
           ),
         ),
         // Display text name
-        Container(
-          padding: EdgeInsets.only(top: 283),
-          alignment: Alignment.topCenter,
-          child: Text(
-            paciente.nombre + " " + paciente.apellido,
-            style: TextStyle(
-              color: kNegro,
-              fontSize: (size.height / 2) * 0.1,
-              fontFamily: 'PoppinsRegular',
+        Center(
+          child: Container(
+            padding: EdgeInsets.only(top: 283),
+            alignment: Alignment.topCenter,
+            child: Text(
+              paciente.nombre + " " + paciente.apellido,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: (size.height / 2) * 0.1,
+                fontFamily: 'PoppinsRegular',
+              ),
             ),
           ),
         ),
@@ -337,53 +341,12 @@ class _ViewProfile extends State<ViewProfile> {
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          inputTextBox("Contraseña", "Contraseña", Icons.vpn_key_sharp),
-        ],
+      content: Text(
+        'Hemos enviado las instrucciones de restablecimiento de contraseña a tu correo electrónico.',
+        textAlign: TextAlign.justify,
       ),
       actions: <Widget>[
         ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => _buildDialog(context),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            primary: kRojoOscuro,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
-            ),
-            shadowColor: Colors.black,
-          ),
-          child: const Text('Cambiar'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            primary: kRojoOscuro,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
-            ),
-            shadowColor: Colors.black,
-          ),
-          child: const Text('Cerrar'),
-        ),
-      ],
-    );
-  }
-
-  // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Contraseña Guardada'),
-      actions: <Widget>[
-        new ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
