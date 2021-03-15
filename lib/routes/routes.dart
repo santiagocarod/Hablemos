@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/pacient/forums/details.dart';
+import 'package:hablemos/presentation/pacient/forums/topicList.dart';
+import 'package:hablemos/presentation/pacient/forums/topics.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/health%20information/information.dart';
 import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
@@ -73,6 +76,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'listaCartasPaciente': (context) => ListLetters(),
     'agregarCarta': (context) => AddLetter(),
     'verCarta': (context) => ShowLetter(),
+    'ForosPaciente': (context) => TopicInformation(),
+    'ForosTemaPaciente': (context) => TopicList(),
+    'DetalleForo': (context) => Details(),
     'redes': (context) => Networks(),
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),

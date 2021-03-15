@@ -480,7 +480,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  // Navigator.pushNamed(context, 'foro');
+                  Navigator.pushNamed(context, 'ForosPaciente');
                 },
               ),
             ),

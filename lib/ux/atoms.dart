@@ -397,9 +397,19 @@ class DataSearch extends SearchDelegate<String> {
       itemBuilder: (context, index) => ListTile(
         onTap: () {
           if (route == 'DetalleInformacion') {
-            Navigator.pushNamed(context, route,
-                arguments: elements.firstWhere(
-                    (element) => element.nombre == suggestionList[index]));
+            Navigator.pushNamed(
+              context,
+              route,
+              arguments: elements.firstWhere(
+                  (element) => element.nombre == suggestionList[index]),
+            );
+          } else if (route == 'DetalleForo') {
+            Navigator.pushNamed(
+              context,
+              route,
+              arguments: elements.firstWhere(
+                  (element) => element.titulo == suggestionList[index]),
+            );
           }
         },
         title: RichText(
