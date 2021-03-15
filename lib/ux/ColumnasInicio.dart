@@ -324,7 +324,9 @@ class ColumnasInicio extends StatelessWidget {
           ),
           //Construye Boton Redes
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'redes');
+            },
             child: Hero(
               tag: heroRedes,
               child: new Column(

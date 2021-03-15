@@ -24,6 +24,7 @@ import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/listAprovedLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
+import 'package:hablemos/presentation/user/networks.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
 import '../presentation/pantallaInicio.dart';
@@ -72,6 +73,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'listaCartasPaciente': (context) => ListLetters(),
     'agregarCarta': (context) => AddLetter(),
     'verCarta': (context) => ShowLetter(),
+    'redes': (context) => Networks(),
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
