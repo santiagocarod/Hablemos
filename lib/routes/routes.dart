@@ -37,6 +37,7 @@ import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
+import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
@@ -79,5 +80,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleInformacion': (context) => InformationDetails(),
     'principalCentrosMedicos': (context) => MainMedicalCenter(),
     'listCentrosMedicos': (context) => ListMedicalCenter(),
+    'detailCentroMedico': (context) => DetailsMedicalCenter(),
   };
 }

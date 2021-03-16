@@ -17,7 +17,10 @@ class MainMedicalCenter extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                EncabezadoMedical(size: size),
+                EncabezadoMedical(
+                  size: size,
+                  text1: "Canales de Ayuda",
+                ),
                 Espacio(size: size),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

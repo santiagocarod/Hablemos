@@ -9,10 +9,12 @@ class EncabezadoMedical extends StatelessWidget {
     Key key,
     @required this.size,
     this.text1,
+    this.fontSize,
   }) : super(key: key);
 
   final Size size;
   final String text1;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,9 @@ class EncabezadoMedical extends StatelessWidget {
                 ),
                 Espacio(size: size),
                 Text(
-                  "Canales de Ayuda",
+                  this.text1,
                   style: TextStyle(
-                      fontSize: 36,
+                      fontSize: this.fontSize == null ? 36 : this.fontSize,
                       color: kLetras,
                       fontFamily: 'PoppinSemiBold'),
                 )
