@@ -8,7 +8,7 @@ class Taller {
   String valor;
   int numeroSesiones;
   String descripcion;
-  Image foto;
+  DecorationImage foto;
   String ubicacion;
   String numCuenta;
   String banco;
@@ -19,7 +19,7 @@ class Taller {
     this.valor,
     this.numeroSesiones,
     this.descripcion,
-    //this.foto,
+    this.foto,
     this.ubicacion,
     this.numCuenta,
     this.banco,

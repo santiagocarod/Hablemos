@@ -205,7 +205,7 @@ Widget _button2(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        // Navigator.pushNamed(context, 'eventos');
+        Navigator.pushNamed(context, 'eventosPrincipal');
       },
     ),
   );
