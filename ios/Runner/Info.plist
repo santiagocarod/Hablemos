@@ -50,5 +50,11 @@
 
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to photo library</string>
+
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Esta app necesita tu ubicación.</string>
 </dict>
 </plist>

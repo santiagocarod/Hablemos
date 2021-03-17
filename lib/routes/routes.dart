@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/home.dart';
-import 'package:hablemos/presentation/map.dart';
+import 'package:hablemos/presentation/maps/map.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
 import 'package:hablemos/presentation/pacient/forums/topics.dart';
@@ -45,7 +45,7 @@ final Profesional profesional = ProfesionalesProvider.getProfesional();
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => MapsClass(),
+    '/': (context) => Home(),
     'start': (context) => StartFireBase(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
@@ -84,6 +84,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
-    'Mapa': (context) => MapsClass(),
+    'Mapa': (context) => MapBoxClass(),
   };
 }
