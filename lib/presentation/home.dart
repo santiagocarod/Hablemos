@@ -325,7 +325,7 @@ Widget _button5(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        // Navigator.pushNamed(context, 'redes');
+        Navigator.pushNamed(context, 'redes');
       },
     ),
   );
@@ -480,7 +480,7 @@ Widget _buildItems(BuildContext context) {
                 ),
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  // Navigator.pushNamed(context, 'foro');
+                  Navigator.pushNamed(context, 'ForosPaciente');
                 },
               ),
             ),

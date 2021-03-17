@@ -110,7 +110,9 @@ class Information extends StatelessWidget {
             ),
             shadowColor: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, 'ForosPaciente');
+          },
         ),
       ),
     );
