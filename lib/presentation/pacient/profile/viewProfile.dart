@@ -337,7 +337,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Change password popup dialog
+  // Change password popup Dialog
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
