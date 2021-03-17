@@ -10,6 +10,7 @@ import 'package:hablemos/presentation/pacient/health%20information/informationDe
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
 import 'package:hablemos/presentation/user/exercises/breathe.dart';
 import 'package:hablemos/presentation/user/exercises/info.dart';
@@ -85,5 +86,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
     'verPerfilProfesional': (context) => ProfileProView(),
+    'editarPerfilProfesional': (context) => EditProfileProfesional(),
   };
 }

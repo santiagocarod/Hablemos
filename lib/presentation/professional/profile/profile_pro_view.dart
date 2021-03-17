@@ -77,7 +77,7 @@ class _ProfileProViewState extends State<ProfileProView> {
         children: <Widget>[
           cabeceraPerfilProfesional(size, profesional),
           Container(
-            padding: EdgeInsets.only(top: size.height * 0.6),
+            padding: EdgeInsets.only(top: size.height * 0.53),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: cuerpoPerfilProfesional(size, profesional),
@@ -96,38 +96,38 @@ class _ProfileProViewState extends State<ProfileProView> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: size.height * 0.58,
             width: double.infinity,
             color: kRosado,
           ),
         ),
         // Draw profile picture
         Container(
-          padding: EdgeInsets.only(top: 32),
+          padding: EdgeInsets.only(top: size.height * 0.05),
           alignment: Alignment.topCenter,
           child: ClipOval(
             child: Container(
               color: Colors.white,
-              width: 200.0,
-              height: 200.0,
+              width: 200,
+              height: 200,
               child: _image == null
                   ? Icon(
                       Icons.account_circle,
                       color: Colors.indigo[100],
-                      size: 200.0,
+                      size: 200,
                     )
                   : Image.file(
                       _image,
-                      width: 200.0,
-                      height: 200.0,
+                      width: 200,
+                      height: 200,
                     ),
             ),
           ),
         ),
         // Draw camera icon
         Container(
-          padding: EdgeInsets.only(
-              top: (size.height / 2) * 0.55, left: (size.width / 2) * 0.5),
+          padding:
+              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
@@ -149,11 +149,11 @@ class _ProfileProViewState extends State<ProfileProView> {
         ),
         // Plus icon and edit text
         Container(
-          padding: EdgeInsets.only(top: 253),
+          padding: EdgeInsets.only(top: size.height * 0.33),
           child: GestureDetector(
             onTap: () {
-              // Navigator.pushNamed(context, 'editarPerfil',
-              //     arguments: profesional);
+              Navigator.pushNamed(context, 'editarPerfilProfesional',
+                  arguments: profesional);
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,14 +179,29 @@ class _ProfileProViewState extends State<ProfileProView> {
         // Display text name
         Center(
           child: Container(
-            padding: EdgeInsets.only(top: 283),
+            padding: EdgeInsets.only(top: size.height * 0.35),
             alignment: Alignment.topCenter,
             child: Text(
               profesional.nombre + " " + profesional.apellido,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: kNegro,
-                fontSize: (size.height / 2) * 0.1,
+                fontSize: (size.height / 2) * 0.08,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            padding: EdgeInsets.only(top: size.height * 0.40),
+            alignment: Alignment.topCenter,
+            child: Text(
+              'Profesional',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kRojo,
+                fontSize: (size.height / 2) * 0.07,
                 fontFamily: 'PoppinsRegular',
               ),
             ),
