@@ -11,12 +11,13 @@ class Profesional {
   String especialidades;
   String experiencia;
   List<String> convenios;
-  Map<String, String> redes;
+  List<String> redes;
   List<String> proyectos;
   String descripcion;
   Image foto;
   int numeroCuenta;
   int celular;
+  String correo;
 
   //Externas
   List<Cita> citas;
@@ -34,8 +35,9 @@ class Profesional {
       this.proyectos,
       this.citas,
       this.numeroCuenta,
-      this.celular}) {
+      this.celular,
+      this.correo}) {
     this.foto = null;
-    this.descripcion = '';
+    this.descripcion = 'Aqui va la descripción';
   }
 }
