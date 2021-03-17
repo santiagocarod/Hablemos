@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
+
+import '../constants.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -209,6 +212,34 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
   );
 }
 
+AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: Navigator.canPop(context)
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black,
+              size: 23,
+            ),
+            onPressed: () => Navigator.pushNamed(context, ruta),
+          )
+        : null,
+    centerTitle: true,
+    title: FittedBox(
+      child: Text(
+        "$titulo",
+        style: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.black,
+          fontSize: 25.0,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget secction({String title, String text}) {
   return Container(
     width: 270.0,
@@ -343,6 +374,80 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
             ),
           ),
           color: Colors.transparent,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget searchBar(
+    BuildContext context,
+    Size size,
+    TextEditingController searchController,
+    List<String> names,
+    List<dynamic> elements,
+    String ruta) {
+  return Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: size.height * 0.15),
+          height: 66.0,
+          width: 317.5,
+          decoration: BoxDecoration(
+            color: kBlanco,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: DataSearch(
+                      names: names,
+                      elements: elements,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.search_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+              Container(
+                width: 200,
+                child: TextField(
+                  controller: searchController,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(border: InputBorder.none),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    color: kAzulOscuro,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  searchController.clear();
+                },
+                child: Icon(
+                  Icons.cancel_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     ),
