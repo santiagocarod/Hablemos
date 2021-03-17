@@ -74,7 +74,7 @@ class SubscribedGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -141,7 +141,7 @@ class SubscribedGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -177,7 +177,7 @@ class SubscribedGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -198,7 +198,7 @@ class SubscribedGroup extends StatelessWidget {
                               grupo,
                               "Confirmación de Cancelación",
                               "¿Estás seguro que deseas cancelar la inscripción a este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else if (grupo.ubicacion.toLowerCase() ==
                               "virtual") {
@@ -208,7 +208,7 @@ class SubscribedGroup extends StatelessWidget {
                               grupo,
                               "Confirmación de Cancelación",
                               "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else {
                             return dialogoConfirmacion(
@@ -217,7 +217,7 @@ class SubscribedGroup extends StatelessWidget {
                               grupo,
                               "Confirmación de Cancelación",
                               "¿Estás seguro que deseas cancelar la inscripción a este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           }
                         });
@@ -226,7 +226,7 @@ class SubscribedGroup extends StatelessWidget {
                     width: 310.0,
                     height: 55.0,
                     decoration: BoxDecoration(
-                      color: kMoradoClaro,
+                      color: kMoradoClarito,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -291,7 +291,7 @@ class SubscribedGroup extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -333,7 +333,7 @@ class SubscribedGroup extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10.0),
             child: Container(
               height: 1.0,
-              color: kGris,
+              color: kGrisN,
             ),
           ),
         ],

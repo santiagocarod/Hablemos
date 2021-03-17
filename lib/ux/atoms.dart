@@ -420,7 +420,7 @@ Widget searchBar(
                 },
                 child: Icon(
                   Icons.search_outlined,
-                  color: kMoradoClaro,
+                  color: kMoradoClarito,
                   size: 25.0,
                 ),
               ),
@@ -442,7 +442,7 @@ Widget searchBar(
                 },
                 child: Icon(
                   Icons.cancel_outlined,
-                  color: kMoradoClaro,
+                  color: kMoradoClarito,
                   size: 25.0,
                 ),
               ),

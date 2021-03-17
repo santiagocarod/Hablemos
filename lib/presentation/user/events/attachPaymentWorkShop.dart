@@ -147,7 +147,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                   width: 296,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    color: kMoradoClaro,
+                    color: kMoradoClarito,
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(0, 0),

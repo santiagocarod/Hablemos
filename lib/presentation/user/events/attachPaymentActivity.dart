@@ -147,7 +147,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                   width: 296,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    color: kMoradoClaro,
+                    color: kMoradoClarito,
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(0, 0),

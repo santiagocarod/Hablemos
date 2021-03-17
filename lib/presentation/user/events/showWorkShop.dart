@@ -71,7 +71,7 @@ class ShowWorkShop extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -138,7 +138,7 @@ class ShowWorkShop extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -179,7 +179,7 @@ class ShowWorkShop extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 10.0),
                               child: Container(
                                 height: 1.0,
-                                color: kGris,
+                                color: kGrisN,
                               ),
                             ),
                           ],
@@ -214,7 +214,7 @@ class ShowWorkShop extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 10.0),
                               child: Container(
                                 height: 1.0,
-                                color: kGris,
+                                color: kGrisN,
                               ),
                             ),
                           ],
@@ -238,7 +238,7 @@ class ShowWorkShop extends StatelessWidget {
                               taller,
                               "Confirmación de Inscripción",
                               "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else if (taller.ubicacion == "virtual" ||
                               taller.ubicacion == "Virtual") {
@@ -247,7 +247,7 @@ class ShowWorkShop extends StatelessWidget {
                               taller,
                               "Confirmación de Pago",
                               "¿Ya realizaste el pago al número de cuenta?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else {
                             return dialogoConfirmacion(
@@ -256,7 +256,7 @@ class ShowWorkShop extends StatelessWidget {
                               taller,
                               "Confirmación de Inscripción",
                               "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           }
                         });
@@ -265,7 +265,7 @@ class ShowWorkShop extends StatelessWidget {
                     width: 296.0,
                     height: 55.0,
                     decoration: BoxDecoration(
-                      color: kMoradoClaro,
+                      color: kMoradoClarito,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -337,7 +337,7 @@ class ShowWorkShop extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Container(
                     height: 1.0,
-                    color: kGris,
+                    color: kGrisN,
                   ),
                 ),
               ],
@@ -385,7 +385,7 @@ class ShowWorkShop extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -429,7 +429,7 @@ class ShowWorkShop extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -476,7 +476,7 @@ class ShowWorkShop extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -667,182 +667,5 @@ class ShowWorkShop extends StatelessWidget {
                 )
               ],
             )));
-  }
-
-  Widget _sectionAccountNum(BuildContext context, Taller taller) {
-    if (taller.valor.toLowerCase() == "sin costo") {
-      return Container(
-        width: 330.5,
-        child: _seccionUbicacion(context, taller),
-      );
-    } else {
-      return Container(
-        width: 330.5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            _seccionUbicacion(context, taller),
-            Container(
-              width: 183.0,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: FittedBox(
-                      child: Text(
-                        "Número de Cuenta",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kMoradoOscuro,
-                            fontSize: 20.0),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: FittedBox(
-                      child: Text(
-                        "${taller.numCuenta}",
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 17.0),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGris,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  Widget _sectionCosto(BuildContext context, Taller taller) {
-    if (taller.valor.toLowerCase() == "sin costo") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Costo",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: "PoppinsRegular",
-                    color: kMoradoOscuro,
-                    fontSize: 20.0),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "${taller.valor}",
-                style: TextStyle(
-                    fontFamily: "PoppinsRegular",
-                    color: kLetras,
-                    fontSize: 17.0),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                height: 1.0,
-                color: kGris,
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container(
-        width: 330.5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              width: 133.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Costo",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMoradoOscuro,
-                          fontSize: 20.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "${taller.valor}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGris,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 183.0,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Banco",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMoradoOscuro,
-                          fontSize: 20.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "${taller.banco}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGris,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
   }
 }

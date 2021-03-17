@@ -72,7 +72,7 @@ class ShowSupportGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -139,7 +139,7 @@ class ShowSupportGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -161,7 +161,7 @@ class ShowSupportGroup extends StatelessWidget {
                               grupoApoyo,
                               "Confirmación de Inscripción",
                               "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else if (grupoApoyo.ubicacion == "virtual" ||
                               grupoApoyo.ubicacion == "Virtual") {
@@ -170,16 +170,15 @@ class ShowSupportGroup extends StatelessWidget {
                               grupoApoyo,
                               "Confirmación de Pago",
                               "¿Ya realizaste el pago al número de cuenta?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else {
                             return dialogoConfirmacion(
-                              context,
-                              grupoApoyo,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
-                            );
+                                context,
+                                grupoApoyo,
+                                "Confirmación de Inscripción",
+                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                kMoradoClarito);
                           }
                         });
                   },
@@ -187,7 +186,7 @@ class ShowSupportGroup extends StatelessWidget {
                     width: 296.0,
                     height: 55.0,
                     decoration: BoxDecoration(
-                      color: kMoradoClaro,
+                      color: kMoradoClarito,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -257,7 +256,7 @@ class ShowSupportGroup extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -299,7 +298,7 @@ class ShowSupportGroup extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -534,7 +533,7 @@ class ShowSupportGroup extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Container(
                     height: 1.0,
-                    color: kGris,
+                    color: kGrisN,
                   ),
                 ),
               ],
@@ -579,7 +578,7 @@ class ShowSupportGroup extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -629,7 +628,7 @@ class ShowSupportGroup extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
@@ -664,7 +663,7 @@ class ShowSupportGroup extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
@@ -708,7 +707,7 @@ class ShowSupportGroup extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
@@ -743,7 +742,7 @@ class ShowSupportGroup extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],

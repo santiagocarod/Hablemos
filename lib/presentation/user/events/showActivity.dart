@@ -70,7 +70,7 @@ class ShowActivity extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -137,7 +137,7 @@ class ShowActivity extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Container(
                           height: 1.0,
-                          color: kGris,
+                          color: kGrisN,
                         ),
                       ),
                     ],
@@ -159,7 +159,7 @@ class ShowActivity extends StatelessWidget {
                               actividad,
                               "Confirmación de Inscripción",
                               "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else if (actividad.ubicacion == "virtual" ||
                               actividad.ubicacion == "Virtual") {
@@ -168,7 +168,7 @@ class ShowActivity extends StatelessWidget {
                               actividad,
                               "Confirmación de Pago",
                               "¿Ya realizaste el pago al número de cuenta?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           } else {
                             return dialogoConfirmacion(
@@ -176,7 +176,7 @@ class ShowActivity extends StatelessWidget {
                               actividad,
                               "Confirmación de Inscripción",
                               "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClaro,
+                              kMoradoClarito,
                             );
                           }
                         });
@@ -185,7 +185,7 @@ class ShowActivity extends StatelessWidget {
                     width: 296.0,
                     height: 55.0,
                     decoration: BoxDecoration(
-                      color: kMoradoClaro,
+                      color: kMoradoClarito,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -258,7 +258,7 @@ class ShowActivity extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -300,7 +300,7 @@ class ShowActivity extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -541,7 +541,7 @@ class ShowActivity extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
@@ -585,7 +585,7 @@ class ShowActivity extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Container(
                 height: 1.0,
-                color: kGris,
+                color: kGrisN,
               ),
             ),
           ],
@@ -626,7 +626,7 @@ class ShowActivity extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
@@ -661,7 +661,7 @@ class ShowActivity extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
                       height: 1.0,
-                      color: kGris,
+                      color: kGrisN,
                     ),
                   ),
                 ],
