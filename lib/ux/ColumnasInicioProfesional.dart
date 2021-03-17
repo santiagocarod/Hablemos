@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
 
-class ColumnasInicio extends StatelessWidget {
-  const ColumnasInicio({
+class ColumnasInicioProfesional extends StatelessWidget {
+  const ColumnasInicioProfesional({
     Key key,
     @required this.size,
     this.titulo1,
@@ -40,7 +40,7 @@ class ColumnasInicio extends StatelessWidget {
                       //Construye Boton Foro
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'ForosPaciente');
+                          Navigator.pushNamed(context, 'ForosProfesionalHome');
                         },
                         child: Hero(
                           tag: heroForo,
@@ -269,7 +269,7 @@ class ColumnasInicio extends StatelessWidget {
           GestureDetector(
             onTap: () {
               //TODO: Aplicar el Hero para la animación.
-              Navigator.pushNamed(context, "listaCartasPaciente");
+              Navigator.pushNamed(context, "cartasPrincipalProfesional");
             },
             child: new Column(
               children: <Widget>[
@@ -324,9 +324,7 @@ class ColumnasInicio extends StatelessWidget {
           ),
           //Construye Boton Redes
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, 'redes');
-            },
+            onTap: () {},
             child: Hero(
               tag: heroRedes,
               child: new Column(

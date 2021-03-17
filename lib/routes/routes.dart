@@ -46,7 +46,7 @@ import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
 import 'package:hablemos/presentation/user/networks.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/start.dart';
-import '../presentation/pantallaInicio.dart';
+import '../presentation/pantallaInicioPaciente.dart';
 import '../presentation/signin.dart';
 import '../presentation/login.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
@@ -55,6 +55,7 @@ import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
+import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
 
@@ -64,7 +65,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'start': (context) => StartFireBase(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
-    'inicio': (context) => PantallaInicio(),
+    'inicio': (context) => PantallaInicioPacinete(),
+    'inicioProfesional': (context) => PantallaInicioProfesional(),
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
     'detalleCitasProfesional': (context) =>

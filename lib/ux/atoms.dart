@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
+import 'package:hablemos/constants.dart';
 
 import '../constants.dart';
 
@@ -125,6 +126,42 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
       ),
     ),
   );
+}
+
+class InputTextBoxWController extends StatelessWidget {
+  final String hText;
+  final String lText;
+  final IconData icon;
+  final Function(String) update;
+  final String value;
+
+  InputTextBoxWController(
+      this.hText, this.lText, this.icon, this.update, this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = TextEditingController();
+    controller.text = value;
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
+      child: TextField(
+        controller: controller,
+        onChanged: (String a) {
+          update(controller.text);
+        },
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: Colors.yellow[700],
+          ),
+          hintText: hText,
+          labelText: lText,
+        ),
+      ),
+    );
+  }
 }
 
 Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
@@ -533,6 +570,33 @@ class DataSearch extends SearchDelegate<String> {
       itemCount: suggestionList.length,
     );
   }
+}
+
+showAlertDialog(BuildContext context, String text) {
+  Widget okButton = FloatingActionButton(
+    child: Text("OK"),
+    backgroundColor: kMostaza,
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text(text),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 class MyClipper extends CustomClipper<Path> {
