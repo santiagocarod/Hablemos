@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
 import 'package:hablemos/constants.dart';
+
+import '../constants.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -246,6 +249,34 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
   );
 }
 
+AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: Navigator.canPop(context)
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black,
+              size: 23,
+            ),
+            onPressed: () => Navigator.pushNamed(context, ruta),
+          )
+        : null,
+    centerTitle: true,
+    title: FittedBox(
+      child: Text(
+        "$titulo",
+        style: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.black,
+          fontSize: 25.0,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget secction({String title, String text}) {
   return Container(
     width: 270.0,
@@ -386,6 +417,80 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   );
 }
 
+Widget searchBar(
+    BuildContext context,
+    Size size,
+    TextEditingController searchController,
+    List<String> names,
+    List<dynamic> elements,
+    String ruta) {
+  return Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: size.height * 0.15),
+          height: 66.0,
+          width: 317.5,
+          decoration: BoxDecoration(
+            color: kBlanco,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: DataSearch(
+                      names: names,
+                      elements: elements,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.search_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+              Container(
+                width: 200,
+                child: TextField(
+                  controller: searchController,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(border: InputBorder.none),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    color: kAzulOscuro,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  searchController.clear();
+                },
+                child: Icon(
+                  Icons.cancel_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class DataSearch extends SearchDelegate<String> {
   List<String> names;
   List<dynamic> elements;
@@ -434,9 +539,19 @@ class DataSearch extends SearchDelegate<String> {
       itemBuilder: (context, index) => ListTile(
         onTap: () {
           if (route == 'DetalleInformacion') {
-            Navigator.pushNamed(context, route,
-                arguments: elements.firstWhere(
-                    (element) => element.nombre == suggestionList[index]));
+            Navigator.pushNamed(
+              context,
+              route,
+              arguments: elements.firstWhere(
+                  (element) => element.nombre == suggestionList[index]),
+            );
+          } else if (route == 'DetalleForo') {
+            Navigator.pushNamed(
+              context,
+              route,
+              arguments: elements.firstWhere(
+                  (element) => element.titulo == suggestionList[index]),
+            );
           }
         },
         title: RichText(
@@ -482,4 +597,22 @@ showAlertDialog(BuildContext context, String text) {
       return alert;
     },
   );
+}
+
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 80);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 80);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
 }

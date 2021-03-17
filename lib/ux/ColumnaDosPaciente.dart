@@ -147,7 +147,9 @@ class ColumnaDosPaciente extends StatelessWidget {
           ),
           //Construye Boton Que hay pa Hacer
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'eventosPrincipalUsuario');
+            },
             child: new Column(
               children: <Widget>[
                 Hero(
@@ -202,7 +204,9 @@ class ColumnaDosPaciente extends StatelessWidget {
           ),
           //Construye Boton Mi Cuenta
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'verPerfil');
+            },
             child: new Column(
               children: <Widget>[
                 Hero(
