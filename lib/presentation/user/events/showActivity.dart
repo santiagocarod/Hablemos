@@ -144,133 +144,9 @@ class ShowActivity extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: 133.5,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Costo",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${actividad.valor}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 183.0,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Banco",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${actividad.banco}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _sectionCosto(context, actividad),
                 SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      _seccionUbicacion(context, actividad),
-                      Container(
-                        width: 183.0,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: FittedBox(
-                                child: Text(
-                                  "Número de Cuenta",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kMoradoOscuro,
-                                      fontSize: 20.0),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: FittedBox(
-                                child: Text(
-                                  "${actividad.numeroCuenta}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGris,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _sectionAccountNum(context, actividad),
                 SizedBox(height: size.height * 0.03),
                 GestureDetector(
                   onTap: () {
@@ -332,6 +208,9 @@ class ShowActivity extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 30.0,
+                ),
               ],
             ),
           ],
@@ -341,7 +220,7 @@ class ShowActivity extends StatelessWidget {
   }
 
   Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
-    if (actividad.ubicacion == "virtual" || actividad.ubicacion == "Virtual") {
+    if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 133.5,
         child: Column(
@@ -387,7 +266,7 @@ class ShowActivity extends StatelessWidget {
       );
     } else {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -401,26 +280,21 @@ class ShowActivity extends StatelessWidget {
                     fontSize: 20.0),
               ),
             ),
-            Container(
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "${actividad.ubicacion}",
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 17.0),
-                        maxLines: 1,
-                      ),
-                    ),
-                    Icon(Icons.location_on, size: 26.0)
-                  ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${actividad.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
                 ),
-              ),
+                Icon(Icons.location_on, size: 26.0)
+              ],
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -617,5 +491,185 @@ class ShowActivity extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  Widget _sectionAccountNum(BuildContext context, Actividad actividad) {
+    if (actividad.valor.toLowerCase() == "sin costo" ||
+        actividad.ubicacion.toLowerCase() != "virtual") {
+      return Container(
+        alignment: Alignment.centerLeft,
+        width: 330.5,
+        child: _seccionUbicacion(context, actividad),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _seccionUbicacion(context, actividad),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      child: Text(
+                        "Número de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kMoradoOscuro,
+                            fontSize: 20.0),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      child: Text(
+                        "${actividad.numeroCuenta}",
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras,
+                            fontSize: 17.0),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget _sectionCosto(BuildContext context, Actividad actividad) {
+    if (actividad.valor.toLowerCase() == "sin costo" ||
+        actividad.ubicacion.toLowerCase() != "virtual") {
+      return Container(
+        width: 330.5,
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Costo",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMoradoOscuro,
+                    fontSize: 20.0),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "${actividad.valor}",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kLetras,
+                    fontSize: 17.0),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGris,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 133.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Costo",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${actividad.valor}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Banco",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${actividad.banco}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

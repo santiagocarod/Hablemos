@@ -127,7 +127,7 @@ class SubscribedWorkShop extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${taller.fecha}",
+                                "${taller.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -200,7 +200,8 @@ class SubscribedWorkShop extends StatelessWidget {
                               "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
-                          } else if (taller.ubicacion == "virtual") {
+                          } else if (taller.ubicacion.toLowerCase() ==
+                              "virtual") {
                             return dialogoConfirmacionConPago(
                               context,
                               size,
@@ -247,6 +248,9 @@ class SubscribedWorkShop extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 30.0,
                 ),
               ],
             ),

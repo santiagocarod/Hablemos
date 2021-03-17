@@ -127,7 +127,7 @@ class SubscribedActivity extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${actividad.fecha}",
+                                "${actividad.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -200,7 +200,8 @@ class SubscribedActivity extends StatelessWidget {
                               "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
-                          } else if (actividad.ubicacion == "virtual") {
+                          } else if (actividad.ubicacion.toLowerCase() ==
+                              "virtual") {
                             return dialogoConfirmacionConPago(
                               context,
                               size,
@@ -247,6 +248,9 @@ class SubscribedActivity extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 30.0,
                 ),
               ],
             ),

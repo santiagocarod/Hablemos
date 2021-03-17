@@ -127,7 +127,7 @@ class SubscribedGroup extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${grupo.fecha}",
+                                "${grupo.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -200,7 +200,8 @@ class SubscribedGroup extends StatelessWidget {
                               "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                               kMoradoClaro,
                             );
-                          } else if (grupo.ubicacion == "virtual") {
+                          } else if (grupo.ubicacion.toLowerCase() ==
+                              "virtual") {
                             return dialogoConfirmacionConPago(
                               context,
                               size,
@@ -247,6 +248,9 @@ class SubscribedGroup extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 30.0,
                 ),
               ],
             ),

@@ -29,7 +29,7 @@ class EventsMain extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         SizedBox(
-                          height: size.height * 0.2,
+                          height: size.height * 0.17,
                         ),
                         _opciones(context, size, "Talleres", "listarTalleres"),
                         SizedBox(
@@ -42,6 +42,9 @@ class EventsMain extends StatelessWidget {
                         ),
                         _opciones(context, size, "Grupos de Apoyo",
                             "listarGruposApoyo"),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ],
                     )
                   ],

@@ -125,7 +125,7 @@ class ShowSupportGroup extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${grupoApoyo.fecha}",
+                                "${grupoApoyo.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -146,43 +146,9 @@ class ShowSupportGroup extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Costo",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "${grupoApoyo.valor}",
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras,
-                              fontSize: 17.0),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGris,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _sectionCosto(context, grupoApoyo),
                 SizedBox(height: 10),
-                _seccionUbicacion(context, grupoApoyo),
+                _sectionAccountNum(context, grupoApoyo),
                 SizedBox(height: size.height * 0.03),
                 GestureDetector(
                   onTap: () {
@@ -244,6 +210,9 @@ class ShowSupportGroup extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 30.0,
+                ),
               ],
             ),
           ],
@@ -253,10 +222,9 @@ class ShowSupportGroup extends StatelessWidget {
   }
 
   Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
-    if (grupoApoyo.ubicacion == "virtual" ||
-        grupoApoyo.ubicacion == "Virtual") {
+    if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
       return Container(
-        width: 330.5,
+        width: 133.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -297,7 +265,7 @@ class ShowSupportGroup extends StatelessWidget {
       );
     } else {
       return Container(
-        width: 330.5,
+        width: 133.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -522,5 +490,268 @@ class ShowSupportGroup extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  Widget _sectionAccountNum(BuildContext context, Grupo grupo) {
+    if (grupo.valor.toLowerCase() == "sin costo") {
+      return Container(
+        width: 330.5,
+        child: _seccionUbicacion(context, grupo),
+      );
+    } else {
+      return Column(
+        children: [
+          Container(
+            width: 330.5,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: FittedBox(
+                    child: Text(
+                      "Banco",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: FittedBox(
+                    child: Text(
+                      "${grupo.banco}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    height: 1.0,
+                    color: kGris,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 330.5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _seccionUbicacion(context, grupo),
+                Container(
+                  width: 183.0,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FittedBox(
+                          child: Text(
+                            "Número de Cuenta",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kMoradoOscuro,
+                                fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FittedBox(
+                          child: Text(
+                            "${grupo.numCuenta}",
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kLetras,
+                                fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          height: 1.0,
+                          color: kGris,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
+  Widget _sectionCosto(BuildContext context, Grupo grupo) {
+    if (grupo.valor.toLowerCase() == "sin costo") {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 133.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Costo",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${grupo.valor}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Sesiones",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${grupo.numeroSesiones}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 133.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Costo",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${grupo.valor}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Sesiones",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${grupo.numeroSesiones}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

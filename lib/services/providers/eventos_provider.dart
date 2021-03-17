@@ -17,6 +17,8 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75000';
     String ubicacion1 = 'Virtual';
+    String banco1 = "Davivienda";
+    String numCuenta1 = "1535-4234-432";
     int numeroSes1 = 5;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/workshop.png'), fit: BoxFit.cover);
@@ -36,6 +38,8 @@ class EventoProvider {
       numeroSesiones: numeroSes1,
       ubicacion: ubicacion1,
       valor: valor1,
+      banco: banco1,
+      numCuenta: numCuenta1,
       foto: foto,
     );
 
@@ -87,6 +91,8 @@ class EventoProvider {
     String ubicacion1 = 'Calle 136 #64c-75';
     String numCuenta1 = '542-5126-6123';
     String banco1 = 'Bancolombia';
+    String valor2 = 'Sin Costo';
+    String titulo2 = 'Tipo Actividad 3';
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/activities.png'), fit: BoxFit.cover);
 
@@ -110,11 +116,10 @@ class EventoProvider {
       numeroCuenta: numCuenta1,
     );
     Actividad a2 = new Actividad(
-      titulo: titulo,
+      titulo: titulo2,
       descripcion: descripcion,
       ubicacion: ubicacion,
-      valor: valor,
-      banco: banco,
+      valor: valor2,
       foto: foto,
       numeroCuenta: numCuenta,
     );
@@ -159,6 +164,10 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor2 = '65000';
     String ubicacion2 = 'virtual';
+    String banco2 = "Banco de Bogotá";
+    String numCuenta2 = '550-53216-32213';
+    int sesiones2 = 3;
+    int sesiones = 0;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/supportGroup.png'), fit: BoxFit.cover);
 
@@ -167,6 +176,7 @@ class EventoProvider {
       descripcion: descripcion,
       valor: valor,
       ubicacion: ubicacion,
+      numeroSesiones: sesiones,
       foto: foto,
     );
 
@@ -175,6 +185,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
+      numeroSesiones: sesiones,
       foto: foto,
     );
 
@@ -183,6 +194,9 @@ class EventoProvider {
       descripcion: descripcion2,
       valor: valor2,
       ubicacion: ubicacion2,
+      numCuenta: numCuenta2,
+      banco: banco2,
+      numeroSesiones: sesiones2,
       foto: foto,
     );
 
@@ -191,6 +205,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
+      numeroSesiones: sesiones,
       foto: foto,
     );
 
@@ -199,6 +214,7 @@ class EventoProvider {
       descripcion: descripcion,
       valor: valor,
       ubicacion: ubicacion,
+      numeroSesiones: sesiones,
       foto: foto,
     );
 

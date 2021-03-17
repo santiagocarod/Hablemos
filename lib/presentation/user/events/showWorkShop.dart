@@ -124,7 +124,7 @@ class ShowWorkShop extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                "${taller.fecha}",
+                                "${taller.hora}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,
@@ -288,6 +288,9 @@ class ShowWorkShop extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 30.0,
+                ),
               ],
             ),
           ],
@@ -297,46 +300,145 @@ class ShowWorkShop extends StatelessWidget {
   }
 
   Widget _seccionUbicacion(BuildContext context, Taller taller) {
-    if (taller.ubicacion == "virtual" || taller.ubicacion == "Virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Ubicación",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: "PoppinsRegular",
-                    color: kMoradoOscuro,
-                    fontSize: 20.0),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    if (taller.ubicacion.toLowerCase() == "virtual") {
+      return Column(
+        children: [
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "${taller.ubicacion}",
+                    "Ubicación",
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                         fontFamily: "PoppinsRegular",
-                        color: kLetras,
-                        fontSize: 17.0),
+                        color: kMoradoOscuro,
+                        fontSize: 20.0),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "${taller.ubicacion}",
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras,
+                            fontSize: 17.0),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    height: 1.0,
+                    color: kGris,
                   ),
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                height: 1.0,
-                color: kGris,
-              ),
+          ),
+          Container(
+            width: 330.5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: 133.5,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Banco",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kMoradoOscuro,
+                              fontSize: 20.0),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                "${taller.banco}",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kLetras,
+                                    fontSize: 17.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          height: 1.0,
+                          color: kGris,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 183.5,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FittedBox(
+                          child: Text(
+                            "Número de Cuenta",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kMoradoOscuro,
+                                fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: FittedBox(
+                              child: Text(
+                                "${taller.numCuenta}",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kLetras,
+                                    fontSize: 17.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          height: 1.0,
+                          color: kGris,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
     } else {
       return Container(
@@ -565,5 +667,182 @@ class ShowWorkShop extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  Widget _sectionAccountNum(BuildContext context, Taller taller) {
+    if (taller.valor.toLowerCase() == "sin costo") {
+      return Container(
+        width: 330.5,
+        child: _seccionUbicacion(context, taller),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _seccionUbicacion(context, taller),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      child: Text(
+                        "Número de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kMoradoOscuro,
+                            fontSize: 20.0),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      child: Text(
+                        "${taller.numCuenta}",
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras,
+                            fontSize: 17.0),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget _sectionCosto(BuildContext context, Taller taller) {
+    if (taller.valor.toLowerCase() == "sin costo") {
+      return Container(
+        width: 330.5,
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Costo",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMoradoOscuro,
+                    fontSize: 20.0),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "${taller.valor}",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kLetras,
+                    fontSize: 17.0),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGris,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 133.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Costo",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${taller.valor}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 183.0,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Banco",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${taller.banco}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGris,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
