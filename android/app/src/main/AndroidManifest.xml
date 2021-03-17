@@ -3,6 +3,8 @@
    <application
         android:label="Hablemos"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+              android:value="AIzaSyA3II9h4H2CnMCLE1U8Eme0yqS-Og41YFE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

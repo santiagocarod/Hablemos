@@ -8,7 +8,7 @@ class EventoProvider {
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
-    String ubicacion = 'Calle 6666 # 19 - 83';
+    String ubicacion = 'Calle 66 # 19 - 83';
     int numeroSes = 3;
 
     Taller t = new Taller(
