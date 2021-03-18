@@ -32,7 +32,6 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    //Paciente paciente = PacientesProvider.getPaciente();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -76,6 +75,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                       ),
                     ),
                     GestureDetector(
+                      onTap: () {},
                       child: Text(
                         "Log Out",
                         style: TextStyle(
