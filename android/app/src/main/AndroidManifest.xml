@@ -4,8 +4,7 @@
    <application
         android:label="Hablemos"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-              android:value="AIzaSyA3II9h4H2CnMCLE1U8Eme0yqS-Og41YFE"/>
+        <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1IjoibmxvcGV6MTEzIiwiYSI6ImNrbWY0bzJlNjMxaTgyd3FzaXMzM2FmN2MifQ.J6_IcA7MX0H4CqSkxEgXyA" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

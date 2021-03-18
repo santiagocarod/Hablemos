@@ -52,9 +52,12 @@
 	<string>Allow access to photo library</string>
 
 	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
+	<true/>
+
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoibmxvcGV6MTEzIiwiYSI6ImNrbWY0bzJlNjMxaTgyd3FzaXMzM2FmN2MifQ.J6_IcA7MX0H4CqSkxEgXyA</string>
 
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Esta app necesita tu ubicación.</string>
+	<string>Hablemos necesita tu ubicación.</string>
 </dict>
 </plist>
