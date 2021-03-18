@@ -107,14 +107,14 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      _smallButton(
-                          context, "Pagos", "assets/images/paymentIcon.png"),
+                      _smallButton(context, "Pagos",
+                          "assets/images/paymentIcon.png", 21),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      _smallButton(
-                          context, "Eventos", "assets/images/paymentIcon.png"),
+                      _smallButton(context, "Eventos",
+                          "assets/images/eventsIcon.png", 21),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
@@ -124,6 +124,11 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: size.height * 0.05,
+              ),
+              _smallButton(
+                  context, "Salud Mental", "assets/images/infoIcon.png", 19),
             ],
           )
         ],
@@ -132,79 +137,86 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
   }
 }
 
-Widget _smallButton(BuildContext context, String titulo, String icon) {
-  return Container(
-    width: 146.0,
-    height: 128.0,
-    decoration: BoxDecoration(
-      color: kBlanco,
-      borderRadius: BorderRadius.circular(17.0),
-      boxShadow: [
-        BoxShadow(
-          offset: Offset(0, 0),
-          blurRadius: 7,
-          color: Colors.grey.withOpacity(0.6),
-        ),
-      ],
-    ),
-    child: Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 11.0, bottom: 5.0),
-          height: 77.67,
-          width: 85.0,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("$icon"),
-              fit: BoxFit.fill,
+Widget _smallButton(
+    BuildContext context, String titulo, String icon, double letra) {
+  return GestureDetector(
+    onTap: () {},
+    child: Container(
+      width: 146.0,
+      height: 128.0,
+      decoration: BoxDecoration(
+        color: kBlanco,
+        borderRadius: BorderRadius.circular(17.0),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 0),
+            blurRadius: 7,
+            color: Colors.grey.withOpacity(0.6),
+          ),
+        ],
+      ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 11.0, bottom: 5.0),
+            height: 77.67,
+            width: 85.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("$icon"),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        Text(
-          "$titulo",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: "PoppinsRegular", fontSize: 19.0),
-        ),
-      ],
+          Text(
+            "$titulo",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: "PoppinsRegular", fontSize: 19.0),
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget _bigButton(BuildContext context, String titulo, String icon,
     double bottom, double top) {
-  return Container(
-    width: 146.0,
-    height: 196.0,
-    decoration: BoxDecoration(
-      color: kBlanco,
-      borderRadius: BorderRadius.circular(17.0),
-      boxShadow: [
-        BoxShadow(
-          offset: Offset(0, 0),
-          blurRadius: 7,
-          color: Colors.grey.withOpacity(0.6),
-        ),
-      ],
-    ),
-    child: Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: top, bottom: bottom),
-          height: 109.0,
-          width: 93.0,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("$icon"),
-              fit: BoxFit.fill,
+  return GestureDetector(
+    onTap: () {},
+    child: Container(
+      width: 146.0,
+      height: 196.0,
+      decoration: BoxDecoration(
+        color: kBlanco,
+        borderRadius: BorderRadius.circular(17.0),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 0),
+            blurRadius: 7,
+            color: Colors.grey.withOpacity(0.6),
+          ),
+        ],
+      ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: top, bottom: bottom),
+            height: 109.0,
+            width: 93.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("$icon"),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        Text(
-          "$titulo",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: "PoppinsRegular", fontSize: 19.0),
-        ),
-      ],
+          Text(
+            "$titulo",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: "PoppinsRegular", fontSize: 19.0),
+          ),
+        ],
+      ),
     ),
   );
 }
