@@ -158,7 +158,9 @@ class ColumnasInicioPaciente extends StatelessWidget {
         children: <Widget>[
           //Construye Boton Necesito Ayuda
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'inicioAdministrador');
+            },
             child: Stack(
               children: [
                 Hero(
