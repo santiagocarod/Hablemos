@@ -43,8 +43,6 @@ dependencies:
   firebase_core: ^1.0.1
   firebase_auth: ^1.0.1
   auto_size_text_field: ^0.1.7
-  url_launcher: ^6.0.2
-  font_awesome_flutter: ^8.11.0
 
 flutter_icons:
   android: true
