@@ -102,24 +102,42 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _bigButton(context, "Profesionales",
-                          "assets/images/iconProfessionals.png", 15.0, 26.0),
+                      _bigButton(
+                          context,
+                          "Profesionales",
+                          "assets/images/iconProfessionals.png",
+                          15.0,
+                          26.0,
+                          "inicioAdministrador"),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      _smallButton(context, "Pagos",
-                          "assets/images/paymentIcon.png", 21),
+                      _smallButton(
+                          context,
+                          "Pagos",
+                          "assets/images/paymentIcon.png",
+                          21,
+                          "inicioAdministrador"),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      _smallButton(context, "Eventos",
-                          "assets/images/eventsIcon.png", 21),
+                      _smallButton(
+                          context,
+                          "Eventos",
+                          "assets/images/eventsIcon.png",
+                          21,
+                          "inicioAdministrador"),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      _bigButton(context, "Líneas de Atención",
-                          "assets/images/lineasIcon.png", 5.0, 15.0),
+                      _bigButton(
+                          context,
+                          "Líneas de Atención",
+                          "assets/images/lineasIcon.png",
+                          5.0,
+                          15.0,
+                          "inicioAdministrador"),
                     ],
                   ),
                 ],
@@ -127,8 +145,8 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
               SizedBox(
                 height: size.height * 0.05,
               ),
-              _smallButton(
-                  context, "Salud Mental", "assets/images/infoIcon.png", 19),
+              _smallButton(context, "Salud Mental",
+                  "assets/images/infoIcon.png", 19, "inicioAdministrador"),
             ],
           )
         ],
@@ -137,10 +155,12 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
   }
 }
 
-Widget _smallButton(
-    BuildContext context, String titulo, String icon, double letra) {
+Widget _smallButton(BuildContext context, String titulo, String icon,
+    double letra, String ruta) {
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      Navigator.pushNamed(context, ruta);
+    },
     child: Container(
       width: 146.0,
       height: 128.0,
@@ -180,9 +200,11 @@ Widget _smallButton(
 }
 
 Widget _bigButton(BuildContext context, String titulo, String icon,
-    double bottom, double top) {
+    double bottom, double top, String ruta) {
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      Navigator.pushNamed(context, ruta);
+    },
     child: Container(
       width: 146.0,
       height: 196.0,

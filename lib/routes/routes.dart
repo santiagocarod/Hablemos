@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
@@ -119,5 +120,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'tallerSubscripto': (context) => SubscribedWorkShop(),
     'actividadSubscripto': (context) => SubscribedActivity(),
     'grupoSubscripto': (context) => SubscribedGroup(),
+    'eventosAdministrador': (context) => EventsMainAdmin(),
   };
 }
