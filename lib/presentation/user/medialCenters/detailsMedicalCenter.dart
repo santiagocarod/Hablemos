@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -5,6 +7,7 @@ import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 
 class DetailsMedicalCenter extends StatelessWidget {
+  final double _horizontalPadding = 25.0;
   @override
   Widget build(BuildContext context) {
     final CentroAtencion _centroAtencion =
@@ -14,49 +17,97 @@ class DetailsMedicalCenter extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         appBar: crearAppBar("", null, 0, null),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              EncabezadoMedical(
-                size: size,
-                text1: _centroAtencion.nombre,
-                fontSize: 22,
-              ),
-              Espacio(size: size),
-              MedicalCenterDetailsTitle("Ubicación"),
-              MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
-              Espacio(size: size),
-              Row(
-                children: <Widget>[
-                  Container(
-                      width: (size.width / 2) - 20,
-                      child: MedicalCenterDetailsTitle("Departamento")),
-                  Container(
-                      width: (size.width / 2) - 20,
-                      child: MedicalCenterDetailsTitle("Ciudad")),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                      width: (size.width / 2) - 20,
-                      child: MedicalCenterDetailsInfo(
-                          _centroAtencion.departamento)),
-                  Container(
-                      width: (size.width / 2) - 20,
-                      child: MedicalCenterDetailsInfo(_centroAtencion.ciudad)),
-                ],
-              ),
-              Espacio(size: size),
-              MedicalCenterDetailsTitle("Horario de Atención"),
-              MedicalCenterDetailsInfo(_centroAtencion.horaAtencion),
-              Espacio(size: size),
-              MedicalCenterDetailsTitle("Correo"),
-              MedicalCenterDetailsInfo(_centroAtencion.correo),
-              Espacio(size: size),
-              MedicalCenterDetailsTitle("Telefonos"),
-              MedicalCenterDetailsInfo(_centroAtencion.telefono),
-            ]));
+        body: SingleChildScrollView(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                EncabezadoMedical(
+                  size: size,
+                  text1: _centroAtencion.nombre,
+                  fontSize: 22,
+                ),
+                Espacio(size: size),
+                MedicalCenterDetailsTitle("Ubicación"),
+                MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                //Espacio(size: size),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: _horizontalPadding),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                        width: (size.width / 2) - 20,
+                        child: MedicalCenterDetailsTitle("Departamento")),
+                    Container(
+                        width: (size.width / 2) - 20,
+                        child: MedicalCenterDetailsTitle("Ciudad")),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                        width: (size.width / 2) - 20,
+                        child: MedicalCenterDetailsInfo(
+                            _centroAtencion.departamento)),
+                    Container(
+                        width: (size.width / 2) - 20,
+                        child: Row(
+                          children: [
+                            MedicalCenterDetailsInfo(_centroAtencion.ciudad),
+                            Icon(Icons.pin_drop)
+                          ],
+                        )),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: _horizontalPadding),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+
+                Espacio(size: size),
+                MedicalCenterDetailsTitle("Horario de Atención"),
+                MedicalCenterDetailsInfo(_centroAtencion.horaAtencion),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: _horizontalPadding),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+                Espacio(size: size),
+                MedicalCenterDetailsTitle("Correo"),
+                MedicalCenterDetailsInfo(_centroAtencion.correo),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: _horizontalPadding),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+                Espacio(size: size),
+                MedicalCenterDetailsTitle("Telefonos"),
+                MedicalCenterDetailsInfo(_centroAtencion.telefono),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: _horizontalPadding),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+              ]),
+        ));
   }
 }
 
