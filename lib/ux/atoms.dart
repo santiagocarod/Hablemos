@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
+import 'package:hablemos/constants.dart';
+
+import '../constants.dart';
 
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
@@ -124,6 +128,42 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
   );
 }
 
+class InputTextBoxWController extends StatelessWidget {
+  final String hText;
+  final String lText;
+  final IconData icon;
+  final Function(String) update;
+  final String value;
+
+  InputTextBoxWController(
+      this.hText, this.lText, this.icon, this.update, this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = TextEditingController();
+    controller.text = value;
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 40.0),
+      child: TextField(
+        controller: controller,
+        onChanged: (String a) {
+          update(controller.text);
+        },
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: Colors.yellow[700],
+          ),
+          hintText: hText,
+          labelText: lText,
+        ),
+      ),
+    );
+  }
+}
+
 Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -205,6 +245,34 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
     centerTitle: true,
     iconTheme: IconThemeData(
       color: Colors.black, //change your color here
+    ),
+  );
+}
+
+AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: Navigator.canPop(context)
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black,
+              size: 23,
+            ),
+            onPressed: () => Navigator.pushNamed(context, ruta),
+          )
+        : null,
+    centerTitle: true,
+    title: FittedBox(
+      child: Text(
+        "$titulo",
+        style: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.black,
+          fontSize: 25.0,
+        ),
+      ),
     ),
   );
 }
@@ -349,6 +417,80 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   );
 }
 
+Widget searchBar(
+    BuildContext context,
+    Size size,
+    TextEditingController searchController,
+    List<String> names,
+    List<dynamic> elements,
+    String ruta) {
+  return Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: size.height * 0.15),
+          height: 66.0,
+          width: 317.5,
+          decoration: BoxDecoration(
+            color: kBlanco,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: DataSearch(
+                      names: names,
+                      elements: elements,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.search_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+              Container(
+                width: 200,
+                child: TextField(
+                  controller: searchController,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(border: InputBorder.none),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    color: kAzulOscuro,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  searchController.clear();
+                },
+                child: Icon(
+                  Icons.cancel_outlined,
+                  color: kMoradoClarito,
+                  size: 25.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class DataSearch extends SearchDelegate<String> {
   List<String> names;
   List<dynamic> elements;
@@ -428,6 +570,33 @@ class DataSearch extends SearchDelegate<String> {
       itemCount: suggestionList.length,
     );
   }
+}
+
+showAlertDialog(BuildContext context, String text) {
+  Widget okButton = FloatingActionButton(
+    child: Text("OK"),
+    backgroundColor: kMostaza,
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text(text),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 class MyClipper extends CustomClipper<Path> {

@@ -8,7 +8,7 @@ class Grupo {
   String valor;
   int numeroSesiones;
   String descripcion;
-  Image foto;
+  DecorationImage foto;
   String ubicacion;
   String banco;
   String numCuenta;
@@ -19,7 +19,7 @@ class Grupo {
     this.valor,
     this.numeroSesiones,
     this.descripcion,
-    //this.foto,
+    this.foto,
     this.ubicacion,
     this.banco,
     this.numCuenta,

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/bodyProfesional.dart';
 /*import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/providers/pacientes_provider.dart';*/
 import '../constants.dart';
-import 'body.dart';
+import 'bodyProfesional.dart';
 import 'package:hablemos/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PantallaInicio extends StatefulWidget {
+class PantallaInicioProfesional extends StatefulWidget {
   @override
-  _PantallaInicioState createState() => _PantallaInicioState();
+  _PantallaInicioProfesionalState createState() =>
+      _PantallaInicioProfesionalState();
 }
 
-class _PantallaInicioState extends State<PantallaInicio> {
+class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
   String username;
   AuthService _authService = new AuthService();
 
@@ -18,8 +21,16 @@ class _PantallaInicioState extends State<PantallaInicio> {
   void initState() {
     super.initState();
     _authService.getCurrentUser().then((value) {
-      setState(() {
-        username = value.email;
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(value.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            username = documentSnapshot.get("name");
+          });
+        }
       });
     });
   }
@@ -29,12 +40,13 @@ class _PantallaInicioState extends State<PantallaInicio> {
     //Paciente paciente = PacientesProvider.getPaciente();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: buildAppBar(size),
-        backgroundColor: Colors.transparent,
-        body: Body(
-          size: size,
-          username: username,
-        ));
+      appBar: buildAppBar(size),
+      backgroundColor: Colors.transparent,
+      body: BodyProfesional(
+        size: size,
+        username: username,
+      ),
+    );
   }
 }
 
