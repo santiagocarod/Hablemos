@@ -13,18 +13,20 @@ class InformationDetails extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: crearAppBar('', null, 0, null),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          crearForosUpper(size, 'Informémonos \ny hablemos', Icons.monitor,
-              0.05, kAmarillo),
-          Padding(
-            padding: EdgeInsets.only(top: 210.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _detail(context, size, trastorno),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            crearForosUpper(size, 'Informémonos \ny hablemos', Icons.monitor,
+                0.05, kAmarillo),
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.102),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: _detail(context, size, trastorno),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

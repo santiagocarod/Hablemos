@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 import 'package:hablemos/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../inh_widget.dart';
 
@@ -14,6 +14,9 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController _inputFieldDateController = new TextEditingController();
   String _date = '';
+  String _name = '';
+  String _lastName = '';
+  String _city = '';
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,24 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+  void _updateName(String name) {
+    setState(() {
+      _name = name;
+    });
+  }
+
+  void _updateLastName(String lastName) {
+    setState(() {
+      _lastName = lastName;
+    });
+  }
+
+  void _updateCity(String city) {
+    setState(() {
+      _city = city;
+    });
+  }
+
   Widget _signinForm(BuildContext context) {
     final bloc = InhWidget.of(context);
     return Padding(
@@ -53,34 +74,35 @@ class _SignInPageState extends State<SignInPage> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(height: 50.0),
-                        inputTextBox('Escriba su nombre', 'Nombre',
-                            Icons.person), //Input para el nombre
+                        InputTextBoxWController(
+                            'Escriba su nombre',
+                            'Nombre',
+                            Icons.person,
+                            _updateName,
+                            _name), //Input para el nombre
                         SizedBox(height: 20.0),
-                        inputTextBox('Escriba sus apellidos', 'Apellidos',
-                            Icons.person), //Input para el apellido
+                        InputTextBoxWController(
+                            'Escriba sus apellidos',
+                            'Apellidos',
+                            Icons.person,
+                            _updateLastName,
+                            _lastName), //Input para el apellido
                         SizedBox(height: 20.0),
                         emailTextBox(bloc), //Input para el email
                         SizedBox(height: 20.0),
                         passwordTextBox(bloc), //Input para el contraseña
                         SizedBox(height: 20.0),
-                        inputTextBox('Escriba su ciudad', 'Ciudad residencia',
-                            Icons.location_on), //Input para el ciudad
+                        InputTextBoxWController(
+                            'Escriba su ciudad',
+                            'Ciudad residencia',
+                            Icons.location_on,
+                            _updateCity,
+                            _city), //Input para el ciudad
                         SizedBox(height: 20.0),
                         _crearEdad(context), //Input crear edad
                         SizedBox(height: 30.0),
                         iconButtonBigBloc("Crear Cuenta", () {
-                          print(bloc.email);
-                          print(bloc.password);
-                          AuthService authService = new AuthService();
-                          Future<User> user =
-                              authService.signUp(bloc.email, bloc.password);
-                          user.then((value) {
-                            if (value != null) {
-                              Navigator.pushNamed(context, 'inicio');
-                            } else {
-                              print("Usuario y/o Contraseña erroneos");
-                            }
-                          });
+                          signInLogic(bloc, context);
                         }, Icons.login, Colors.yellow[700],
                             bloc), //IconButton para el boton
                         SizedBox(height: 50.0),
@@ -126,7 +148,7 @@ class _SignInPageState extends State<SignInPage> {
       context: context,
       initialDate: new DateTime.now(),
       firstDate: new DateTime(1945),
-      lastDate: new DateTime(2025),
+      lastDate: DateTime.now(),
     );
 
     var myFormat = DateFormat('d-MM-yyyy');
@@ -135,6 +157,42 @@ class _SignInPageState extends State<SignInPage> {
       setState(() {
         _date = myFormat.format(picked).toString();
         _inputFieldDateController.text = _date;
+      });
+    }
+  }
+
+  signInLogic(dynamic bloc, BuildContext context) {
+    final CollectionReference usersRef =
+        FirebaseFirestore.instance.collection("users");
+    if (_name == '') {
+      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+    } else if (_lastName == '') {
+      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+    } else if (_city == '') {
+      showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+    } else if (_inputFieldDateController.text == '') {
+      showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+    } else {
+      AuthService authService = new AuthService();
+      Future<String> user =
+          authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
+      user.then((value) {
+        if (value[0] == "[") {
+          showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+        } else {
+          usersRef
+              .doc(value)
+              .set({
+                'name': this._name,
+                'lastName': this._lastName,
+                'role': 'pacient',
+                'city': _city,
+                'bDate': _inputFieldDateController.text
+              })
+              .then((value) => Navigator.pushNamed(context, 'inicio'))
+              .catchError((value) => showAlertDialog(
+                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
+        }
       });
     }
   }

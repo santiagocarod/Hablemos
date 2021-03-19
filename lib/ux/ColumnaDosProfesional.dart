@@ -7,8 +7,8 @@ import 'package:hablemos/model/cita.dart';
 final List<Cita> citas = CitasProvider.getCitas();
 final Cita cita = citas[0];
 
-class ColumnaDos extends StatelessWidget {
-  const ColumnaDos({
+class ColumnaDosProfesional extends StatelessWidget {
+  const ColumnaDosProfesional({
     Key key,
     @required this.size,
     this.titulo1,
@@ -33,7 +33,7 @@ class ColumnaDos extends StatelessWidget {
           //Construye Boton Citas
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'citasPaciente');
+              Navigator.pushNamed(context, 'citasProfesional');
             },
             child: Hero(
               tag: heroCita,
