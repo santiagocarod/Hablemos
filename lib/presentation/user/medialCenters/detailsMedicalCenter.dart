@@ -139,8 +139,6 @@ class MedicalCenterDetailsInfo extends StatelessWidget {
             color: kLetras,
             fontSize: 18,
             fontFamily: 'PoppinsRegular',
-            decoration: TextDecoration.underline,
-            decorationStyle: TextDecorationStyle.dotted,
           )),
     );
   }
