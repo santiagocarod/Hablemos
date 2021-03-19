@@ -21,7 +21,6 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  image: ^2.1.12
   flutter:
     sdk: flutter
   google_fonts: ^1.1.0
@@ -37,18 +36,22 @@ dependencies:
   confetti: ^0.5.4+1
   circular_countdown_timer: ^0.1.0
   flutter_swiper: ^1.1.6
-  url_launcher: ^6.0.2
+  url_launcher: ^5.4.11
   font_awesome_flutter: ^8.11.0
   mapbox_gl: ^0.8.0
-  
+  geolocator: ^6.1.1 
+  geocoding: ^1.0.5 
+  geocoder: ^0.2.1
+  flutter_map:
+
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/ic_launcher.png"
 
 dev_dependencies:
-  # flutter_test:
-  #   sdk: flutter
+  flutter_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -64,6 +67,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/symbols/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

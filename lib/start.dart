@@ -159,7 +159,8 @@ Widget _startButton(BuildContext context, Size size) {
               authService.signUp("santiago@gmail.com", "123456");
               print(
               "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
-                Navigator.pushNamed(context, 'start');
+                String direccion = "Calle 127D # 19 - 83";
+                Navigator.pushNamed(context, 'Mapa', arguments: direccion);
               },
             ),
           ),
