@@ -304,32 +304,60 @@ class ViewActivityAdmin extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.add_circle_outline),
-                                  SizedBox(width: 10.0),
-                                  Text(
-                                    "Modificar",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 15.0,
-                                    ),
-                                  )
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return dialogoEliminacion(
+                                        context,
+                                        "",
+                                        "Confirmación de Modificación",
+                                        "¿Está seguro que desea modificar esta Actividad?");
+                                  },
+                                );
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.add_circle_outline),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      "Modificar",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15.0,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.remove_circle_outline),
-                                  SizedBox(width: 10.0),
-                                  Text(
-                                    "Eliminar",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 15.0,
-                                    ),
-                                  )
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return dialogoEliminacion(
+                                        context,
+                                        "",
+                                        "Confirmación de Eliminación",
+                                        "¿Está seguro que desea eliminar esta Actividad?");
+                                  },
+                                );
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.remove_circle_outline),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      "Eliminar",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15.0,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],
