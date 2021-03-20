@@ -167,7 +167,8 @@ class EventoProvider {
     String banco2 = "Banco de Bogotá";
     String numCuenta2 = '550-53216-32213';
     int sesiones2 = 3;
-    int sesiones = 0;
+    int sesiones = 10;
+    int sesiones1 = 7;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/supportGroup.png'), fit: BoxFit.cover);
 
@@ -185,7 +186,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
-      numeroSesiones: sesiones,
+      numeroSesiones: sesiones1,
       foto: foto,
     );
 
@@ -205,7 +206,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
-      numeroSesiones: sesiones,
+      numeroSesiones: sesiones1,
       foto: foto,
     );
 

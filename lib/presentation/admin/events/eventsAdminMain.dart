@@ -39,20 +39,38 @@ class EventsMainAdmin extends StatelessWidget {
                         SizedBox(
                           height: size.height * 0.15,
                         ),
-                        _opciones(context, size, Icons.directions_run_outlined,
-                            "Talleres", talleres.length, "", ""),
+                        _opciones(
+                            context,
+                            size,
+                            Icons.transfer_within_a_station_outlined,
+                            "Talleres",
+                            talleres.length,
+                            'listarTalleresAdmin',
+                            ""),
                         SizedBox(
                           height: size.height * 0.05,
                         ),
-                        _opciones(context, size, Icons.thumbs_up_down_outlined,
-                            "Actividades", actividades.length, "", ""),
+                        _opciones(
+                            context,
+                            size,
+                            Icons.thumbs_up_down_outlined,
+                            "Actividades",
+                            actividades.length,
+                            'listarActividadesAdmin',
+                            ""),
                         SizedBox(
                           height: size.height * 0.05,
                         ),
-                        _opciones(context, size, Icons.people_alt_outlined,
-                            "Grupos de Apoyo", grupos.length, "", ""),
+                        _opciones(
+                            context,
+                            size,
+                            Icons.people_alt_outlined,
+                            "Grupos de Apoyo",
+                            grupos.length,
+                            'listarGruposAdmin',
+                            ""),
                         SizedBox(
-                          height: 10,
+                          height: 30,
                         ),
                       ],
                     )
