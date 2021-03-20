@@ -95,16 +95,22 @@ class ListGroupsAdmin extends StatelessWidget {
       String sesiones = element.numeroSesiones.toString();
       DataRow data = DataRow(
         cells: [
-          DataCell(Text(
-            "$titulo",
-            style: GoogleFonts.montserrat(
-                fontSize: 17.0, fontWeight: FontWeight.w300),
-          )),
-          DataCell(Text(
-            "$sesiones",
-            style: GoogleFonts.montserrat(
-                fontSize: 17.0, fontWeight: FontWeight.w300),
-          ))
+          DataCell(
+              Text(
+                "$titulo",
+                style: GoogleFonts.montserrat(
+                    fontSize: 17.0, fontWeight: FontWeight.w300),
+              ), onTap: () {
+            Navigator.pushNamed(context, "verGrupoAdmin", arguments: element);
+          }),
+          DataCell(
+              Text(
+                "$sesiones",
+                style: GoogleFonts.montserrat(
+                    fontSize: 17.0, fontWeight: FontWeight.w300),
+              ), onTap: () {
+            Navigator.pushNamed(context, "verGrupoAdmin", arguments: element);
+          })
         ],
       );
       rows.add(data);

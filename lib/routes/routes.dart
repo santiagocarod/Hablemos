@@ -4,6 +4,9 @@ import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
 import 'package:hablemos/presentation/admin/events/listActivitiesAdmin.dart';
 import 'package:hablemos/presentation/admin/events/listGroupsAdmin.dart';
 import 'package:hablemos/presentation/admin/events/listWorkShopsAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
@@ -127,5 +130,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'listarActividadesAdmin': (context) => ListActivitiesAdmin(),
     'listarGruposAdmin': (context) => ListGroupsAdmin(),
     'listarTalleresAdmin': (context) => ListWorkShopsAdmin(),
+    "verActividadAdmin": (context) => ViewActivityAdmin(),
+    "verTallerAdmin": (context) => ViewWorkShopAdmin(),
+    "verGrupoAdmin": (context) => ViewGroupAdmin(),
   };
 }

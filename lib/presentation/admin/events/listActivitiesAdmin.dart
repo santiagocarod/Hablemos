@@ -98,16 +98,24 @@ class ListActivitiesAdmin extends StatelessWidget {
       String fecha = element.fecha;
       DataRow data = DataRow(
         cells: [
-          DataCell(Text(
-            "$titulo",
-            style: GoogleFonts.montserrat(
-                fontSize: 17.0, fontWeight: FontWeight.w300),
-          )),
-          DataCell(Text(
-            "$fecha",
-            style: GoogleFonts.montserrat(
-                fontSize: 17.0, fontWeight: FontWeight.w300),
-          ))
+          DataCell(
+              Text(
+                "$titulo",
+                style: GoogleFonts.montserrat(
+                    fontSize: 17.0, fontWeight: FontWeight.w300),
+              ), onTap: () {
+            Navigator.pushNamed(context, "verActividadAdmin",
+                arguments: element);
+          }),
+          DataCell(
+              Text(
+                "$fecha",
+                style: GoogleFonts.montserrat(
+                    fontSize: 17.0, fontWeight: FontWeight.w300),
+              ), onTap: () {
+            Navigator.pushNamed(context, "verActividadAdmin",
+                arguments: element);
+          })
         ],
       );
       rows.add(data);

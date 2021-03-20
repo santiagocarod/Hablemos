@@ -30,6 +30,7 @@ const kGrisN = Color(0xFFC4C4C4);
 const kGris = Color(0xFFD8D0FF);
 const kMoradoClaro = Color(0xFFE8E6F5);
 const kCuruba = Color(0xFFF8DFA5);
+const kMostazaOscuro = Color(0xFFC37E00);
 
 const listaColores = [
   kVerdeMuyClaro,
