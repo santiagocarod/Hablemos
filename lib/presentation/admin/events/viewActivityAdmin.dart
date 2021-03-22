@@ -15,7 +15,7 @@ class ViewActivityAdmin extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         appBar: crearAppBarEventos(
-            context, "${actividad.titulo}", "eventosAdministrador"),
+            context, "${actividad.titulo}", "listarActividadesAdmin"),
         body: Stack(
           children: <Widget>[
             Image.asset(
@@ -309,7 +309,7 @@ class ViewActivityAdmin extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return dialogoEliminacion(
+                                    return dialogoConfirmacion(
                                         context,
                                         "",
                                         "Confirmación de Modificación",
@@ -337,9 +337,9 @@ class ViewActivityAdmin extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return dialogoEliminacion(
+                                    return dialogoConfirmacion(
                                         context,
-                                        "",
+                                        "listarActividades",
                                         "Confirmación de Eliminación",
                                         "¿Está seguro que desea eliminar esta Actividad?");
                                   },

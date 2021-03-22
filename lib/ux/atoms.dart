@@ -599,7 +599,7 @@ showAlertDialog(BuildContext context, String text) {
   );
 }
 
-AlertDialog dialogoEliminacion(
+AlertDialog dialogoConfirmacion(
     BuildContext context, String rutaSi, String titulo, String mensaje) {
   return AlertDialog(
     shape: RoundedRectangleBorder(

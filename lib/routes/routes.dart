@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/events/addActivity.dart';
+import 'package:hablemos/presentation/admin/events/addGroup.dart';
+import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
 import 'package:hablemos/presentation/admin/events/listActivitiesAdmin.dart';
 import 'package:hablemos/presentation/admin/events/listGroupsAdmin.dart';
@@ -133,5 +136,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "verActividadAdmin": (context) => ViewActivityAdmin(),
     "verTallerAdmin": (context) => ViewWorkShopAdmin(),
     "verGrupoAdmin": (context) => ViewGroupAdmin(),
+    "agregarActividad": (context) => AddActivity(),
+    "agregarTaller": (context) => AddWorkShop(),
+    "agregarGrupo": (context) => AddGroup(),
   };
 }

@@ -13,8 +13,8 @@ class ViewGroupAdmin extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(
-          context, "${grupo.titulo}", "eventosAdministrador"),
+      appBar:
+          crearAppBarEventos(context, "${grupo.titulo}", "listarGruposAdmin"),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -306,7 +306,7 @@ class ViewGroupAdmin extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return dialogoEliminacion(
+                                  return dialogoConfirmacion(
                                       context,
                                       "",
                                       "Confirmación de Modificación",
@@ -334,7 +334,7 @@ class ViewGroupAdmin extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return dialogoEliminacion(
+                                  return dialogoConfirmacion(
                                       context,
                                       "",
                                       "Confirmación de Eliminación",

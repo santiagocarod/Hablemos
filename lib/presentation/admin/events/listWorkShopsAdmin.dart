@@ -52,28 +52,33 @@ class ListWorkShopsAdmin extends StatelessWidget {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                Container(
-                  width: size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(
-                        Icons.add_circle_outline,
-                        size: 28.0,
-                        color: kLetras,
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        "Agregar",
-                        style: GoogleFonts.montserrat(
-                            color: kLetras,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w300),
-                      ),
-                      SizedBox(width: size.width * 0.03)
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "agregarTaller");
+                  },
+                  child: Container(
+                    width: size.width * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Icon(
+                          Icons.add_circle_outline,
+                          size: 28.0,
+                          color: kLetras,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          "Agregar",
+                          style: GoogleFonts.montserrat(
+                              color: kLetras,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w300),
+                        ),
+                        SizedBox(width: size.width * 0.03)
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

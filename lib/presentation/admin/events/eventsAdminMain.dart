@@ -46,7 +46,7 @@ class EventsMainAdmin extends StatelessWidget {
                             "Talleres",
                             talleres.length,
                             'listarTalleresAdmin',
-                            ""),
+                            "agregarTaller"),
                         SizedBox(
                           height: size.height * 0.05,
                         ),
@@ -57,7 +57,7 @@ class EventsMainAdmin extends StatelessWidget {
                             "Actividades",
                             actividades.length,
                             'listarActividadesAdmin',
-                            ""),
+                            "agregarActividad"),
                         SizedBox(
                           height: size.height * 0.05,
                         ),
@@ -68,7 +68,7 @@ class EventsMainAdmin extends StatelessWidget {
                             "Grupos de Apoyo",
                             grupos.length,
                             'listarGruposAdmin',
-                            ""),
+                            "agregarGrupo"),
                         SizedBox(
                           height: 30,
                         ),

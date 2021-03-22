@@ -14,7 +14,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         appBar: crearAppBarEventos(
-            context, "${taller.titulo}", "eventosAdministrador"),
+            context, "${taller.titulo}", "listarTalleresAdmin"),
         body: Stack(
           children: <Widget>[
             Image.asset(
@@ -316,7 +316,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return dialogoEliminacion(
+                                    return dialogoConfirmacion(
                                         context,
                                         "",
                                         "Confirmación de Modificación",
@@ -344,7 +344,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return dialogoEliminacion(
+                                    return dialogoConfirmacion(
                                         context,
                                         "",
                                         "Confirmación de Eliminación",
