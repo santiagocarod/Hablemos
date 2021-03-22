@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../constants.dart';
 
 class ViewActivityAdmin extends StatelessWidget {
