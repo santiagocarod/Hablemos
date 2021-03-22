@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
@@ -67,6 +68,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicioPacinete(),
     'inicioProfesional': (context) => PantallaInicioProfesional(),
+    'inicioAdministrador': (context) => PantallaInicioAdmin(),
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
     'detalleCitasProfesional': (context) =>

@@ -91,6 +91,8 @@ loginLogic(dynamic bloc, BuildContext context) {
             Navigator.pushNamed(context, 'inicio');
           } else if (documentSnapshot.get('role') == 'professional') {
             Navigator.pushNamed(context, 'inicioProfesional');
+          } else if (documentSnapshot.get('role') == 'administrator') {
+            Navigator.pushNamed(context, 'inicioAdministrador');
           } else {
             Navigator.pushNamed(
                 context, 'inicio'); //TODO: CAmbiar a panatalla de admin
