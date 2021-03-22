@@ -61,3 +61,26 @@ class BodyPacient extends StatelessWidget {
     );
   }
 }
+
+class Espacio extends StatelessWidget {
+  const Espacio({
+    Key key,
+    @required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(),
+          )
+        ],
+      ),
+    );
+  }
+}
