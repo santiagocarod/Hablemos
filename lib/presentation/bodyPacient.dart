@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../ux/ColumnaDos.dart';
-import '../ux/ColumnasInicio.dart';
+import '../ux/ColumnaDosPaciente.dart';
+import '../ux/ColumnasInicioPaciente.dart';
 import '../ux/Encabezado.dart';
 
-class Body extends StatelessWidget {
-  const Body({
+class BodyPacient extends StatelessWidget {
+  const BodyPacient({
     Key key,
     this.username,
     @required this.size,
@@ -36,14 +36,14 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ColumnasInicio(
+                    ColumnasInicioPaciente(
                       size: size,
                       titulo1: "Necesito Ayuda",
                       titulo2: "Información",
                       titulo3: "Cartas",
                       titulo4: "Redes",
                     ),
-                    ColumnaDos(
+                    ColumnaDosPaciente(
                       size: size,
                       titulo1: "Citas",
                       titulo2: "Quiero un Momento",

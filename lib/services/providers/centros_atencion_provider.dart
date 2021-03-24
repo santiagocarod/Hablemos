@@ -3,8 +3,8 @@ import 'package:hablemos/model/centro_atencion.dart';
 class CentroAtencionProvider {
   static List<CentroAtencion> getCentros() {
     List<CentroAtencion> centros = [];
-    for (int i = 0; i < 2; i++) {
-      String nombre = 'What is Lorem Ipsum?';
+    for (int i = 0; i < 10; i++) {
+      String nombre = 'What is Lorem Ipsum?$i';
       String ciudad = 'Bogotá';
       String departamento = 'Cundinamarca';
       String correo = 'asdhfaksdjf@jasdka.com';
@@ -12,7 +12,7 @@ class CentroAtencionProvider {
       String ubicacion = 'Cra. 23 m # 14 - 23';
       bool gratuito;
 
-      if (i == 0) {
+      if (i % 2 == 0) {
         gratuito = true;
       } else {
         gratuito = false;
