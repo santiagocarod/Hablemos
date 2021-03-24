@@ -1,4 +1,3 @@
-import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/model/profesional.dart';
 
 class Pagoadmin {
