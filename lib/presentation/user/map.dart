@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,8 +11,6 @@ class MapBoxClass extends StatefulWidget {
 }
 
 class _MapBoxClassState extends State<MapBoxClass> {
-  Position _currentPosition;
-  String _currentAddress;
   double dirLatitud;
   double dirLongitud;
 
@@ -190,36 +186,6 @@ class _MapBoxClassState extends State<MapBoxClass> {
       await launch(googleUrl);
     } else {
       throw 'Could not open the map.';
-    }
-  }
-
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _getAddressFromLatLng();
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = placemarks[0];
-
-      setState(() {
-        _currentAddress = "${place.street}";
-        center = LatLng(_currentPosition.latitude, _currentPosition.longitude);
-      });
-    } catch (e) {
-      print(e);
     }
   }
 }
