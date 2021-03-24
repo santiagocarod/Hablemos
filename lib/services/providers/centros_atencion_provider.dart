@@ -9,7 +9,7 @@ class CentroAtencionProvider {
       String departamento = 'Cundinamarca';
       String correo = 'asdhfaksdjf@jasdka.com';
       String telefono = '333 - 1231233 - 1232345';
-      String ubicacion = 'Cra. 23 m # 14 - 23';
+      String ubicacion = 'Cra. 14 A ##151a-39, Bogotá';
       bool gratuito;
 
       if (i % 2 == 0) {

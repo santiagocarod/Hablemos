@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/services/providers/centros_atencion_provider.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
-class ListMedicalCenter extends StatelessWidget {
+class ListMedicalCenter extends StatefulWidget {
+  @override
+  _ListMedicalCenterState createState() => _ListMedicalCenterState();
+}
+
+class _ListMedicalCenterState extends State<ListMedicalCenter> {
   final _medicalCenters = CentroAtencionProvider.getCentros();
+
+  Position _currentPosition;
+  double dirLatitud;
+  double dirLongitud;
+  LatLng center = LatLng(4.6097100, -74.0817500);
+  List<CentroAtencion> listaCercanosReal;
+
   @override
   Widget build(BuildContext context) {
+    _getCurrentLocation();
+    print(_currentPosition);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -66,5 +83,18 @@ class ListMedicalCenter extends StatelessWidget {
     });
 
     return widgets;
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

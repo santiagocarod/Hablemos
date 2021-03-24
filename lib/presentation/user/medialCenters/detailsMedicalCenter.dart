@@ -26,7 +26,13 @@ class DetailsMedicalCenter extends StatelessWidget {
                 ),
                 Espacio(size: size),
                 MedicalCenterDetailsTitle("Ubicación"),
-                MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'Mapa',
+                        arguments: _centroAtencion.ubicacion);
+                  },
+                  child: MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                ),
                 //Espacio(size: size),
                 Padding(
                   padding: EdgeInsets.symmetric(

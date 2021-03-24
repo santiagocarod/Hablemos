@@ -174,7 +174,12 @@ class _MapBoxClassState extends State<MapBoxClass> {
   }
 
   _transformStreet(String direccion) async {
-    List<Address> ltln = await Geocoder.local.findAddressesFromQuery(direccion);
+    List<Address> ltln;
+    try {
+      ltln = await Geocoder.local.findAddressesFromQuery(direccion);
+    } catch (e) {
+      print(e);
+    }
     return ltln.first;
   }
 
