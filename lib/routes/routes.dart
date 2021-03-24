@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
-import 'package:hablemos/presentation/maps/map.dart';
+import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
 import 'package:hablemos/presentation/pacient/forums/topics.dart';
