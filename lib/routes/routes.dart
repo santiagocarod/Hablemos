@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
+import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
@@ -125,5 +127,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'tallerSubscripto': (context) => SubscribedWorkShop(),
     'actividadSubscripto': (context) => SubscribedActivity(),
     'grupoSubscripto': (context) => SubscribedGroup(),
+    'adminViewProfile': (context) => ViewAdminProfile(),
+    'adminManageProffessional': (context) => ViewProfProfileManagement(),
   };
 }
