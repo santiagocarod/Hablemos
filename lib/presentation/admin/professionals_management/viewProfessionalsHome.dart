@@ -97,10 +97,14 @@ class _HomeProfessionalsManagementState
         padding: EdgeInsets.all(2),
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'verPerfilProfManage',
+                  arguments: profesional);
+            },
             child: Column(
               children: [
                 Container(
+                  height: 30,
                   width: double.infinity,
                   child: Center(
                     child:
