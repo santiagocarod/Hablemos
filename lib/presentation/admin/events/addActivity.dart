@@ -164,7 +164,7 @@ class _AddActivity extends State<AddActivity> {
                           TextField(
                             controller: _ubicacionController,
                             enableInteractiveSelection: false,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontFamily: "PoppinsRegular",
                                 fontSize: 15.0,
@@ -506,7 +506,7 @@ class _AddActivity extends State<AddActivity> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: size.height * 0.04),
                     Container(
                       width: 330.5,
                       child: Row(

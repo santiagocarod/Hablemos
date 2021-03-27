@@ -2,20 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/taller.dart';
-import 'package:hablemos/services/providers/eventos_provider.dart';
+import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class AddWorkShop extends StatefulWidget {
+class ModifyActivity extends StatefulWidget {
   @override
-  _AddWorkShop createState() => _AddWorkShop();
+  _ModifyActivity createState() => _ModifyActivity();
 }
 
-class _AddWorkShop extends State<AddWorkShop> {
+class _ModifyActivity extends State<ModifyActivity> {
   String _date = '';
   String _time = '';
   TextEditingController _inputFieldDateController = new TextEditingController();
@@ -27,7 +26,6 @@ class _AddWorkShop extends State<AddWorkShop> {
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
-  final List<Taller> taller = EventoProvider.getTalleres();
 
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
@@ -111,12 +109,13 @@ class _AddWorkShop extends State<AddWorkShop> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final Actividad actividad = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: crearAppBarEventos(
-          context, "Creación de Taller", "listarTalleresAdmin"),
+          context, "Modificación de Actividad", "listarActividadesAdmin"),
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -133,13 +132,74 @@ class _AddWorkShop extends State<AddWorkShop> {
                   height: size.height * 0.15,
                 ),
                 TextField(
+                  textAlign: TextAlign.center,
                   controller: _tituloController,
                   enableInteractiveSelection: false,
-                  textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
                       fontSize: 27.0, fontWeight: FontWeight.w300),
                   decoration: InputDecoration(
-                      border: InputBorder.none, hintText: 'Nombre Taller'),
+                      border: InputBorder.none, hintText: actividad.titulo),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Container(
+                  width: 365.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Center(
+                        child: Container(
+                          width: 315.0,
+                          height: 137.0,
+                          decoration: BoxDecoration(
+                            image: actividad.foto,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(0, 0),
+                                  blurRadius: 7.0,
+                                  color: Colors.grey.withOpacity(0.5)),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40.0),
+                            child: (_image != null)
+                                ? new Image.file(_image)
+                                : Container(),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _showPicker(context);
+                        },
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            height: 56.0,
+                            width: 56.0,
+                            decoration: BoxDecoration(
+                              color: kBlanco,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0, 0),
+                                    blurRadius: 7.0,
+                                    color: Colors.grey.withOpacity(0.5)),
+                              ],
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.camera_alt_rounded,
+                                color: kNegro,
+                                size: 28.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.03,
@@ -162,14 +222,19 @@ class _AddWorkShop extends State<AddWorkShop> {
                             ),
                           ),
                           TextField(
-                            controller: _ubicacionController,
+                            controller: _ubicacionController
+                              ..text = actividad.ubicacion,
                             enableInteractiveSelection: false,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontFamily: "PoppinsRegular",
                                 fontSize: 15.0,
-                                fontWeight: FontWeight.w300),
+                                color: kLetras),
                             decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 15.0,
+                                    color: kLetras),
                                 contentPadding: EdgeInsets.only(bottom: 5.0)),
                           ),
                         ],
@@ -192,8 +257,9 @@ class _AddWorkShop extends State<AddWorkShop> {
                             ),
                           ),
                           TextField(
-                            controller: _descripcionController,
-                            enableInteractiveSelection: false,
+                            controller: _descripcionController
+                              ..text = actividad.descripcion,
+                            enableInteractiveSelection: true,
                             keyboardType: TextInputType.multiline,
                             minLines: 3,
                             maxLines: 15,
@@ -202,6 +268,12 @@ class _AddWorkShop extends State<AddWorkShop> {
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w300),
                             decoration: InputDecoration(
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                hintStyle: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 15.0,
+                                    color: kLetras),
                                 contentPadding:
                                     EdgeInsets.only(top: 5.0, bottom: 10.0)),
                           ),
@@ -313,13 +385,21 @@ class _AddWorkShop extends State<AddWorkShop> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: TextField(
-                                    controller: _sesionesController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
+                                      controller: _sesionesController
+                                        ..text =
+                                            actividad.numeroSesiones.toString(),
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(
+                                              fontFamily: "PoppinsRegular",
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0))),
                                 ),
                               ],
                             ),
@@ -342,13 +422,20 @@ class _AddWorkShop extends State<AddWorkShop> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: TextField(
-                                    controller: _precioController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
+                                      controller: _precioController
+                                        ..text = actividad.valor,
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(
+                                              fontFamily: "PoppinsRegular",
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0))),
                                 ),
                               ],
                             ),
@@ -357,155 +444,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    Container(
-                      width: 330.5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 133.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Banco",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _bancoController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 183.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Número de Cuenta",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _numCuentaController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      width: 330.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Foto",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsRegular",
-                                  fontSize: 18.0,
-                                  color: kLetras.withOpacity(0.7)),
-                            ),
-                          ),
-                          Container(
-                            width: 238.0,
-                            height: 181.0,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    border: Border(
-                                      top: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
-                                      ),
-                                      bottom: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
-                                      ),
-                                      left: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
-                                      ),
-                                      right: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    child: (_image != null)
-                                        ? new Image.file(_image)
-                                        : Container(),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    _showPicker(context);
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Container(
-                                      margin: EdgeInsets.only(top: 10.0),
-                                      height: 56.0,
-                                      width: 56.0,
-                                      decoration: BoxDecoration(
-                                        color: kBlanco,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(0, 0),
-                                              blurRadius: 7.0,
-                                              color:
-                                                  Colors.grey.withOpacity(0.5)),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.camera_alt_rounded,
-                                          color: kNegro,
-                                          size: 28.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _datosFinancieros(context, actividad, _bancoController,
+                        _numCuentaController),
                     SizedBox(height: size.height * 0.04),
                     Container(
                       width: 330.5,
@@ -514,7 +454,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              /*Taller nuevaTaller = new Taller(
+                              /*Actividad nuevaActividad = new Actividad(
                                 titulo: _tituloController.text,
                                 valor: _precioController.text,
                                 descripcion: _descripcionController.text,
@@ -524,15 +464,16 @@ class _AddWorkShop extends State<AddWorkShop> {
                                 banco: _bancoController.text,
                                 numeroCuenta: _numCuentaController.text,
                               );
-                              talleres.add(nuevaTaller);*/
+                              actividades.add(nuevaActividad);*/
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return dialogoConfirmacion(
+                                  return dialogoConfirmacionMod(
                                       context,
-                                      "listarTalleresAdmin",
-                                      "Confirmación de Creación",
-                                      "¿Está seguro que desea crear un nuevo Taller?");
+                                      "verActividadAdmin",
+                                      "Confirmación de Modificación",
+                                      "¿Está seguro que desea modificar esta Actividad?",
+                                      actividad);
                                 },
                               );
                             },
@@ -563,6 +504,190 @@ class _AddWorkShop extends State<AddWorkShop> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _datosFinancieros(
+      BuildContext context,
+      Actividad actividad,
+      TextEditingController _bancoController,
+      TextEditingController _numCuentaController) {
+    if (actividad.ubicacion.toLowerCase() == "virtual") {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 133.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Banco",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras.withOpacity(0.7),
+                          fontSize: 18.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextField(
+                        controller: _bancoController..text = actividad.banco,
+                        enableInteractiveSelection: false,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras,
+                            fontSize: 15.0),
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                fontSize: 15.0,
+                                color: kLetras),
+                            contentPadding:
+                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 183.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Número de Cuenta",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras.withOpacity(0.7),
+                          fontSize: 18.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextField(
+                        controller: _numCuentaController
+                          ..text = actividad.numeroCuenta,
+                        enableInteractiveSelection: false,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras,
+                            fontSize: 15.0),
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                fontSize: 15.0,
+                                color: kLetras),
+                            contentPadding:
+                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return SizedBox(height: 10.0);
+    }
+  }
+
+  AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
+      String titulo, String mensaje, Actividad actividad) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          side: BorderSide(color: kNegro, width: 2.0),
+          borderRadius: BorderRadius.all(Radius.circular(37.0))),
+      backgroundColor: kBlanco,
+      content: Container(
+        height: 170.0,
+        width: 302.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
+            SizedBox(
+              height: 25.0,
+            ),
+            Container(
+              width: 259.0,
+              height: 55.0,
+              child: Text(
+                "$mensaje",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, rutaSi,
+                          arguments: actividad);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 99,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: kNegro),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(22.0),
+                        ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Si",
+                            style: GoogleFonts.montserrat(
+                                color: kNegro,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300)),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 99,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: kNegro),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(22.0),
+                        ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("No",
+                            style: GoogleFonts.montserrat(
+                                color: kNegro,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -7,6 +7,9 @@ import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
 import 'package:hablemos/presentation/admin/events/listActivitiesAdmin.dart';
 import 'package:hablemos/presentation/admin/events/listGroupsAdmin.dart';
 import 'package:hablemos/presentation/admin/events/listWorkShopsAdmin.dart';
+import 'package:hablemos/presentation/admin/events/modifyActivity.dart';
+import 'package:hablemos/presentation/admin/events/modifyGroup.dart';
+import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
@@ -139,5 +142,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "agregarActividad": (context) => AddActivity(),
     "agregarTaller": (context) => AddWorkShop(),
     "agregarGrupo": (context) => AddGroup(),
+    "modificarActividad": (context) => ModifyActivity(),
+    "modificarGrupo": (context) => ModifyGroup(),
+    "modificarTaller": (context) => ModifyWorkShop(),
   };
 }
