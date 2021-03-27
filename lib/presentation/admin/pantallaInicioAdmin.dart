@@ -147,6 +147,9 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
               ),
               _smallButton(context, "Salud Mental",
                   "assets/images/infoIcon.png", 19, "inicioAdministrador"),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
             ],
           )
         ],
@@ -156,10 +159,10 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
 }
 
 Widget _smallButton(BuildContext context, String titulo, String icon,
-    double letra, String ruta) {
+    double letra, String routeName) {
   return GestureDetector(
     onTap: () {
-      Navigator.pushNamed(context, ruta);
+      Navigator.pushNamed(context, routeName);
     },
     child: Container(
       width: 146.0,
@@ -200,10 +203,10 @@ Widget _smallButton(BuildContext context, String titulo, String icon,
 }
 
 Widget _bigButton(BuildContext context, String titulo, String icon,
-    double bottom, double top, String ruta) {
+    double bottom, double top, String routeName) {
   return GestureDetector(
     onTap: () {
-      Navigator.pushNamed(context, ruta);
+      Navigator.pushNamed(context, routeName);
     },
     child: Container(
       width: 146.0,

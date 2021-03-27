@@ -35,12 +35,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* _authService.getCurrentUser().then((value) {
+    _authService.getCurrentUser().then((value) {
       if (value != null) {
         Navigator.pushNamed(context, 'inicio');
       }
-    })*/
-    ;
+    });
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
