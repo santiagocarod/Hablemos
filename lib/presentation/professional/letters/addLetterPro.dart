@@ -127,31 +127,5 @@ class AddLetterPro extends StatelessWidget {
             ),
           );
         });
-
-    AppBar appBarCarta(
-        String texto, IconData icono, int constante, Color color) {
-      return AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Hero(
-            tag: constante,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Icon(icono, color: color),
-            ),
-          ),
-        ],
-        title: Text(
-          texto,
-          style: TextStyle(
-              color: kLetras, fontSize: 20.0, fontFamily: 'PoppinsRegular'),
-        ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: kLetras, //change your color here
-        ),
-      );
-    }
   }
 }
