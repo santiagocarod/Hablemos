@@ -29,12 +29,8 @@ const kGrisN = Color(0xFFC4C4C4);
 const kGris = Color(0xFFD8D0FF);
 const kMoradoClaro = Color(0xFFE8E6F5);
 const kCuruba = Color(0xFFF8DFA5);
-
-const listaColores = [
-  kVerdeMuyClaro,
-  kRojoMuyClaro,
-  kAzul1,
-];
+const kPurpura = Color(0xFFDDACF5);
+const kMoradoTitulo = Color(0xFF9A53BC);
 
 const heroCita = 1;
 const heroCentrosAtencion = 2;

@@ -90,7 +90,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
               SizedBox(height: size.height * 0.03),
               Container(
                 child: Text(
-                  "!Bienvenido, Administrado!",
+                  "!Bienvenido, Administrador!",
                   textAlign: TextAlign.center,
                   style:
                       TextStyle(fontFamily: "PoppinSemiBold", fontSize: 30.0),
@@ -146,7 +146,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                 height: size.height * 0.05,
               ),
               _smallButton(context, "Salud Mental",
-                  "assets/images/infoIcon.png", 19, "inicioAdministrador"),
+                  "assets/images/infoIcon.png", 19, "mainScreen"),
               SizedBox(
                 height: size.height * 0.03,
               ),

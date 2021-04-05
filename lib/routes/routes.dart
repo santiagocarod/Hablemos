@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/forums/forum.dart';
+import 'package:hablemos/presentation/admin/forums/mainForums.dart';
+import 'package:hablemos/presentation/admin/forums/newForum.dart';
+import 'package:hablemos/presentation/admin/forums/response.dart';
+import 'package:hablemos/presentation/admin/forums/viewResponse.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
@@ -125,5 +134,14 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'tallerSubscripto': (context) => SubscribedWorkShop(),
     'actividadSubscripto': (context) => SubscribedActivity(),
     'grupoSubscripto': (context) => SubscribedGroup(),
+    'mainScreen': (context) => MainScreen(),
+    'mainForums': (context) => MainForums(),
+    'mainInformation': (context) => MainInformation(),
+    'forum': (context) => Forum(),
+    'response': (context) => Response(),
+    'viewResponse': (context) => ViewResponse(),
+    'newForum': (context) => NewForum(),
+    'information': (context) => InformationAdmin(),
+    'newInformation': (context) => NewInformation(),
   };
 }
