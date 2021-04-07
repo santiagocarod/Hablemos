@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/administrador.dart';
 import 'package:hablemos/services/providers/administrador_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
 
