@@ -142,7 +142,8 @@ class _EditProfile extends State<EditProfile> {
         ),
         // Draw camera icon
         Container(
-          padding: EdgeInsets.only(top: 190.0, left: (size.width / 2) - 150.0),
+          padding: EdgeInsets.only(
+              top: (size.height / 2) * 0.45, left: (size.width / 2) * 0.55),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {

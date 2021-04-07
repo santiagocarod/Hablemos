@@ -129,7 +129,7 @@ class _ViewProfile extends State<ViewProfile> {
         // Draw camera icon
         Container(
           padding: EdgeInsets.only(
-              top: (size.height / 2) * 0.55, left: (size.width / 2) * 0.5),
+              top: (size.height / 2) * 0.45, left: (size.width / 2) * 0.55),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {

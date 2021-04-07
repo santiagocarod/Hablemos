@@ -147,7 +147,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                   height: size.height * 0.04,
                 ),
                 _smallButton(context, "Salud Mental",
-                    "assets/images/infoIcon.png", 19, "inicioAdministrador"),
+                    "assets/images/infoIcon.png", 19, "mainScreen"),
                 SizedBox(
                   height: 30.0,
                 ),
