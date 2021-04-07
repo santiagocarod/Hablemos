@@ -12,6 +12,7 @@ const kAzulClaro = Color(0xFFE1FFFF);
 const kMorado = Color(0xFFC08EF2);
 const kVerdeClaro = Color(0xFFA5DF6E);
 const kMostaza = Color(0xFFF6B662);
+const kAmarilloClaro = Color(0xFFFFDE83);
 const kAguaMarina = Color(0xFF46D4E1);
 const kMarino = Color(0xFF8EE8D8);
 const kNegro = Color(0xFF000000);
@@ -29,6 +30,7 @@ const kGrisN = Color(0xFFC4C4C4);
 const kGris = Color(0xFFD8D0FF);
 const kMoradoClaro = Color(0xFFE8E6F5);
 const kCuruba = Color(0xFFF8DFA5);
+const kMostazaOscuro = Color(0xFFC37E00);
 
 const listaColores = [
   kVerdeMuyClaro,

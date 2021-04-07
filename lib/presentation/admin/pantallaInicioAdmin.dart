@@ -128,7 +128,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             "Eventos",
                             "assets/images/eventsIcon.png",
                             21,
-                            "inicioAdministrador"),
+                            "eventosAdministrador"),
                         SizedBox(
                           height: size.height * 0.04,
                         ),
