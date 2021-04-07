@@ -111,7 +111,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             "assets/images/iconProfessionals.png",
                             15.0,
                             26.0,
-                            "inicioAdministrador"),
+                            "adminManageProffessional"),
                         SizedBox(
                           height: size.height * 0.04,
                         ),

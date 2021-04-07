@@ -58,7 +58,9 @@ class _HomeProfessionalsManagementState
         Container(
           height: size.height * 0.2,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'crearPerfilProfesionalManage');
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
