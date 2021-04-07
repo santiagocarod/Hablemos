@@ -83,6 +83,7 @@ class EventoProvider {
     String valor = '5000';
     String ubicacion = 'virtual';
     String numCuenta = '542-5126-6123';
+    int numSesiones = 3;
     String banco = 'Bancolombia';
     String titulo1 = 'Tipo Actividad 2';
     String descripcion1 =
@@ -90,9 +91,11 @@ class EventoProvider {
     String valor1 = '75.000 COP';
     String ubicacion1 = 'Calle 136 #64c-75';
     String numCuenta1 = '542-5126-6123';
+    int numSesiones1 = 2;
     String banco1 = 'Bancolombia';
     String valor2 = 'Sin Costo';
     String titulo2 = 'Tipo Actividad 3';
+    int numSesiones2 = 1;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/activities.png'), fit: BoxFit.cover);
 
@@ -104,6 +107,7 @@ class EventoProvider {
       banco: banco,
       foto: foto,
       numeroCuenta: numCuenta,
+      numeroSesiones: numSesiones,
     );
 
     Actividad a1 = new Actividad(
@@ -114,6 +118,7 @@ class EventoProvider {
       banco: banco1,
       foto: foto,
       numeroCuenta: numCuenta1,
+      numeroSesiones: numSesiones1,
     );
     Actividad a2 = new Actividad(
       titulo: titulo2,
@@ -122,6 +127,7 @@ class EventoProvider {
       valor: valor2,
       foto: foto,
       numeroCuenta: numCuenta,
+      numeroSesiones: numSesiones2,
     );
     Actividad a3 = new Actividad(
       titulo: titulo1,
@@ -131,6 +137,7 @@ class EventoProvider {
       banco: banco1,
       foto: foto,
       numeroCuenta: numCuenta1,
+      numeroSesiones: numSesiones,
     );
     Actividad a4 = new Actividad(
       titulo: titulo,
@@ -140,6 +147,7 @@ class EventoProvider {
       banco: banco,
       foto: foto,
       numeroCuenta: numCuenta,
+      numeroSesiones: numSesiones1,
     );
 
     actividades..add(a)..add(a1)..add(a2)..add(a3)..add(a4);
@@ -167,7 +175,8 @@ class EventoProvider {
     String banco2 = "Banco de Bogotá";
     String numCuenta2 = '550-53216-32213';
     int sesiones2 = 3;
-    int sesiones = 0;
+    int sesiones = 10;
+    int sesiones1 = 7;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/supportGroup.png'), fit: BoxFit.cover);
 
@@ -185,7 +194,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
-      numeroSesiones: sesiones,
+      numeroSesiones: sesiones1,
       foto: foto,
     );
 
@@ -205,7 +214,7 @@ class EventoProvider {
       descripcion: descripcion1,
       valor: valor1,
       ubicacion: ubicacion1,
-      numeroSesiones: sesiones,
+      numeroSesiones: sesiones1,
       foto: foto,
     );
 

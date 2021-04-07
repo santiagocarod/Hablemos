@@ -622,6 +622,99 @@ showAlertDialog(BuildContext context, String text) {
   );
 }
 
+AlertDialog dialogoConfirmacion(
+    BuildContext context, String rutaSi, String titulo, String mensaje) {
+  return AlertDialog(
+    shape: RoundedRectangleBorder(
+        side: BorderSide(color: kNegro, width: 2.0),
+        borderRadius: BorderRadius.all(Radius.circular(37.0))),
+    backgroundColor: kBlanco,
+    content: Container(
+      height: 170.0,
+      width: 302.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Text(
+            "$titulo",
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+          ),
+          SizedBox(
+            height: 25.0,
+          ),
+          Container(
+            width: 259.0,
+            height: 55.0,
+            child: Text(
+              "$mensaje",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                  color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, rutaSi);
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 99,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kNegro),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(22.0),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("Si",
+                          style: GoogleFonts.montserrat(
+                              color: kNegro,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300)),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 99,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kNegro),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(22.0),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("No",
+                          style: GoogleFonts.montserrat(
+                              color: kNegro,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
