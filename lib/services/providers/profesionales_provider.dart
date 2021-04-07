@@ -16,14 +16,15 @@ class ProfesionalesProvider {
     String lsitaExperiencia =
         'Master en prevención y tratamiento de conductas adictivas y en terapia cognitivo conductual.';
     List<String> convenios = ['Colmedica', 'Colsanitas', 'Compensar'];
-    Map<String, String> redes = {
-      'facebook': 'fb.com/Juan',
-      'twitter': '@juan_sd',
-      'instagram': '@juan_sd'
-    };
+    List<String> redes = [
+      'facebook: fb.com/Juan',
+      'twitter: @juan_sd',
+      'instagram: @juan_sd'
+    ];
     List<String> proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3'];
     int cuenta = 31092938919;
     int numero = 3164448201;
+    String correo = 'superdoctor@gmail.com';
 
     profesional = new Profesional(
       nombre: nombre,
@@ -37,6 +38,7 @@ class ProfesionalesProvider {
       citas: citas,
       numeroCuenta: cuenta,
       celular: numero,
+      correo: correo,
     );
 
     return profesional;

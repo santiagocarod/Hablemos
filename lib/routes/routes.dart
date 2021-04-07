@@ -13,6 +13,8 @@ import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentActivity.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentGroup.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentWorkShop.dart';
@@ -114,6 +116,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'verPerfilProfesional': (context) => ProfileProView(),
+    'editarPerfilProfesional': (context) => EditProfileProfesional(),
     'principalCentrosMedicos': (context) => MainMedicalCenter(),
     'listCentrosMedicos': (context) => ListMedicalCenter(),
     'detailCentroMedico': (context) => DetailsMedicalCenter(),
