@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -18,8 +17,8 @@ class EditProfileProfessionalAdmin extends StatefulWidget {
 class _EditProfileProfessionalAdminState
     extends State<EditProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
-  TextEditingController _nameController = new TextEditingController();
-  TextEditingController _mailController = new TextEditingController();
+  // TextEditingController _nameController = new TextEditingController();
+  // TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
   TextEditingController _especialidadController = new TextEditingController();
@@ -30,58 +29,6 @@ class _EditProfileProfessionalAdminState
 
   String _date = '';
   File _image;
-  final ImagePicker _imagePicker = new ImagePicker();
-
-  // Set the image form camera
-  _imagenDesdeCamara() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.camera, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Set the image form gallery
-  _imagenDesdeGaleria() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.gallery, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Display options (Camera or Gallery)
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Galeria de Fotos'),
-                      trailing: new Icon(Icons.cloud_upload),
-                      onTap: () {
-                        _imagenDesdeGaleria();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Cámara'),
-                    trailing: new Icon(Icons.cloud_upload),
-                    onTap: () {
-                      _imagenDesdeCamara();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
