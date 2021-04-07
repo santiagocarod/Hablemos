@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
@@ -57,6 +58,9 @@ import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
+import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
+import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
+import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
 import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 
 final Profesional profesional = ProfesionalesProvider.getProfesional();
@@ -69,6 +73,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'registro': (context) => SignInPage(),
     'inicio': (context) => PantallaInicioPacinete(),
     'inicioProfesional': (context) => PantallaInicioProfesional(),
+    'inicioAdministrador': (context) => PantallaInicioAdmin(),
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
     'detalleCitasProfesional': (context) =>
@@ -113,6 +118,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleInformacion': (context) => InformationDetails(),
     'verPerfilProfesional': (context) => ProfileProView(),
     'editarPerfilProfesional': (context) => EditProfileProfesional(),
+    'principalCentrosMedicos': (context) => MainMedicalCenter(),
+    'listCentrosMedicos': (context) => ListMedicalCenter(),
+    'detailCentroMedico': (context) => DetailsMedicalCenter(),
     'verPerfil': (context) => ViewProfile(),
     'editarPerfil': (context) => EditProfile(),
     'adjuntarPagoTaller': (context) => AttachPaymentWorkShop(),
