@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
 
@@ -15,58 +14,6 @@ class ViewProfProfileManagement extends StatefulWidget {
 
 class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
   File _image;
-  final ImagePicker _imagePicker = new ImagePicker();
-
-  // Set the image form camera
-  _imagenDesdeCamara() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.camera, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Set the image form gallery
-  _imagenDesdeGaleria() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.gallery, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Display options (Camera or Gallery)
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Galeria de Fotos'),
-                      trailing: new Icon(Icons.cloud_upload),
-                      onTap: () {
-                        _imagenDesdeGaleria();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Cámara'),
-                    trailing: new Icon(Icons.cloud_upload),
-                    onTap: () {
-                      _imagenDesdeCamara();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   @override
   Widget build(BuildContext context) {

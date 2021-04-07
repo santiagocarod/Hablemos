@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
@@ -134,5 +135,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'verPerfilProfManage': (context) => ViewProfProfileManagement(),
     'editarPerfilProfesionalManage': (context) =>
         EditProfileProfessionalAdmin(),
+    'crearPerfilProfesionalManage': (context) =>
+        CreateProfileProfessionalAdmin(),
   };
 }
