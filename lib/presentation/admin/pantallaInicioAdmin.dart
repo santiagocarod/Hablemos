@@ -56,7 +56,9 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, 'adminViewProfile');
+                        },
                         child: Container(
                           child: Row(
                             children: <Widget>[
@@ -109,7 +111,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             "assets/images/iconProfessionals.png",
                             15.0,
                             26.0,
-                            "inicioAdministrador"),
+                            "adminManageProffessional"),
                         SizedBox(
                           height: size.height * 0.04,
                         ),

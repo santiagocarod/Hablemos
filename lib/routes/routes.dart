@@ -23,6 +23,11 @@ import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
+import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
@@ -151,6 +156,13 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'tallerSubscripto': (context) => SubscribedWorkShop(),
     'actividadSubscripto': (context) => SubscribedActivity(),
     'grupoSubscripto': (context) => SubscribedGroup(),
+    'adminViewProfile': (context) => ViewAdminProfile(),
+    'adminManageProffessional': (context) => HomeProfessionalsManagement(),
+    'verPerfilProfManage': (context) => ViewProfProfileManagement(),
+    'editarPerfilProfesionalManage': (context) =>
+        EditProfileProfessionalAdmin(),
+    'crearPerfilProfesionalManage': (context) =>
+        CreateProfileProfessionalAdmin(),
     'mainScreen': (context) => MainScreen(),
     'mainForums': (context) => MainForums(),
     'mainInformation': (context) => MainInformation(),
