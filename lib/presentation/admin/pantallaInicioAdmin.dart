@@ -46,113 +46,115 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
             width: size.width,
             height: size.height,
           ),
-          Column(
-            children: <Widget>[
-              Container(
-                width: size.width * 0.9,
-                padding: EdgeInsets.only(top: size.height * 0.08),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'adminViewProfile');
-                      },
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.account_circle_rounded),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              "Mi Perfil",
-                              style: TextStyle(
-                                  fontFamily: "PoppinSemiBold",
-                                  fontSize: 18.0,
-                                  color: kNegro),
-                            ),
-                          ],
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: size.width * 0.9,
+                  padding: EdgeInsets.only(top: size.height * 0.07),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'adminViewProfile');
+                        },
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.account_circle_rounded),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Mi Perfil",
+                                style: TextStyle(
+                                    fontFamily: "PoppinSemiBold",
+                                    fontSize: 18.0,
+                                    color: kNegro),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        "Log Out",
-                        style: TextStyle(
-                            fontFamily: "PoppinSemiBold",
-                            fontSize: 18.0,
-                            color: kNegro),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          "Log Out",
+                          style: TextStyle(
+                              fontFamily: "PoppinSemiBold",
+                              fontSize: 18.0,
+                              color: kNegro),
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: size.height * 0.03),
+                Container(
+                  child: Text(
+                    "!Bienvenido, Administrado!",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontFamily: "PoppinSemiBold", fontSize: 30.0),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.04),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        _bigButton(
+                            context,
+                            "Profesionales",
+                            "assets/images/iconProfessionals.png",
+                            15.0,
+                            26.0,
+                            "inicioAdministrador"),
+                        SizedBox(
+                          height: size.height * 0.04,
+                        ),
+                        _smallButton(
+                            context,
+                            "Pagos",
+                            "assets/images/paymentIcon.png",
+                            21,
+                            "inicioAdministrador"),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        _smallButton(
+                            context,
+                            "Eventos",
+                            "assets/images/eventsIcon.png",
+                            21,
+                            "eventosAdministrador"),
+                        SizedBox(
+                          height: size.height * 0.04,
+                        ),
+                        _bigButton(
+                            context,
+                            "Líneas de Atención",
+                            "assets/images/lineasIcon.png",
+                            5.0,
+                            15.0,
+                            "inicioAdministrador"),
+                      ],
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: size.height * 0.03),
-              Container(
-                child: Text(
-                  "!Bienvenido, Administrado!",
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontFamily: "PoppinSemiBold", fontSize: 30.0),
+                SizedBox(
+                  height: size.height * 0.04,
                 ),
-              ),
-              SizedBox(height: size.height * 0.05),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      _bigButton(
-                          context,
-                          "Profesionales",
-                          "assets/images/iconProfessionals.png",
-                          15.0,
-                          26.0,
-                          "adminManageProffessional"),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      _smallButton(
-                          context,
-                          "Pagos",
-                          "assets/images/paymentIcon.png",
-                          21,
-                          "inicioAdministrador"),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      _smallButton(
-                          context,
-                          "Eventos",
-                          "assets/images/eventsIcon.png",
-                          21,
-                          "inicioAdministrador"),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      _bigButton(
-                          context,
-                          "Líneas de Atención",
-                          "assets/images/lineasIcon.png",
-                          5.0,
-                          15.0,
-                          "inicioAdministrador"),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.05,
-              ),
-              _smallButton(context, "Salud Mental",
-                  "assets/images/infoIcon.png", 19, "inicioAdministrador"),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-            ],
+                _smallButton(context, "Salud Mental",
+                    "assets/images/infoIcon.png", 19, "mainScreen"),
+                SizedBox(
+                  height: 30.0,
+                ),
+              ],
+            ),
           )
         ],
       ),

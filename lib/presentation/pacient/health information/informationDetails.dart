@@ -69,7 +69,7 @@ Widget _simpleSecction(String title, String content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
     width: size.width,
-    height: size.height * 0.30,
+    height: size.height * 0.25,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -115,7 +115,7 @@ Widget _listSecction(String title, List<String> content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
     width: size.width,
-    height: size.height * 0.30,
+    height: size.height * 0.20,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
