@@ -202,7 +202,9 @@ class ColumnaDosProfesional extends StatelessWidget {
           ),
           //Construye Boton Mi Cuenta
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'verPerfilProfesional');
+            },
             child: new Column(
               children: <Widget>[
                 Hero(
