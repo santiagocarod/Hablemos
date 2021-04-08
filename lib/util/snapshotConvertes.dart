@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
+import 'package:hablemos/model/cita.dart';
 
 List<Carta> cartaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Carta> cartas = [];
@@ -34,4 +35,22 @@ List<CentroAtencion> centrosMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     centros.add(c);
   });
   return centros;
+}
+
+List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Cita> citas = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    Cita c = Cita(
+        uidPaciente: data["uidPacient"],
+        uidProfesional: data["uidProfessional"],
+        dateTime: data["dateTime"].toDate(),
+        costo: data["cost"],
+        lugar: data["place"],
+        especialidad: data["area"],
+        tipo: data["type"],
+        estado: data["state"]);
+    citas.add(c);
+  });
+  return citas;
 }

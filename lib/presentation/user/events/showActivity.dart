@@ -529,7 +529,7 @@ class ShowActivity extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                       child: Text(
-                        "${actividad.numeroCuenta}",
+                        "${actividad.banco.numCuenta}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,

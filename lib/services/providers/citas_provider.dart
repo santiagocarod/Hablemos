@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/cita.dart';
 import 'dart:math';
 
@@ -11,8 +12,7 @@ String _randomString(int length) {
 }
 
 class CitasProvider {
-  static List<Cita> getCitas() {
-    /*Aqui va la comunicación con Firebase para traer las citas.*/
+  /*static List<Cita> getCitas() {
     List<Cita> citas = [];
     for (int i = 0; i < 2; i++) {
       String uid1 = _randomString(10);
@@ -32,5 +32,23 @@ class CitasProvider {
           tipo: tipo));
     }
     return citas;
+  }*/
+
+  static addCita(Cita cita) {
+    CollectionReference citas =
+        FirebaseFirestore.instance.collection('appoinments');
+
+    citas.add({
+      "uidPacient": cita.uidPaciente,
+      "uidProfessional": cita.uidProfesional,
+      "dateTime": cita.dateTime,
+      "cost": cita.costo,
+      "place": cita.lugar,
+      "area": cita.especialidad,
+      "type": cita.tipo,
+      "state": cita.estado
+    });
   }
+
+  static removeCita(String id) {}
 }

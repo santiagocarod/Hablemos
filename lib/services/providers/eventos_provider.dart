@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
@@ -77,20 +78,18 @@ class EventoProvider {
 
   static List<Actividad> getActividades() {
     List<Actividad> actividades = [];
+    Banco banco = Banco(
+        banco: "Bancolombia", numCuenta: "123-4659-542", tipoCuenta: "Ahorros");
     String titulo = 'Tipo Actividad 1';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
     String ubicacion = 'virtual';
-    String numCuenta = '542-5126-6123';
-    String banco = 'Bancolombia';
     String titulo1 = 'Tipo Actividad 2';
     String descripcion1 =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75.000 COP';
     String ubicacion1 = 'Calle 136 #64c-75';
-    String numCuenta1 = '542-5126-6123';
-    String banco1 = 'Bancolombia';
     String valor2 = 'Sin Costo';
     String titulo2 = 'Tipo Actividad 3';
     DecorationImage foto = DecorationImage(
@@ -103,7 +102,6 @@ class EventoProvider {
       valor: valor,
       banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta,
     );
 
     Actividad a1 = new Actividad(
@@ -111,9 +109,8 @@ class EventoProvider {
       descripcion: descripcion1,
       ubicacion: ubicacion1,
       valor: valor1,
-      banco: banco1,
+      banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta1,
     );
     Actividad a2 = new Actividad(
       titulo: titulo2,
@@ -121,16 +118,14 @@ class EventoProvider {
       ubicacion: ubicacion,
       valor: valor2,
       foto: foto,
-      numeroCuenta: numCuenta,
     );
     Actividad a3 = new Actividad(
       titulo: titulo1,
       descripcion: descripcion1,
       ubicacion: ubicacion1,
       valor: valor1,
-      banco: banco1,
+      banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta1,
     );
     Actividad a4 = new Actividad(
       titulo: titulo,
@@ -139,7 +134,6 @@ class EventoProvider {
       valor: valor,
       banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta,
     );
 
     actividades..add(a)..add(a1)..add(a2)..add(a3)..add(a4);
