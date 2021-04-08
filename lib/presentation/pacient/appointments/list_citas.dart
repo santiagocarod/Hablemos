@@ -26,7 +26,7 @@ class ListCitas extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator();
           }
           List<Cita> citas = citaMapToList(snapshot);
           return Scaffold(
