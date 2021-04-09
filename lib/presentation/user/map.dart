@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:hablemos/ux/atoms.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:geocoder/geocoder.dart';
 
 class MapBoxClass extends StatefulWidget {
   @override
@@ -11,11 +8,6 @@ class MapBoxClass extends StatefulWidget {
 }
 
 class _MapBoxClassState extends State<MapBoxClass> {
-  double dirLatitud;
-  double dirLongitud;
-
-  LatLng center = LatLng(4.6097100, -74.0817500);
-
   @override
   Widget build(BuildContext context) {
     String direccion = ModalRoute.of(context).settings.arguments;
@@ -99,93 +91,47 @@ class _MapBoxClassState extends State<MapBoxClass> {
               ),
             ),
             Container(
-              child: FutureBuilder(
-                future: _transformStreet(direccion),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    final info = snapshot.data;
-                    openMap(
-                        info.coordinates.latitude, info.coordinates.longitude);
-                    return Container(
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.1,
-                            ),
-                            Container(
-                              height: 300,
-                              width: 300,
-                              child: Image.asset(
-                                'assets/images/gmaps.png',
-                                alignment: Alignment.center,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.1,
-                            ),
-                            Text(
-                              'No te preocupes!',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Estamos abriendo google maps en',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              '$direccion',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                child: Container(
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.1,
+                    ),
+                    Container(
+                      height: 300,
+                      width: 300,
+                      child: Image.asset(
+                        'assets/images/gmaps.png',
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
+                    ),
+                    SizedBox(
+                      height: size.height * 0.1,
+                    ),
+                    Text(
+                      'No te preocupes!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Estamos abriendo google maps en',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            )),
           ],
         ),
       );
-    }
-  }
-
-  _transformStreet(String direccion) async {
-    List<Address> ltln;
-    try {
-      ltln = await Geocoder.local.findAddressesFromQuery(direccion);
-    } catch (e) {
-      print(e);
-    }
-    return ltln.first;
-  }
-
-  Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
-    } else {
-      throw 'Could not open the map.';
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/model/centro_atencion.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class DetailsMedicalCenter extends StatelessWidget {
   final double _horizontalPadding = 25.0;
@@ -28,10 +29,15 @@ class DetailsMedicalCenter extends StatelessWidget {
                 MedicalCenterDetailsTitle("Ubicación"),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, 'Mapa',
-                        arguments: _centroAtencion.ubicacion);
+                    MapsLauncher.launchQuery(_centroAtencion.ubicacion);
+                    Navigator.pushNamed(context, 'Mapa');
                   },
-                  child: MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                  child: Row(
+                    children: [
+                      MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                      Icon(Icons.pin_drop)
+                    ],
+                  ),
                 ),
                 //Espacio(size: size),
                 Padding(
@@ -63,7 +69,6 @@ class DetailsMedicalCenter extends StatelessWidget {
                         child: Row(
                           children: [
                             MedicalCenterDetailsInfo(_centroAtencion.ciudad),
-                            Icon(Icons.pin_drop)
                           ],
                         )),
                   ],

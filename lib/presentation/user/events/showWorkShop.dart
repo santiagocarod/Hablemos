@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 import '../../../constants.dart';
 
@@ -321,14 +322,19 @@ class ShowWorkShop extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "${taller.ubicacion}",
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 17.0),
+                    GestureDetector(
+                      onTap: () {
+                        MapsLauncher.launchQuery(taller.ubicacion);
+                      },
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "${taller.ubicacion}",
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kLetras,
+                              fontSize: 17.0),
+                        ),
                       ),
                     ),
                   ],
