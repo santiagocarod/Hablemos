@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/banco.dart';
@@ -5,7 +6,7 @@ import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
 class EventoProvider {
-  static List<Taller> getTalleres() {
+  /*static List<Taller> getTalleres() {
     List<Taller> talleres = [];
     String titulo = 'Taller Tipo 1';
     String descripcion =
@@ -18,62 +19,99 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75000';
     String ubicacion1 = 'Virtual';
-    String banco1 = "Davivienda";
-    String numCuenta1 = "1535-4234-432";
+    Banco banco1 = Banco(
+        banco: "Davivienda",
+        numCuenta: "513-6453-653",
+        tipoCuenta: "Corriente");
     int numeroSes1 = 5;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/workshop.png'), fit: BoxFit.cover);
+    String fecha = "22/06/2021";
+    String hora = "10:00";
 
     Taller t = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t1 = new Taller(
-      titulo: titulo1,
-      descripcion: descripcion1,
-      numeroSesiones: numeroSes1,
-      ubicacion: ubicacion1,
-      valor: valor1,
-      banco: banco1,
-      numCuenta: numCuenta1,
-      foto: foto,
-    );
+        titulo: titulo1,
+        descripcion: descripcion1,
+        numeroSesiones: numeroSes1,
+        ubicacion: ubicacion1,
+        valor: valor1,
+        banco: banco1,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t2 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t3 = new Taller(
-      titulo: titulo1,
-      descripcion: descripcion1,
-      numeroSesiones: numeroSes1,
-      ubicacion: ubicacion1,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo1,
+        descripcion: descripcion1,
+        numeroSesiones: numeroSes1,
+        ubicacion: ubicacion1,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t4 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     talleres..add(t)..add(t1)..add(t2)..add(t3)..add(t4);
 
     return talleres;
+  }*/
+
+  static void addTaller(Taller taller) {
+    CollectionReference talleres =
+        FirebaseFirestore.instance.collection('workshops');
+    taller.banco != null
+        ? talleres.add({
+            "title": taller.titulo,
+            "description": taller.descripcion,
+            "numSessions": taller.numeroSesiones,
+            "location": taller.ubicacion,
+            "cost": taller.valor,
+            'date': taller.fecha,
+            'hour': taller.hora,
+            "bank": {
+              "bank": taller.banco.banco,
+              "type": taller.banco.tipoCuenta,
+              "numAccount": taller.banco.numCuenta
+            }
+          })
+        : talleres.add({
+            "title": taller.titulo,
+            "description": taller.descripcion,
+            "numSessions": taller.numeroSesiones,
+            "location": taller.ubicacion,
+            "cost": taller.valor,
+            'date': taller.fecha,
+            'hour': taller.hora,
+          });
   }
 
   static List<Actividad> getActividades() {

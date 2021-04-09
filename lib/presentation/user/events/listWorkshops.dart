@@ -10,10 +10,12 @@ class ListWorkShops extends StatelessWidget {
   final List<String> names = [];
   @override
   Widget build(BuildContext context) {
-    List<Taller> talleres = EventoProvider.getTalleres();
     Size size = MediaQuery.of(context).size;
+    List<Taller> talleres = EventoProvider.getTalleres();
+
     talleres.forEach((element) {
       names.add(element.titulo);
+      EventoProvider.addTaller(element);
     });
     return Scaffold(
       resizeToAvoidBottomInset: false,
