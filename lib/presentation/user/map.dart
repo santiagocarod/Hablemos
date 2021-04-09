@@ -10,7 +10,6 @@ class MapBoxClass extends StatefulWidget {
 class _MapBoxClassState extends State<MapBoxClass> {
   @override
   Widget build(BuildContext context) {
-    String direccion = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
     if (kIsWeb) {
