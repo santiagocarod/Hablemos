@@ -1,100 +1,51 @@
 import 'dart:io';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/paciente.dart';
-import 'package:hablemos/services/providers/pacientes_provider.dart';
+import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class EditProfile extends StatefulWidget {
+import '../../../constants.dart';
+
+class EditProfileProfessionalAdmin extends StatefulWidget {
   @override
-  _EditProfile createState() => _EditProfile();
+  _EditProfileProfessionalAdminState createState() =>
+      _EditProfileProfessionalAdminState();
 }
 
-class _EditProfile extends State<EditProfile> {
-  TextEditingController _mailController = new TextEditingController();
-  TextEditingController _cityController = new TextEditingController();
+class _EditProfileProfessionalAdminState
+    extends State<EditProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
-  TextEditingController _phoneController = new TextEditingController();
-  TextEditingController _nameEController = new TextEditingController();
-  TextEditingController _phoneEController = new TextEditingController();
-  TextEditingController _relationController = new TextEditingController();
-  TextEditingController _nameController = new TextEditingController();
+  // TextEditingController _nameController = new TextEditingController();
+  // TextEditingController _mailController = new TextEditingController();
+  TextEditingController _cityController = new TextEditingController();
+  TextEditingController _convenioController = new TextEditingController();
+  TextEditingController _especialidadController = new TextEditingController();
+  TextEditingController _proyectosController = new TextEditingController();
+  TextEditingController _experienciaController = new TextEditingController();
+  TextEditingController _descripcionController = new TextEditingController();
+  TextEditingController _redesController = new TextEditingController();
+
   String _date = '';
   File _image;
-  final ImagePicker _imagePicker = new ImagePicker();
-
-  // Set the image form camera
-  _imagenDesdeCamara() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.camera, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Set the image form gallery
-  _imagenDesdeGaleria() async {
-    PickedFile image = await _imagePicker.getImage(
-        source: ImageSource.gallery, imageQuality: 50);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  // Display options (Camera or Gallery)
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Galeria de Fotos'),
-                      trailing: new Icon(Icons.cloud_upload),
-                      onTap: () {
-                        _imagenDesdeGaleria();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Cámara'),
-                    trailing: new Icon(Icons.cloud_upload),
-                    onTap: () {
-                      _imagenDesdeCamara();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Paciente paciente = PacientesProvider
-        .getPaciente(); //ModalRoute.of(context).settings.arguments;
+    final Profesional profesional = ProfesionalesProvider.getProfesional();
     return Scaffold(
       extendBodyBehindAppBar: true,
       // Create an empty appBar, display the arrow back
       appBar: crearAppBar('', null, 0, null),
       body: Stack(
         children: <Widget>[
-          pacientHead(size, paciente),
+          cabeceraPerfilProfesional(size, profesional),
           Container(
-            padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+            padding: EdgeInsets.only(top: size.height * 0.53),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: _body(size, paciente),
+              child: _body(size, profesional),
             ),
           ),
         ],
@@ -102,9 +53,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
-    _nameController.text = paciente.nombre + " " + paciente.apellido;
+  Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -112,101 +61,99 @@ class _EditProfile extends State<EditProfile> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: size.height * 0.58,
             width: double.infinity,
             color: kRosado,
-          ),
-        ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: 32),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200.0,
-              height: 200.0,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200.0,
-                    )
-                  : Image.file(
-                      _image,
-                      width: 200.0,
-                      height: 200.0,
-                    ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding: EdgeInsets.only(
-              top: (size.height / 2) * 0.45, left: (size.width / 2) * 0.55),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        // Check icon and save text
-        Container(
-          padding: EdgeInsets.only(top: 253),
-          child: GestureDetector(
-            onTap: () {
-              // TODO: Save values in pacient
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => _buildDialog(context),
-              );
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: <Widget>[
-                Icon(
-                  Icons.check,
-                  size: 20.0,
-                  color: kNegro,
+                // Draw profile picture
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.05),
+                  alignment: Alignment.topCenter,
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white,
+                      width: 200,
+                      height: 200,
+                      child: _image == null
+                          ? Icon(
+                              Icons.account_circle,
+                              color: Colors.indigo[100],
+                              size: 200,
+                            )
+                          : Image.file(
+                              _image,
+                              width: 200,
+                              height: 200,
+                            ),
+                    ),
+                  ),
                 ),
-                Text(
-                  ' Guardar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                // Plus icon and edit text
+                Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      // TODO: Save values in profesional
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildDialog(context),
+                      );
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.check,
+                          size: 20.0,
+                          color: kNegro,
+                        ),
+                        Text(
+                          ' Guardar',
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: 15.0,
+                            fontFamily: 'PoppinsRegular',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Display text name
+                Center(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      profesional.nombre + " " + profesional.apellido,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: (size.height / 2) * 0.08,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      'Profesional',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kRojo,
+                        fontSize: (size.height / 2) * 0.07,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-        // Display text name
-        Container(
-          padding: EdgeInsets.only(top: 283),
-          alignment: Alignment.topCenter,
-          child: AutoSizeTextField(
-            controller: _nameController,
-            textAlign: TextAlign.center,
-            fullwidth: false,
-            style: TextStyle(
-              color: kNegro,
-              fontSize: (size.height / 2) * 0.1,
-              fontFamily: 'PoppinsRegular',
             ),
           ),
         ),
@@ -214,40 +161,26 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  //Body of the screen
-  Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
+  Widget _body(Size size, Profesional profesional) {
     return Container(
       width: size.width,
       child: Column(
         children: <Widget>[
-          _editSection('Correo', paciente.correo, _mailController),
           _sectionButton(),
-          _editSection('Ciudad', paciente.ciudad, _cityController),
-          _editSection('Fecha de Nacimiento', fecha, _dateController),
+          // _editSection('Correo', profesional.correo, _mailController),
+          _editSection('Ciudad', 'Bogotá D.C', _cityController),
+          _editSection('Convenio', profesional.convenios.toString(),
+              _convenioController),
+          _editSection('Especialidad', profesional.especialidades,
+              _especialidadController),
+          _editSection('Proyectos', profesional.proyectos.toString(),
+              _proyectosController),
           _editSection(
-              'Teléfono', paciente.telefono.toString(), _phoneController),
-          Container(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: Text(
-              'Información Contacto de Emergencia',
-              style: TextStyle(
-                fontSize: 20.0,
-                color: kRojoOscuro,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
+              'Experiencia', profesional.experiencia, _experienciaController),
           _editSection(
-              'Nombre', paciente.nombreContactoEmergencia, _nameEController),
+              'Descripción', profesional.descripcion, _descripcionController),
           _editSection(
-              'Teléfono',
-              paciente.telefonoContactoEmergencia.toString(),
-              _phoneEController),
-          _editSection('Relación', paciente.relacionContactoEmergencia,
-              _relationController),
+              'Redes Sociales', profesional.redes.toString(), _redesController),
         ],
       ),
     );
@@ -393,7 +326,6 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Confirm popup dialog
   Widget _adviceDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Perfil Actualizado'),

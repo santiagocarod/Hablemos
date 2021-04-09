@@ -1,17 +1,17 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/services/providers/pacientes_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class ViewProfile extends StatefulWidget {
+class ProfileProView extends StatefulWidget {
   @override
-  _ViewProfile createState() => _ViewProfile();
+  _ProfileProViewState createState() => _ProfileProViewState();
 }
 
-class _ViewProfile extends State<ViewProfile> {
+class _ProfileProViewState extends State<ProfileProView> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
@@ -69,28 +69,26 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Paciente paciente = PacientesProvider.getPaciente();
+    final Profesional profesional = ProfesionalesProvider.getProfesional();
     return Scaffold(
-      // Create an empty appBar, display the arrow back
       appBar: crearAppBar('', null, 0, null),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: <Widget>[
-          pacientHead(size, paciente),
+          cabeceraPerfilProfesional(size, profesional),
           Container(
-            padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+            padding: EdgeInsets.only(top: size.height * 0.53),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: _body(size, paciente),
+              child: cuerpoPerfilProfesional(size, profesional),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
+  Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -98,108 +96,114 @@ class _ViewProfile extends State<ViewProfile> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: size.height * 0.58,
             width: double.infinity,
             color: kRosado,
-            child: Column(
+          ),
+        ),
+        // Draw profile picture
+        Container(
+          padding: EdgeInsets.only(top: size.height * 0.05),
+          alignment: Alignment.topCenter,
+          child: ClipOval(
+            child: Container(
+              color: Colors.white,
+              width: 200,
+              height: 200,
+              child: _image == null
+                  ? Icon(
+                      Icons.account_circle,
+                      color: Colors.indigo[100],
+                      size: 200,
+                    )
+                  : Image.file(
+                      _image,
+                      width: 200,
+                      height: 200,
+                    ),
+            ),
+          ),
+        ),
+        // Draw camera icon
+        Container(
+          padding:
+              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
+          alignment: Alignment.topCenter,
+          child: GestureDetector(
+            onTap: () {
+              _showPicker(context);
+            },
+            child: ClipOval(
+              child: Container(
+                color: Colors.white,
+                width: 43.0,
+                height: 43.0,
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.black,
+                  size: 30.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // Plus icon and edit text
+        Container(
+          padding: EdgeInsets.only(top: size.height * 0.33),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'editarPerfilProfesional',
+                  arguments: profesional);
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Stack(
-                  children: [
-                    // Draw profile picture
-                    Container(
-                      padding: EdgeInsets.only(top: 32),
-                      alignment: Alignment.topCenter,
-                      child: ClipOval(
-                        child: Container(
-                          color: Colors.white,
-                          width: 200.0,
-                          height: 200.0,
-                          child: _image == null
-                              ? Icon(
-                                  Icons.account_circle,
-                                  color: Colors.indigo[100],
-                                  size: 200.0,
-                                )
-                              : Image.file(
-                                  _image,
-                                  width: 200.0,
-                                  height: 200.0,
-                                ),
-                        ),
-                      ),
-                    ),
-                    // Draw camera icon
-                    Container(
-                      padding: EdgeInsets.only(
-                          top: (size.height / 2) * 0.55,
-                          left: (size.width / 2) * 0.5),
-                      alignment: Alignment.topCenter,
-                      child: GestureDetector(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: ClipOval(
-                          child: Container(
-                            color: Colors.white,
-                            width: 43.0,
-                            height: 43.0,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                              size: 30.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                Icon(
+                  Icons.add_circle_outline,
+                  size: 20.0,
+                  color: kNegro,
                 ),
-                // Plus icon and edit text
-                Container(
-                  padding: EdgeInsets.only(top: 0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'editarPerfil',
-                          arguments: paciente);
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.add_circle_outline,
-                          size: 20.0,
-                          color: kNegro,
-                        ),
-                        Text(
-                          ' Modificar',
-                          style: TextStyle(
-                            color: kNegro,
-                            fontSize: 15.0,
-                            fontFamily: 'PoppinsRegular',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Display text name
-                Center(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 0),
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      paciente.nombre + " " + paciente.apellido,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kNegro,
-                        fontSize: (size.height / 2) * 0.1,
-                        fontFamily: 'PoppinsRegular',
-                      ),
-                    ),
+                Text(
+                  ' Modificar',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 15.0,
+                    fontFamily: 'PoppinsRegular',
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+        // Display text name
+        Center(
+          child: Container(
+            padding: EdgeInsets.only(top: size.height * 0.35),
+            alignment: Alignment.topCenter,
+            child: Text(
+              profesional.nombre + " " + profesional.apellido,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: (size.height / 2) * 0.08,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            padding: EdgeInsets.only(top: size.height * 0.40),
+            alignment: Alignment.topCenter,
+            child: Text(
+              'Profesional',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kRojo,
+                fontSize: (size.height / 2) * 0.07,
+                fontFamily: 'PoppinsRegular',
+              ),
             ),
           ),
         ),
@@ -207,34 +211,20 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Body of the screen
-  Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
+  Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
       child: Column(
         children: <Widget>[
-          _section('Correo', paciente.correo),
           _sectionButton(),
-          _section('Ciudad', paciente.ciudad),
-          _section('Fecha de Nacimiento', fecha),
-          _section('Teléfono', paciente.telefono.toString()),
-          Container(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: Text(
-              'Información Contacto de Emergencia',
-              style: TextStyle(
-                fontSize: 20.0,
-                color: kRojoOscuro,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          _section('Nombre', paciente.nombreContactoEmergencia),
-          _section('Teléfono', paciente.telefonoContactoEmergencia.toString()),
-          _section('Relación', paciente.relacionContactoEmergencia),
+          _section('Correo', profesional.correo),
+          _section('Ciudad', 'Bogota D.C'),
+          _sectionList('Convenio', profesional.convenios, size),
+          _section('Especialidad', profesional.especialidades),
+          _sectionList('Proyectos', profesional.proyectos, size),
+          _section('Experiencia', profesional.experiencia),
+          _section('Descripcion', profesional.descripcion),
+          _sectionList('Redes Sociales', profesional.redes, size),
         ],
       ),
     );
@@ -347,7 +337,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Change password popup Dialog
+  // Change password popup dialog
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -371,5 +361,56 @@ class _ViewProfile extends State<ViewProfile> {
         ),
       ],
     );
+  }
+
+  Widget _sectionList(String title, List<String> content, Size size) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 0, bottom: 0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _list(content),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _list(List<String> content) {
+    List<Widget> info = [];
+    content.forEach((element) {
+      Text inf = Text(
+        '- $element',
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          fontSize: 15.0,
+          color: kNegro,
+          fontFamily: 'PoppinsRegular',
+        ),
+      );
+      info.add(inf);
+    });
+
+    return info;
   }
 }

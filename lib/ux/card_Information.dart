@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
-
-const listaColoresEjercicios = [
-  kVerdeMuyClaro,
-  kRojoMuyClaro,
-  kAzul1,
-];
+import 'package:hablemos/model/trastorno.dart';
 
 const listaColoresAdmin = [
   kMorado,
@@ -15,22 +10,14 @@ const listaColoresAdmin = [
   kPurpura,
 ];
 
-class CardSwiper extends StatelessWidget {
-  final List<dynamic> list;
-  final String route;
+class CardInformation extends StatelessWidget {
+  final List<Trastorno> list;
 
-  CardSwiper({@required this.list, this.route});
+  CardInformation({@required this.list});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Color> listaColores;
-
-    if (route == 'infoEjercicio') {
-      listaColores = new List<Color>.from(listaColoresEjercicios);
-    } else {
-      listaColores = new List<Color>.from(listaColoresAdmin);
-    }
 
     return Container(
       width: double.infinity,
@@ -42,7 +29,8 @@ class CardSwiper extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, route, arguments: list[index]);
+              Navigator.pushNamed(context, 'information',
+                  arguments: list[index]);
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -55,7 +43,7 @@ class CardSwiper extends StatelessWidget {
                     topStart: Radius.circular(30.0),
                     topEnd: Radius.circular(30.0),
                   ),
-                  color: listaColores[index % listaColores.length],
+                  color: listaColoresAdmin[index % listaColoresAdmin.length],
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
@@ -69,7 +57,7 @@ class CardSwiper extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
-                      list[index].titulo,
+                      list[index].nombre,
                       style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
@@ -80,7 +68,7 @@ class CardSwiper extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(left: 30.0, right: 30.0),
                       child: Text(
-                        list[index].descripcion,
+                        list[index].definicion,
                         style: TextStyle(
                           fontSize: 20.0,
                           fontFamily: 'PoppinsRegular',
