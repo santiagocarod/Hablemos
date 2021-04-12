@@ -1,6 +1,6 @@
 import 'package:hablemos/model/diagnostico.dart';
 
-class TrastornoProvider {
+class DiagnosticoProvider {
   static List<Diagnostico> getTrastorno() {
     List<Diagnostico> trastornos = [];
 

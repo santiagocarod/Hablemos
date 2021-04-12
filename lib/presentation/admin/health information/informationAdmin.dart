@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
-import 'package:hablemos/services/providers/trastornos_provider.dart';
+import 'package:hablemos/services/providers/diagnostico_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class InformationAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final Trastorno trastorno = ModalRoute.of(context).settings.arguments;
-    final Diagnostico trastorno = TrastornoProvider.getTrastorno()[0];
+    final Diagnostico trastorno = DiagnosticoProvider.getTrastorno()[0];
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
