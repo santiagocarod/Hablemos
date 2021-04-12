@@ -14,17 +14,18 @@ class Grupo {
   Banco banco;
   String numCuenta;
 
-  Grupo({
-    this.uid,
-    this.titulo,
-    this.valor,
-    this.numeroSesiones,
-    this.descripcion,
-    this.foto,
-    this.ubicacion,
-    this.banco,
-    this.numCuenta,
-  }) {
+  Grupo(
+      {this.uid,
+      this.titulo,
+      this.valor,
+      this.numeroSesiones,
+      this.descripcion,
+      this.foto,
+      this.ubicacion,
+      this.banco,
+      this.numCuenta,
+      this.fecha,
+      this.hora}) {
     this.fecha = DateTime.now().day.toString() +
         '/' +
         DateTime.now().month.toString() +

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
@@ -95,6 +96,8 @@ List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
 
     Grupo g = Grupo(
         descripcion: data["description"],
+        fecha: data["date"],
+        hora: data["hour"],
         numeroSesiones: data["numSessions"],
         ubicacion: data["location"],
         titulo: data["title"],
@@ -112,6 +115,36 @@ List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
             tipoCuenta: data["bank"]["type"]);
     g.banco = value;
     grupos.add(g);
+  });
+  return grupos;
+}
+
+List<Actividad> actividadMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Actividad> grupos = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+
+    Actividad a = Actividad(
+        descripcion: data["description"],
+        fecha: data["date"],
+        hora: data["hour"],
+        numeroSesiones: data["numSessions"],
+        ubicacion: data["location"],
+        titulo: data["title"],
+        uid: element.id,
+        valor: data["cost"],
+        foto: DecorationImage(
+            image: AssetImage('assets/images/activities.png'),
+            fit: BoxFit.cover));
+    dynamic value;
+    data['bank'] == null
+        ? value = null
+        : value = Banco(
+            banco: data["bank"]["bank"],
+            numCuenta: data["bank"]["numAccount"],
+            tipoCuenta: data["bank"]["type"]);
+    a.banco = value;
+    grupos.add(a);
   });
   return grupos;
 }

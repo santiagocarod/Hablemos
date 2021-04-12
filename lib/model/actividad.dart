@@ -23,6 +23,8 @@ class Actividad {
     this.foto,
     this.ubicacion,
     this.banco,
+    this.fecha,
+    this.hora,
   }) {
     this.fecha = DateTime.now().day.toString() +
         '/' +

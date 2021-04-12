@@ -650,7 +650,7 @@ class ShowActivity extends StatelessWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "${actividad.banco}",
+                      "${actividad.banco.banco}",
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
                           color: kLetras,

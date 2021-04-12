@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/grupo.dart';
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

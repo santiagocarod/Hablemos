@@ -176,7 +176,42 @@ class EventoProvider {
 
     actividades..add(a)..add(a1)..add(a2)..add(a3)..add(a4);
 
+    addActividad(a);
+    addActividad(a1);
+    addActividad(a2);
+    addActividad(a3);
+    addActividad(a4);
+
     return actividades;
+  }
+
+  static void addActividad(Actividad actividad) {
+    CollectionReference talleres =
+        FirebaseFirestore.instance.collection('activities');
+    actividad.banco != null
+        ? talleres.add({
+            "title": actividad.titulo,
+            "description": actividad.descripcion,
+            "numSessions": actividad.numeroSesiones,
+            "location": actividad.ubicacion,
+            "cost": actividad.valor,
+            'date': actividad.fecha,
+            'hour': actividad.hora,
+            "bank": {
+              "bank": actividad.banco.banco,
+              "type": actividad.banco.tipoCuenta,
+              "numAccount": actividad.banco.numCuenta
+            }
+          })
+        : talleres.add({
+            "title": actividad.titulo,
+            "description": actividad.descripcion,
+            "numSessions": actividad.numeroSesiones,
+            "location": actividad.ubicacion,
+            "cost": actividad.valor,
+            'date': actividad.fecha,
+            'hour': actividad.hora,
+          });
   }
 
   static List<Grupo> getGrupos() {
