@@ -537,7 +537,8 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController..text = actividad.banco,
+                        controller: _bancoController
+                          ..text = actividad.banco.banco,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -573,7 +574,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                         controller: _numCuentaController
-                          ..text = actividad.numeroCuenta,
+                          ..text = actividad.banco.numCuenta,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",

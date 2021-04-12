@@ -130,7 +130,6 @@ class EventoProvider {
     String ubicacion1 = 'Calle 136 #64c-75';
     String valor2 = 'Sin Costo';
     String titulo2 = 'Tipo Actividad 3';
-    int numSesiones2 = 1;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/activities.png'), fit: BoxFit.cover);
 

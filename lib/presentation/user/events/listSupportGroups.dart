@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/services/providers/eventos_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,11 +13,7 @@ class ListSupportGroups extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Grupo> grupos = EventoProvider.getGrupos();
     Size size = MediaQuery.of(context).size;
-    grupos.forEach((element) {
-      names.add(element.titulo);
-    });
     CollectionReference gruposCollection =
         FirebaseFirestore.instance.collection("groups");
     return StreamBuilder<QuerySnapshot>(
@@ -30,41 +27,45 @@ class ListSupportGroups extends StatelessWidget {
           return CircularProgressIndicator();
         }
 
-        // List<Grupo> grupos = grupoMapToList(snapshot);
-      },
-    );
+        List<Grupo> grupos = grupoMapToList(snapshot);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar:
-          crearAppBarEventos(context, "Grupos de Apoyo", "eventosPrincipal"),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/eventsSpecificBackground.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          searchBar(
-              context, size, searchController, names, grupos, "verGrupoApoyo"),
-          Material(
-            type: MaterialType.transparency,
-            child: Padding(
-              padding: EdgeInsets.only(top: size.height * 0.27),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: objectCard(context, size, grupos),
+        grupos.forEach((element) {
+          names.add(element.titulo);
+        });
+
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBarEventos(
+              context, "Grupos de Apoyo", "eventosPrincipal"),
+          body: Stack(
+            children: <Widget>[
+              Image.asset(
+                'assets/images/eventsSpecificBackground.png',
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                width: size.width,
+                height: size.height,
+              ),
+              searchBar(context, size, searchController, names, grupos,
+                  "verGrupoApoyo"),
+              Material(
+                type: MaterialType.transparency,
+                child: Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.27),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: objectCard(context, size, grupos),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
 List<Carta> cartaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -85,4 +86,32 @@ List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     talleres.add(t);
   });
   return talleres;
+}
+
+List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Grupo> grupos = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+
+    Grupo g = Grupo(
+        descripcion: data["description"],
+        numeroSesiones: data["numSessions"],
+        ubicacion: data["location"],
+        titulo: data["title"],
+        uid: element.id,
+        valor: data["cost"],
+        foto: DecorationImage(
+            image: AssetImage('assets/images/supportGroup.png'),
+            fit: BoxFit.cover));
+    dynamic value;
+    data['bank'] == null
+        ? value = null
+        : value = Banco(
+            banco: data["bank"]["bank"],
+            numCuenta: data["bank"]["numAccount"],
+            tipoCuenta: data["bank"]["type"]);
+    g.banco = value;
+    grupos.add(g);
+  });
+  return grupos;
 }
