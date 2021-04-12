@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/taller.dart';
 
 List<Carta> cartaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Carta> cartas = [];
@@ -53,4 +55,31 @@ List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     citas.add(c);
   });
   return citas;
+}
+
+List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Taller> talleres = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+
+    Taller t = Taller(
+        descripcion: data["description"],
+        fecha: data["date"],
+        hora: data["hour"],
+        numeroSesiones: data["numSessions"],
+        ubicacion: data["location"],
+        titulo: data["title"],
+        uid: element.id,
+        valor: data["cost"]);
+    dynamic value;
+    data['bank'] == null
+        ? value = null
+        : value = Banco(
+            banco: data["bank"]["bank"],
+            numCuenta: data["bank"]["numAccount"],
+            tipoCuenta: data["bank"]["type"]);
+    t.banco = value;
+    talleres.add(t);
+  });
+  return talleres;
 }
