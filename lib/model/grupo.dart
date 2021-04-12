@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hablemos/model/banco.dart';
 
 class Grupo {
   String uid;
@@ -10,7 +11,7 @@ class Grupo {
   String descripcion;
   DecorationImage foto;
   String ubicacion;
-  String banco;
+  Banco banco;
   String numCuenta;
 
   Grupo({

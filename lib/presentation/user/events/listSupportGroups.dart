@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../constants.dart';
 
 class ListSupportGroups extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final List<String> names = [];
+
   @override
   Widget build(BuildContext context) {
     List<Grupo> grupos = EventoProvider.getGrupos();
@@ -15,6 +17,23 @@ class ListSupportGroups extends StatelessWidget {
     grupos.forEach((element) {
       names.add(element.titulo);
     });
+    CollectionReference gruposCollection =
+        FirebaseFirestore.instance.collection("groups");
+    return StreamBuilder<QuerySnapshot>(
+      stream: gruposCollection.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('ALGO SALIO MAL');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        // List<Grupo> grupos = grupoMapToList(snapshot);
+      },
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,

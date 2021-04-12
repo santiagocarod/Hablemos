@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventoProvider {
   static List<Taller> getTalleres() {
@@ -172,7 +174,10 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor2 = '65000';
     String ubicacion2 = 'virtual';
-    String banco2 = "Banco de Bogotá";
+    Banco banco2 = Banco(
+        banco: "Davivienda",
+        numCuenta: "513-6453-653",
+        tipoCuenta: "Corriente");
     String numCuenta2 = '550-53216-32213';
     int sesiones2 = 3;
     int sesiones = 10;
@@ -229,6 +234,42 @@ class EventoProvider {
 
     grupos..add(g)..add(g1)..add(g2)..add(g3)..add(g4);
 
+    // addGrupo(g);
+    // addGrupo(g1);
+    // addGrupo(g2);
+    // addGrupo(g3);
+    // addGrupo(g4);
+
     return grupos;
+  }
+
+  static addGrupo(Grupo grupo) {
+    CollectionReference grupos =
+        FirebaseFirestore.instance.collection('groups');
+
+    grupo.banco != null
+        ? grupos.add({
+            "title": grupo.titulo,
+            "description": grupo.descripcion,
+            "numSessions": grupo.numeroSesiones,
+            "location": grupo.ubicacion,
+            "cost": grupo.valor,
+            'date': grupo.fecha,
+            'hour': grupo.hora,
+            "bank": {
+              "bank": grupo.banco.banco,
+              "type": grupo.banco.tipoCuenta,
+              "numAccount": grupo.banco.numCuenta
+            }
+          })
+        : grupos.add({
+            "title": grupo.titulo,
+            "description": grupo.descripcion,
+            "numSessions": grupo.numeroSesiones,
+            "location": grupo.ubicacion,
+            "cost": grupo.valor,
+            'date': grupo.fecha,
+            'hour': grupo.hora,
+          });
   }
 }
