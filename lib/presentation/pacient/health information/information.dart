@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/services/providers/trastornos_provider.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class Information extends StatelessWidget {
-  final List<Trastorno> trastornos = TrastornoProvider.getTrastorno();
+  final List<Diagnostico> trastornos = TrastornoProvider.getTrastorno();
   final List<String> names = [];
 
   @override
@@ -120,7 +120,7 @@ class Information extends StatelessWidget {
 }
 
 List<Widget> _information(
-    BuildContext context, List<Trastorno> trastornos, Size size) {
+    BuildContext context, List<Diagnostico> trastornos, Size size) {
   List<Widget> topics = [];
 
   trastornos.forEach((element) {

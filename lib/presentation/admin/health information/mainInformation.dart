@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/services/providers/trastornos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_Information.dart';
@@ -116,7 +116,7 @@ Widget _button(BuildContext context, Size size) {
           shadowColor: Colors.black,
         ),
         onPressed: () {
-          Trastorno trastorno;
+          Diagnostico trastorno;
           Navigator.pushNamed(context, 'newInformation', arguments: trastorno);
         },
       ),

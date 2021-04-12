@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 
 const listaColoresAdmin = [
   kMorado,
@@ -11,7 +11,7 @@ const listaColoresAdmin = [
 ];
 
 class CardInformation extends StatelessWidget {
-  final List<Trastorno> list;
+  final List<Diagnostico> list;
 
   CardInformation({@required this.list});
 

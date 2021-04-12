@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/services/providers/trastornos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
@@ -8,7 +8,7 @@ class InformationAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final Trastorno trastorno = ModalRoute.of(context).settings.arguments;
-    final Trastorno trastorno = TrastornoProvider.getTrastorno()[0];
+    final Diagnostico trastorno = TrastornoProvider.getTrastorno()[0];
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -63,7 +63,7 @@ class InformationAdmin extends StatelessWidget {
     );
   }
 
-  Widget _detail(BuildContext context, Size size, Trastorno trastorno) {
+  Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
     String name = trastorno.nombre.toUpperCase();
     return Container(
       child: Column(
@@ -206,7 +206,7 @@ class InformationAdmin extends StatelessWidget {
     return info;
   }
 
-  Widget _buttons(BuildContext context, Size size, Trastorno trastorno) {
+  Widget _buttons(BuildContext context, Size size, Diagnostico trastorno) {
     return Container(
       width: size.width,
       height: size.height * 0.05,

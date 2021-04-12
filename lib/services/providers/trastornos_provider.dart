@@ -1,8 +1,8 @@
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 
 class TrastornoProvider {
-  static List<Trastorno> getTrastorno() {
-    List<Trastorno> trastornos = [];
+  static List<Diagnostico> getTrastorno() {
+    List<Diagnostico> trastornos = [];
 
     for (int i = 0; i < 5; i++) {
       String nombre = 'Trastorno # $i';
@@ -22,7 +22,7 @@ class TrastornoProvider {
         '- American Psychiatric Association Felix Torres, M.D., MBA, DFAPA ',
       ];
 
-      Trastorno t = new Trastorno(
+      Diagnostico t = new Diagnostico(
         nombre: nombre,
         autoayuda: autoayuda,
         definicion: definicion,
