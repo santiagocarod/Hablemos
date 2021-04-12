@@ -15,7 +15,6 @@ class Cita {
       this.costo,
       this.lugar,
       this.especialidad,
-      this.tipo}) {
-    this.estado = false;
-  }
+      this.tipo,
+      this.estado});
 }

@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventoProvider {
   static List<Taller> getTalleres() {
@@ -19,82 +19,115 @@ class EventoProvider {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75000';
     String ubicacion1 = 'Virtual';
-    String banco1 = "Davivienda";
-    String numCuenta1 = "1535-4234-432";
+    Banco banco1 = Banco(
+        banco: "Davivienda",
+        numCuenta: "513-6453-653",
+        tipoCuenta: "Corriente");
     int numeroSes1 = 5;
     DecorationImage foto = DecorationImage(
         image: AssetImage('assets/images/workshop.png'), fit: BoxFit.cover);
+    String fecha = "22/06/2021";
+    String hora = "10:00";
 
     Taller t = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t1 = new Taller(
-      titulo: titulo1,
-      descripcion: descripcion1,
-      numeroSesiones: numeroSes1,
-      ubicacion: ubicacion1,
-      valor: valor1,
-      banco: banco1,
-      numCuenta: numCuenta1,
-      foto: foto,
-    );
+        titulo: titulo1,
+        descripcion: descripcion1,
+        numeroSesiones: numeroSes1,
+        ubicacion: ubicacion1,
+        valor: valor1,
+        banco: banco1,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t2 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t3 = new Taller(
-      titulo: titulo1,
-      descripcion: descripcion1,
-      numeroSesiones: numeroSes1,
-      ubicacion: ubicacion1,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo1,
+        descripcion: descripcion1,
+        numeroSesiones: numeroSes1,
+        ubicacion: ubicacion1,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     Taller t4 = new Taller(
-      titulo: titulo,
-      descripcion: descripcion,
-      numeroSesiones: numeroSes,
-      ubicacion: ubicacion,
-      valor: valor,
-      foto: foto,
-    );
+        titulo: titulo,
+        descripcion: descripcion,
+        numeroSesiones: numeroSes,
+        ubicacion: ubicacion,
+        valor: valor,
+        foto: foto,
+        fecha: fecha,
+        hora: hora);
 
     talleres..add(t)..add(t1)..add(t2)..add(t3)..add(t4);
 
     return talleres;
   }
 
+  static void addTaller(Taller taller) {
+    CollectionReference talleres =
+        FirebaseFirestore.instance.collection('workshops');
+    taller.banco != null
+        ? talleres.add({
+            "title": taller.titulo,
+            "description": taller.descripcion,
+            "numSessions": taller.numeroSesiones,
+            "location": taller.ubicacion,
+            "cost": taller.valor,
+            'date': taller.fecha,
+            'hour': taller.hora,
+            "bank": {
+              "bank": taller.banco.banco,
+              "type": taller.banco.tipoCuenta,
+              "numAccount": taller.banco.numCuenta
+            }
+          })
+        : talleres.add({
+            "title": taller.titulo,
+            "description": taller.descripcion,
+            "numSessions": taller.numeroSesiones,
+            "location": taller.ubicacion,
+            "cost": taller.valor,
+            'date': taller.fecha,
+            'hour': taller.hora,
+          });
+  }
+
   static List<Actividad> getActividades() {
     List<Actividad> actividades = [];
+    Banco banco = Banco(
+        banco: "Bancolombia", numCuenta: "123-4659-542", tipoCuenta: "Ahorros");
     String titulo = 'Tipo Actividad 1';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
     String ubicacion = 'virtual';
-    String numCuenta = '542-5126-6123';
-    int numSesiones = 3;
-    String banco = 'Bancolombia';
     String titulo1 = 'Tipo Actividad 2';
     String descripcion1 =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75.000 COP';
     String ubicacion1 = 'Calle 136 #64c-75';
-    String numCuenta1 = '542-5126-6123';
-    int numSesiones1 = 2;
-    String banco1 = 'Bancolombia';
     String valor2 = 'Sin Costo';
     String titulo2 = 'Tipo Actividad 3';
     int numSesiones2 = 1;
@@ -108,8 +141,6 @@ class EventoProvider {
       valor: valor,
       banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta,
-      numeroSesiones: numSesiones,
     );
 
     Actividad a1 = new Actividad(
@@ -117,10 +148,8 @@ class EventoProvider {
       descripcion: descripcion1,
       ubicacion: ubicacion1,
       valor: valor1,
-      banco: banco1,
+      banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta1,
-      numeroSesiones: numSesiones1,
     );
     Actividad a2 = new Actividad(
       titulo: titulo2,
@@ -128,18 +157,14 @@ class EventoProvider {
       ubicacion: ubicacion,
       valor: valor2,
       foto: foto,
-      numeroCuenta: numCuenta,
-      numeroSesiones: numSesiones2,
     );
     Actividad a3 = new Actividad(
       titulo: titulo1,
       descripcion: descripcion1,
       ubicacion: ubicacion1,
       valor: valor1,
-      banco: banco1,
+      banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta1,
-      numeroSesiones: numSesiones,
     );
     Actividad a4 = new Actividad(
       titulo: titulo,
@@ -148,8 +173,6 @@ class EventoProvider {
       valor: valor,
       banco: banco,
       foto: foto,
-      numeroCuenta: numCuenta,
-      numeroSesiones: numSesiones1,
     );
 
     actividades..add(a)..add(a1)..add(a2)..add(a3)..add(a4);

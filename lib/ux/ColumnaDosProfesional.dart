@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
-import 'package:hablemos/services/providers/citas_provider.dart';
-import 'package:hablemos/model/cita.dart';
-
-final List<Cita> citas = CitasProvider.getCitas();
-final Cita cita = citas[0];
 
 class ColumnaDosProfesional extends StatelessWidget {
   const ColumnaDosProfesional({

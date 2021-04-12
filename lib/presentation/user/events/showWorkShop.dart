@@ -415,7 +415,7 @@ class ShowWorkShop extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: FittedBox(
                               child: Text(
-                                "${taller.numCuenta}",
+                                "${taller.banco.numCuenta}",
                                 style: TextStyle(
                                     fontFamily: "PoppinsRegular",
                                     color: kLetras,

@@ -6,7 +6,7 @@ class Foro {
   String descripcion;
   DateTime fecha;
 
-  List<Tema> temas;
+  List<Tema> temas; //TODO: CAmbiar esto a un String con el ID del tema(?)
 
   Foro({
     this.uid,
