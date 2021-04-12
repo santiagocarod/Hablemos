@@ -20,7 +20,7 @@ class ListMedicalCenter extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator();
           }
           List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
           return Scaffold(

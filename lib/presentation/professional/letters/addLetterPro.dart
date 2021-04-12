@@ -22,7 +22,7 @@ class AddLetterPro extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator();
           }
           List<Carta> cartas = cartaMapToList(snapshot);
 

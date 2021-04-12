@@ -21,7 +21,7 @@ class ListAprovedLettersPro extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator();
           }
           List<Carta> cartas = ModalRoute.of(context).settings.arguments;
           if (ModalRoute.of(context).settings.arguments == null) {

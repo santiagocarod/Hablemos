@@ -13,23 +13,22 @@ class ListWorkShops extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference cartasCollection =
-        FirebaseFirestore.instance.collection("letters");
+    CollectionReference talleresCollection =
+        FirebaseFirestore.instance.collection("workshops");
     return StreamBuilder<QuerySnapshot>(
-        stream: cartasCollection.snapshots(),
+        stream: talleresCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator();
           }
           List<Taller> talleres = tallerMapToList(snapshot);
 
           talleres.forEach((element) {
             names.add(element.titulo);
-            EventoProvider.addTaller(element);
           });
           return Scaffold(
             resizeToAvoidBottomInset: false,

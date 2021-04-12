@@ -70,7 +70,10 @@ List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
         ubicacion: data["location"],
         titulo: data["title"],
         uid: element.id,
-        valor: data["cost"]);
+        valor: data["cost"],
+        foto: DecorationImage(
+            image: AssetImage('assets/images/workshop.png'),
+            fit: BoxFit.cover));
     dynamic value;
     data['bank'] == null
         ? value = null
