@@ -5,6 +5,7 @@ import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
@@ -147,4 +148,26 @@ List<Actividad> actividadMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     grupos.add(a);
   });
   return grupos;
+}
+
+List<Diagnostico> diagnosticoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Diagnostico> diagnosticos = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    List<dynamic> list = data["symptoms"];
+    List<String> listaSintomas = list.cast<String>().toList();
+
+    List<dynamic> list2 = data["reference"];
+    List<String> listaFuentes = list2.cast<String>().toList();
+
+    Diagnostico diag = Diagnostico(
+        nombre: data["name"],
+        definicion: data["definition"],
+        autoayuda: data["selfhelp"],
+        sintomas: listaSintomas,
+        fuentes: listaFuentes);
+    diagnosticos.add(diag);
+  });
+
+  return diagnosticos;
 }

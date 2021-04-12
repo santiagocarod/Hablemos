@@ -1,4 +1,5 @@
 import 'package:hablemos/model/diagnostico.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DiagnosticoProvider {
   static List<Diagnostico> getTrastorno() {
@@ -31,7 +32,21 @@ class DiagnosticoProvider {
       );
 
       trastornos.add(t);
+      // addDiagnostico(t);
     }
     return trastornos;
+  }
+
+  static addDiagnostico(Diagnostico diagnostico) {
+    CollectionReference diagnostics =
+        FirebaseFirestore.instance.collection('diagnostics');
+
+    diagnostics.add({
+      "name": diagnostico.nombre,
+      "definition": diagnostico.definicion,
+      "symptoms": diagnostico.sintomas,
+      "selfhelp": diagnostico.autoayuda,
+      "reference": diagnostico.fuentes,
+    });
   }
 }

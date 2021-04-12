@@ -1,6 +1,4 @@
 class Diagnostico {
-  //TODO: RECORDAR CAMBIAR NOMBRE CLASE
-
   String uid;
   String nombre;
   String definicion;
