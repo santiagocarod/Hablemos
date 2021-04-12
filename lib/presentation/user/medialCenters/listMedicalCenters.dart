@@ -22,8 +22,13 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
   List<CentroAtencion> listaCercanosReal;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     _getCurrentLocation();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     print(_currentPosition);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
