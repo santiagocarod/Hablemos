@@ -164,6 +164,8 @@ class _SignInPageState extends State<SignInPage> {
   signInLogic(dynamic bloc, BuildContext context) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");
+    final CollectionReference pacienteRef =
+        FirebaseFirestore.instance.collection("pacient");
     if (_name == '') {
       showAlertDialog(context, "Por Favor Ingresa tu Nombre");
     } else if (_lastName == '') {
@@ -183,15 +185,25 @@ class _SignInPageState extends State<SignInPage> {
           usersRef
               .doc(value)
               .set({
-                'name': this._name,
-                'lastName': this._lastName,
                 'role': 'pacient',
-                'city': _city,
-                'bDate': _inputFieldDateController.text
               })
               .then((value) => Navigator.pushNamed(context, 'inicio'))
               .catchError((value) => showAlertDialog(
                   context, "Hubo un error\nPor Favor intentalo mas tarde"));
+
+          pacienteRef.doc(value).set({
+            'name': _name,
+            'lastName': _lastName,
+            'city': _city,
+            'email': bloc.email,
+            'date': _inputFieldDateController.text,
+            'picture': 'falta foto',
+            'phone': 'falta telefono',
+            'emergencyContactName': 'falta nombre emergencia',
+            'emergencyContactPhone': 'falta numero emergencia',
+            'emergencyContactRelationship': 'falta relacion emergencia',
+          }).catchError((value) => showAlertDialog(
+              context, "Hubo un error\nPor Favor intentalo mas tarde"));
         }
       });
     }
