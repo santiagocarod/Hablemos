@@ -180,7 +180,7 @@ Widget _button1(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        Navigator.pushNamed(context, 'centrosayuda');
+        Navigator.pushNamed(context, 'principalCentrosMedicos');
       },
     ),
   );

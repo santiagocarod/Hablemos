@@ -12,7 +12,6 @@ class MainMedicalCenter extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: crearAppBar('', null, 0, null),
         body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 10),
             scrollDirection: Axis.vertical,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -30,17 +29,28 @@ class MainMedicalCenter extends StatelessWidget {
                           child: ButtonMedicalCenters(
                               "Lista\nCercanos",
                               () => Navigator.pushNamed(
-                                  context, "listCentrosMedicos"))),
+                                  context, "listCentrosMedicos"),
+                              100.0)),
                       Container(
                           width: (size.width / 2) - 20,
-                          child: ButtonMedicalCenters("Mapa\nCercanos", () {}))
+                          child: ButtonMedicalCenters(
+                              "Mapa\nCercanos", () {}, 100.0))
                     ]),
-                Espacio(size: size),
-                ButtonMedicalCenters("Gratuitos", () {}),
-                Espacio(size: size),
-                ButtonMedicalCenters("Pagos", () {}),
-                Espacio(size: size),
-                ButtonMedicalCenters("Ciudad/Departamento", () {}),
+                SizedBox(height: size.height * 0.03),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ButtonMedicalCenters("Gratuitos", () {}, 100.0),
+                      SizedBox(height: size.height * 0.03),
+                      ButtonMedicalCenters("Pagos", () {}, 100.0),
+                      SizedBox(height: size.height * 0.03),
+                      ButtonMedicalCenters("Ciudad/Departamento", () {}, 100.0),
+                    ],
+                  ),
+                ),
               ],
             )));
   }
@@ -49,23 +59,28 @@ class MainMedicalCenter extends StatelessWidget {
 class ButtonMedicalCenters extends StatelessWidget {
   final String _text;
   final Function _function;
-  ButtonMedicalCenters(this._text, this._function);
+  final double heighButton;
+  ButtonMedicalCenters(this._text, this._function, this.heighButton);
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => _function(),
-      child: Text(
-        _text,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: kLetras, fontSize: 34),
+    return Container(
+      height: heighButton,
+      child: ElevatedButton(
+        onPressed: () => _function(),
+        child: Text(
+          _text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: kLetras, fontSize: 25, fontFamily: 'PoppinsRegular'),
+        ),
+        style: ElevatedButton.styleFrom(
+            primary: kBlanco,
+            elevation: 5,
+            padding: EdgeInsets.symmetric(vertical: 15),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))),
       ),
-      style: ElevatedButton.styleFrom(
-          primary: kBlanco,
-          elevation: 10,
-          padding: EdgeInsets.symmetric(vertical: 15),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
     );
   }
 }
