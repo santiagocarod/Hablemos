@@ -6,7 +6,7 @@ import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
 class EventoProvider {
-  static List<Taller> getTalleres() {
+  /*static List<Taller> getTalleres() {
     List<Taller> talleres = [];
     String titulo = 'Taller Tipo 1';
     String descripcion =
@@ -83,7 +83,7 @@ class EventoProvider {
     talleres..add(t)..add(t1)..add(t2)..add(t3)..add(t4);
 
     return talleres;
-  }
+  }*/
 
   static void addTaller(Taller taller) {
     CollectionReference talleres =

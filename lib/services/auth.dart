@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hablemos/model/profesional.dart';
 
 abstract class AuthBase {
   Future<User> getCurrentUser();
@@ -14,6 +16,13 @@ class AuthService implements AuthBase {
   Future<User> getCurrentUser() async {
     User user = _firebaseAuth.currentUser;
     return user;
+  }
+
+  Future<Profesional> getProfesional() async {
+    Profesional profesional;
+    User user = await getCurrentUser();
+
+    FirebaseFirestore.instance.collection("professionals").doc(user.uid);
   }
 
   @override

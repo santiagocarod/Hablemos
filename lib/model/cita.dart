@@ -1,6 +1,9 @@
+import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/model/profesional.dart';
+
 class Cita {
-  String uidPaciente;
-  String uidProfesional;
+  Paciente paciente;
+  Profesional profesional;
   DateTime dateTime;
   int costo;
   String lugar;
@@ -9,8 +12,8 @@ class Cita {
   bool estado;
 
   Cita(
-      {this.uidPaciente,
-      this.uidProfesional,
+      {this.paciente,
+      this.profesional,
       this.dateTime,
       this.costo,
       this.lugar,

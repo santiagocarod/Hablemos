@@ -9,9 +9,6 @@ import 'package:hablemos/constants.dart';
 import 'package:intl/intl.dart';
 
 class ListCitas extends StatelessWidget {
-  //final List<Cita> citas = CitasProvider.getCitas();
-  final Profesional profesional = ProfesionalesProvider.getProfesional();
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -53,7 +50,7 @@ class ListCitas extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: citasToCard(citas, profesional, context),
+                        children: citasToCard(citas, context),
                       ),
                     ),
                   ),
@@ -64,11 +61,11 @@ class ListCitas extends StatelessWidget {
         });
   }
 
-  List<Widget> citasToCard(
-      List<Cita> citas, Profesional profesional, BuildContext context) {
+  List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
     final DateFormat format = DateFormat('hh:mm a');
     List<Widget> cards = [];
     citas.forEach((element) {
+      Profesional profesional = element.profesional;
       Card card = Card(
         elevation: 5,
         margin: EdgeInsets.all(20),

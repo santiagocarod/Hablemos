@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/profesional.dart';
 
 class ProfesionalesProvider {
-  static Profesional getProfesional() {
+  /*static Profesional getProfesional() {
     Profesional profesional;
 
     String nombre = 'Juan';
@@ -12,28 +14,46 @@ class ProfesionalesProvider {
     String lsitaExperiencia =
         'Master en prevención y tratamiento de conductas adictivas y en terapia cognitivo conductual.';
     List<String> convenios = ['Colmedica', 'Colsanitas', 'Compensar'];
-    Map<String, String> redes = {
-      'facebook': 'fb.com/Juan',
-      'twitter': '@juan_sd',
-      'instagram': '@juan_sd'
-    };
     List<String> proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3'];
-    int cuenta = 31092938919;
-    int numero = 3164448201;
+    Banco banco = Banco(
+        banco: "Bancolombia",
+        numCuenta: "123-5235-543",
+        tipoCuenta: "Corriente");
+    String numero = "3164448201";
 
     profesional = new Profesional(
       nombre: nombre,
       apellido: apellido,
       fechaNacimiento: fechaNacimiento,
-      especialidades: especialidades,
+      especialidad: especialidades,
       experiencia: lsitaExperiencia,
       convenios: convenios,
-      redes: redes,
       proyectos: proyectos,
-      numeroCuenta: cuenta,
+      banco: banco,
       celular: numero,
     );
 
     return profesional;
+  }*/
+
+  static void addProfesional(Profesional profesional) {
+    CollectionReference profesionales =
+        FirebaseFirestore.instance.collection('professionals');
+
+    profesionales.doc(profesional.uid).set({
+      "name": profesional.nombre,
+      "lastName": profesional.apellido,
+      "birthdate": profesional.fechaNacimiento,
+      "specialty": profesional.especialidad,
+      "experience": profesional.experiencia,
+      "phone": profesional.celular,
+      "bank": {
+        "bank": profesional.banco.banco,
+        "type": profesional.banco.tipoCuenta,
+        "numAccount": profesional.banco.numCuenta
+      },
+      "projects": profesional.proyectos,
+      "contracts": profesional.convenios,
+    });
   }
 }

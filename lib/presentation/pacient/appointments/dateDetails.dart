@@ -10,7 +10,7 @@ class DateDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Cita cita = ModalRoute.of(context).settings.arguments;
-    final Profesional profesional = ProfesionalesProvider.getProfesional();
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -26,7 +26,7 @@ class DateDetails extends StatelessWidget {
             width: size.width,
             height: size.height,
           ),
-          _boxInfo(context, size, cita, profesional),
+          _boxInfo(context, size, cita),
         ],
       ),
     );
@@ -34,8 +34,8 @@ class DateDetails extends StatelessWidget {
 }
 
 // White Box wich contains all de information
-Widget _boxInfo(
-    BuildContext context, Size size, Cita cita, Profesional profesional) {
+Widget _boxInfo(BuildContext context, Size size, Cita cita) {
+  Profesional profesional = cita.profesional;
   final DateFormat houformat = DateFormat('hh:mm a');
   final String hour = houformat.format(cita.dateTime);
   final String date = cita.dateTime.day.toString() +
@@ -45,7 +45,7 @@ Widget _boxInfo(
       cita.dateTime.year.toString();
   final price = NumberFormat('#,###');
   final String pay = '\$' + price.format(cita.costo);
-  final String count = profesional.numeroCuenta.toString();
+  final String count = profesional.banco.numCuenta;
   final String place = cita.lugar;
   final String specialty = cita.especialidad;
   final String type = cita.especialidad;

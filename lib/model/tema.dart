@@ -15,10 +15,6 @@ class Tema {
     this.cuerpo,
     this.respuestas,
   }) {
-    this.uidPublicador = ProfesionalesProvider.getProfesional().uid;
-    this.nombrePublicador = ProfesionalesProvider.getProfesional().nombre +
-        " " +
-        ProfesionalesProvider.getProfesional().apellido;
     this.fecha = DateTime.now();
   }
 }

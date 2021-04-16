@@ -61,8 +61,6 @@ import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart
 import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
 import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 
-final Profesional profesional = ProfesionalesProvider.getProfesional();
-
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (context) => Home(),
@@ -74,8 +72,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'inicioAdministrador': (context) => PantallaInicioAdmin(),
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
-    'detalleCitasProfesional': (context) =>
-        DetalleCitaPro(profesional: profesional),
+    'detalleCitasProfesional': (context) => DetalleCitaPro(),
     'citasProfesional': (context) => ListCitasPro(),
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),

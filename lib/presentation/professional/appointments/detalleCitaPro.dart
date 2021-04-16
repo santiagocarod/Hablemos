@@ -7,14 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class DetalleCitaPro extends StatelessWidget {
-  final Profesional profesional;
-
-  DetalleCitaPro({Key key, @required this.profesional}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    List<Cita> citas = profesional.citas;
-    Cita cita = citas[0];
+    Cita cita = ModalRoute.of(context).settings.arguments;
 
     final DateFormat houformat = DateFormat('hh:mm a');
     final String hour = houformat.format(cita.dateTime);
@@ -25,11 +20,11 @@ class DetalleCitaPro extends StatelessWidget {
         cita.dateTime.year.toString();
     final price = NumberFormat('#,###');
     final String priceDate = '\$' + price.format(cita.costo);
-    final String paymentDetails = profesional.numeroCuenta.toString();
+    final String paymentDetails = cita.profesional.banco.numCuenta;
     final String place = cita.lugar;
     final String specialty = cita.especialidad;
     final String type = cita.especialidad;
-    final String contact = profesional.celular.toString();
+    final String contact = cita.profesional.celular.toString();
 
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -143,7 +138,7 @@ Widget _stateIcon(bool state) {
 }
 
 Widget _headerDate(BuildContext context, Cita cita) {
-  String pacientName = cita.uidPaciente;
+  String pacientName = cita.paciente.nombreCompleto();
   return Container(
     width: 359.0,
     child: Stack(
