@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import 'banco.dart';
-import 'cita.dart';
 
 class Profesional {
   //Unias del profesional

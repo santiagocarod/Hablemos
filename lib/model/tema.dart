@@ -1,5 +1,4 @@
 import 'package:hablemos/model/respuesta.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
 
 class Tema {
   String uid;

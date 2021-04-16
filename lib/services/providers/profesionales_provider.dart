@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/profesional.dart';
 
 class ProfesionalesProvider {

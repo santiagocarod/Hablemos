@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
-import 'package:hablemos/model/profesional.dart';
-import 'package:intl/intl.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:intl/intl.dart';
 
 class DetalleCitaPro extends StatelessWidget {
   @override

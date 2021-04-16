@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/ux/atoms.dart';
-import 'package:intl/intl.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/ux/atoms.dart';
+import 'package:intl/intl.dart';
 
 class CreateDate extends StatefulWidget {
   @override
@@ -328,9 +327,9 @@ class _CreateDate extends State<CreateDate> {
 
 // Create Button
   Widget _create(BuildContext context, Cita cita) {
-    String username = "Paciente";
+    /*String username = "Paciente";
     String title = "";
-    String content = "";
+    String content = "";*/
     String button = "CREAR";
     // Chage the text of button if it is an update
     if (cita != null) button = "ACTUALIZAR";
@@ -425,7 +424,7 @@ class _CreateDate extends State<CreateDate> {
   }
 
 // Show de dialog box
-  Widget _buildPopupDialog(
+  /*Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(
       title: Text(tittle),
@@ -452,5 +451,5 @@ class _CreateDate extends State<CreateDate> {
         ),
       ],
     );
-  }
+  }*/
 }

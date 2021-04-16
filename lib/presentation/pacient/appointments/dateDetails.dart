@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:intl/intl.dart';
 
 //Screen of date details
 class DateDetails extends StatelessWidget {

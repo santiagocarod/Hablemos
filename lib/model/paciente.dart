@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hablemos/model/cita.dart';
 
 class Paciente {
   //Unias del profesional

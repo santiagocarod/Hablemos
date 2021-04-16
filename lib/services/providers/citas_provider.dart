@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/cita.dart';
-import 'dart:math';
 
-String _randomString(int length) {
+/*String _randomString(int length) {
   var rand = new Random();
   var codeUnits = new List.generate(length, (index) {
     return rand.nextInt(33) + 89;
   });
 
   return new String.fromCharCodes(codeUnits);
-}
+}*/
 
 class CitasProvider {
   /*static List<Cita> getCitas() {
