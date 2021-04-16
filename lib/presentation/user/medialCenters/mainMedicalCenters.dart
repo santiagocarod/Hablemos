@@ -48,6 +48,7 @@ class MainMedicalCenter extends StatelessWidget {
                       ButtonMedicalCenters("Pagos", () {}, 100.0),
                       SizedBox(height: size.height * 0.03),
                       ButtonMedicalCenters("Ciudad/Departamento", () {}, 100.0),
+                      SizedBox(height: 30.0),
                     ],
                   ),
                 ),
