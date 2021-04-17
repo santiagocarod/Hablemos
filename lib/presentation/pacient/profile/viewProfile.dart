@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/services/providers/pacientes_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -69,24 +71,41 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Paciente paciente = PacientesProvider.getPaciente();
-    return Scaffold(
-      // Create an empty appBar, display the arrow back
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          pacientHead(size, paciente),
-          Container(
-            padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _body(size, paciente),
+
+    CollectionReference pacientCollection = FirebaseFirestore.instance
+        .collection(
+            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    return StreamBuilder<QuerySnapshot>(
+        stream: pacientCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          List<Paciente> pacientes = pacienteMapToList(snapshot);
+
+          Paciente paciente = pacientes[0];
+          return Scaffold(
+            // Create an empty appBar, display the arrow back
+            appBar: crearAppBar('', null, 0, null),
+            extendBodyBehindAppBar: true,
+            body: Stack(
+              children: <Widget>[
+                pacientHead(size, paciente),
+                Container(
+                  padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: _body(size, paciente),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   // Draw app bar Style
@@ -222,9 +241,12 @@ class _ViewProfile extends State<ViewProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _section('Nombre', paciente.nombreContactoEmergencia),
-          _section('Teléfono', paciente.telefonoContactoEmergencia.toString()),
-          _section('Relación', paciente.relacionContactoEmergencia),
+          _section(
+              'Nombre', paciente.nombreContactoEmergencia ?? "Dato Faltante"),
+          _section('Teléfono',
+              paciente.telefonoContactoEmergencia ?? "Dato Faltante"),
+          _section('Relación',
+              paciente.relacionContactoEmergencia ?? "Dato Faltante"),
         ],
       ),
     );

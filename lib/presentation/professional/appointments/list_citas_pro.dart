@@ -10,12 +10,9 @@ import 'package:intl/intl.dart';
 import '../../../constants.dart';
 
 class ListCitasPro extends StatelessWidget {
-  final Paciente paciente = PacientesProvider.getPaciente();
-
-  List<Widget> citasProfesionalToCard(
-      Paciente paciente, context, List<Cita> citas) {
+  List<Widget> citasProfesionalToCard(context, List<Cita> citas) {
     final DateFormat format = DateFormat('hh:mm a');
-    String nombrePaciente = paciente.nombre;
+
     List<Widget> cards = [];
     citas.forEach((element) {
       Card card = Card(
@@ -27,7 +24,7 @@ class ListCitasPro extends StatelessWidget {
               SizedBox(height: 20),
               Icon(Icons.access_alarm),
               SizedBox(height: 5),
-              Text('Cita con $nombrePaciente'),
+              Text('Cita con ${element.paciente.nombre}'),
               SizedBox(height: 10),
               secction(
                   title: 'Hora', text: '${format.format(element.dateTime)}'),
@@ -58,11 +55,8 @@ class ListCitasPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String uid = "AYF5kJ1WhCQo631yi95JLz1xh062";
-    CollectionReference citasCollection = FirebaseFirestore.instance
-        .collection("appoinments")
-        .where("uidProfessional",
-            isEqualTo:
-                uid); //TODO: APlicar filtro where uidProfesional = current user.
+    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
+        "appoinments"); //TODO: APlicar filtro where uidProfesional = current user.
 
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
@@ -97,8 +91,7 @@ class ListCitasPro extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children:
-                            citasProfesionalToCard(paciente, context, citas),
+                        children: citasProfesionalToCard(context, citas),
                       ),
                     ),
                   ),

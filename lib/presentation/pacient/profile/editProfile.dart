@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/providers/pacientes_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -81,25 +83,42 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Paciente paciente = PacientesProvider
-        .getPaciente(); //ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      // Create an empty appBar, display the arrow back
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          pacientHead(size, paciente),
-          Container(
-            padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _body(size, paciente),
+
+    CollectionReference pacientCollection = FirebaseFirestore.instance
+        .collection(
+            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    return StreamBuilder<QuerySnapshot>(
+        stream: pacientCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          List<Paciente> pacientes = pacienteMapToList(snapshot);
+
+          Paciente paciente =
+              pacientes[0]; //ModalRoute.of(context).settings.arguments;
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            // Create an empty appBar, display the arrow back
+            appBar: crearAppBar('', null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                pacientHead(size, paciente),
+                Container(
+                  padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: _body(size, paciente),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   // Draw app bar Style

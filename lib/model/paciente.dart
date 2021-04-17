@@ -9,9 +9,9 @@ class Paciente {
   String correo;
   String ciudad;
   DateTime fechaNacimiento;
-  int telefono;
+  String telefono;
   String nombreContactoEmergencia;
-  int telefonoContactoEmergencia;
+  String telefonoContactoEmergencia;
   String relacionContactoEmergencia;
 
   //
@@ -36,11 +36,11 @@ class Paciente {
       "name": this.nombre,
       "email": this.correo,
       "city": this.ciudad,
-      "birthDate": this.fechaNacimiento,
+      "birthDate": this.fechaNacimiento.toIso8601String(),
       "phone": this.telefono,
-      "emergencyContact": this.nombreContactoEmergencia,
-      "emergencyPhone": this.telefonoContactoEmergencia,
-      "emergencyRelation": this.relacionContactoEmergencia
+      "emergencyContactName": this.nombreContactoEmergencia,
+      "emergencyContactPhone": this.telefonoContactoEmergencia,
+      "emergencyContactRelationship": this.relacionContactoEmergencia
     };
   }
 
@@ -49,7 +49,16 @@ class Paciente {
   }
 
   static fromMap(data) {
-    Paciente p = Paciente();
+    Paciente p = Paciente(
+        nombre: data["name"],
+        apellido: data["lastName"],
+        correo: data["email"],
+        ciudad: data["city"],
+        fechaNacimiento: DateTime.parse(data["birthDate"]),
+        telefono: data["phone"],
+        nombreContactoEmergencia: data["emergencyContactName"],
+        telefonoContactoEmergencia: data["emergencyContactPhone"],
+        relacionContactoEmergencia: data["emergencyContactRelationship"]);
     return p;
   }
 }

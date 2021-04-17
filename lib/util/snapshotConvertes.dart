@@ -46,7 +46,7 @@ List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
     Cita c = Cita(
-        paciente: Paciente.fromMap(data["paciente"]),
+        paciente: Paciente.fromMap(data["pacient"]),
         profesional: Profesional.fromMap(data["professional"], "uid"),
         dateTime: data["dateTime"].toDate(),
         costo: data["cost"],
@@ -97,4 +97,14 @@ List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     profesionales.add(p);
   });
   return profesionales;
+}
+
+List<Paciente> pacienteMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Paciente> pacientes = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    Paciente p = Paciente.fromMap(data);
+    pacientes.add(p);
+  });
+  return pacientes;
 }
