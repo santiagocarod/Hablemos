@@ -52,12 +52,12 @@ class Profesional {
         uid: uid,
         nombre: data["name"],
         apellido: data["lastName"],
-        banco: Banco.fromMap(data["banco"]),
+        banco: Banco.fromMap(data["bank"]),
         fechaNacimiento: data["birthDay"],
         especialidad: data["specialty"],
         experiencia: data["experience"],
         convenios: data["contratos"],
-        proyectos: data["projects"],
+        proyectos: List<String>.from(["projects"]),
         celular: data["phone"]);
 
     return p;

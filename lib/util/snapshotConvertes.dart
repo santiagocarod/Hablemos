@@ -47,7 +47,7 @@ List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     dynamic data = element.data();
     Cita c = Cita(
         paciente: Paciente.fromMap(data["paciente"]),
-        profesional: Profesional.fromMap(data["profesional"], "uid"),
+        profesional: Profesional.fromMap(data["professional"], "uid"),
         dateTime: data["dateTime"].toDate(),
         costo: data["cost"],
         lugar: data["place"],
