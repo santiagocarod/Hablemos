@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/paciente.dart';
 
 class PacientesProvider {
@@ -28,4 +29,11 @@ class PacientesProvider {
 
     return paciente;
   }*/
+
+  static addPaciente(Paciente paciente) {
+    CollectionReference pacientes =
+        FirebaseFirestore.instance.collection('pacients');
+
+    pacientes.add(paciente.toMap());
+  }
 }

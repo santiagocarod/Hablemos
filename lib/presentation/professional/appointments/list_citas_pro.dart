@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/cita.dart';
-import 'package:hablemos/model/paciente.dart';
-import 'package:hablemos/services/providers/pacientes_provider.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
@@ -54,7 +52,6 @@ class ListCitasPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String uid = "AYF5kJ1WhCQo631yi95JLz1xh062";
     CollectionReference citasCollection = FirebaseFirestore.instance.collection(
         "appoinments"); //TODO: APlicar filtro where uidProfesional = current user.
 
