@@ -1,34 +1,55 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
-import 'package:hablemos/services/providers/diagnostico_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class InformationAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final Trastorno trastorno = ModalRoute.of(context).settings.arguments;
-    final Diagnostico trastorno = DiagnosticoProvider.getTrastorno()[0];
+    //final diagnostico diagnostico = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          _background(size),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                _appBar(size),
-                _detail(context, size, trastorno),
-              ],
-            ),
+    CollectionReference diagnosticosCollecion =
+        FirebaseFirestore.instance.collection("diagnostics");
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: diagnosticosCollecion.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('ALGO SALIO MAL');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
+
+        //TODO: Por qué solo 1?
+        Diagnostico diagnostico = diagnosticos[0];
+
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              _background(size),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    _appBar(size),
+                    _detail(context, size, diagnostico),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -63,8 +84,8 @@ class InformationAdmin extends StatelessWidget {
     );
   }
 
-  Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
-    String name = trastorno.nombre.toUpperCase();
+  Widget _detail(BuildContext context, Size size, Diagnostico diagnostico) {
+    String name = diagnostico.nombre.toUpperCase();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -88,12 +109,12 @@ class InformationAdmin extends StatelessWidget {
               ),
             ),
           ),
-          _simpleSecction('Definición', trastorno.definicion, size),
-          _listSecction('Síntomas', trastorno.sintomas, size),
+          _simpleSecction('Definición', diagnostico.definicion, size),
+          _listSecction('Síntomas', diagnostico.sintomas, size),
           _simpleSecction(
-              'Autoayuda y Afrontamiento', trastorno.autoayuda, size),
-          _listSecction('Fuente Información', trastorno.fuentes, size),
-          _buttons(context, size, trastorno),
+              'Autoayuda y Afrontamiento', diagnostico.autoayuda, size),
+          _listSecction('Fuente Información', diagnostico.fuentes, size),
+          _buttons(context, size, diagnostico),
         ],
       ),
     );
@@ -206,7 +227,7 @@ class InformationAdmin extends StatelessWidget {
     return info;
   }
 
-  Widget _buttons(BuildContext context, Size size, Diagnostico trastorno) {
+  Widget _buttons(BuildContext context, Size size, Diagnostico diagnostico) {
     return Container(
       width: size.width,
       height: size.height * 0.05,
@@ -218,7 +239,7 @@ class InformationAdmin extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, 'newInformation',
-                    arguments: trastorno);
+                    arguments: diagnostico);
               },
               child: Row(
                 children: [
