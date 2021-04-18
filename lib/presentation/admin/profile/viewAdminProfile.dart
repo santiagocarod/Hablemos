@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/administrador.dart';
-import 'package:hablemos/services/providers/administrador_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
@@ -18,22 +19,41 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Administrador admin = AdministradorProvider.getAdministrador();
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          adminHead(size, admin),
-          Container(
-            padding: EdgeInsets.only(top: size.height * 0.66),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _body(size, admin),
-            ),
+
+    CollectionReference adminCollection =
+        FirebaseFirestore.instance.collection("administrator");
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: adminCollection.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('ALGO SALIO MAL');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        List<Administrador> administradores = administradorMapToList(snapshot);
+        Administrador admin = administradores[0];
+
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              adminHead(size, admin),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.66),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size, admin),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

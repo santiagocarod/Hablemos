@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/administrador.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
@@ -170,4 +171,15 @@ List<Diagnostico> diagnosticoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   });
 
   return diagnosticos;
+}
+
+List<Administrador> administradorMapToList(
+    AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Administrador> administradores = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    Administrador a = Administrador.fromMap(data);
+    administradores.add(a);
+  });
+  return administradores;
 }
