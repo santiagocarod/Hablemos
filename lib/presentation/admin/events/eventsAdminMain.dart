@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/actividad.dart';
-import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -11,8 +9,6 @@ class EventsMainAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Grupo> grupos = EventoProvider.getGrupos();
-    List<Actividad> actividades = EventoProvider.getActividades();
     List<Taller> talleres = EventoProvider.getTalleres();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -55,7 +51,7 @@ class EventsMainAdmin extends StatelessWidget {
                             size,
                             Icons.thumbs_up_down_outlined,
                             "Actividades",
-                            actividades.length,
+                            6, //TODO: Crear entidad o realizar consultas?
                             'listarActividadesAdmin',
                             "agregarActividad"),
                         SizedBox(
@@ -66,7 +62,7 @@ class EventsMainAdmin extends StatelessWidget {
                             size,
                             Icons.people_alt_outlined,
                             "Grupos de Apoyo",
-                            grupos.length,
+                            6,
                             'listarGruposAdmin',
                             "agregarGrupo"),
                         SizedBox(
