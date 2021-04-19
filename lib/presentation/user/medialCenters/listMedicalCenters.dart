@@ -1,14 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 
-class ListMedicalCenter extends StatelessWidget {
+class ListMedicalCenter extends StatefulWidget {
+  @override
+  _ListMedicalCenterState createState() => _ListMedicalCenterState();
+}
+
+class _ListMedicalCenterState extends State<ListMedicalCenter> {
+  //final _medicalCenters = CentroAtencionProvider.getCentros();
+
+  Position _currentPosition;
+  double dirLatitud;
+  double dirLongitud;
+  LatLng center = LatLng(4.6097100, -74.0817500);
+  List<CentroAtencion> listaCercanosReal;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(_currentPosition);
     Size size = MediaQuery.of(context).size;
     CollectionReference centroMedicoCollection =
         FirebaseFirestore.instance.collection("attentionCenters");
@@ -82,5 +104,18 @@ class ListMedicalCenter extends StatelessWidget {
     });
 
     return widgets;
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

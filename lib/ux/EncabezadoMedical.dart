@@ -19,13 +19,13 @@ class EncabezadoMedical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.4,
+      height: size.height * 0.33,
       width: size.width,
       decoration: BoxDecoration(
           color: kRosado,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(100),
-            bottomRight: Radius.circular(100),
+            bottomLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
           )),
       child: Stack(
         children: <Widget>[
@@ -34,18 +34,21 @@ class EncabezadoMedical extends StatelessWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(
+                  height: size.height * 0.05,
+                ),
                 Icon(
                   FontAwesomeIcons.handHoldingMedical,
                   color: kLetras,
-                  size: size.height * 0.15,
+                  size: 80.0,
                 ),
                 Espacio(size: size),
                 Text(
                   this.text1,
                   style: TextStyle(
-                      fontSize: this.fontSize == null ? 36 : this.fontSize,
+                      fontSize: this.fontSize == null ? 30 : this.fontSize,
                       color: kLetras,
-                      fontFamily: 'PoppinSemiBold'),
+                      fontFamily: 'PoppinsRegular'),
                 )
               ],
             )),
