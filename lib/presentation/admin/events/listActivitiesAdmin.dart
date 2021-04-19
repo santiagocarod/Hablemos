@@ -1,97 +1,116 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class ListActivitiesAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Actividad> actividades = EventoProvider.getActividades();
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar:
-          crearAppBarEventos(context, "Actividades", "eventosAdministrador"),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/eventsAdminBackground.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: size.height * 0.15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+
+    CollectionReference actividadesCollecion =
+        FirebaseFirestore.instance.collection('activities');
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: actividadesCollecion.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('ALGO SALIO MAL');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        List<Actividad> actividades = actividadMapToList(snapshot);
+
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBarEventos(
+              context, "Actividades", "eventosAdministrador"),
+          body: Stack(
+            children: <Widget>[
+              Image.asset(
+                'assets/images/eventsAdminBackground.png',
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                width: size.width,
+                height: size.height,
+              ),
+              SingleChildScrollView(
+                child: Column(
                   children: <Widget>[
-                    Icon(
-                      Icons.thumbs_up_down_outlined,
-                      size: 90.0,
-                      color: kLetras,
-                    ),
                     SizedBox(
-                      width: 20.0,
+                      height: size.height * 0.15,
                     ),
-                    Text(
-                      "Actividades",
-                      style: GoogleFonts.montserrat(
-                          color: kLetras,
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "agregarActividad");
-                  },
-                  child: Container(
-                    width: size.width * 0.9,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.add_circle_outline,
-                          size: 28.0,
+                          Icons.thumbs_up_down_outlined,
+                          size: 90.0,
                           color: kLetras,
                         ),
                         SizedBox(
-                          width: 10.0,
+                          width: 20.0,
                         ),
                         Text(
-                          "Agregar",
+                          "Actividades",
                           style: GoogleFonts.montserrat(
                               color: kLetras,
-                              fontSize: 16.0,
+                              fontSize: 25.0,
                               fontWeight: FontWeight.w300),
                         ),
-                        SizedBox(width: size.width * 0.03)
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "agregarActividad");
+                      },
+                      child: Container(
+                        width: size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Icon(
+                              Icons.add_circle_outline,
+                              size: 28.0,
+                              color: kLetras,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Text(
+                              "Agregar",
+                              style: GoogleFonts.montserrat(
+                                  color: kLetras,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                            SizedBox(width: size.width * 0.03)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    _talleresTable(context, size, actividades),
+                  ],
                 ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                _talleresTable(context, size, actividades),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

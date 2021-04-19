@@ -1,6 +1,4 @@
-class Trastorno {
-  //TODO: RECORDAR CAMBIAR NOMBRE CLASE
-
+class Diagnostico {
   String uid;
   String nombre;
   String definicion;
@@ -8,7 +6,7 @@ class Trastorno {
   String autoayuda;
   List<String> fuentes;
 
-  Trastorno(
+  Diagnostico(
       {this.uid,
       this.nombre,
       this.definicion,

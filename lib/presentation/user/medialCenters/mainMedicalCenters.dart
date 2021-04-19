@@ -3,6 +3,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+//TODO: HACER LA CONSULTA A FIREBASE DESDE AQUI PARA QUE SOLO SE TENGA QUE HACE 1 VEZ Y DE RESTO PASARLA POR PARAMETRO
 class MainMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

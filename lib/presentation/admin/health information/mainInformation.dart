@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/trastorno.dart';
-import 'package:hablemos/services/providers/trastornos_provider.dart';
+import 'package:hablemos/model/diagnostico.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_Information.dart';
 
@@ -68,15 +69,33 @@ Widget _appBar(Size size) {
 
 // Display Cards
 Widget _swiperCards(Size size) {
-  return Align(
-    alignment: Alignment.bottomCenter,
-    child: Container(
-      width: size.width,
-      height: size.height * 0.6,
-      child: CardInformation(
-        list: TrastornoProvider.getTrastorno(),
-      ),
-    ),
+  CollectionReference diagnosticosCollection =
+      FirebaseFirestore.instance.collection("diagnostics");
+
+  return StreamBuilder<QuerySnapshot>(
+    stream: diagnosticosCollection.snapshots(),
+    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      if (snapshot.hasError) {
+        return Text('ALGO SALIO MAL');
+      }
+
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator();
+      }
+
+      List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
+
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          width: size.width,
+          height: size.height * 0.6,
+          child: CardInformation(
+            list: diagnosticos,
+          ),
+        ),
+      );
+    },
   );
 }
 
@@ -116,7 +135,7 @@ Widget _button(BuildContext context, Size size) {
           shadowColor: Colors.black,
         ),
         onPressed: () {
-          Trastorno trastorno;
+          Diagnostico trastorno;
           Navigator.pushNamed(context, 'newInformation', arguments: trastorno);
         },
       ),

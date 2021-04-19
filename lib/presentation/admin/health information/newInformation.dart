@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class NewInformation extends StatefulWidget {
@@ -18,7 +18,7 @@ class _NewInformation extends State<NewInformation> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Trastorno trastorno = ModalRoute.of(context).settings.arguments;
+    final Diagnostico trastorno = ModalRoute.of(context).settings.arguments;
 
     // Validates if it is update or creation
     if (trastorno != null) {
@@ -83,7 +83,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
-  Widget _detail(BuildContext context, Size size, Trastorno trastorno) {
+  Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -167,7 +167,7 @@ class _NewInformation extends State<NewInformation> {
     return aux;
   }
 
-  Widget _button(Size size, Trastorno trastorno) {
+  Widget _button(Size size, Diagnostico trastorno) {
     String text = 'Información Creada';
     String button = ' Crear';
     // Chage the text of button if it is an update

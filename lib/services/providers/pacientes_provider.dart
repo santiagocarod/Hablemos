@@ -1,11 +1,7 @@
-import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
-import 'package:hablemos/services/providers/citas_provider.dart';
 
 class PacientesProvider {
   static Paciente getPaciente() {
-    List<Cita> citas = CitasProvider.getCitas();
-
     Paciente paciente;
 
     String nombre = 'Daniela';
@@ -28,8 +24,7 @@ class PacientesProvider {
         telefono: telefono,
         nombreContactoEmergencia: nombreCE,
         relacionContactoEmergencia: relacionCE,
-        telefonoContactoEmergencia: telefonoCE,
-        citas: citas);
+        telefonoContactoEmergencia: telefonoCE);
 
     return paciente;
   }

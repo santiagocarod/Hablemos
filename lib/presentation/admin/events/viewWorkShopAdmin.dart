@@ -448,7 +448,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
                   ),
                   FittedBox(
                     child: Text(
-                      "${taller.numCuenta}",
+                      "${taller.banco.numCuenta}",
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
                           color: kLetras,

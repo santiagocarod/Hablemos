@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/grupo.dart';
-
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
@@ -28,7 +25,6 @@ class _AddGroup extends State<AddGroup> {
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
-  final List<Grupo> grupos = EventoProvider.getGrupos();
 
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();

@@ -1,11 +1,7 @@
-import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/citas_provider.dart';
 
 class ProfesionalesProvider {
   static Profesional getProfesional() {
-    List<Cita> citas = CitasProvider.getCitas();
-
     Profesional profesional;
 
     String nombre = 'Juan';
@@ -35,7 +31,6 @@ class ProfesionalesProvider {
       convenios: convenios,
       redes: redes,
       proyectos: proyectos,
-      citas: citas,
       numeroCuenta: cuenta,
       celular: numero,
       correo: correo,

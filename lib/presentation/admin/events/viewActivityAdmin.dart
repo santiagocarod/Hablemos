@@ -439,7 +439,7 @@ class ViewActivityAdmin extends StatelessWidget {
                   ),
                   FittedBox(
                     child: Text(
-                      "${actividad.numeroCuenta}",
+                      "${actividad.banco.numCuenta}",
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
                           color: kLetras,
