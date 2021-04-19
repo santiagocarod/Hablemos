@@ -41,26 +41,32 @@ class HomeScreen extends StatelessWidget {
       }
     });
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: _appBar(context, size),
-        body: Stack(
-          children: <Widget>[
-            _background(context, size),
-            _content(context, size),
-          ],
-        ),
-        bottomNavigationBar: Container(
-          width: size.width,
-          height: 77.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+      height: size.height,
+      color: kAzulPrincipal,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          backgroundColor: kAzulPrincipal,
+          appBar: _appBar(context, size),
+          body: Stack(
             children: <Widget>[
-              _button7(context, size),
-              _button8(context, size),
+              _background(context, size),
+              _content(context, size),
             ],
+          ),
+          bottomNavigationBar: Container(
+            width: size.width,
+            height: 77.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _button7(context, size),
+                _button8(context, size),
+              ],
+            ),
           ),
         ),
       ),
@@ -71,14 +77,14 @@ class HomeScreen extends StatelessWidget {
 // Header of screen, image with title ==================================
 Widget _appBar(BuildContext context, Size size) {
   return AppBar(
+    automaticallyImplyLeading: false,
+    backgroundColor: kAzulPrincipal,
     toolbarHeight: size.height * 0.18,
-    leading: Container(),
     shape: ContinuousRectangleBorder(
-      borderRadius: BorderRadius.only(
-        bottomLeft: const Radius.circular(100.0),
-        bottomRight: const Radius.circular(100.0),
-      ),
-    ),
+        borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(100),
+      bottomRight: Radius.circular(100),
+    )),
     flexibleSpace: Column(
       children: [
         EncabezadoHablemos(
@@ -88,7 +94,6 @@ Widget _appBar(BuildContext context, Size size) {
       ],
     ),
     elevation: 0,
-    backgroundColor: kAzulPrincipal,
   );
 }
 
@@ -157,6 +162,7 @@ Widget _button1(BuildContext context, Size size) {
             size: 100,
             color: const Color(0xffe45865),
           ),
+          SizedBox(height: 15.0),
           Text(
             "Necesito \nAyuda",
             style: TextStyle(
@@ -197,7 +203,7 @@ Widget _button2(BuildContext context, Size size) {
             color: const Color(0xffC08EF2),
           ),
           Text(
-            "Qué hay \npa´ hacer",
+            "¿Qué hay \npa´ hacer?",
             style: TextStyle(
               fontSize: 17,
               color: const Color(0xff302b2b),
@@ -276,6 +282,9 @@ Widget _button4(BuildContext context, Size size) {
             size: 84.04,
             color: const Color(0xffA5DF6E),
           ),
+          SizedBox(
+            height: 15.0,
+          ),
           Text(
             "Quiero un \nmomento",
             style: TextStyle(
@@ -311,11 +320,15 @@ Widget _button5(BuildContext context, Size size) {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          SizedBox(
+            height: 2.0,
+          ),
           Icon(
             Icons.tablet_mac_rounded,
-            size: 75.0,
+            size: 73.0,
             color: const Color(0xffFFD4C4),
           ),
+          SizedBox(height: 5.0),
           Text(
             "Redes",
             style: TextStyle(
@@ -351,20 +364,26 @@ Widget _button6(BuildContext context, Size size) {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          SizedBox(height: 3.0),
           Icon(
             Icons.message_rounded,
-            size: 85.67,
+            size: 73.0,
             color: const Color(0xff46D4E1),
           ),
-          Text(
-            "Información",
-            style: TextStyle(
-              fontSize: 20,
-              color: const Color(0xff302b2b),
-              height: 1.1111111111111112,
-              fontFamily: 'PoppinsRegular',
+          SizedBox(height: 5.0),
+          Flexible(
+            flex: 2,
+            fit: FlexFit.tight,
+            child: Text(
+              "Información",
+              style: TextStyle(
+                fontSize: 18,
+                color: const Color(0xff302b2b),
+                height: 1.1111111111111112,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),
