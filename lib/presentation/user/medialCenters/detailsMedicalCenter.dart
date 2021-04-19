@@ -3,6 +3,8 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/model/centro_atencion.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DetailsMedicalCenter extends StatelessWidget {
   final double _horizontalPadding = 25.0;
@@ -26,7 +28,22 @@ class DetailsMedicalCenter extends StatelessWidget {
                 ),
                 Espacio(size: size),
                 MedicalCenterDetailsTitle("Ubicación"),
-                MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                GestureDetector(
+                  onTap: () {
+                    if (kIsWeb) {
+                      Navigator.pushNamed(context, 'Mapa');
+                    } else {
+                      MapsLauncher.launchQuery(_centroAtencion.ubicacion);
+                      Navigator.pushNamed(context, 'Mapa');
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                      Icon(Icons.pin_drop)
+                    ],
+                  ),
+                ),
                 //Espacio(size: size),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -57,7 +74,6 @@ class DetailsMedicalCenter extends StatelessWidget {
                         child: Row(
                           children: [
                             MedicalCenterDetailsInfo(_centroAtencion.ciudad),
-                            Icon(Icons.pin_drop)
                           ],
                         )),
                   ],

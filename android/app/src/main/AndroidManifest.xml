@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hablemos">
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
    <application
         android:label="Hablemos"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1IjoibmxvcGV6MTEzIiwiYSI6ImNrbWY0bzJlNjMxaTgyd3FzaXMzM2FmN2MifQ.J6_IcA7MX0H4CqSkxEgXyA" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

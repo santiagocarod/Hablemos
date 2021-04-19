@@ -29,6 +29,7 @@ import 'package:hablemos/presentation/admin/professionals_management/viewProfPro
 import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
 import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
 import 'package:hablemos/presentation/pacient/forums/topics.dart';
@@ -143,6 +144,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'Mapa': (context) => MapBoxClass(),
     'verPerfilProfesional': (context) => ProfileProView(),
     'editarPerfilProfesional': (context) => EditProfileProfesional(),
     'principalCentrosMedicos': (context) => MainMedicalCenter(),
