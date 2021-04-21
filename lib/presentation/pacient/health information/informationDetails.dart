@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/trastorno.dart';
+import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class InformationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Trastorno trastorno = ModalRoute.of(context).settings.arguments;
+    final Diagnostico trastorno = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -32,7 +32,7 @@ class InformationDetails extends StatelessWidget {
   }
 }
 
-Widget _detail(BuildContext context, Size size, Trastorno trastorno) {
+Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
   String name = trastorno.nombre.toUpperCase();
   return Container(
     child: Column(
@@ -69,7 +69,7 @@ Widget _simpleSecction(String title, String content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
     width: size.width,
-    height: size.height * 0.30,
+    height: size.height * 0.25,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -115,7 +115,7 @@ Widget _listSecction(String title, List<String> content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
     width: size.width,
-    height: size.height * 0.30,
+    height: size.height * 0.20,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

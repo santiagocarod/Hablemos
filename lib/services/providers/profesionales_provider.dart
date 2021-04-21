@@ -13,12 +13,24 @@ class ProfesionalesProvider {
     String lsitaExperiencia =
         'Master en prevención y tratamiento de conductas adictivas y en terapia cognitivo conductual.';
     List<String> convenios = ['Colmedica', 'Colsanitas', 'Compensar'];
+<<<<<<< HEAD
     List<String> proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3'];
     Banco banco = Banco(
         banco: "Bancolombia",
         numCuenta: "123-5235-543",
         tipoCuenta: "Corriente");
     String numero = "3164448201";
+=======
+    List<String> redes = [
+      'facebook: fb.com/Juan',
+      'twitter: @juan_sd',
+      'instagram: @juan_sd'
+    ];
+    List<String> proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3'];
+    int cuenta = 31092938919;
+    int numero = 3164448201;
+    String correo = 'superdoctor@gmail.com';
+>>>>>>> origin/dev
 
     profesional = new Profesional(
       nombre: nombre,
@@ -30,6 +42,7 @@ class ProfesionalesProvider {
       proyectos: proyectos,
       banco: banco,
       celular: numero,
+      correo: correo,
     );
 
     return profesional;

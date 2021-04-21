@@ -30,7 +30,7 @@ class Profesional {
       this.banco,
       this.celular}) {
     this.foto = null;
-    this.descripcion = '';
+    this.descripcion = 'Aqui va la descripción';
   }
 
   toMap() {

@@ -1,17 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/ejercicio.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-class CardSwiper extends StatelessWidget {
-  final List<Ejercicio> list;
+const listaColoresEjercicios = [
+  kVerdeMuyClaro,
+  kRojoMuyClaro,
+  kAzul1,
+];
 
-  CardSwiper({@required this.list});
+const listaColoresAdmin = [
+  kMorado,
+  kMoradoClarito,
+  kPurpura,
+];
+
+class CardSwiper extends StatelessWidget {
+  final List<dynamic> list;
+  final String route;
+
+  CardSwiper({@required this.list, this.route});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    List<Color> listaColores;
+
+    if (route == 'infoEjercicio') {
+      listaColores = new List<Color>.from(listaColoresEjercicios);
+    } else {
+      listaColores = new List<Color>.from(listaColoresAdmin);
+    }
+
     return Container(
       width: double.infinity,
       height: size.height * 0.55,
@@ -22,8 +42,7 @@ class CardSwiper extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'infoEjercicio',
-                  arguments: list[index]);
+              Navigator.pushNamed(context, route, arguments: list[index]);
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -54,15 +73,20 @@ class CardSwiper extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
+                        fontFamily: 'PoppinsBold',
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    Text(
-                      list[index].descripcion,
-                      style: TextStyle(
-                        fontSize: 20.0,
+                    Container(
+                      padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      child: Text(
+                        list[index].descripcion,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        textAlign: TextAlign.justify,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),

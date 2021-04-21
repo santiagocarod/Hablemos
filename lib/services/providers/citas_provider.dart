@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/cita.dart';
+<<<<<<< HEAD
 
 /*String _randomString(int length) {
   var rand = new Random();
@@ -9,6 +10,8 @@ import 'package:hablemos/model/cita.dart';
 
   return new String.fromCharCodes(codeUnits);
 }*/
+=======
+>>>>>>> origin/dev
 
 class CitasProvider {
   /*static List<Cita> getCitas() {

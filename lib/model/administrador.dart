@@ -16,4 +16,27 @@ class Administrador {
   }) {
     this.permisos = 'Todos';
   }
+
+  toMap() {
+    return {
+      "uid": this.uid,
+      "email": this.correo,
+      "city": this.ciudad,
+      "permissions": this.permisos,
+      "name": this.nombre,
+      "lastName": this.apellido
+    };
+  }
+
+  static fromMap(data) {
+    Administrador a = Administrador(
+      nombre: data["name"],
+      apellido: data["lastName"],
+      correo: data["email"],
+      ciudad: data["city"],
+      permisos: data["permissions"],
+    );
+
+    return a;
+  }
 }

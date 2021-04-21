@@ -120,95 +120,105 @@ class _ViewProfile extends State<ViewProfile> {
             height: (size.height / 2) + 120.0,
             width: double.infinity,
             color: kRosado,
-          ),
-        ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: 32),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200.0,
-              height: 200.0,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200.0,
-                    )
-                  : Image.file(
-                      _image,
-                      width: 200.0,
-                      height: 200.0,
-                    ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding: EdgeInsets.only(
-              top: (size.height / 2) * 0.55, left: (size.width / 2) * 0.5),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        // Plus icon and edit text
-        Container(
-          padding: EdgeInsets.only(top: 253),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, 'editarPerfil', arguments: paciente);
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: <Widget>[
-                Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
-                  color: kNegro,
+                Stack(
+                  children: [
+                    // Draw profile picture
+                    Container(
+                      padding: EdgeInsets.only(top: 32),
+                      alignment: Alignment.topCenter,
+                      child: ClipOval(
+                        child: Container(
+                          color: Colors.white,
+                          width: 200.0,
+                          height: 200.0,
+                          child: _image == null
+                              ? Icon(
+                                  Icons.account_circle,
+                                  color: Colors.indigo[100],
+                                  size: 200.0,
+                                )
+                              : Image.file(
+                                  _image,
+                                  width: 200.0,
+                                  height: 200.0,
+                                ),
+                        ),
+                      ),
+                    ),
+                    // Draw camera icon
+                    Container(
+                      padding: EdgeInsets.only(
+                          top: (size.height / 2) * 0.55,
+                          left: (size.width / 2) * 0.5),
+                      alignment: Alignment.topCenter,
+                      child: GestureDetector(
+                        onTap: () {
+                          _showPicker(context);
+                        },
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.white,
+                            width: 43.0,
+                            height: 43.0,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                              size: 30.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  ' Modificar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                // Plus icon and edit text
+                Container(
+                  padding: EdgeInsets.only(top: 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'editarPerfil',
+                          arguments: paciente);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.add_circle_outline,
+                          size: 20.0,
+                          color: kNegro,
+                        ),
+                        Text(
+                          ' Modificar',
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: 15.0,
+                            fontFamily: 'PoppinsRegular',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Display text name
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 0),
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      paciente.nombre + " " + paciente.apellido,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: (size.height / 2) * 0.1,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: 283),
-            alignment: Alignment.topCenter,
-            child: Text(
-              paciente.nombre + " " + paciente.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.1,
-                fontFamily: 'PoppinsRegular',
-              ),
             ),
           ),
         ),

@@ -77,6 +77,7 @@ class MindfulnessClass extends StatelessWidget {
         height: size.height * 0.6,
         child: CardSwiper(
           list: ExerciseProvider.getMindfulnes(),
+          route: 'infoEjercicio',
         ),
       ),
     );
