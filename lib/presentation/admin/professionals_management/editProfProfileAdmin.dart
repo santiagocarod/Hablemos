@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -25,7 +26,6 @@ class _EditProfileProfessionalAdminState
   TextEditingController _proyectosController = new TextEditingController();
   TextEditingController _experienciaController = new TextEditingController();
   TextEditingController _descripcionController = new TextEditingController();
-  TextEditingController _redesController = new TextEditingController();
 
   String _date = '';
   File _image;
@@ -33,24 +33,37 @@ class _EditProfileProfessionalAdminState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Profesional profesional = ProfesionalesProvider.getProfesional();
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      // Create an empty appBar, display the arrow back
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          cabeceraPerfilProfesional(size, profesional),
-          Container(
-            padding: EdgeInsets.only(top: size.height * 0.53),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _body(size, profesional),
+    CollectionReference centroMedicoCollection =
+        FirebaseFirestore.instance.collection("attentionCenters");
+    return StreamBuilder<QuerySnapshot>(
+        stream: centroMedicoCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          Profesional profesional = profesionalMapToList(snapshot)[0];
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            // Create an empty appBar, display the arrow back
+            appBar: crearAppBar('', null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                cabeceraPerfilProfesional(size, profesional),
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.53),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: _body(size, profesional),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
@@ -171,7 +184,7 @@ class _EditProfileProfessionalAdminState
           _editSection('Ciudad', 'Bogotá D.C', _cityController),
           _editSection('Convenio', profesional.convenios.toString(),
               _convenioController),
-          _editSection('Especialidad', profesional.especialidades,
+          _editSection('Especialidad', profesional.especialidad,
               _especialidadController),
           _editSection('Proyectos', profesional.proyectos.toString(),
               _proyectosController),
@@ -179,8 +192,6 @@ class _EditProfileProfessionalAdminState
               'Experiencia', profesional.experiencia, _experienciaController),
           _editSection(
               'Descripción', profesional.descripcion, _descripcionController),
-          _editSection(
-              'Redes Sociales', profesional.redes.toString(), _redesController),
         ],
       ),
     );

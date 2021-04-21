@@ -151,7 +151,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
           // _section('Correo', profesional.correo),
           _section('Ciudad', 'Bogota D.C'),
           _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidades),
+          _section('Especialidad', profesional.especialidad),
           _sectionList('Proyectos', profesional.proyectos, size),
           _section('Experiencia', profesional.experiencia),
           _section('Descripcion', profesional.descripcion),

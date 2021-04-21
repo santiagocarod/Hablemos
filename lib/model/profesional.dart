@@ -16,6 +16,7 @@ class Profesional {
   Image foto;
   Banco banco;
   String celular;
+  String correo;
 
   //
   Profesional(
@@ -28,7 +29,8 @@ class Profesional {
       this.convenios,
       this.proyectos,
       this.banco,
-      this.celular}) {
+      this.celular,
+      this.correo}) {
     this.foto = null;
     this.descripcion = 'Aqui va la descripción';
   }
@@ -43,7 +45,8 @@ class Profesional {
       "contracts": this.convenios,
       "projects": this.proyectos,
       "bank": this.banco.toMap(),
-      "phone": this.celular
+      "phone": this.celular,
+      "email": this.correo
     };
   }
 
@@ -58,7 +61,8 @@ class Profesional {
         experiencia: data["experience"],
         convenios: data["contratos"],
         proyectos: List<String>.from(["projects"]),
-        celular: data["phone"]);
+        celular: data["phone"],
+        correo: data["email"]);
 
     return p;
   }

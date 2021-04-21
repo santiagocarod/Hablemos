@@ -6,13 +6,10 @@ import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
-<<<<<<< HEAD
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/model/profesional.dart';
-=======
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/model/grupo.dart';
->>>>>>> origin/dev
 import 'package:hablemos/model/taller.dart';
 
 List<Carta> cartaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -96,7 +93,6 @@ List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return talleres;
 }
 
-<<<<<<< HEAD
 List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Profesional> profesionales = [];
   snapshot.data.docs.forEach((element) {
@@ -115,7 +111,8 @@ List<Paciente> pacienteMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     pacientes.add(p);
   });
   return pacientes;
-=======
+}
+
 List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Grupo> grupos = [];
   snapshot.data.docs.forEach((element) {
@@ -207,5 +204,4 @@ List<Administrador> administradorMapToList(
     administradores.add(a);
   });
   return administradores;
->>>>>>> origin/dev
 }

@@ -1,16 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/presentation/admin/forums/forum.dart';
-import 'package:hablemos/presentation/admin/forums/mainForums.dart';
-import 'package:hablemos/presentation/admin/forums/newForum.dart';
-import 'package:hablemos/presentation/admin/forums/response.dart';
-import 'package:hablemos/presentation/admin/forums/viewResponse.dart';
-import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
-import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
-import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
-import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/events/addActivity.dart';
 import 'package:hablemos/presentation/admin/events/addGroup.dart';
 import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
@@ -24,7 +12,15 @@ import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
->>>>>>> origin/dev
+import 'package:hablemos/presentation/admin/forums/forum.dart';
+import 'package:hablemos/presentation/admin/forums/mainForums.dart';
+import 'package:hablemos/presentation/admin/forums/newForum.dart';
+import 'package:hablemos/presentation/admin/forums/response.dart';
+import 'package:hablemos/presentation/admin/forums/viewResponse.dart';
+import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
@@ -32,15 +28,11 @@ import 'package:hablemos/presentation/admin/professionals_management/viewProfPro
 import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
 import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
 import 'package:hablemos/presentation/home.dart';
-<<<<<<< HEAD
 import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
-=======
-import 'package:hablemos/presentation/user/map.dart';
->>>>>>> origin/dev
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
 import 'package:hablemos/presentation/pacient/forums/topics.dart';
@@ -58,7 +50,6 @@ import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart'
 import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
 import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
 import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
-<<<<<<< HEAD
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/editLetterPro.dart';
@@ -66,10 +57,8 @@ import 'package:hablemos/presentation/professional/letters/listAprovedLettersPro
 import 'package:hablemos/presentation/professional/letters/listToEvaluateLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
-=======
 import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
->>>>>>> origin/dev
 import 'package:hablemos/presentation/user/events/attachPaymentActivity.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentGroup.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentWorkShop.dart';
@@ -90,6 +79,7 @@ import 'package:hablemos/presentation/user/exercises/meditation.dart';
 import 'package:hablemos/presentation/user/exercises/mindfulness.dart';
 import 'package:hablemos/presentation/user/exercises/options_breathe.dart';
 import 'package:hablemos/presentation/user/exercises/options_exercises.dart';
+import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
