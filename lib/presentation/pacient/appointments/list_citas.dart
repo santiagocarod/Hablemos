@@ -20,6 +20,7 @@ class ListCitas extends StatelessWidget {
         stream: citasCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
+            print(snapshot.error);
             return Text('ALGO SALIO MAL');
           }
 

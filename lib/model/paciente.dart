@@ -49,12 +49,17 @@ class Paciente {
   }
 
   static fromMap(data) {
+    DateTime fechaN;
+    data["birthDate"] == null
+        ? fechaN = null
+        : fechaN = DateTime.parse(data["birthDate"]);
+
     Paciente p = Paciente(
         nombre: data["name"],
         apellido: data["lastName"],
         correo: data["email"],
         ciudad: data["city"],
-        fechaNacimiento: DateTime.parse(data["birthDate"]),
+        fechaNacimiento: fechaN,
         telefono: data["phone"],
         nombreContactoEmergencia: data["emergencyContactName"],
         telefonoContactoEmergencia: data["emergencyContactPhone"],
