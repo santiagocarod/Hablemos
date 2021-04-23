@@ -6,6 +6,8 @@ import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
@@ -48,8 +50,8 @@ List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
     Cita c = Cita(
-        uidPaciente: data["uidPacient"],
-        uidProfesional: data["uidProfessional"],
+        paciente: Paciente.fromMap(data["pacient"]),
+        profesional: Profesional.fromMap(data["professional"], "uid"),
         dateTime: data["dateTime"].toDate(),
         costo: data["cost"],
         lugar: data["place"],
@@ -89,6 +91,26 @@ List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
     talleres.add(t);
   });
   return talleres;
+}
+
+List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Profesional> profesionales = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    Profesional p = Profesional.fromMap(data, element.id);
+    profesionales.add(p);
+  });
+  return profesionales;
+}
+
+List<Paciente> pacienteMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Paciente> pacientes = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    Paciente p = Paciente.fromMap(data);
+    pacientes.add(p);
+  });
+  return pacientes;
 }
 
 List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {

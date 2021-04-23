@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/ux/atoms.dart';
-import 'package:intl/intl.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/ux/atoms.dart';
+import 'package:intl/intl.dart';
 
 class CreateDate extends StatefulWidget {
   @override
@@ -12,28 +11,7 @@ class CreateDate extends StatefulWidget {
 
 class _CreateDate extends State<CreateDate> {
   // Provisional list of professionals
-  List<String> professionals = [
-    ProfesionalesProvider.getProfesional().nombre +
-        ' ' +
-        ProfesionalesProvider.getProfesional().apellido +
-        ' 1',
-    ProfesionalesProvider.getProfesional().nombre +
-        ' ' +
-        ProfesionalesProvider.getProfesional().apellido +
-        ' 2',
-    ProfesionalesProvider.getProfesional().nombre +
-        ' ' +
-        ProfesionalesProvider.getProfesional().apellido +
-        ' 3',
-    ProfesionalesProvider.getProfesional().nombre +
-        ' ' +
-        ProfesionalesProvider.getProfesional().apellido +
-        ' 4',
-    ProfesionalesProvider.getProfesional().nombre +
-        ' ' +
-        ProfesionalesProvider.getProfesional().apellido +
-        ' 5'
-  ];
+  List<String> professionals = [];
   // Provisional List of types
   List<String> types = ['Tipo 1', 'Tipo 2', 'Tipo 3', 'Tipo 4', 'Tipo 5'];
   // Text Controllers
@@ -58,7 +36,7 @@ class _CreateDate extends State<CreateDate> {
           '/' +
           cita.dateTime.year.toString();
       textHour = format.format(cita.dateTime);
-      textProf = cita.uidProfesional;
+      //textProf = cita.profesional.;
       textType = cita.tipo;
     } else if (cita == null) {
       textDate = "Fecha";
@@ -349,9 +327,9 @@ class _CreateDate extends State<CreateDate> {
 
 // Create Button
   Widget _create(BuildContext context, Cita cita) {
-    String username = "Paciente";
+    /*String username = "Paciente";
     String title = "";
-    String content = "";
+    String content = "";*/
     String button = "CREAR";
     // Chage the text of button if it is an update
     if (cita != null) button = "ACTUALIZAR";
@@ -380,6 +358,7 @@ class _CreateDate extends State<CreateDate> {
             shadowColor: Colors.black,
           ),
           onPressed: () {
+            /*TODO: LOGICA DE AGREGAR UNA CITA. 
             // Validate if it is a create
             if (cita == null) {
               // Validate if any text field is empty
@@ -437,7 +416,7 @@ class _CreateDate extends State<CreateDate> {
                 builder: (BuildContext contex) =>
                     _buildPopupDialog(context, title, content),
               );
-            }
+            }*/
           },
         ),
       ),
@@ -445,7 +424,7 @@ class _CreateDate extends State<CreateDate> {
   }
 
 // Show de dialog box
-  Widget _buildPopupDialog(
+  /*Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(
       title: Text(tittle),
@@ -472,5 +451,5 @@ class _CreateDate extends State<CreateDate> {
         ),
       ],
     );
-  }
+  }*/
 }
