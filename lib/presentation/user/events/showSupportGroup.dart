@@ -160,7 +160,7 @@ class ShowSupportGroup extends StatelessWidget {
                               context,
                               grupoApoyo,
                               "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
+                              "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
                               kMoradoClarito,
                             );
                           } else if (grupoApoyo.ubicacion == "virtual" ||
@@ -177,7 +177,7 @@ class ShowSupportGroup extends StatelessWidget {
                                 context,
                                 grupoApoyo,
                                 "Confirmación de Inscripción",
-                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
                                 kMoradoClarito);
                           }
                         });

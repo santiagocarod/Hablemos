@@ -77,7 +77,7 @@ class EventoProvider {
 
   static List<Actividad> getActividades() {
     List<Actividad> actividades = [];
-    String titulo = 'Tipo Actividad 1';
+    String titulo = 'Tipo Actividad 2';
     String descripcion =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor = '5000';
@@ -85,7 +85,7 @@ class EventoProvider {
     String numCuenta = '542-5126-6123';
     int numSesiones = 3;
     String banco = 'Bancolombia';
-    String titulo1 = 'Tipo Actividad 2';
+    String titulo1 = 'Tipo Actividad 1';
     String descripcion1 =
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
     String valor1 = '75.000 COP';

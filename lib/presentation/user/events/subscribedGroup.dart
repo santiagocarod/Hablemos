@@ -197,7 +197,7 @@ class SubscribedGroup extends StatelessWidget {
                               size,
                               grupo,
                               "Confirmación de Cancelación",
-                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
+                              "¿Estás seguro que deseas cancelar la inscripción a este Grupo de Apoyo?",
                               kMoradoClarito,
                             );
                           } else if (grupo.ubicacion.toLowerCase() ==
@@ -216,7 +216,7 @@ class SubscribedGroup extends StatelessWidget {
                               size,
                               grupo,
                               "Confirmación de Cancelación",
-                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
+                              "¿Estás seguro que deseas cancelar la inscripción a este Grupo de Apoyo?",
                               kMoradoClarito,
                             );
                           }

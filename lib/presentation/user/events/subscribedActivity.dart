@@ -197,7 +197,7 @@ class SubscribedActivity extends StatelessWidget {
                               size,
                               actividad,
                               "Confirmación de Cancelación",
-                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
+                              "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
                               kMoradoClarito,
                             );
                           } else if (actividad.ubicacion.toLowerCase() ==
@@ -216,7 +216,7 @@ class SubscribedActivity extends StatelessWidget {
                               size,
                               actividad,
                               "Confirmación de Cancelación",
-                              "¿Estás seguro que deseas cancelar la inscripción a este taller?",
+                              "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
                               kMoradoClarito,
                             );
                           }
