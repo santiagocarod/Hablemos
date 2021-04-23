@@ -537,7 +537,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController..text = grupo.banco,
+                        controller: _bancoController..text = grupo.banco.banco,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",

@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/actividad.dart';
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
@@ -27,7 +25,6 @@ class _AddActivity extends State<AddActivity> {
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
-  final List<Actividad> actividades = EventoProvider.getActividades();
 
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();

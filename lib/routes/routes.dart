@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/forums/forum.dart';
+import 'package:hablemos/presentation/admin/forums/mainForums.dart';
+import 'package:hablemos/presentation/admin/forums/newForum.dart';
+import 'package:hablemos/presentation/admin/forums/response.dart';
+import 'package:hablemos/presentation/admin/forums/viewResponse.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/events/addActivity.dart';
 import 'package:hablemos/presentation/admin/events/addGroup.dart';
 import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
@@ -14,7 +23,13 @@ import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
+import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
 import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/pacient/forums/details.dart';
 import 'package:hablemos/presentation/pacient/forums/topicList.dart';
 import 'package:hablemos/presentation/pacient/forums/topics.dart';
@@ -129,6 +144,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
     'DetalleInformacion': (context) => InformationDetails(),
+    'Mapa': (context) => MapBoxClass(),
     'verPerfilProfesional': (context) => ProfileProView(),
     'editarPerfilProfesional': (context) => EditProfileProfesional(),
     'principalCentrosMedicos': (context) => MainMedicalCenter(),
@@ -142,6 +158,22 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'tallerSubscripto': (context) => SubscribedWorkShop(),
     'actividadSubscripto': (context) => SubscribedActivity(),
     'grupoSubscripto': (context) => SubscribedGroup(),
+    'adminViewProfile': (context) => ViewAdminProfile(),
+    'adminManageProffessional': (context) => HomeProfessionalsManagement(),
+    'verPerfilProfManage': (context) => ViewProfProfileManagement(),
+    'editarPerfilProfesionalManage': (context) =>
+        EditProfileProfessionalAdmin(),
+    'crearPerfilProfesionalManage': (context) =>
+        CreateProfileProfessionalAdmin(),
+    'mainScreen': (context) => MainScreen(),
+    'mainForums': (context) => MainForums(),
+    'mainInformation': (context) => MainInformation(),
+    'forum': (context) => Forum(),
+    'response': (context) => Response(),
+    'viewResponse': (context) => ViewResponse(),
+    'newForum': (context) => NewForum(),
+    'information': (context) => InformationAdmin(),
+    'newInformation': (context) => NewInformation(),
     'eventosAdministrador': (context) => EventsMainAdmin(),
     'listarActividadesAdmin': (context) => ListActivitiesAdmin(),
     'listarGruposAdmin': (context) => ListGroupsAdmin(),

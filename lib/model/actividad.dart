@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'banco.dart';
+
 class Actividad {
   String uid;
   String titulo;
@@ -10,8 +12,7 @@ class Actividad {
   String descripcion;
   DecorationImage foto;
   String ubicacion;
-  String numeroCuenta;
-  String banco;
+  Banco banco;
 
   Actividad({
     this.uid,
@@ -21,8 +22,9 @@ class Actividad {
     this.descripcion,
     this.foto,
     this.ubicacion,
-    this.numeroCuenta,
     this.banco,
+    this.fecha,
+    this.hora,
   }) {
     this.fecha = DateTime.now().day.toString() +
         '/' +

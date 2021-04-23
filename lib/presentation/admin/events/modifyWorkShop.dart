@@ -537,7 +537,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController..text = taller.banco,
+                        controller: _bancoController..text = taller.banco.banco,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -573,7 +573,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                         controller: _numCuentaController
-                          ..text = taller.numCuenta,
+                          ..text = taller.banco.numCuenta,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",

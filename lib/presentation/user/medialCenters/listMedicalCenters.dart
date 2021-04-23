@@ -1,44 +1,82 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/services/providers/centros_atencion_provider.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 
-class ListMedicalCenter extends StatelessWidget {
-  final _medicalCenters = CentroAtencionProvider.getCentros();
+class ListMedicalCenter extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Column(
-          children: <Widget>[
-            EncabezadoMedical(size: size, text1: "Canales de Ayuda"),
-            Espacio(size: size),
-            Container(
-              width: size.width - 20,
-              color: kRosado,
-              child: Center(
-                child: Text("Lineas de ayuda",
-                    style: TextStyle(
-                        color: kLetras,
-                        fontSize: 26,
-                        fontFamily: "PoppinsRegular")),
-              ),
-            ),
-            Espacio(size: size),
-            Expanded(
-                child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              children: centersToWidgets(context),
-            ))
-          ],
-        ));
+  _ListMedicalCenterState createState() => _ListMedicalCenterState();
+}
+
+class _ListMedicalCenterState extends State<ListMedicalCenter> {
+  //final _medicalCenters = CentroAtencionProvider.getCentros();
+
+  Position _currentPosition;
+  double dirLatitud;
+  double dirLongitud;
+  LatLng center = LatLng(4.6097100, -74.0817500);
+  List<CentroAtencion> listaCercanosReal;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
   }
 
-  List<Widget> centersToWidgets(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    print(_currentPosition);
+    Size size = MediaQuery.of(context).size;
+    CollectionReference centroMedicoCollection =
+        FirebaseFirestore.instance.collection("attentionCenters");
+    return StreamBuilder<QuerySnapshot>(
+        stream: centroMedicoCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
+          return Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar('', null, 0, null),
+              body: Column(
+                children: <Widget>[
+                  EncabezadoMedical(size: size, text1: "Canales de Ayuda"),
+                  Espacio(size: size),
+                  Container(
+                    width: size.width - 20,
+                    color: kRosado,
+                    child: Center(
+                      child: Text("Lineas de ayuda",
+                          style: TextStyle(
+                              color: kLetras,
+                              fontSize: 26,
+                              fontFamily: "PoppinsRegular")),
+                    ),
+                  ),
+                  Espacio(size: size),
+                  Expanded(
+                      child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    children: centersToWidgets(context, _medicalCenters),
+                  ))
+                ],
+              ));
+        });
+  }
+
+  List<Widget> centersToWidgets(
+      BuildContext context, List<CentroAtencion> _medicalCenters) {
     List<Widget> widgets = [];
     _medicalCenters.forEach((element) {
       Card card = Card(
@@ -66,5 +104,18 @@ class ListMedicalCenter extends StatelessWidget {
     });
 
     return widgets;
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }
