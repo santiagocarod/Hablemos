@@ -18,28 +18,30 @@ class _NewForum extends State<NewForum> {
   Widget build(BuildContext context) {
     //final Tema tema = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          _background(size),
-          _appBar(size),
-          SingleChildScrollView(
-            child: Container(
-              height: size.height,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  SizedBox(height: 30),
-                  _bodyInfoForum(context, size),
-                  SizedBox(height: 15),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            _background(size),
+            _appBar(size),
+            SingleChildScrollView(
+              child: Container(
+                height: size.height,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    SizedBox(height: 30),
+                    _bodyInfoForum(context, size),
+                    SizedBox(height: 15),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

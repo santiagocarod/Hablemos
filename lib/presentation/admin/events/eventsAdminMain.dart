@@ -10,70 +10,72 @@ class EventsMainAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Taller> talleres = EventoProvider.getTalleres();
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(context, "Eventos", 'inicioAdministrador'),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/eventsAdminBackground.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          SingleChildScrollView(
-            child: Container(
-                alignment: Alignment.center,
-                width: size.width,
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        SizedBox(
-                          height: size.height * 0.15,
-                        ),
-                        _opciones(
-                            context,
-                            size,
-                            Icons.transfer_within_a_station_outlined,
-                            "Talleres",
-                            talleres.length,
-                            'listarTalleresAdmin',
-                            "agregarTaller"),
-                        SizedBox(
-                          height: size.height * 0.05,
-                        ),
-                        _opciones(
-                            context,
-                            size,
-                            Icons.thumbs_up_down_outlined,
-                            "Actividades",
-                            6, //TODO: Crear entidad o realizar consultas?
-                            'listarActividadesAdmin',
-                            "agregarActividad"),
-                        SizedBox(
-                          height: size.height * 0.05,
-                        ),
-                        _opciones(
-                            context,
-                            size,
-                            Icons.people_alt_outlined,
-                            "Grupos de Apoyo",
-                            6,
-                            'listarGruposAdmin',
-                            "agregarGrupo"),
-                        SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    )
-                  ],
-                )),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBarEventos(context, "Eventos", 'inicioAdministrador'),
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/eventsAdminBackground.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            SingleChildScrollView(
+              child: Container(
+                  alignment: Alignment.center,
+                  width: size.width,
+                  child: Column(
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SizedBox(
+                            height: size.height * 0.15,
+                          ),
+                          _opciones(
+                              context,
+                              size,
+                              Icons.transfer_within_a_station_outlined,
+                              "Talleres",
+                              talleres.length,
+                              'listarTalleresAdmin',
+                              "agregarTaller"),
+                          SizedBox(
+                            height: size.height * 0.05,
+                          ),
+                          _opciones(
+                              context,
+                              size,
+                              Icons.thumbs_up_down_outlined,
+                              "Actividades",
+                              6, //TODO: Crear entidad o realizar consultas?
+                              'listarActividadesAdmin',
+                              "agregarActividad"),
+                          SizedBox(
+                            height: size.height * 0.05,
+                          ),
+                          _opciones(
+                              context,
+                              size,
+                              Icons.people_alt_outlined,
+                              "Grupos de Apoyo",
+                              6,
+                              'listarGruposAdmin',
+                              "agregarGrupo"),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

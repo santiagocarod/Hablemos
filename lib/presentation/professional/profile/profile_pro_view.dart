@@ -83,20 +83,22 @@ class _ProfileProViewState extends State<ProfileProView> {
             return CircularProgressIndicator();
           }
           Profesional profesional = profesionalMapToList(snapshot)[0];
-          return Scaffold(
-            appBar: crearAppBar('', null, 0, null),
-            extendBodyBehindAppBar: true,
-            body: Stack(
-              children: <Widget>[
-                cabeceraPerfilProfesional(size, profesional),
-                Container(
-                  padding: EdgeInsets.only(top: size.height * 0.53),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: cuerpoPerfilProfesional(size, profesional),
-                  ),
-                )
-              ],
+          return SafeArea(
+            child: Scaffold(
+              appBar: crearAppBar('', null, 0, null),
+              extendBodyBehindAppBar: true,
+              body: Stack(
+                children: <Widget>[
+                  cabeceraPerfilProfesional(size, profesional),
+                  Container(
+                    padding: EdgeInsets.only(top: size.height * 0.53),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: cuerpoPerfilProfesional(size, profesional),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });

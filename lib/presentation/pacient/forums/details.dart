@@ -10,22 +10,24 @@ class Details extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final Foro foro = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            crearForosUpper(
-                size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
-            Container(
-              padding: EdgeInsets.only(top: size.height * 0.102),
-              child: SingleChildScrollView(
-                child: _body(context, size, foro),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              crearForosUpper(
+                  size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.102),
+                child: SingleChildScrollView(
+                  child: _body(context, size, foro),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

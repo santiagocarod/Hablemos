@@ -29,35 +29,38 @@ class ListWorkShops extends StatelessWidget {
           talleres.forEach((element) {
             names.add(element.titulo);
           });
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBarEventos(context, "Talleres", "eventosPrincipal"),
-            body: Stack(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/eventsSpecificBackground.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                searchBar(context, size, searchController, names, talleres,
-                    "verTaller"),
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.27),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: objectCard(context, size, talleres),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar:
+                  crearAppBarEventos(context, "Talleres", "eventosPrincipal"),
+              body: Stack(
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/eventsSpecificBackground.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  searchBar(context, size, searchController, names, talleres,
+                      "verTaller"),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: size.height * 0.27),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: objectCard(context, size, talleres),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

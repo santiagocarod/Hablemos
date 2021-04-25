@@ -21,21 +21,23 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Registro", null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/yellowBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          _signinForm(context),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar("Registro", null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/yellowBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            _signinForm(context),
+          ],
+        ),
       ),
     );
   }

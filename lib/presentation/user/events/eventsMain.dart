@@ -6,51 +6,54 @@ class EventsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'start'),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/eventsBackground.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          SingleChildScrollView(
-            child: Container(
-                alignment: Alignment.center,
-                width: size.width,
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        SizedBox(
-                          height: size.height * 0.17,
-                        ),
-                        _opciones(context, size, "Talleres", "listarTalleres"),
-                        SizedBox(
-                          height: size.height * 0.1,
-                        ),
-                        _opciones(
-                            context, size, "Actividades", "listarActividades"),
-                        SizedBox(
-                          height: size.height * 0.1,
-                        ),
-                        _opciones(context, size, "Grupos de Apoyo",
-                            "listarGruposApoyo"),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    )
-                  ],
-                )),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'start'),
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/eventsBackground.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            SingleChildScrollView(
+              child: Container(
+                  alignment: Alignment.center,
+                  width: size.width,
+                  child: Column(
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SizedBox(
+                            height: size.height * 0.17,
+                          ),
+                          _opciones(
+                              context, size, "Talleres", "listarTalleres"),
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          _opciones(context, size, "Actividades",
+                              "listarActividades"),
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          _opciones(context, size, "Grupos de Apoyo",
+                              "listarGruposApoyo"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

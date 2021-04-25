@@ -27,35 +27,37 @@ class ListProfessional extends StatelessWidget {
           }
           List<Profesional> profesionales = profesionalMapToList(snapshot);
 
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Profesionales", null, 0, null),
-            body: Stack(
-              children: <Widget>[
-                //Background Image
-                Image.asset(
-                  'assets/images/dateBack.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                // Contents
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 80.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: profToCard(context, profesionales),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar("Profesionales", null, 0, null),
+              body: Stack(
+                children: <Widget>[
+                  //Background Image
+                  Image.asset(
+                    'assets/images/dateBack.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  // Contents
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 80.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: profToCard(context, profesionales),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });
