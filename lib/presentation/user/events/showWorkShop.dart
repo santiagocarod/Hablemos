@@ -11,289 +11,291 @@ class ShowWorkShop extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(context, taller.titulo, "listarTalleres"),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: size.height * 0.155,
-            ),
-            Center(
-              child: Container(
-                width: 272.0,
-                height: 196.0,
-                decoration: BoxDecoration(
-                  image: taller.foto,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 0),
-                        blurRadius: 7.0,
-                        color: Colors.grey.withOpacity(0.5)),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBarEventos(context, taller.titulo, "listarTalleres"),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: size.height * 0.155,
+              ),
+              Center(
+                child: Container(
+                  width: 272.0,
+                  height: 196.0,
+                  decoration: BoxDecoration(
+                    image: taller.foto,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 7.0,
+                          color: Colors.grey.withOpacity(0.5)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: size.height * 0.03,
-            ),
-            Column(
-              children: <Widget>[
-                Container(
-                  width: 330.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Descripción",
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "${taller.descripcion}",
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras,
-                              fontSize: 17.0),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Horario",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            child: Row(children: <Widget>[
-                              Icon(
-                                Icons.calendar_today_outlined,
-                                color: kNegro,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${taller.fecha}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ]),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: 330.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Descripción",
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kMoradoOscuro,
+                                fontSize: 20.0),
                           ),
-                          Container(
-                            child: Row(children: <Widget>[
-                              Icon(
-                                Icons.access_time_outlined,
-                                color: kNegro,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${taller.hora}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ]),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "${taller.descripcion}",
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kLetras,
+                                fontSize: 17.0),
                           ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  width: 330.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: 133.5,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Costo",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${taller.valor}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGrisN,
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Container(
+                            height: 1.0,
+                            color: kGrisN,
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: 133.5,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Sesiones",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kMoradoOscuro,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "${taller.numeroSesiones}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Container(
-                                height: 1.0,
-                                color: kGrisN,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                _seccionUbicacion(context, taller),
-                SizedBox(height: size.height * 0.03),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          if (taller.valor.toLowerCase() == "sin costo") {
-                            return dialogoConfirmacion(
-                              context,
-                              size,
-                              taller,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClarito,
-                            );
-                          } else if (taller.ubicacion == "virtual" ||
-                              taller.ubicacion == "Virtual") {
-                            return dialogoConfirmacionPago(
-                              context,
-                              taller,
-                              "Confirmación de Pago",
-                              "¿Ya realizaste el pago al número de cuenta?",
-                              kMoradoClarito,
-                            );
-                          } else {
-                            return dialogoConfirmacion(
-                              context,
-                              size,
-                              taller,
-                              "Confirmación de Inscripción",
-                              "¿Estás seguro que deseas inscribirte en este taller?",
-                              kMoradoClarito,
-                            );
-                          }
-                        });
-                  },
-                  child: Container(
-                    width: 296.0,
-                    height: 55.0,
-                    decoration: BoxDecoration(
-                      color: kMoradoClarito,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      boxShadow: [
-                        BoxShadow(
-                            offset: Offset(0, 0),
-                            blurRadius: 7.0,
-                            color: Colors.grey.withOpacity(0.5)),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        "INSCRIBIRME",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kNegro,
-                          fontSize: 20.0,
-                          fontFamily: 'PoppinSemiBold',
-                          letterSpacing: 2.0,
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    width: 330.5,
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Horario",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kMoradoOscuro,
+                                fontSize: 20.0),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(children: <Widget>[
+                                Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: kNegro,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "${taller.fecha}",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kLetras,
+                                      fontSize: 17.0),
+                                ),
+                              ]),
+                            ),
+                            Container(
+                              child: Row(children: <Widget>[
+                                Icon(
+                                  Icons.access_time_outlined,
+                                  color: kNegro,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "${taller.hora}",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kLetras,
+                                      fontSize: 17.0),
+                                ),
+                              ]),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Container(
+                            height: 1.0,
+                            color: kGrisN,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    width: 330.5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 133.5,
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "Costo",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kMoradoOscuro,
+                                      fontSize: 20.0),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "${taller.valor}",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kLetras,
+                                      fontSize: 17.0),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Container(
+                                  height: 1.0,
+                                  color: kGrisN,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 133.5,
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "Sesiones",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kMoradoOscuro,
+                                      fontSize: 20.0),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "${taller.numeroSesiones}",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsRegular",
+                                      color: kLetras,
+                                      fontSize: 17.0),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Container(
+                                  height: 1.0,
+                                  color: kGrisN,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  _seccionUbicacion(context, taller),
+                  SizedBox(height: size.height * 0.03),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            if (taller.valor.toLowerCase() == "sin costo") {
+                              return dialogoConfirmacion(
+                                context,
+                                size,
+                                taller,
+                                "Confirmación de Inscripción",
+                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                kMoradoClarito,
+                              );
+                            } else if (taller.ubicacion == "virtual" ||
+                                taller.ubicacion == "Virtual") {
+                              return dialogoConfirmacionPago(
+                                context,
+                                taller,
+                                "Confirmación de Pago",
+                                "¿Ya realizaste el pago al número de cuenta?",
+                                kMoradoClarito,
+                              );
+                            } else {
+                              return dialogoConfirmacion(
+                                context,
+                                size,
+                                taller,
+                                "Confirmación de Inscripción",
+                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                kMoradoClarito,
+                              );
+                            }
+                          });
+                    },
+                    child: Container(
+                      width: 296.0,
+                      height: 55.0,
+                      decoration: BoxDecoration(
+                        color: kMoradoClarito,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 7.0,
+                              color: Colors.grey.withOpacity(0.5)),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          "INSCRIBIRME",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: 20.0,
+                            fontFamily: 'PoppinSemiBold',
+                            letterSpacing: 2.0,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

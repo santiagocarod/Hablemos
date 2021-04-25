@@ -8,45 +8,47 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          _background(size),
-          _appBar(size),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Container(
-              alignment: Alignment.center,
-              width: size.width,
-              // Display two options
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: size.height * 0.15),
-                  // Button Health Information
-                  _button(
-                    context,
-                    "assets/images/monitorIcon.png",
-                    "Información Sobre\nSalud Mental",
-                    size,
-                    'mainInformation',
-                  ),
-                  SizedBox(height: size.height * 0.07),
-                  // Button Forums
-                  _button(
-                    context,
-                    "assets/images/forumsIcon.png",
-                    "Foros de la Comunidad\nProfesional",
-                    size,
-                    'mainForums',
-                  ),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            _background(size),
+            _appBar(size),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                alignment: Alignment.center,
+                width: size.width,
+                // Display two options
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: size.height * 0.15),
+                    // Button Health Information
+                    _button(
+                      context,
+                      "assets/images/monitorIcon.png",
+                      "Información Sobre\nSalud Mental",
+                      size,
+                      'mainInformation',
+                    ),
+                    SizedBox(height: size.height * 0.07),
+                    // Button Forums
+                    _button(
+                      context,
+                      "assets/images/forumsIcon.png",
+                      "Foros de la Comunidad\nProfesional",
+                      size,
+                      'mainForums',
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

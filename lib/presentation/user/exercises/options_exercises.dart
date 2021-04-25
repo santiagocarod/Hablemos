@@ -8,16 +8,18 @@ class OptionsExercises extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            _background(size),
-            _opciones(context, size),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Center(
+          child: Stack(
+            children: <Widget>[
+              _background(size),
+              _opciones(context, size),
+            ],
+          ),
         ),
       ),
     );

@@ -24,35 +24,37 @@ class ListToEvaluateLettersPro extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Carta> cartas = cartaMapToList(snapshot);
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Cartas a Valorar", null, 0, null),
-            body: Stack(
-              children: <Widget>[
-                //Background Image
-                Image.asset(
-                  'assets/images/lettersBackground.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                // Contents
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 80.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: letterToCard(context, size, cartas),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar("Cartas a Valorar", null, 0, null),
+              body: Stack(
+                children: <Widget>[
+                  //Background Image
+                  Image.asset(
+                    'assets/images/lettersBackground.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  // Contents
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 80.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: letterToCard(context, size, cartas),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

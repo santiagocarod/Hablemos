@@ -109,457 +109,459 @@ class _AddActivity extends State<AddActivity> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBarEventos(
-          context, "Creación de Actividad", "listarActividadesAdmin"),
-      body: Stack(
-        children: <Widget>[
-          Image.asset(
-            'assets/images/eventsAdminBackground.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: size.height * 0.15,
-                ),
-                TextField(
-                  controller: _tituloController,
-                  enableInteractiveSelection: false,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                      fontSize: 27.0, fontWeight: FontWeight.w300),
-                  decoration: InputDecoration(
-                      border: InputBorder.none, hintText: 'Nombre Actividad'),
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      width: 330.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Ubicación o Virtual",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsRegular",
-                                  fontSize: 18.0,
-                                  color: kLetras.withOpacity(0.7)),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBarEventos(
+            context, "Creación de Actividad", "listarActividadesAdmin"),
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              'assets/images/eventsAdminBackground.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: size.height * 0.15,
+                  ),
+                  TextField(
+                    controller: _tituloController,
+                    enableInteractiveSelection: false,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 27.0, fontWeight: FontWeight.w300),
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: 'Nombre Actividad'),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        width: 330.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Ubicación o Virtual",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 18.0,
+                                    color: kLetras.withOpacity(0.7)),
+                              ),
                             ),
-                          ),
-                          TextField(
-                            controller: _ubicacionController,
-                            enableInteractiveSelection: false,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w300),
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(bottom: 5.0)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      width: 330.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Descripción",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsRegular",
-                                  fontSize: 18.0,
-                                  color: kLetras.withOpacity(0.7)),
-                            ),
-                          ),
-                          TextField(
-                            controller: _descripcionController,
-                            enableInteractiveSelection: false,
-                            keyboardType: TextInputType.multiline,
-                            minLines: 3,
-                            maxLines: 15,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w300),
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      width: 330.5,
-                      child: Column(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Horario",
+                            TextField(
+                              controller: _ubicacionController,
+                              enableInteractiveSelection: false,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
-                                  color: kLetras.withOpacity(0.7),
-                                  fontSize: 18.0),
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w300),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(bottom: 5.0)),
                             ),
-                          ),
-                          SizedBox(height: 10.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  _selectdate(context);
-                                },
-                                child: Container(
-                                  child: Row(children: <Widget>[
-                                    Icon(
-                                      Icons.calendar_today_outlined,
-                                      color: kNegro,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "$_date",
-                                      style: TextStyle(
-                                          fontFamily: "PoppinsRegular",
-                                          color: kLetras,
-                                          fontSize: 17.0),
-                                    ),
-                                  ]),
-                                ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        width: 330.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Descripción",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 18.0,
+                                    color: kLetras.withOpacity(0.7)),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _selectTime(context);
-                                },
-                                child: Container(
-                                  child: Row(children: <Widget>[
-                                    Icon(
-                                      Icons.access_time_outlined,
-                                      color: kNegro,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "$_time",
-                                      style: TextStyle(
-                                          fontFamily: "PoppinsRegular",
-                                          color: kLetras,
-                                          fontSize: 17.0),
-                                    ),
-                                  ]),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 7.0,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.0),
-                            child: Container(
-                              height: 1.0,
-                              color: kGrisN,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Container(
-                      width: 330.5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 145.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Sesiones",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _sesionesController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 145.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Precio",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _precioController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Container(
-                      width: 330.5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 133.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Banco",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _bancoController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 183.5,
-                            child: Column(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Número de Cuenta",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras.withOpacity(0.7),
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: TextField(
-                                    controller: _numCuentaController,
-                                    enableInteractiveSelection: false,
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      width: 330.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "Foto",
+                            TextField(
+                              controller: _descripcionController,
+                              enableInteractiveSelection: false,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 3,
+                              maxLines: 15,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
-                                  fontSize: 18.0,
-                                  color: kLetras.withOpacity(0.7)),
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w300),
+                              decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 5.0, bottom: 10.0)),
                             ),
-                          ),
-                          Container(
-                            width: 238.0,
-                            height: 181.0,
-                            child: Stack(
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        width: 330.5,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Horario",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    color: kLetras.withOpacity(0.7),
+                                    fontSize: 18.0),
+                              ),
+                            ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    border: Border(
-                                      top: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
+                                GestureDetector(
+                                  onTap: () {
+                                    _selectdate(context);
+                                  },
+                                  child: Container(
+                                    child: Row(children: <Widget>[
+                                      Icon(
+                                        Icons.calendar_today_outlined,
+                                        color: kNegro,
                                       ),
-                                      bottom: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                      left: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
+                                      Text(
+                                        "$_date",
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 17.0),
                                       ),
-                                      right: BorderSide(
-                                        color: kLetras.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    child: (_image != null)
-                                        ? new Image.file(_image)
-                                        : Container(),
+                                    ]),
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    _showPicker(context);
+                                    _selectTime(context);
                                   },
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Container(
-                                      margin: EdgeInsets.only(top: 10.0),
-                                      height: 56.0,
-                                      width: 56.0,
-                                      decoration: BoxDecoration(
-                                        color: kBlanco,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(0, 0),
-                                              blurRadius: 7.0,
-                                              color:
-                                                  Colors.grey.withOpacity(0.5)),
-                                        ],
+                                  child: Container(
+                                    child: Row(children: <Widget>[
+                                      Icon(
+                                        Icons.access_time_outlined,
+                                        color: kNegro,
                                       ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.camera_alt_rounded,
-                                          color: kNegro,
-                                          size: 28.0,
-                                        ),
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
+                                      Text(
+                                        "$_time",
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 17.0),
+                                      ),
+                                    ]),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 7.0,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12.0),
+                              child: Container(
+                                height: 1.0,
+                                color: kGrisN,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.04),
-                    Container(
-                      width: 330.5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              /*Actividad nuevaActividad = new Actividad(
-                                titulo: _tituloController.text,
-                                valor: _precioController.text,
-                                descripcion: _descripcionController.text,
-                                ubicacion: _ubicacionController.text,
-                                numeroSesiones:
-                                    int.parse(_sesionesController.text),
-                                banco: _bancoController.text,
-                                numeroCuenta: _numCuentaController.text,
-                              );
-                              actividades.add(nuevaActividad);*/
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return dialogoConfirmacion(
-                                      context,
-                                      "listarActividadesAdmin",
-                                      "Confirmación de Creación",
-                                      "¿Está seguro que desea crear una nueva Actividad?");
-                                },
-                              );
-                            },
-                            child: Container(
-                              child: Row(
+                      SizedBox(height: 20.0),
+                      Container(
+                        width: 330.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 145.5,
+                              child: Column(
                                 children: <Widget>[
-                                  Icon(Icons.check),
-                                  SizedBox(width: 10.0),
-                                  Text(
-                                    "Guardar",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 15.0,
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Sesiones",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras.withOpacity(0.7),
+                                          fontSize: 18.0),
                                     ),
-                                  )
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TextField(
+                                      controller: _sesionesController,
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+                            Container(
+                              width: 145.5,
+                              child: Column(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Precio",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras.withOpacity(0.7),
+                                          fontSize: 18.0),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TextField(
+                                      controller: _precioController,
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                  ],
-                ),
-              ],
+                      SizedBox(height: 20.0),
+                      Container(
+                        width: 330.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 133.5,
+                              child: Column(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Banco",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras.withOpacity(0.7),
+                                          fontSize: 18.0),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TextField(
+                                      controller: _bancoController,
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 183.5,
+                              child: Column(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Número de Cuenta",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras.withOpacity(0.7),
+                                          fontSize: 18.0),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TextField(
+                                      controller: _numCuentaController,
+                                      enableInteractiveSelection: false,
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsRegular",
+                                          color: kLetras,
+                                          fontSize: 15.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: 330.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Foto",
+                                style: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 18.0,
+                                    color: kLetras.withOpacity(0.7)),
+                              ),
+                            ),
+                            Container(
+                              width: 238.0,
+                              height: 181.0,
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: kLetras.withOpacity(0.7),
+                                        ),
+                                        bottom: BorderSide(
+                                          color: kLetras.withOpacity(0.7),
+                                        ),
+                                        left: BorderSide(
+                                          color: kLetras.withOpacity(0.7),
+                                        ),
+                                        right: BorderSide(
+                                          color: kLetras.withOpacity(0.7),
+                                        ),
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      child: (_image != null)
+                                          ? new Image.file(_image)
+                                          : Container(),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showPicker(context);
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 10.0),
+                                        height: 56.0,
+                                        width: 56.0,
+                                        decoration: BoxDecoration(
+                                          color: kBlanco,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: Offset(0, 0),
+                                                blurRadius: 7.0,
+                                                color: Colors.grey
+                                                    .withOpacity(0.5)),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.camera_alt_rounded,
+                                            color: kNegro,
+                                            size: 28.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.04),
+                      Container(
+                        width: 330.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                /*Actividad nuevaActividad = new Actividad(
+                                  titulo: _tituloController.text,
+                                  valor: _precioController.text,
+                                  descripcion: _descripcionController.text,
+                                  ubicacion: _ubicacionController.text,
+                                  numeroSesiones:
+                                      int.parse(_sesionesController.text),
+                                  banco: _bancoController.text,
+                                  numeroCuenta: _numCuentaController.text,
+                                );
+                                actividades.add(nuevaActividad);*/
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return dialogoConfirmacion(
+                                        context,
+                                        "listarActividadesAdmin",
+                                        "Confirmación de Creación",
+                                        "¿Está seguro que desea crear una nueva Actividad?");
+                                  },
+                                );
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.check),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      "Guardar",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15.0,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

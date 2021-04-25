@@ -28,36 +28,38 @@ class ListCitas extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Cita> citas = citaMapToList(snapshot);
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar(
-                "Citas", Icons.calendar_today_outlined, heroCita, kRojoOscuro),
-            body: Stack(
-              children: <Widget>[
-                //Background Image
-                Image.asset(
-                  'assets/images/dateBack.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                // Contents
-                Padding(
-                  padding: EdgeInsets.only(top: 100.0),
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: citasToCard(citas, context),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar("Citas", Icons.calendar_today_outlined,
+                  heroCita, kRojoOscuro),
+              body: Stack(
+                children: <Widget>[
+                  //Background Image
+                  Image.asset(
+                    'assets/images/dateBack.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  // Contents
+                  Padding(
+                    padding: EdgeInsets.only(top: 100.0),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: citasToCard(citas, context),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

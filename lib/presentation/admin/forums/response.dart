@@ -19,24 +19,26 @@ class _Response extends State<Response> {
     Size size = MediaQuery.of(context).size;
     //final Tema tema = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: [
-          _background(size),
-          _appBar(size),
-          Container(
-            padding: EdgeInsets.only(top: size.height * 0.1),
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height,
-                width: double.infinity,
-                child: _bodyInfoForum(context, size),
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: [
+            _background(size),
+            _appBar(size),
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.1),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height,
+                  width: double.infinity,
+                  child: _bodyInfoForum(context, size),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

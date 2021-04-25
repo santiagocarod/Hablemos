@@ -30,29 +30,31 @@ class _TopicList extends State<TopicList> {
       names.add(element.titulo);
     });
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          crearForosUpper(
-              size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
-          Padding(
-            padding: EdgeInsets.only(top: size.height * 0.32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                _searchBar(size, names, foros),
-                _cards(context, size, foros, actual),
-                _scroll(foros),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            crearForosUpper(
+                size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
+            Padding(
+              padding: EdgeInsets.only(top: size.height * 0.32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  _searchBar(size, names, foros),
+                  _cards(context, size, foros, actual),
+                  _scroll(foros),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: _bottomBar(size),
       ),
-      bottomNavigationBar: _bottomBar(size),
     );
   }
 

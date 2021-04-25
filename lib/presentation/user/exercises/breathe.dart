@@ -30,33 +30,35 @@ class _BreatheClassState extends State<BreatheClass> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _blancoAtras(size),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: _superior(size),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: buildConfetti(),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _inferior(size),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: _medio(size),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _blancoAtras(size),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: _superior(size),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: buildConfetti(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _inferior(size),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: _medio(size),
+            ),
+          ],
+        ),
       ),
     );
   }
