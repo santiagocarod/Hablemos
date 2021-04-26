@@ -121,7 +121,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                               "Pagos",
                               "assets/images/paymentIcon.png",
                               21,
-                              "inicioAdministrador"),
+                              "principalPagoAdmin"),
                         ],
                       ),
                       Column(

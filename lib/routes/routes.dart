@@ -22,6 +22,7 @@ import 'package:hablemos/presentation/admin/health%20information/mainInformation
 import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/payments/mainPayments.dart';
 import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
@@ -183,5 +184,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "modificarActividad": (context) => ModifyActivity(),
     "modificarGrupo": (context) => ModifyGroup(),
     "modificarTaller": (context) => ModifyWorkShop(),
+    "principalPagoAdmin": (context) => MainPaymentsPage(),
   };
 }

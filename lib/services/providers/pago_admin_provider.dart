@@ -1,28 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/pagoadmin.dart';
+import 'package:hablemos/model/profesional.dart';
 
 class PagoAdminProvider {
-  static Pagoadmin getPagoadmin() {
-    /*Profesional profesional = ProfesionalesProvider.getProfesional();
-    Paciente paciente = PacientesProvider.getPaciente();
+  // static Pagoadmin getPagoadmin() {
+  //   Profesional p =
+  //       new Profesional(nombre: "Prueba", apellido: "Sip", uid: "12312030");
 
-    Map<String, String> listCitasProfesional;
-    int pago = 0;
+  //   int pago = 3000;
 
-    for (int i = 0; i < 5; i++) {
-      listCitasProfesional["${paciente.nombre}i"] =
-          "${paciente.citas[0].dateTime.toString()}+i";
-      pago = pago + 5000;
-    }
+  //   List<Map<String, String>> lista = [
+  //     {
+  //       "name": "Paciente1",
+  //       "fecha": "11/11/2021",
+  //     },
+  //     {
+  //       "name": "Paciente1",
+  //       "fecha": "11/11/2021",
+  //     },
+  //     {
+  //       "name": "Paciente1",
+  //       "fecha": "11/11/2021",
+  //     }
+  //   ];
 
-    Pagoadmin pagoadmin;
+  //   Pagoadmin pg =
+  //       new Pagoadmin(profesional: p, pago: pago, listCitasProfesional: lista);
 
-    pagoadmin = new Pagoadmin(
-      profesional: profesional,
-      listCitasProfesional: listCitasProfesional,
-      pago: pago,
-    );
+  //   addTaller(pg);
+  //   addTaller(pg);
+  //   addTaller(pg);
 
-    return pagoadmin;*/
-    return Pagoadmin();
+  //   return pg;
+  // }
+
+  static void addTaller(Pagoadmin pagoadmin) {
+    CollectionReference pago =
+        FirebaseFirestore.instance.collection('payments');
+    pago.add({
+      "payment": pagoadmin.pago,
+      "professional": {
+        "name": pagoadmin.profesional.nombre,
+        "lastname": pagoadmin.profesional.apellido,
+        "id": pagoadmin.profesional.uid
+      },
+      "citas": pagoadmin.listCitasProfesional,
+    });
   }
 }
