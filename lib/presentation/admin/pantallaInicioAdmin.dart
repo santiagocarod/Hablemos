@@ -93,7 +93,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                 SizedBox(height: size.height * 0.03),
                 Container(
                   child: Text(
-                    "!Bienvenido, Administrado!",
+                    "!Bienvenido, Administrador!",
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(fontFamily: "PoppinSemiBold", fontSize: 30.0),
@@ -140,7 +140,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             "assets/images/lineasIcon.png",
                             5.0,
                             15.0,
-                            "inicioAdministrador"),
+                            "listCentrosMedicosAdmin"),
                       ],
                     ),
                   ],

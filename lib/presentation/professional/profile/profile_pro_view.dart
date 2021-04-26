@@ -70,10 +70,10 @@ class _ProfileProViewState extends State<ProfileProView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference centroMedicoCollection =
-        FirebaseFirestore.instance.collection("attentionCenters");
+    CollectionReference professionalCollection =
+        FirebaseFirestore.instance.collection("professionals");
     return StreamBuilder<QuerySnapshot>(
-        stream: centroMedicoCollection.snapshots(),
+        stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');
