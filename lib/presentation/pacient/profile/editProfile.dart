@@ -101,21 +101,23 @@ class _EditProfile extends State<EditProfile> {
 
           Paciente paciente =
               pacientes[0]; //ModalRoute.of(context).settings.arguments;
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            // Create an empty appBar, display the arrow back
-            appBar: crearAppBar('', null, 0, null),
-            body: Stack(
-              children: <Widget>[
-                pacientHead(size, paciente),
-                Container(
-                  padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: _body(size, paciente),
+          return SafeArea(
+            child: Scaffold(
+              extendBodyBehindAppBar: true,
+              // Create an empty appBar, display the arrow back
+              appBar: crearAppBar('', null, 0, null),
+              body: Stack(
+                children: <Widget>[
+                  pacientHead(size, paciente),
+                  Container(
+                    padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: _body(size, paciente),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

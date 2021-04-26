@@ -36,21 +36,23 @@ class _HomeProfessionalsManagementState
             return CircularProgressIndicator();
           }
           Profesional profesional = profesionalMapToList(snapshot)[0];
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar('Personal de salud', null, 0, null),
-            body: Stack(
-              children: [
-                Image.asset(
-                  'assets/images/azulDegradado.png',
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                _body(context, size, profesional),
-              ],
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar('Personal de salud', null, 0, null),
+              body: Stack(
+                children: [
+                  Image.asset(
+                    'assets/images/azulDegradado.png',
+                    alignment: Alignment.topCenter,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  _body(context, size, profesional),
+                ],
+              ),
             ),
           );
         });

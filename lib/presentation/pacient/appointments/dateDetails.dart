@@ -11,22 +11,24 @@ class DateDetails extends StatelessWidget {
     final Cita cita = ModalRoute.of(context).settings.arguments;
 
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('Detalle de Cita', null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          //Background Image
-          Image.asset(
-            'assets/images/dateBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          _boxInfo(context, size, cita),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('Detalle de Cita', null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            //Background Image
+            Image.asset(
+              'assets/images/dateBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            _boxInfo(context, size, cita),
+          ],
+        ),
       ),
     );
   }

@@ -27,85 +27,88 @@ class ListGroupsAdmin extends StatelessWidget {
 
         List<Grupo> grupos = grupoMapToList(snapshot);
 
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          appBar: crearAppBarEventos(context, "Grupos", "eventosAdministrador"),
-          body: Stack(
-            children: <Widget>[
-              Image.asset(
-                'assets/images/eventsAdminBackground.png',
-                alignment: Alignment.center,
-                fit: BoxFit.fill,
-                width: size.width,
-                height: size.height,
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: size.height * 0.15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.people_alt_outlined,
-                          size: 90.0,
-                          color: kLetras,
-                        ),
-                        SizedBox(
-                          width: 20.0,
-                        ),
-                        Text(
-                          "Grupos",
-                          style: GoogleFonts.montserrat(
-                              color: kLetras,
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w300),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "agregarGrupo");
-                      },
-                      child: Container(
-                        width: size.width * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add_circle_outline,
-                              size: 28.0,
-                              color: kLetras,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              "Agregar",
-                              style: GoogleFonts.montserrat(
-                                  color: kLetras,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                            SizedBox(width: size.width * 0.03)
-                          ],
+        return SafeArea(
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar:
+                crearAppBarEventos(context, "Grupos", "eventosAdministrador"),
+            body: Stack(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/eventsAdminBackground.png',
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width,
+                  height: size.height,
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: size.height * 0.15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.people_alt_outlined,
+                            size: 90.0,
+                            color: kLetras,
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Text(
+                            "Grupos",
+                            style: GoogleFonts.montserrat(
+                                color: kLetras,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "agregarGrupo");
+                        },
+                        child: Container(
+                          width: size.width * 0.9,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 28.0,
+                                color: kLetras,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Agregar",
+                                style: GoogleFonts.montserrat(
+                                    color: kLetras,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              SizedBox(width: size.width * 0.03)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    _talleresTable(context, size, grupos),
-                  ],
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      _talleresTable(context, size, grupos),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

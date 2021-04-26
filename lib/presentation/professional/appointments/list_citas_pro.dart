@@ -68,34 +68,36 @@ class ListCitasPro extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Cita> citas = citaMapToList(snapshot);
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar(
-                "Citas", Icons.calendar_today_outlined, heroCita, kRojoOscuro),
-            body: Stack(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/dateBack.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 80.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: citasProfesionalToCard(context, citas),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar("Citas", Icons.calendar_today_outlined,
+                  heroCita, kRojoOscuro),
+              body: Stack(
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/dateBack.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 80.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: citasProfesionalToCard(context, citas),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

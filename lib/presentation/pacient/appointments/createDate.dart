@@ -47,40 +47,42 @@ class _CreateDate extends State<CreateDate> {
     Size size = MediaQuery.of(context).size;
 
     // Screen
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar("Crear Cita", null, 0, null),
-      body: Stack(
-        children: <Widget>[
-          //Background Image
-          Image.asset(
-            'assets/images/dateBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          // Information
-          Padding(
-            padding: const EdgeInsets.only(top: 100.0),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _dateInfo(context, size),
-                    _professionalInfo(context, size),
-                    _dateType(context, size),
-                    _create(context, cita),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar("Crear Cita", null, 0, null),
+        body: Stack(
+          children: <Widget>[
+            //Background Image
+            Image.asset(
+              'assets/images/dateBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            // Information
+            Padding(
+              padding: const EdgeInsets.only(top: 100.0),
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _dateInfo(context, size),
+                      _professionalInfo(context, size),
+                      _dateType(context, size),
+                      _create(context, cita),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

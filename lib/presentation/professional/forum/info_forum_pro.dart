@@ -10,40 +10,42 @@ class InfoForumProfesional extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('', null, 0, null),
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/images/azulDegradado.png',
-            alignment: Alignment.topCenter,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 0.0),
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    _bodyInfoForum(context, size),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('', null, 0, null),
+        body: Stack(
+          children: [
+            Image.asset(
+              'assets/images/azulDegradado.png',
+              alignment: Alignment.topCenter,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 0.0),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      _bodyInfoForum(context, size),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

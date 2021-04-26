@@ -23,14 +23,16 @@ class _ForumProfesianalHomeState extends State<ForumProfesianalHome> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          crearForosUpper(size, 'Foros', Icons.forum, 0.13, kAzulClaro),
-          bodyForos(context, size),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: crearAppBar('', null, 0, null),
+        extendBodyBehindAppBar: true,
+        body: Stack(
+          children: <Widget>[
+            crearForosUpper(size, 'Foros', Icons.forum, 0.13, kAzulClaro),
+            bodyForos(context, size),
+          ],
+        ),
       ),
     );
   }
