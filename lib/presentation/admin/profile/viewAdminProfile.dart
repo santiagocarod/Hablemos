@@ -37,20 +37,22 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
         List<Administrador> administradores = administradorMapToList(snapshot);
         Administrador admin = administradores[0];
 
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
-          body: Stack(
-            children: <Widget>[
-              adminHead(size, admin),
-              Container(
-                padding: EdgeInsets.only(top: size.height * 0.66),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: _body(size, admin),
+        return SafeArea(
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar('', null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                adminHead(size, admin),
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.66),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: _body(size, admin),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

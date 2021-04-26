@@ -9,51 +9,53 @@ class TopicInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            crearForosUpper(
-                size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
-            Container(
-              padding: EdgeInsets.only(top: size.height * 0.1),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: _categories(context, size),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: crearAppBar('', null, 0, null),
+        extendBodyBehindAppBar: true,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              crearForosUpper(
+                  size, 'Foros', Icons.comment_bank_outlined, 0.13, kAzulClaro),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.1),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _categories(context, size),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 25.0),
-        width: size.width,
-        height: 73.33,
-        child: ElevatedButton(
-          child: Text(
-            'VER MÁS INFORMACIÓN DE SALUD MENTAL',
-            style: TextStyle(
-              fontSize: 13.0,
-              color: Colors.black,
-              fontFamily: 'PoppinsRegular',
-              fontWeight: FontWeight.bold,
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 25.0),
+          width: size.width,
+          height: 73.33,
+          child: ElevatedButton(
+            child: Text(
+              'VER MÁS INFORMACIÓN DE SALUD MENTAL',
+              style: TextStyle(
+                fontSize: 13.0,
+                color: Colors.black,
+                fontFamily: 'PoppinsRegular',
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: kGris,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
+            style: ElevatedButton.styleFrom(
+              primary: kGris,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+              ),
+              shadowColor: Colors.black,
             ),
-            shadowColor: Colors.black,
+            onPressed: () {
+              Navigator.pushNamed(context, 'Informacion');
+            },
           ),
-          onPressed: () {
-            Navigator.pushNamed(context, 'Informacion');
-          },
         ),
       ),
     );

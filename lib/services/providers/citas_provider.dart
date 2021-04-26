@@ -29,8 +29,8 @@ class CitasProvider {
         FirebaseFirestore.instance.collection('appoinments');
 
     citas.add({
-      "uidPacient": cita.uidPaciente,
-      "uidProfessional": cita.uidProfesional,
+      "pacient": cita.paciente.toMap(),
+      "professional": cita.profesional.toMap(),
       "dateTime": cita.dateTime,
       "cost": cita.costo,
       "place": cita.lugar,

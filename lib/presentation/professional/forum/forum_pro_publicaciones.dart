@@ -24,14 +24,16 @@ class _ForumProPublicacionesState extends State<ForumProPublicaciones> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          crearForosUpperNoIcon(size, 'Tus Publicaciones', kAzulClaro),
-          bodyForos(context, size),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: crearAppBar('', null, 0, null),
+        extendBodyBehindAppBar: true,
+        body: Stack(
+          children: <Widget>[
+            crearForosUpperNoIcon(size, 'Tus Publicaciones', kAzulClaro),
+            bodyForos(context, size),
+          ],
+        ),
       ),
     );
   }

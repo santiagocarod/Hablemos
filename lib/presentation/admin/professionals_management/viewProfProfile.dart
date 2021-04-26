@@ -19,21 +19,23 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     Profesional profesional = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      // Create an empty appBar, display the arrow back
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          cabeceraPerfilProfesional(size, profesional),
-          Container(
-            padding: EdgeInsets.only(top: size.height * 0.53),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: cuerpoPerfilProfesional(size, profesional),
+    return SafeArea(
+      child: Scaffold(
+        // Create an empty appBar, display the arrow back
+        appBar: crearAppBar('', null, 0, null),
+        extendBodyBehindAppBar: true,
+        body: Stack(
+          children: <Widget>[
+            cabeceraPerfilProfesional(size, profesional),
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.53),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: cuerpoPerfilProfesional(size, profesional),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -151,7 +153,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
           // _section('Correo', profesional.correo),
           _section('Ciudad', 'Bogota D.C'),
           _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidades),
+          _section('Especialidad', profesional.especialidad),
           _sectionList('Proyectos', profesional.proyectos, size),
           _section('Experiencia', profesional.experiencia),
           _section('Descripcion', profesional.descripcion),

@@ -1,12 +1,8 @@
-import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/model/pagoadmin.dart';
-import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/pacientes_provider.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
 
 class PagoAdminProvider {
   static Pagoadmin getPagoadmin() {
-    Profesional profesional = ProfesionalesProvider.getProfesional();
+    /*Profesional profesional = ProfesionalesProvider.getProfesional();
     Paciente paciente = PacientesProvider.getPaciente();
 
     Map<String, String> listCitasProfesional;
@@ -26,6 +22,7 @@ class PagoAdminProvider {
       pago: pago,
     );
 
-    return pagoadmin;
+    return pagoadmin;*/
+    return Pagoadmin();
   }
 }

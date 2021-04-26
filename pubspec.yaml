@@ -45,9 +45,9 @@ dependencies:
   flutter_swiper: 
   maps_launcher:
   # Firebase Dependencies
-  cloud_firestore: ^1.0.0
-  firebase_core: ^1.0.0
-  firebase_auth: ^1.0.0
+  cloud_firestore: 
+  firebase_core: 
+  firebase_auth: 
   auto_size_text_field: 
 
 flutter_icons:

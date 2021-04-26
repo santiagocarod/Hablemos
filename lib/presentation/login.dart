@@ -9,41 +9,43 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('Inicio de Sesión', null, 0, null),
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/images/yellowBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 0.0),
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    //background aquii
-                    _centerLogin(context),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: crearAppBar('Inicio de Sesión', null, 0, null),
+        body: Stack(
+          children: [
+            Image.asset(
+              'assets/images/yellowBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 0.0),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      //background aquii
+                      _centerLogin(context),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

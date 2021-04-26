@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/paciente.dart';
 
 class PacientesProvider {
-  static Paciente getPaciente() {
+  /*static Paciente getPaciente() {
     Paciente paciente;
 
     String nombre = 'Daniela';
@@ -9,7 +10,7 @@ class PacientesProvider {
     DateTime fechaNacimiento = DateTime.now();
     String ciudad = 'Bogota';
     String correo = 'danisuperpaciente@gmail.com';
-    int telefono = 3105592912;
+    String telefono = "3105592912";
 
     String nombreCE = 'Mark';
     String relacionCE = 'Esposo';
@@ -27,5 +28,12 @@ class PacientesProvider {
         telefonoContactoEmergencia: telefonoCE);
 
     return paciente;
+  }*/
+
+  static addPaciente(Paciente paciente) {
+    CollectionReference pacientes =
+        FirebaseFirestore.instance.collection('pacients');
+
+    pacientes.add(paciente.toMap());
   }
 }

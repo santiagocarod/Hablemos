@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/carta.dart';
@@ -25,46 +27,48 @@ class ListLetters extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Carta> cartas = cartaMapToList(snapshot);
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar:
-                crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
-              Navigator.pushNamed(context, "verCarta",
-                  arguments: cartas[Random().nextInt(cartas.length)]);
-            }),
-            body: Stack(
-              children: <Widget>[
-                //Background Image
-                Image.asset(
-                  'assets/images/background_cartas.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                // Contents
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 80.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: letterToCard(context, cartas),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar:
+                  crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+                Navigator.pushNamed(context, "verCarta",
+                    arguments: cartas[Random().nextInt(cartas.length)]);
+              }),
+              body: Stack(
+                children: <Widget>[
+                  //Background Image
+                  Image.asset(
+                    'assets/images/background_cartas.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  // Contents
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 80.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: letterToCard(context, cartas),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: kMostaza,
-              child: Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushNamed(context, "agregarCarta");
-              },
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: kMostaza,
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pushNamed(context, "agregarCarta");
+                },
+              ),
             ),
           );
         });

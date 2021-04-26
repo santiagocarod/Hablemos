@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class HomeProfessionalsManagement extends StatefulWidget {
@@ -12,7 +13,7 @@ class HomeProfessionalsManagement extends StatefulWidget {
 
 class _HomeProfessionalsManagementState
     extends State<HomeProfessionalsManagement> {
-  Profesional profesional = ProfesionalesProvider.getProfesional();
+  //Profesional profesional = ProfesionalesProvider.getProfesional();
   ScrollController scrollController = ScrollController(
     initialScrollOffset: 0,
     keepScrollOffset: true,
@@ -21,26 +22,43 @@ class _HomeProfessionalsManagementState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: crearAppBar('Personal de salud', null, 0, null),
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/images/azulDegradado.png',
-            alignment: Alignment.topCenter,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-          _body(context, size),
-        ],
-      ),
-    );
+
+    CollectionReference centroMedicoCollection =
+        FirebaseFirestore.instance.collection("attentionCenters");
+    return StreamBuilder<QuerySnapshot>(
+        stream: centroMedicoCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          Profesional profesional = profesionalMapToList(snapshot)[0];
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar('Personal de salud', null, 0, null),
+              body: Stack(
+                children: [
+                  Image.asset(
+                    'assets/images/azulDegradado.png',
+                    alignment: Alignment.topCenter,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  _body(context, size, profesional),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
-  Widget _body(BuildContext context, Size size) {
+  Widget _body(BuildContext context, Size size, Profesional profesional) {
     return Column(
       children: <Widget>[
         SizedBox(
@@ -87,12 +105,13 @@ class _HomeProfessionalsManagementState
             ),
           )),
         ),
-        _listProfesionales(context, size),
+        _listProfesionales(context, size, profesional),
       ],
     );
   }
 
-  Widget _listProfesionales(BuildContext context, Size size) {
+  Widget _listProfesionales(
+      BuildContext context, Size size, Profesional profesional) {
     return Expanded(
       child: ListView.builder(
         itemCount: 5,

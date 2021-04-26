@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:math';
 import 'dart:ui';
 
@@ -29,46 +30,48 @@ class ListAprovedLettersPro extends StatelessWidget {
           }
 
           Size size = MediaQuery.of(context).size;
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar:
-                crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
-              Navigator.pushNamed(context, "verCarta",
-                  arguments: cartas[Random().nextInt(cartas.length)]);
-            }),
-            body: Stack(
-              children: <Widget>[
-                //Background Image
-                Image.asset(
-                  'assets/images/lettersBackground.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                // Contents
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 100.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: letterToCard(context, size, cartas),
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar:
+                  crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+                Navigator.pushNamed(context, "verCarta",
+                    arguments: cartas[Random().nextInt(cartas.length)]);
+              }),
+              body: Stack(
+                children: <Widget>[
+                  //Background Image
+                  Image.asset(
+                    'assets/images/lettersBackground.png',
+                    alignment: Alignment.center,
+                    fit: BoxFit.fill,
+                    width: size.width,
+                    height: size.height,
+                  ),
+                  // Contents
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 100.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: letterToCard(context, size, cartas),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: kRojoOscuro,
-              child: Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushNamed(context, "escribirCartaPro");
-              },
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: kRojoOscuro,
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pushNamed(context, "escribirCartaPro");
+                },
+              ),
             ),
           );
         });

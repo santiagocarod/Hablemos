@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'cita.dart';
+import 'banco.dart';
 
 class Profesional {
   //Unias del profesional
@@ -8,19 +8,15 @@ class Profesional {
   String nombre;
   String apellido;
   DateTime fechaNacimiento;
-  String especialidades;
+  String especialidad;
   String experiencia;
   List<String> convenios;
-  List<String> redes;
   List<String> proyectos;
   String descripcion;
   Image foto;
-  int numeroCuenta;
-  int celular;
+  Banco banco;
+  String celular;
   String correo;
-
-  //Externas
-  List<Cita> citas;
 
   //
   Profesional(
@@ -28,16 +24,46 @@ class Profesional {
       this.nombre,
       this.apellido,
       this.fechaNacimiento,
-      this.especialidades,
+      this.especialidad,
       this.experiencia,
       this.convenios,
-      this.redes,
       this.proyectos,
-      this.citas,
-      this.numeroCuenta,
+      this.banco,
       this.celular,
       this.correo}) {
     this.foto = null;
     this.descripcion = 'Aqui va la descripción';
+  }
+
+  toMap() {
+    return {
+      "name": this.nombre,
+      "lastName": this.apellido,
+      "birthDay": this.fechaNacimiento,
+      "specialty": this.especialidad,
+      "experience": this.experiencia,
+      "contracts": this.convenios,
+      "projects": this.proyectos,
+      "bank": this.banco.toMap(),
+      "phone": this.celular,
+      "email": this.correo
+    };
+  }
+
+  static Profesional fromMap(data, uid) {
+    Profesional p = Profesional(
+        uid: uid,
+        nombre: data["name"],
+        apellido: data["lastName"],
+        banco: Banco.fromMap(data["bank"]),
+        fechaNacimiento: data["birthDay"],
+        especialidad: data["specialty"],
+        experiencia: data["experience"],
+        convenios: data["contratos"],
+        proyectos: List<String>.from(["projects"]),
+        celular: data["phone"],
+        correo: data["email"]);
+
+    return p;
   }
 }

@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/providers/profesionales_provider.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -69,23 +70,38 @@ class _ProfileProViewState extends State<ProfileProView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Profesional profesional = ProfesionalesProvider.getProfesional();
-    return Scaffold(
-      appBar: crearAppBar('', null, 0, null),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          cabeceraPerfilProfesional(size, profesional),
-          Container(
-            padding: EdgeInsets.only(top: size.height * 0.53),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: cuerpoPerfilProfesional(size, profesional),
+    CollectionReference centroMedicoCollection =
+        FirebaseFirestore.instance.collection("attentionCenters");
+    return StreamBuilder<QuerySnapshot>(
+        stream: centroMedicoCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          Profesional profesional = profesionalMapToList(snapshot)[0];
+          return SafeArea(
+            child: Scaffold(
+              appBar: crearAppBar('', null, 0, null),
+              extendBodyBehindAppBar: true,
+              body: Stack(
+                children: <Widget>[
+                  cabeceraPerfilProfesional(size, profesional),
+                  Container(
+                    padding: EdgeInsets.only(top: size.height * 0.53),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: cuerpoPerfilProfesional(size, profesional),
+                    ),
+                  )
+                ],
+              ),
             ),
-          )
-        ],
-      ),
-    );
+          );
+        });
   }
 
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
@@ -220,11 +236,10 @@ class _ProfileProViewState extends State<ProfileProView> {
           _section('Correo', profesional.correo),
           _section('Ciudad', 'Bogota D.C'),
           _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidades),
+          _section('Especialidad', profesional.especialidad),
           _sectionList('Proyectos', profesional.proyectos, size),
           _section('Experiencia', profesional.experiencia),
           _section('Descripcion', profesional.descripcion),
-          _sectionList('Redes Sociales', profesional.redes, size),
         ],
       ),
     );
