@@ -32,15 +32,16 @@ class MainPaymentsPage extends StatelessWidget {
 
         return SafeArea(
           child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Pagos", null, 0, null),
-              body: Stack(
-                children: <Widget>[
-                  _background(size),
-                  _crearBody(context, size, lista),
-                ],
-              )),
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar("Pagos", null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                _background(size),
+                _crearBody(context, size, lista),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -84,9 +85,8 @@ class MainPaymentsPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(
-            child: _crearTabla(context, size, lista),
-          ),
+          child:
+              SingleChildScrollView(child: _crearTabla(context, size, lista)),
         ),
       ],
     );
@@ -108,7 +108,7 @@ class MainPaymentsPage extends StatelessWidget {
                     fontSize: 17.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
-            Navigator.pushNamed(context, "principalPagoAdmin",
+            Navigator.pushNamed(context, "detayledPaymentAdmin",
                 arguments: element);
           }),
           DataCell(
@@ -118,7 +118,7 @@ class MainPaymentsPage extends StatelessWidget {
                     fontSize: 17.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
-            Navigator.pushNamed(context, "principalPagoAdmin",
+            Navigator.pushNamed(context, "detayledPaymentAdmin",
                 arguments: element);
           })
         ],
