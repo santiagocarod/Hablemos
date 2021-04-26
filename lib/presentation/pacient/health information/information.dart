@@ -108,33 +108,6 @@ class Information extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: Container(
-              padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 25.0),
-              width: size.width,
-              height: 73.33,
-              child: ElevatedButton(
-                child: Text(
-                  'Ver Foro',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    color: Colors.black,
-                    fontFamily: 'PoppinsRegular',
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: kRosado,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(378.0),
-                  ),
-                  shadowColor: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'ForosPaciente');
-                },
-              ),
-            ),
           ),
         );
       },
