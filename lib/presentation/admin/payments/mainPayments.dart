@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/pagoadmin.dart';
-import 'package:hablemos/services/providers/administrador_provider.dart';
-import 'package:hablemos/services/providers/pago_admin_provider.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 
