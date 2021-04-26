@@ -394,7 +394,7 @@ Widget _button6(BuildContext context, Size size) {
       ),
       backgroundColor: Colors.white,
       onPressed: () {
-        _settingBottomSheet(context);
+        Navigator.pushNamed(context, 'Informacion');
       },
     ),
   );
@@ -454,114 +454,6 @@ Widget _button8(BuildContext context, Size size) {
       onPressed: () {
         Navigator.pushNamed(context, 'registro');
       },
-    ),
-  );
-}
-
-// Function of the bottom sheet of the "Información" button ====================
-void _settingBottomSheet(context) {
-  showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext bc) {
-        return Container(
-          height: 141.44,
-          child: _buildItems(context),
-        );
-      });
-}
-
-// Buttons of bottom sheet =====================================================
-Widget _buildItems(BuildContext context) {
-  return Container(
-    // Bottom sheet properties =================================================
-    width: 412.0,
-    height: 141.44,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topLeft: const Radius.circular(70.0),
-        topRight: const Radius.circular(70.0),
-      ),
-      color: const Color(0xff8EE8D8),
-    ),
-    // Buttons =================================================================
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        // Button of "Foro" ====================================================
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 140.75,
-              height: 80.67,
-              child: FloatingActionButton(
-                heroTag: 'btn9',
-                child: Icon(
-                  Icons.comment_bank_outlined,
-                  size: 84.71,
-                  color: const Color(0xff205072),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(81.0),
-                ),
-                backgroundColor: Colors.white,
-                onPressed: () {
-                  Navigator.pushNamed(context, 'ForosPaciente');
-                },
-              ),
-            ),
-            Text(
-              "Foro",
-              style: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        // Button of "Salud Mental" ============================================
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 140.75,
-              height: 80.67,
-              child: FloatingActionButton(
-                heroTag: 'btn10',
-                child: Icon(
-                  Icons.monitor,
-                  size: 84.71,
-                  color: const Color(0xff205072),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(81.0),
-                ),
-                backgroundColor: Colors.white,
-                onPressed: () {
-                  Navigator.pushNamed(context, 'Informacion');
-                },
-              ),
-            ),
-            Text(
-              "Salud Mental",
-              style: TextStyle(
-                fontSize: 18,
-                color: const Color(0xff302b2b),
-                height: 1.1111111111111112,
-                fontFamily: 'PoppinsRegular',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ],
     ),
   );
 }
