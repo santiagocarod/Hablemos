@@ -15,7 +15,7 @@ class DateDetails extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
-        appBar: crearAppBar('Detalle de Cita', null, 0, null),
+        appBar: crearAppBarEventos(context, 'Detalle de Cita', 'citasPaciente'),
         body: Stack(
           children: <Widget>[
             //Background Image
@@ -231,7 +231,17 @@ Widget _buttons(BuildContext context) {
               ),
               shadowColor: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dialogoConfirmacion(
+                        context,
+                        "citasPaciente",
+                        "Confirmación de Cancelación",
+                        "¿Estás seguro que deseas cancelar esta Cita?");
+                  });
+            },
           ),
         ),
       ],

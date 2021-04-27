@@ -32,8 +32,7 @@ class ListCitas extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Citas", Icons.calendar_today_outlined,
-                  heroCita, kRojoOscuro),
+              appBar: crearAppBarEventos(context, 'Citas', 'inicio'),
               body: Stack(
                 children: <Widget>[
                   //Background Image
