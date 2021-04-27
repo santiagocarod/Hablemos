@@ -4,7 +4,7 @@ class Pagoadmin {
   Profesional profesional;
   int pago;
 
-  Map<String, String> listCitasProfesional;
+  List<Map<String, dynamic>> listCitasProfesional;
 
   Pagoadmin({this.profesional, this.pago, this.listCitasProfesional});
 }
