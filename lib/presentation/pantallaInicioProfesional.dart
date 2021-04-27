@@ -42,6 +42,7 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
     return Container(
       color: kAzulPrincipal,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           appBar: buildAppBar(size),
           backgroundColor: Colors.transparent,

@@ -80,6 +80,7 @@ class ListCitasPro extends StatelessWidget {
                 ),
               ),
               SafeArea(
+                bottom: false,
                 child: Scaffold(
                   backgroundColor: Colors.transparent,
                   resizeToAvoidBottomInset: false,

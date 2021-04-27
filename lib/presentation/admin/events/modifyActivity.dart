@@ -114,6 +114,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           extendBodyBehindAppBar: true,

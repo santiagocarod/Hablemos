@@ -91,6 +91,7 @@ class _ViewProfile extends State<ViewProfile> {
           return Container(
             color: kRosado,
             child: SafeArea(
+              bottom: false,
               child: Scaffold(
                 // Create an empty appBar, display the arrow back
                 appBar: crearAppBar('', null, 0, null),

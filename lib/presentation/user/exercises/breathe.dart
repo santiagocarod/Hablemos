@@ -33,6 +33,7 @@ class _BreatheClassState extends State<BreatheClass> {
     return Container(
       color: kVerdeMuyClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

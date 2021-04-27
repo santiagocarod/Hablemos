@@ -11,6 +11,7 @@ class MainMedicalCenter extends StatelessWidget {
     return Container(
       color: kRosado,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,

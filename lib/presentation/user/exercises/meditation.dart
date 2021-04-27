@@ -12,6 +12,7 @@ class MeditationClass extends StatelessWidget {
     return Container(
       color: kRojoMuyClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

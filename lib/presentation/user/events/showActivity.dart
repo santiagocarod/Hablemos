@@ -14,6 +14,7 @@ class ShowActivity extends StatelessWidget {
     return Container(
       color: kBlanco,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

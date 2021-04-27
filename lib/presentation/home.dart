@@ -12,6 +12,7 @@ class StartFireBase extends StatelessWidget {
     return Container(
       color: kAzulPrincipal,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           body: FutureBuilder(
             future: _firebaseApp,

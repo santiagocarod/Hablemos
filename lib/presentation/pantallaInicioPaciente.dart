@@ -40,6 +40,7 @@ class _PantallaInicioPacineteState extends State<PantallaInicioPacinete> {
     return Container(
       color: kAzulPrincipal,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           appBar: buildAppBar(size),
           backgroundColor: Colors.transparent,

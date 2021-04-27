@@ -80,6 +80,7 @@ class _ModifyGroup extends State<ModifyGroup> {
         context: context,
         builder: (BuildContext buildContext) {
           return SafeArea(
+            bottom: false,
             child: Container(
               child: new Wrap(
                 children: <Widget>[

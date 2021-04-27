@@ -34,6 +34,7 @@ class _NewInformation extends State<NewInformation> {
     return Container(
       color: kMoradoClarito,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

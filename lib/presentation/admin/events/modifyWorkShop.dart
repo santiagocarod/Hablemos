@@ -114,6 +114,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           extendBodyBehindAppBar: true,

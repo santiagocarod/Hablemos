@@ -40,6 +40,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
         return Container(
           color: kRosado,
           child: SafeArea(
+            bottom: false,
             child: Scaffold(
               extendBodyBehindAppBar: true,
               appBar: crearAppBar('', null, 0, null),

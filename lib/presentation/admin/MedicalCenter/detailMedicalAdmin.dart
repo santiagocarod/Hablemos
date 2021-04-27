@@ -31,6 +31,7 @@ class DetailsMedicalAdmin extends StatelessWidget {
     return Container(
       color: kAzul3,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

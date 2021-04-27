@@ -40,7 +40,7 @@ class _SignInPageState extends State<SignInPage> {
             appBar: crearAppBar("Registro", null, 0, null),
             body: Stack(
               children: <Widget>[
-                _signinForm(context),
+                _signinForm(context, size),
               ],
             ),
           ),
@@ -67,10 +67,10 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-  Widget _signinForm(BuildContext context) {
+  Widget _signinForm(BuildContext context, Size size) {
     final bloc = InhWidget.of(context);
     return Padding(
-      padding: EdgeInsets.only(top: 100.0),
+      padding: EdgeInsets.only(top: size.height * 0.025),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

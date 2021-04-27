@@ -13,6 +13,7 @@ class ListWorkShopsAdmin extends StatelessWidget {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

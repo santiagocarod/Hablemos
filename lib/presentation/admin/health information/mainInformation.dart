@@ -14,6 +14,7 @@ class MainInformation extends StatelessWidget {
     return Container(
       color: kMoradoClarito,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

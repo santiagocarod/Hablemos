@@ -12,6 +12,7 @@ class InformationDetails extends StatelessWidget {
     return Container(
       color: kAmarillo,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: crearAppBar('', null, 0, null),

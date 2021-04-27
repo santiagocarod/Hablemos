@@ -11,6 +11,7 @@ class MindfulnessClass extends StatelessWidget {
     return Container(
       color: kAmarilloMuyClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,

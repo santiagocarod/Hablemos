@@ -104,6 +104,7 @@ class _EditProfile extends State<EditProfile> {
           return Container(
             color: kRosado,
             child: SafeArea(
+              bottom: false,
               child: Scaffold(
                 extendBodyBehindAppBar: true,
                 // Create an empty appBar, display the arrow back

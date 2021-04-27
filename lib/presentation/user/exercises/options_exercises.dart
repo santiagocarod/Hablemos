@@ -14,6 +14,7 @@ class OptionsExercises extends StatelessWidget {
           child: _background(size),
         ),
         SafeArea(
+          bottom: false,
           child: Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
