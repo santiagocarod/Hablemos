@@ -14,7 +14,6 @@ import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
-import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
@@ -144,7 +143,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         EditProfileProfessionalAdmin(),
     'crearPerfilProfesionalManage': (context) =>
         CreateProfileProfessionalAdmin(),
-    'mainScreen': (context) => MainScreen(),
     'mainInformation': (context) => MainInformation(),
     'information': (context) => InformationAdmin(),
     'newInformation': (context) => NewInformation(),
