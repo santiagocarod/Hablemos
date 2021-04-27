@@ -161,7 +161,7 @@ class ShowActivity extends StatelessWidget {
                                 context,
                                 actividad,
                                 "Confirmación de Inscripción",
-                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                "¿Estás seguro que deseas inscribirte en esta Actividad?",
                                 kMoradoClarito,
                               );
                             } else if (actividad.ubicacion == "virtual" ||
@@ -178,7 +178,7 @@ class ShowActivity extends StatelessWidget {
                                 context,
                                 actividad,
                                 "Confirmación de Inscripción",
-                                "¿Estás seguro que deseas inscribirte en este taller?",
+                                "¿Estás seguro que deseas inscribirte en esta Actividad?",
                                 kMoradoClarito,
                               );
                             }

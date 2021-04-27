@@ -34,6 +34,7 @@ const kCuruba = Color(0xFFF8DFA5);
 const kPurpura = Color(0xFFDDACF5);
 const kMoradoTitulo = Color(0xFF9A53BC);
 const kMostazaOscuro = Color(0xFFC37E00);
+const kVerdePagos = Color(0xFF28BE59);
 
 const listaColores = [
   kVerdeMuyClaro,

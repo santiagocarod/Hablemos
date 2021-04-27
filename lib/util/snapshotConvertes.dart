@@ -7,6 +7,7 @@ import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/model/grupo.dart';
@@ -204,4 +205,29 @@ List<Administrador> administradorMapToList(
     administradores.add(a);
   });
   return administradores;
+}
+
+List<Pagoadmin> paymentMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<Pagoadmin> pagos = [];
+  snapshot.data.docs.forEach((element) {
+    dynamic data = element.data();
+    List<dynamic> list = data["citas"];
+
+    List<Map<String, dynamic>> listaCitas =
+        list.cast<Map<String, dynamic>>().toList();
+
+    Profesional p = new Profesional(
+      nombre: data["professional"]["name"],
+      apellido: data["professional"]["lastname"],
+      uid: data["professional"]["id"],
+    );
+
+    int pago = data["payment"];
+
+    Pagoadmin pg = new Pagoadmin(
+        pago: pago, profesional: p, listCitasProfesional: listaCitas);
+    pagos.add(pg);
+  });
+
+  return pagos;
 }
