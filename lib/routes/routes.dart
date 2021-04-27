@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/listMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/newMedicalCenter.dart';
 import 'package:hablemos/presentation/admin/events/addActivity.dart';
 import 'package:hablemos/presentation/admin/events/addGroup.dart';
 import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
@@ -16,6 +19,8 @@ import 'package:hablemos/presentation/admin/health%20information/informationAdmi
 import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/payments/detailedPayment.dart';
+import 'package:hablemos/presentation/admin/payments/mainPayments.dart';
 import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
@@ -159,5 +164,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "modificarActividad": (context) => ModifyActivity(),
     "modificarGrupo": (context) => ModifyGroup(),
     "modificarTaller": (context) => ModifyWorkShop(),
+    "listCentrosMedicosAdmin": (context) => ListMedicalAdmin(),
+    "detailsCentrosMedicosAdmin": (context) => DetailsMedicalAdmin(),
+    "newCentrosMedicosAdmin": (context) => NewMedicalAdmin(),
+    "principalPagoAdmin": (context) => MainPaymentsPage(),
+    "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
   };
 }

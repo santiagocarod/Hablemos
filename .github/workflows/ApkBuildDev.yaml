@@ -6,9 +6,6 @@ on:
   push:
     branches: 
         - 'dev'
-  pull_request:
-    branches:
-        - 'dev'
     
 # on: push    # Default will running for every branch.
     

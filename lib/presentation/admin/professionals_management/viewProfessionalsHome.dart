@@ -23,10 +23,10 @@ class _HomeProfessionalsManagementState
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    CollectionReference centroMedicoCollection =
-        FirebaseFirestore.instance.collection("attentionCenters");
+    CollectionReference professionalsCollection =
+        FirebaseFirestore.instance.collection("professionals");
     return StreamBuilder<QuerySnapshot>(
-        stream: centroMedicoCollection.snapshots(),
+        stream: professionalsCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');

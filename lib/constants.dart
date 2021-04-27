@@ -24,6 +24,7 @@ const kRojoMuyClaro = Color(0xFFF9E8E1);
 const kAzul1 = Color(0xFFE2FFEE);
 const kAzul2 = Color(0xFFCFFFF7);
 const kAzul3 = Color(0xFFAFF6EC);
+const kAzulLetras = Color(0xFF1AC0C6);
 const kMoradoClarito = Color(0xFFD8D0FF);
 const kMoradoOscuro = Color(0xFF5233E8);
 const kGrisN = Color(0xFFC4C4C4);
@@ -33,6 +34,7 @@ const kCuruba = Color(0xFFF8DFA5);
 const kPurpura = Color(0xFFDDACF5);
 const kMoradoTitulo = Color(0xFF9A53BC);
 const kMostazaOscuro = Color(0xFFC37E00);
+const kVerdePagos = Color(0xFF28BE59);
 
 const listaColores = [
   kVerdeMuyClaro,
