@@ -8,26 +8,33 @@ class Networks extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _background(size),
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  _appBar(size),
-                  _list(size),
-                ],
-              ),
-            ),
-          ],
+    return Stack(
+      children: [
+        Container(
+          child: _background(size),
         ),
-      ),
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar('', null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      _appBar(size),
+                      _list(size),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -88,22 +88,25 @@ class _ViewProfile extends State<ViewProfile> {
           List<Paciente> pacientes = pacienteMapToList(snapshot);
 
           Paciente paciente = pacientes[0];
-          return SafeArea(
-            child: Scaffold(
-              // Create an empty appBar, display the arrow back
-              appBar: crearAppBar('', null, 0, null),
-              extendBodyBehindAppBar: true,
-              body: Stack(
-                children: <Widget>[
-                  pacientHead(size, paciente),
-                  Container(
-                    padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: _body(size, paciente),
+          return Container(
+            color: kRosado,
+            child: SafeArea(
+              child: Scaffold(
+                // Create an empty appBar, display the arrow back
+                appBar: crearAppBar('', null, 0, null),
+                extendBodyBehindAppBar: true,
+                body: Stack(
+                  children: <Widget>[
+                    pacientHead(size, paciente),
+                    Container(
+                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: _body(size, paciente),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

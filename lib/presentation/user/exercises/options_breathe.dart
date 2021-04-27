@@ -6,16 +6,19 @@ class OptionsBreathe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _inferior(context, size),
-            _superior(size),
-          ],
+    return Container(
+      color: kVerdeMuyClaro,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              _inferior(context, size),
+              _superior(size),
+            ],
+          ),
         ),
       ),
     );
@@ -51,7 +54,7 @@ class OptionsBreathe extends StatelessWidget {
         ),
       ),
       width: size.width,
-      height: size.height * 0.5,
+      height: size.height * 0.45,
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.only(
             bottomStart: Radius.circular(30.0),
@@ -77,7 +80,7 @@ class OptionsBreathe extends StatelessWidget {
         children: <Widget>[
           Container(
             width: size.width,
-            height: size.height * 0.5,
+            height: size.height * 0.45,
           ),
           Container(
               height: size.height * 0.5,

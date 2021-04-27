@@ -14,248 +14,252 @@ class SubscribedActivity extends StatelessWidget {
   }
 
   Widget eventoSubcripto(BuildContext context, Size size, Actividad actividad) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar(actividad.titulo, null, 0, null),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: size.height * 0.155,
-              ),
-              Center(
-                child: Container(
-                  width: 272.0,
-                  height: 196.0,
-                  decoration: BoxDecoration(
-                    image: actividad.foto,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 7.0,
-                          color: Colors.grey.withOpacity(0.5)),
-                    ],
+    return Container(
+      color: kBlanco,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar(actividad.titulo, null, 0, null),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: size.height * 0.155,
+                ),
+                Center(
+                  child: Container(
+                    width: 272.0,
+                    height: 196.0,
+                    decoration: BoxDecoration(
+                      image: actividad.foto,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 7.0,
+                            color: Colors.grey.withOpacity(0.5)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    width: 330.5,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Descripción",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "${actividad.descripcion}",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            height: 1.0,
-                            color: kGrisN,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: 330.5,
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Horario",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(children: <Widget>[
-                                Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: kNegro,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "${actividad.fecha}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ]),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: 330.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Descripción",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kMoradoOscuro,
+                                  fontSize: 20.0),
                             ),
-                            Container(
-                              child: Row(children: <Widget>[
-                                Icon(
-                                  Icons.access_time_outlined,
-                                  color: kNegro,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "${actividad.hora}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ]),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "${actividad.descripcion}",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kLetras,
+                                  fontSize: 17.0),
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            height: 1.0,
-                            color: kGrisN,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: 330.5,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Correo",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              height: 1.0,
+                              color: kGrisN,
+                            ),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "lapapaya@gmail.com",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            height: 1.0,
-                            color: kGrisN,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  _seccionUbicacion(actividad),
-                  SizedBox(height: size.height * 0.03),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            if (actividad.valor.toLowerCase() == "sin costo") {
-                              return dialogoConfirmacion(
-                                context,
-                                size,
-                                actividad,
-                                "Confirmación de Cancelación",
-                                "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
-                                kMoradoClarito,
-                              );
-                            } else if (actividad.ubicacion.toLowerCase() ==
-                                "virtual") {
-                              return dialogoConfirmacionConPago(
-                                context,
-                                size,
-                                actividad,
-                                "Confirmación de Cancelación",
-                                "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
-                                kMoradoClarito,
-                              );
-                            } else {
-                              return dialogoConfirmacion(
-                                context,
-                                size,
-                                actividad,
-                                "Confirmación de Cancelación",
-                                "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
-                                kMoradoClarito,
-                              );
-                            }
-                          });
-                    },
-                    child: Container(
-                      width: 310.0,
-                      height: 55.0,
-                      decoration: BoxDecoration(
-                        color: kMoradoClarito,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 0),
-                              blurRadius: 7.0,
-                              color: Colors.grey.withOpacity(0.5)),
                         ],
                       ),
-                      child: Center(
-                        child: Text(
-                          "CANCELAR INSCRIPCIÓN",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kNegro,
-                            fontSize: 19.0,
-                            fontFamily: 'PoppinSemiBold',
-                            letterSpacing: 2.0,
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: 330.5,
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Horario",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kMoradoOscuro,
+                                  fontSize: 20.0),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: Row(children: <Widget>[
+                                  Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: kNegro,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${actividad.fecha}",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsRegular",
+                                        color: kLetras,
+                                        fontSize: 17.0),
+                                  ),
+                                ]),
+                              ),
+                              Container(
+                                child: Row(children: <Widget>[
+                                  Icon(
+                                    Icons.access_time_outlined,
+                                    color: kNegro,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${actividad.hora}",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsRegular",
+                                        color: kLetras,
+                                        fontSize: 17.0),
+                                  ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              height: 1.0,
+                              color: kGrisN,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: 330.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Correo",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kMoradoOscuro,
+                                  fontSize: 20.0),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "lapapaya@gmail.com",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kLetras,
+                                  fontSize: 17.0),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              height: 1.0,
+                              color: kGrisN,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    _seccionUbicacion(actividad),
+                    SizedBox(height: size.height * 0.03),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              if (actividad.valor.toLowerCase() ==
+                                  "sin costo") {
+                                return dialogoConfirmacion(
+                                  context,
+                                  size,
+                                  actividad,
+                                  "Confirmación de Cancelación",
+                                  "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
+                                  kMoradoClarito,
+                                );
+                              } else if (actividad.ubicacion.toLowerCase() ==
+                                  "virtual") {
+                                return dialogoConfirmacionConPago(
+                                  context,
+                                  size,
+                                  actividad,
+                                  "Confirmación de Cancelación",
+                                  "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
+                                  kMoradoClarito,
+                                );
+                              } else {
+                                return dialogoConfirmacion(
+                                  context,
+                                  size,
+                                  actividad,
+                                  "Confirmación de Cancelación",
+                                  "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
+                                  kMoradoClarito,
+                                );
+                              }
+                            });
+                      },
+                      child: Container(
+                        width: 310.0,
+                        height: 55.0,
+                        decoration: BoxDecoration(
+                          color: kMoradoClarito,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(0, 0),
+                                blurRadius: 7.0,
+                                color: Colors.grey.withOpacity(0.5)),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "CANCELAR INSCRIPCIÓN",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kNegro,
+                              fontSize: 19.0,
+                              fontFamily: 'PoppinSemiBold',
+                              letterSpacing: 2.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

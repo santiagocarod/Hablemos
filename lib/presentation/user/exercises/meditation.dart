@@ -9,16 +9,19 @@ class MeditationClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _superior(size),
-            _swiperCards(size),
-          ],
+    return Container(
+      color: kRojoMuyClaro,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              _superior(size),
+              _swiperCards(size),
+            ],
+          ),
         ),
       ),
     );

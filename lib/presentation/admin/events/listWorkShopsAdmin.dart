@@ -10,86 +10,90 @@ class ListWorkShopsAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Taller> talleres = EventoProvider.getTalleres();
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBarEventos(context, "Talleres", "eventosAdministrador"),
-        body: Stack(
-          children: <Widget>[
-            Image.asset(
-              'assets/images/eventsAdminBackground.png',
-              alignment: Alignment.center,
-              fit: BoxFit.fill,
-              width: size.width,
-              height: size.height,
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: size.height * 0.15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.transfer_within_a_station_outlined,
-                        size: 90.0,
-                        color: kLetras,
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Text(
-                        "Talleres",
-                        style: GoogleFonts.montserrat(
-                            color: kLetras,
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, "agregarTaller");
-                    },
-                    child: Container(
-                      width: size.width * 0.9,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Icon(
-                            Icons.add_circle_outline,
-                            size: 28.0,
-                            color: kLetras,
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            "Agregar",
-                            style: GoogleFonts.montserrat(
-                                color: kLetras,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w300),
-                          ),
-                          SizedBox(width: size.width * 0.03)
-                        ],
+    return Container(
+      color: kAmarilloClaro,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar:
+              crearAppBarEventos(context, "Talleres", "eventosAdministrador"),
+          body: Stack(
+            children: <Widget>[
+              Image.asset(
+                'assets/images/eventsAdminBackground.png',
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                width: size.width,
+                height: size.height,
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: size.height * 0.15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.transfer_within_a_station_outlined,
+                          size: 90.0,
+                          color: kLetras,
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        Text(
+                          "Talleres",
+                          style: GoogleFonts.montserrat(
+                              color: kLetras,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "agregarTaller");
+                      },
+                      child: Container(
+                        width: size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Icon(
+                              Icons.add_circle_outline,
+                              size: 28.0,
+                              color: kLetras,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Text(
+                              "Agregar",
+                              style: GoogleFonts.montserrat(
+                                  color: kLetras,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                            SizedBox(width: size.width * 0.03)
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  _talleresTable(context, size, talleres),
-                ],
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    _talleresTable(context, size, talleres),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

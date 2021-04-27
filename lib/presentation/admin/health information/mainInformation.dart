@@ -11,25 +11,28 @@ class MainInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _background(size),
-            _appBar(size),
-            Container(
-              padding: EdgeInsets.only(top: size.height * 0.15),
-              child: Column(
-                children: [
-                  _swiperCards(size),
-                  _button(context, size),
-                ],
+    return Container(
+      color: kMoradoClarito,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              _background(size),
+              _appBar(size),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.15),
+                child: Column(
+                  children: [
+                    _swiperCards(size),
+                    _button(context, size),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

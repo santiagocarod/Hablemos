@@ -32,39 +32,46 @@ class ListSupportGroups extends StatelessWidget {
           names.add(element.titulo);
         });
 
-        return SafeArea(
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBarEventos(
-                context, "Grupos de Apoyo", "eventosPrincipal"),
-            body: Stack(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/eventsSpecificBackground.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-                searchBar(context, size, searchController, names, grupos,
-                    "verGrupoApoyo"),
-                Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.27),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: objectCard(context, size, grupos),
+        return Stack(
+          children: [
+            Container(
+              child: Image.asset(
+                'assets/images/eventsSpecificBackground.png',
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                width: size.width,
+                height: size.height,
+              ),
+            ),
+            SafeArea(
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                resizeToAvoidBottomInset: false,
+                extendBodyBehindAppBar: true,
+                appBar: crearAppBarEventos(
+                    context, "Grupos de Apoyo", "eventosPrincipal"),
+                body: Stack(
+                  children: <Widget>[
+                    searchBar(context, size, searchController, names, grupos,
+                        "verGrupoApoyo"),
+                    Material(
+                      type: MaterialType.transparency,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: size.height * 0.27),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: objectCard(context, size, grupos),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         );
       },
     );

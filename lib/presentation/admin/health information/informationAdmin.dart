@@ -30,24 +30,27 @@ class InformationAdmin extends StatelessWidget {
         //TODO: Por qué solo 1?
         Diagnostico diagnostico = diagnosticos[0];
 
-        return SafeArea(
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar('', null, 0, null),
-            body: Stack(
-              children: <Widget>[
-                _background(size),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      _appBar(size),
-                      _detail(context, size, diagnostico),
-                    ],
+        return Container(
+          color: kMoradoClarito,
+          child: SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar('', null, 0, null),
+              body: Stack(
+                children: <Widget>[
+                  _background(size),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        _appBar(size),
+                        _detail(context, size, diagnostico),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

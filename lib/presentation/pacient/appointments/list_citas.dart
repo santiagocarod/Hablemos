@@ -28,39 +28,46 @@ class ListCitas extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Cita> citas = citaMapToList(snapshot);
-          return SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Citas", Icons.calendar_today_outlined,
-                  heroCita, kRojoOscuro),
-              body: Stack(
-                children: <Widget>[
-                  //Background Image
-                  Image.asset(
-                    'assets/images/dateBack.png',
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
-                    width: size.width,
-                    height: size.height,
-                  ),
-                  // Contents
-                  Padding(
-                    padding: EdgeInsets.only(top: 100.0),
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: citasToCard(citas, context),
+          return Stack(
+            children: [
+              Container(
+                //Background Image
+                child: Image.asset(
+                  'assets/images/dateBack.png',
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width,
+                  height: size.height,
+                ),
+              ),
+              SafeArea(
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar: crearAppBar("Citas", Icons.calendar_today_outlined,
+                      heroCita, kRojoOscuro),
+                  body: Stack(
+                    children: <Widget>[
+                      // Contents
+                      Padding(
+                        padding: EdgeInsets.only(top: 100.0),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: citasToCard(citas, context),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           );
         });
   }
