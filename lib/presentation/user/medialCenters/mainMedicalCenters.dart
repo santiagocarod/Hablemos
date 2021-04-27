@@ -8,56 +8,60 @@ class MainMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
-          body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  EncabezadoMedical(
-                    size: size,
-                    text1: "Canales de Ayuda",
-                  ),
-                  Espacio(size: size),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: ButtonMedicalCenters(
-                                "Lista\nCercanos",
-                                () => Navigator.pushNamed(
-                                    context, "listCentrosMedicos"),
-                                100.0)),
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: ButtonMedicalCenters(
-                                "Mapa\nCercanos", () {}, 100.0))
-                      ]),
-                  SizedBox(height: size.height * 0.03),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ButtonMedicalCenters("Gratuitos", () {}, 100.0),
-                        SizedBox(height: size.height * 0.03),
-                        ButtonMedicalCenters("Pagos", () {}, 100.0),
-                        SizedBox(height: size.height * 0.03),
-                        ButtonMedicalCenters(
-                            "Ciudad/Departamento", () {}, 100.0),
-                        SizedBox(height: 30.0),
-                      ],
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar('', null, 0, null),
+            body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    EncabezadoMedical(
+                      size: size,
+                      text1: "Canales de Ayuda",
                     ),
-                  ),
-                ],
-              ))),
+                    Espacio(size: size),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child: ButtonMedicalCenters(
+                                  "Lista\nCercanos",
+                                  () => Navigator.pushNamed(
+                                      context, "listCentrosMedicos"),
+                                  100.0)),
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child: ButtonMedicalCenters(
+                                  "Mapa\nCercanos", () {}, 100.0))
+                        ]),
+                    SizedBox(height: size.height * 0.03),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ButtonMedicalCenters("Gratuitos", () {}, 100.0),
+                          SizedBox(height: size.height * 0.03),
+                          ButtonMedicalCenters("Pagos", () {}, 100.0),
+                          SizedBox(height: size.height * 0.03),
+                          ButtonMedicalCenters(
+                              "Ciudad/Departamento", () {}, 100.0),
+                          SizedBox(height: 30.0),
+                        ],
+                      ),
+                    ),
+                  ],
+                ))),
+      ),
     );
   }
 }

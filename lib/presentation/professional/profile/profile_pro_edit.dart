@@ -97,22 +97,26 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
             return CircularProgressIndicator();
           }
           Profesional profesional = profesionalMapToList(snapshot)[0];
-          return SafeArea(
-            child: Scaffold(
-              extendBodyBehindAppBar: true,
-              // Create an empty appBar, display the arrow back
-              appBar: crearAppBar('', null, 0, null),
-              body: Stack(
-                children: <Widget>[
-                  cabeceraPerfilProfesional(size, profesional),
-                  Container(
-                    padding: EdgeInsets.only(top: size.height * 0.53),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: _body(size, profesional),
+          return Container(
+            color: kRosado,
+            child: SafeArea(
+              bottom: false,
+              child: Scaffold(
+                extendBodyBehindAppBar: true,
+                // Create an empty appBar, display the arrow back
+                appBar: crearAppBar('', null, 0, null),
+                body: Stack(
+                  children: <Widget>[
+                    cabeceraPerfilProfesional(size, profesional),
+                    Container(
+                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: _body(size, profesional),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

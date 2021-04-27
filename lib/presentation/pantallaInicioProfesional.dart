@@ -39,13 +39,17 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
   Widget build(BuildContext context) {
     //Paciente paciente = PacientesProvider.getPaciente();
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        appBar: buildAppBar(size),
-        backgroundColor: Colors.transparent,
-        body: BodyProfesional(
-          size: size,
-          username: username,
+    return Container(
+      color: kAzulPrincipal,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          appBar: buildAppBar(size),
+          backgroundColor: Colors.transparent,
+          body: BodyProfesional(
+            size: size,
+            username: username,
+          ),
         ),
       ),
     );

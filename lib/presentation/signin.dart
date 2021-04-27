@@ -21,24 +21,31 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar("Registro", null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            Image.asset(
-              'assets/images/yellowBack.png',
-              alignment: Alignment.center,
-              fit: BoxFit.fill,
-              width: size.width,
-              height: size.height,
-            ),
-            _signinForm(context),
-          ],
+    return Stack(
+      children: [
+        Container(
+          child: Image.asset(
+            'assets/images/yellowBack.png',
+            alignment: Alignment.center,
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
+          ),
         ),
-      ),
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar("Registro", null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                _signinForm(context, size),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -60,10 +67,10 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-  Widget _signinForm(BuildContext context) {
+  Widget _signinForm(BuildContext context, Size size) {
     final bloc = InhWidget.of(context);
     return Padding(
-      padding: EdgeInsets.only(top: 100.0),
+      padding: EdgeInsets.only(top: size.height * 0.025),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
