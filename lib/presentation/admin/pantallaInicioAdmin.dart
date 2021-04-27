@@ -141,7 +141,7 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                               "assets/images/lineasIcon.png",
                               5.0,
                               15.0,
-                              "inicioAdministrador"),
+                              "listCentrosMedicosAdmin"),
                         ],
                       ),
                     ],

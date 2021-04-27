@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/listMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/newMedicalCenter.dart';
 import 'package:hablemos/presentation/admin/events/addActivity.dart';
 import 'package:hablemos/presentation/admin/events/addGroup.dart';
 import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
@@ -185,6 +188,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "modificarActividad": (context) => ModifyActivity(),
     "modificarGrupo": (context) => ModifyGroup(),
     "modificarTaller": (context) => ModifyWorkShop(),
+    "listCentrosMedicosAdmin": (context) => ListMedicalAdmin(),
+    "detailsCentrosMedicosAdmin": (context) => DetailsMedicalAdmin(),
+    "newCentrosMedicosAdmin": (context) => NewMedicalAdmin(),
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
   };
