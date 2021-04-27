@@ -15,14 +15,8 @@ import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
-import 'package:hablemos/presentation/admin/forums/forum.dart';
-import 'package:hablemos/presentation/admin/forums/mainForums.dart';
-import 'package:hablemos/presentation/admin/forums/newForum.dart';
-import 'package:hablemos/presentation/admin/forums/response.dart';
-import 'package:hablemos/presentation/admin/forums/viewResponse.dart';
 import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
-import 'package:hablemos/presentation/admin/health%20information/mainScreen.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
 import 'package:hablemos/presentation/admin/payments/detailedPayment.dart';
@@ -38,9 +32,6 @@ import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
-import 'package:hablemos/presentation/pacient/forums/details.dart';
-import 'package:hablemos/presentation/pacient/forums/topicList.dart';
-import 'package:hablemos/presentation/pacient/forums/topics.dart';
 import 'package:hablemos/presentation/pacient/health%20information/information.dart';
 import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
@@ -52,9 +43,6 @@ import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
-import 'package:hablemos/presentation/professional/forum/forum_pro_home.dart';
-import 'package:hablemos/presentation/professional/forum/forum_pro_publicaciones.dart';
-import 'package:hablemos/presentation/professional/forum/info_forum_pro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/editLetterPro.dart';
@@ -111,9 +99,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
     'AdjuntarPago': (context) => AttatchPayment(),
-    'ForosProfesionalHome': (context) => ForumProfesianalHome(),
-    'ForosTusPublicaciones': (context) => ForumProPublicaciones(),
-    'InformacionForoProfesional': (context) => InfoForumProfesional(),
     'OpcionesEjercicios': (context) => OptionsExercises(),
     'opcionesRespirar': (context) => OptionsBreathe(),
     'respirar': (context) => BreatheClass(),
@@ -138,9 +123,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'verActividad': (context) => ShowActivity(),
     'verTaller': (context) => ShowWorkShop(),
     'verGrupoApoyo': (context) => ShowSupportGroup(),
-    'ForosPaciente': (context) => TopicInformation(),
-    'ForosTemaPaciente': (context) => TopicList(),
-    'DetalleForo': (context) => Details(),
     'redes': (context) => Networks(),
     'DetalleCita': (context) => DateDetails(),
     'Informacion': (context) => Information(),
@@ -166,13 +148,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         EditProfileProfessionalAdmin(),
     'crearPerfilProfesionalManage': (context) =>
         CreateProfileProfessionalAdmin(),
-    'mainScreen': (context) => MainScreen(),
-    'mainForums': (context) => MainForums(),
     'mainInformation': (context) => MainInformation(),
-    'forum': (context) => Forum(),
-    'response': (context) => Response(),
-    'viewResponse': (context) => ViewResponse(),
-    'newForum': (context) => NewForum(),
     'information': (context) => InformationAdmin(),
     'newInformation': (context) => NewInformation(),
     'eventosAdministrador': (context) => EventsMainAdmin(),

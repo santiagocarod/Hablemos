@@ -16,135 +16,6 @@ class ColumnasInicioPaciente extends StatelessWidget {
   final String titulo1, titulo2, titulo3, titulo4;
   //final Function press;
 
-  _showExtraScreen(context) {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext context) {
-          return Container(
-            height: 150,
-            width: 412,
-            decoration: BoxDecoration(
-              color: kMarino,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(60), topRight: Radius.circular(60)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      //Construye Boton Foro
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, 'ForosPaciente');
-                        },
-                        child: Hero(
-                          tag: heroForo,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 140,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: kBlanco,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        offset: Offset(0, 0),
-                                        blurRadius: 5,
-                                        color: Colors.grey.withOpacity(0.5)),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.only(top: 3),
-                                        child: Icon(
-                                          Icons.comment_bank_outlined,
-                                          size: 75,
-                                          color: kAzulOscuro,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  'Foro',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(fontSize: 18),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      //Construye Boton Informacion Salud Mental
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, 'Informacion');
-                        },
-                        child: Hero(
-                          tag: heroSaludMental,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 140,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: kBlanco,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        offset: Offset(0, 0),
-                                        blurRadius: 5,
-                                        color: Colors.grey.withOpacity(0.5)),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          Icons.monitor,
-                                          size: 75,
-                                          color: kAzulOscuro,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  'Salud Mental',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(fontSize: 18),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -217,7 +88,7 @@ class ColumnasInicioPaciente extends StatelessWidget {
           //Construye Boton Informacion
           GestureDetector(
             onTap: () {
-              _showExtraScreen(context);
+              Navigator.pushNamed(context, 'Informacion');
             },
             child: new Column(
               children: <Widget>[
