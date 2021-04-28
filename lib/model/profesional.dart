@@ -59,7 +59,7 @@ class Profesional {
         fechaNacimiento: data["birthDay"],
         especialidad: data["specialty"],
         experiencia: data["experience"],
-        convenios: data["contratos"],
+        convenios: List<String>.from(data["contracts"]),
         proyectos: List<String>.from(["projects"]),
         celular: data["phone"],
         correo: data["email"]);
