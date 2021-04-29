@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../constants.dart';
-import '/../ux/atoms.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 //Screen of attached payment
 class VerPagoPro extends StatelessWidget {
