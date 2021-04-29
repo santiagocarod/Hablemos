@@ -31,8 +31,9 @@ class ListLetters extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar:
-                  crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+              appBar: crearAppBarCitas(
+                  context, "inicio", "Cartas", null, 0, null, Icons.shuffle,
+                  () {
                 Navigator.pushNamed(context, "verCarta",
                     arguments: cartas[Random().nextInt(cartas.length)]);
               }),

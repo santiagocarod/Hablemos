@@ -28,7 +28,8 @@ class ListToEvaluateLettersPro extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Cartas a Valorar", null, 0, null),
+              appBar: crearAppBarEventos(
+                  context, 'Cartas a Valorar', 'cartasPrincipalProfesional'),
               body: Stack(
                 children: <Widget>[
                   //Background Image

@@ -34,8 +34,8 @@ class ListAprovedLettersPro extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar:
-                  crearAppBarAction("Cartas", null, 0, null, Icons.shuffle, () {
+              appBar: crearAppBarCitas(context, 'cartasPrincipalProfesional',
+                  "Cartas", null, 0, null, Icons.shuffle, () {
                 Navigator.pushNamed(context, "verCarta",
                     arguments: cartas[Random().nextInt(cartas.length)]);
               }),
@@ -66,7 +66,7 @@ class ListAprovedLettersPro extends StatelessWidget {
                 ],
               ),
               floatingActionButton: FloatingActionButton(
-                backgroundColor: kRojoOscuro,
+                backgroundColor: Colors.yellow[700],
                 child: Icon(Icons.add),
                 onPressed: () {
                   Navigator.pushNamed(context, "escribirCartaPro");

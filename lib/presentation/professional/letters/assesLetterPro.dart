@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
-import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 class AssesLetterPro extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -13,7 +13,8 @@ class AssesLetterPro extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
-        appBar: appBarCarta("Valorar Carta", null, 0, null),
+        appBar:
+            crearAppBarEventos(context, 'Valorar Carta', 'listaCartasEvaluar'),
         body: Stack(
           children: <Widget>[
             Image.asset(
@@ -87,7 +88,17 @@ class AssesLetterPro extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return dialogoConfirmacion(
+                                      context,
+                                      'listaCartasEvaluar',
+                                      "Confirmación Aceptación de Carta",
+                                      "¿Estás seguro que deseas aceptar y publicar esta carta?");
+                                });
+                          },
                           child: Container(
                             width: 155.0,
                             decoration: BoxDecoration(
@@ -149,6 +160,17 @@ class AssesLetterPro extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return dialogoConfirmacion(
+                                context,
+                                'listaCartasEvaluar',
+                                "Confirmación Rechazo de Carta",
+                                "¿Estás seguro que deseas rechazar y eliminar esta carta?");
+                          });
+                    },
                     child: Container(
                       width: 155.0,
                       height: 54.0,

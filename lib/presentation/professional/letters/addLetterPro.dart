@@ -32,7 +32,8 @@ class AddLetterPro extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Escribe tu Carta", null, 0, null),
+              appBar: crearAppBarEventos(
+                  context, 'Escribe tu Carta', 'listarCartasPro'),
               body: Stack(
                 children: <Widget>[
                   Image.asset(
@@ -88,8 +89,15 @@ class AddLetterPro extends StatelessWidget {
                                     cuerpo: contenidoCarta.text,
                                     aprobado: true);
                                 cartas.add(nuevaCarta);
-                                Navigator.pushNamed(context, "listarCartasPro",
-                                    arguments: cartas);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return dialogoConfirmacion(
+                                          context,
+                                          'listarCartasPro',
+                                          "Confirmación Envio de Carta",
+                                          "¿Estás seguro que deseas enviar esta carta?");
+                                    });
                               },
                               child: Container(
                                 width: 239.0,
@@ -97,7 +105,7 @@ class AddLetterPro extends StatelessWidget {
                                 margin:
                                     EdgeInsets.only(bottom: size.height * 0.04),
                                 decoration: BoxDecoration(
-                                  color: kRojoOscuro,
+                                  color: Colors.yellow[700],
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(30)),
                                   boxShadow: [
@@ -112,11 +120,11 @@ class AddLetterPro extends StatelessWidget {
                                     "ENVIAR CARTA",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: kNegro,
-                                      fontSize: 18.0,
-                                      fontFamily: 'PoppinsSemiBold',
-                                      letterSpacing: 2.0,
-                                    ),
+                                        color: kBlanco,
+                                        fontSize: 18.0,
+                                        fontFamily: 'PoppinsSemiBold',
+                                        letterSpacing: 2.0,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
