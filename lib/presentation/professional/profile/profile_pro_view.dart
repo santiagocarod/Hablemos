@@ -4,6 +4,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -80,7 +81,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return loadingScreen();
           }
           Profesional profesional = profesionalMapToList(snapshot)[0];
           return Container(
