@@ -9,24 +9,28 @@ class InformationDetails extends StatelessWidget {
     final Diagnostico trastorno = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: crearAppBar('', null, 0, null),
-        extendBodyBehindAppBar: true,
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              crearForosUpper(size, 'Informémonos \ny hablemos', Icons.monitor,
-                  0.05, kAmarillo),
-              Container(
-                padding: EdgeInsets.only(top: size.height * 0.102),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: _detail(context, size, trastorno),
+    return Container(
+      color: kAmarillo,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: crearAppBar('', null, 0, null),
+          extendBodyBehindAppBar: true,
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                crearForosUpper(size, 'Informémonos \ny hablemos',
+                    Icons.monitor, 0.05, kAmarillo),
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.102),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: _detail(context, size, trastorno),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

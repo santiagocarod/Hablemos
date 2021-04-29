@@ -9,22 +9,26 @@ class StartFireBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: FutureBuilder(
-          future: _firebaseApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print("Error: ${snapshot.error.toString()}");
-              return Text("Algo salio Mal");
-            } else if (snapshot.hasData) {
-              return HomeScreen();
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+    return Container(
+      color: kAzulPrincipal,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          body: FutureBuilder(
+            future: _firebaseApp,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print("Error: ${snapshot.error.toString()}");
+                return Text("Algo salio Mal");
+              } else if (snapshot.hasData) {
+                return HomeScreen();
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

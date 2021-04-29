@@ -68,36 +68,45 @@ class ListCitasPro extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Cita> citas = citaMapToList(snapshot);
-          return SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              extendBodyBehindAppBar: true,
-              appBar: crearAppBarEventos(context, 'Citas', 'inicioProfesional'),
-              body: Stack(
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/dateBack.png',
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
-                    width: size.width,
-                    height: size.height,
-                  ),
-                  Material(
-                    type: MaterialType.transparency,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 80.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: citasProfesionalToCard(context, citas),
+          return Stack(
+            children: [
+              Container(
+                child: Image.asset(
+                  'assets/images/dateBack.png',
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width,
+                  height: size.height,
+                ),
+              ),
+              SafeArea(
+                bottom: false,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar:
+                      crearAppBarEventos(context, 'Citas', 'inicioProfesional'),
+                  body: Stack(
+                    children: <Widget>[
+                      Material(
+                        type: MaterialType.transparency,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 80.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: citasProfesionalToCard(context, citas),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           );
         });
   }

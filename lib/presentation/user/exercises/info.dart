@@ -10,19 +10,22 @@ class InfoClass extends StatelessWidget {
     final Ejercicio ej = ModalRoute.of(context).settings.arguments;
 
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar('', null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _superior(size),
-            Align(
-              child: _infoCard(size, ej),
-              alignment: Alignment.center,
-            ),
-          ],
+    return Container(
+      color: kAzul1,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              _superior(size),
+              Align(
+                child: _infoCard(size, ej),
+                alignment: Alignment.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

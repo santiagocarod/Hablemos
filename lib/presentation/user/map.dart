@@ -76,64 +76,67 @@ class _MapBoxClassState extends State<MapBoxClass> {
         ),
       );
     } else {
-      return SafeArea(
-        child: Scaffold(
-          appBar: crearAppBar('GoogleMaps', null, 0, null),
-          body: Stack(
-            children: [
-              Container(
-                width: size.width,
-                height: size.height,
-                child: Image.asset(
-                  'assets/images/yellowBack.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-              ),
-              Container(
-                  child: Container(
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.1,
-                      ),
-                      Container(
-                        height: 300,
-                        width: 300,
-                        child: Image.asset(
-                          'assets/images/gmaps.png',
-                          alignment: Alignment.center,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.1,
-                      ),
-                      Text(
-                        'No te preocupes!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Estamos abriendo google maps en',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-            ],
+      return Stack(
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/images/yellowBack.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
           ),
-        ),
+          SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: crearAppBar('GoogleMaps', null, 0, null),
+              body: Stack(
+                children: [
+                  Container(
+                      child: Container(
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          Container(
+                            height: 300,
+                            width: 300,
+                            child: Image.asset(
+                              'assets/images/gmaps.png',
+                              alignment: Alignment.center,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          Text(
+                            'No te preocupes!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Estamos abriendo google maps en',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+            ),
+          ),
+        ],
       );
     }
   }

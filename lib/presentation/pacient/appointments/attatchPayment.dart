@@ -65,40 +65,47 @@ class _AttatchPaymentState extends State<AttatchPayment> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        appBar: crearAppBar("Adjuntar Pago", null, 0, null),
-        body: Stack(children: [
-          Image.asset(
+    return Stack(
+      children: [
+        Container(
+          child: Image.asset(
             'assets/images/yellowBack.png',
             alignment: Alignment.center,
             fit: BoxFit.fill,
             width: size.width,
             height: size.height,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: iconButtonBig("Subir prueba de pago", () {
-                  _showPicker(context);
-                }, Icons.cloud_upload, Colors.yellow[700]),
+        ),
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: crearAppBar("Adjuntar Pago", null, 0, null),
+            body: Stack(children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: iconButtonBig("Subir prueba de pago", () {
+                      _showPicker(context);
+                    }, Icons.cloud_upload, Colors.yellow[700]),
+                  ),
+                  _image == null
+                      ? SizedBox(
+                          height: 10,
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Image.file(
+                            _image,
+                            height: size.height / 2,
+                          ),
+                        )
+                ],
               ),
-              _image == null
-                  ? SizedBox(
-                      height: 10,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Image.file(
-                        _image,
-                        height: size.height / 2,
-                      ),
-                    )
-            ],
+            ]),
           ),
-        ]),
-      ),
+        ),
+      ],
     );
   }
 }

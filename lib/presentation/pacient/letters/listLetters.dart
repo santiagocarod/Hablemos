@@ -27,50 +27,57 @@ class ListLetters extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<Carta> cartas = cartaMapToList(snapshot);
-          return SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              extendBodyBehindAppBar: true,
-              appBar: crearAppBarCitas(
-                  context, "inicio", "Cartas", null, 0, null, Icons.shuffle,
-                  () {
-                Navigator.pushNamed(context, "verCarta",
-                    arguments: cartas[Random().nextInt(cartas.length)]);
-              }),
-              body: Stack(
-                children: <Widget>[
-                  //Background Image
-                  Image.asset(
-                    'assets/images/background_cartas.png',
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
-                    width: size.width,
-                    height: size.height,
-                  ),
-                  // Contents
-                  Material(
-                    type: MaterialType.transparency,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 80.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: letterToCard(context, cartas),
+          return Stack(
+            children: [
+              Container(
+                child: //Background Image
+                    Image.asset(
+                  'assets/images/background_cartas.png',
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width,
+                  height: size.height,
+                ),
+              ),
+              SafeArea(
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar: crearAppBarCitas(
+                      context, "inicio", "Cartas", null, 0, null, Icons.shuffle,
+                      () {
+                    Navigator.pushNamed(context, "verCarta",
+                        arguments: cartas[Random().nextInt(cartas.length)]);
+                  }),
+                  body: Stack(
+                    children: <Widget>[
+                      // Contents
+                      Material(
+                        type: MaterialType.transparency,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 80.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: letterToCard(context, cartas),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: kMostaza,
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "agregarCarta");
+                    },
+                  ),
+                ),
               ),
-              floatingActionButton: FloatingActionButton(
-                backgroundColor: kMostaza,
-                child: Icon(Icons.add),
-                onPressed: () {
-                  Navigator.pushNamed(context, "agregarCarta");
-                },
-              ),
-            ),
+            ],
           );
         });
   }

@@ -29,7 +29,9 @@ class ColumnasInicioProfesional extends StatelessWidget {
         children: <Widget>[
           //Construye Boton Necesito Ayuda
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "principalCentrosMedicos");
+            },
             child: Stack(
               children: [
                 Hero(
@@ -195,7 +197,9 @@ class ColumnasInicioProfesional extends StatelessWidget {
           ),
           //Construye Boton Redes
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'redes');
+            },
             child: Hero(
               tag: heroRedes,
               child: new Column(

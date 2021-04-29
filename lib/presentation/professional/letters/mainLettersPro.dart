@@ -6,44 +6,52 @@ import 'package:hablemos/constants.dart';
 class MainLettersPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Stack(
-        children: <Widget>[
-          Image.asset(
+    return Stack(
+      children: [
+        Container(
+          child: Image.asset(
             'assets/images/lettersBackground.png',
             alignment: Alignment.center,
             fit: BoxFit.fill,
             width: size.width,
             height: size.height,
           ),
-          Container(
-            padding: EdgeInsets.only(
-              top: size.height * 0.07,
+        ),
+        SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.07,
+                  ),
+                  alignment: Alignment.center,
+                  width: size.width,
+                  child: Column(children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _pageHeaderAction(
+                            context, size, "Cartas", "inicioProfesional"),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            _contenedor(context, size, "Leer Cartas",
+                                "listarCartasPro"),
+                            _contenedor(context, size, "Valorar Cartas",
+                                "listaCartasEvaluar")
+                          ],
+                        )
+                      ],
+                    )
+                  ]),
+                )
+              ],
             ),
-            alignment: Alignment.center,
-            width: size.width,
-            child: Column(children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _pageHeaderAction(
-                      context, size, "Cartas", "inicioProfesional"),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      _contenedor(
-                          context, size, "Leer Cartas", "listarCartasPro"),
-                      _contenedor(
-                          context, size, "Valorar Cartas", "listaCartasEvaluar")
-                    ],
-                  )
-                ],
-              )
-            ]),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

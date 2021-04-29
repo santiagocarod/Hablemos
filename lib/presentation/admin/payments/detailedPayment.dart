@@ -10,18 +10,25 @@ class DetailedPaymentAdmin extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final Pagoadmin pagoAdmin = ModalRoute.of(context).settings.arguments;
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: crearAppBar("Pagos", null, 0, null),
-        body: Stack(
-          children: <Widget>[
-            _background(size),
-            _crearBody(context, size, pagoAdmin),
-          ],
+    return Stack(
+      children: [
+        Container(
+          child: _background(size),
         ),
-      ),
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar("Pagos", null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                _crearBody(context, size, pagoAdmin),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

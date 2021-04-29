@@ -45,34 +45,37 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
             return CircularProgressIndicator();
           }
           List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
-          return SafeArea(
-            child: Scaffold(
-                resizeToAvoidBottomInset: false,
-                extendBodyBehindAppBar: true,
-                appBar: crearAppBar('', null, 0, null),
-                body: Column(
-                  children: <Widget>[
-                    EncabezadoMedical(size: size, text1: "Canales de Ayuda"),
-                    Espacio(size: size),
-                    Container(
-                      width: size.width - 20,
-                      color: kRosado,
-                      child: Center(
-                        child: Text("Lineas de ayuda",
-                            style: TextStyle(
-                                color: kLetras,
-                                fontSize: 26,
-                                fontFamily: "PoppinsRegular")),
+          return Container(
+            color: kRosado,
+            child: SafeArea(
+              child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar: crearAppBar('', null, 0, null),
+                  body: Column(
+                    children: <Widget>[
+                      EncabezadoMedical(size: size, text1: "Canales de Ayuda"),
+                      Espacio(size: size),
+                      Container(
+                        width: size.width - 20,
+                        color: kRosado,
+                        child: Center(
+                          child: Text("Lineas de ayuda",
+                              style: TextStyle(
+                                  color: kLetras,
+                                  fontSize: 26,
+                                  fontFamily: "PoppinsRegular")),
+                        ),
                       ),
-                    ),
-                    Espacio(size: size),
-                    Expanded(
-                        child: ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      children: centersToWidgets(context, _medicalCenters),
-                    ))
-                  ],
-                )),
+                      Espacio(size: size),
+                      Expanded(
+                          child: ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        children: centersToWidgets(context, _medicalCenters),
+                      ))
+                    ],
+                  )),
+            ),
           );
         });
   }

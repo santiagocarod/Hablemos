@@ -24,59 +24,67 @@ class ListMedicalAdmin extends StatelessWidget {
             return CircularProgressIndicator();
           }
           List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
-          return Scaffold(
-              resizeToAvoidBottomInset: false,
-              extendBodyBehindAppBar: true,
-              appBar: crearAppBar('', null, 0, null),
-              body: Column(
-                children: <Widget>[
-                  EncabezadoMedicalAdmin(size: size, text1: "Canales de Ayuda"),
-                  Espacio(size: size),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 40),
-                        child: GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                              context, "newCentrosMedicosAdmin"),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
+          return Container(
+            color: kAzul3,
+            child: SafeArea(
+              bottom: false,
+              child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar: crearAppBar('', null, 0, null),
+                  body: Column(
+                    children: <Widget>[
+                      EncabezadoMedicalAdmin(
+                          size: size, text1: "Canales de Ayuda"),
+                      Espacio(size: size),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 40),
+                            child: GestureDetector(
+                              onTap: () => Navigator.pushNamed(
+                                  context, "newCentrosMedicosAdmin"),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    size: 40,
+                                  ),
+                                  Text("Agregar",
+                                      style: TextStyle(
+                                          color: kLetras,
+                                          fontSize: 26,
+                                          fontFamily: "PoppinsRegular"))
+                                ],
                               ),
-                              Text("Agregar",
-                                  style: TextStyle(
-                                      color: kLetras,
-                                      fontSize: 26,
-                                      fontFamily: "PoppinsRegular"))
-                            ],
-                          ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Espacio(size: size),
+                      Container(
+                        width: size.width - 20,
+                        color: kAzul1,
+                        child: Center(
+                          child: Text("Lineas de ayuda",
+                              style: TextStyle(
+                                  color: kLetras,
+                                  fontSize: 26,
+                                  fontFamily: "PoppinsRegular")),
                         ),
-                      )
+                      ),
+                      Espacio(size: size),
+                      Expanded(
+                          child: ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        children:
+                            centersToWidgetsMedical(context, _medicalCenters),
+                      ))
                     ],
-                  ),
-                  Espacio(size: size),
-                  Container(
-                    width: size.width - 20,
-                    color: kAzul1,
-                    child: Center(
-                      child: Text("Lineas de ayuda",
-                          style: TextStyle(
-                              color: kLetras,
-                              fontSize: 26,
-                              fontFamily: "PoppinsRegular")),
-                    ),
-                  ),
-                  Espacio(size: size),
-                  Expanded(
-                      child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    children: centersToWidgetsMedical(context, _medicalCenters),
-                  ))
-                ],
-              ));
+                  )),
+            ),
+          );
         });
   }
 

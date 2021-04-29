@@ -11,211 +11,216 @@ class ShowSupportGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final Grupo grupoApoyo = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar:
-            crearAppBarEventos(context, grupoApoyo.titulo, "listarGruposApoyo"),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: size.height * 0.15,
-              ),
-              Center(
-                child: Container(
-                  width: 272.0,
-                  height: 196.0,
-                  decoration: BoxDecoration(
-                    image: grupoApoyo.foto,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 7.0,
-                          color: Colors.grey.withOpacity(0.5)),
-                    ],
+    return Container(
+      color: kBlanco,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: crearAppBarEventos(
+              context, grupoApoyo.titulo, "listarGruposApoyo"),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: size.height * 0.15,
+                ),
+                Center(
+                  child: Container(
+                    width: 272.0,
+                    height: 196.0,
+                    decoration: BoxDecoration(
+                      image: grupoApoyo.foto,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 7.0,
+                            color: Colors.grey.withOpacity(0.5)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    width: 330.5,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Descripción",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "${grupoApoyo.descripcion}",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            height: 1.0,
-                            color: kGrisN,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: 330.5,
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Horario",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(children: <Widget>[
-                                Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: kNegro,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "${grupoApoyo.fecha}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ]),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: 330.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Descripción",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kMoradoOscuro,
+                                  fontSize: 20.0),
                             ),
-                            Container(
-                              child: Row(children: <Widget>[
-                                Icon(
-                                  Icons.access_time_outlined,
-                                  color: kNegro,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "${grupoApoyo.hora}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ]),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            height: 1.0,
-                            color: kGrisN,
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "${grupoApoyo.descripcion}",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kLetras,
+                                  fontSize: 17.0),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              height: 1.0,
+                              color: kGrisN,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  _sectionCosto(context, grupoApoyo),
-                  SizedBox(height: 10),
-                  _sectionAccountNum(context, grupoApoyo),
-                  SizedBox(height: size.height * 0.03),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            if (grupoApoyo.valor.toLowerCase() == "sin costo") {
-                              return dialogoConfirmacion(
-                                context,
-                                grupoApoyo,
-                                "Confirmación de Inscripción",
-                                "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
-                                kMoradoClarito,
-                              );
-                            } else if (grupoApoyo.ubicacion == "virtual" ||
-                                grupoApoyo.ubicacion == "Virtual") {
-                              return dialogoConfirmacionPago(
-                                context,
-                                grupoApoyo,
-                                "Confirmación de Pago",
-                                "¿Ya realizaste el pago al número de cuenta?",
-                                kMoradoClarito,
-                              );
-                            } else {
-                              return dialogoConfirmacion(
+                    SizedBox(height: 10),
+                    Container(
+                      width: 330.5,
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Horario",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: "PoppinsRegular",
+                                  color: kMoradoOscuro,
+                                  fontSize: 20.0),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: Row(children: <Widget>[
+                                  Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: kNegro,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${grupoApoyo.fecha}",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsRegular",
+                                        color: kLetras,
+                                        fontSize: 17.0),
+                                  ),
+                                ]),
+                              ),
+                              Container(
+                                child: Row(children: <Widget>[
+                                  Icon(
+                                    Icons.access_time_outlined,
+                                    color: kNegro,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${grupoApoyo.hora}",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsRegular",
+                                        color: kLetras,
+                                        fontSize: 17.0),
+                                  ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              height: 1.0,
+                              color: kGrisN,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    _sectionCosto(context, grupoApoyo),
+                    SizedBox(height: 10),
+                    _sectionAccountNum(context, grupoApoyo),
+                    SizedBox(height: size.height * 0.03),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              if (grupoApoyo.valor.toLowerCase() ==
+                                  "sin costo") {
+                                return dialogoConfirmacion(
                                   context,
                                   grupoApoyo,
                                   "Confirmación de Inscripción",
                                   "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
-                                  kMoradoClarito);
-                            }
-                          });
-                    },
-                    child: Container(
-                      width: 296.0,
-                      height: 55.0,
-                      decoration: BoxDecoration(
-                        color: kMoradoClarito,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 0),
-                              blurRadius: 7.0,
-                              color: Colors.grey.withOpacity(0.5)),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          "INSCRIBIRME",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kNegro,
-                            fontSize: 20.0,
-                            fontFamily: 'PoppinSemiBold',
-                            letterSpacing: 2.0,
+                                  kMoradoClarito,
+                                );
+                              } else if (grupoApoyo.ubicacion == "virtual" ||
+                                  grupoApoyo.ubicacion == "Virtual") {
+                                return dialogoConfirmacionPago(
+                                  context,
+                                  grupoApoyo,
+                                  "Confirmación de Pago",
+                                  "¿Ya realizaste el pago al número de cuenta?",
+                                  kMoradoClarito,
+                                );
+                              } else {
+                                return dialogoConfirmacion(
+                                    context,
+                                    grupoApoyo,
+                                    "Confirmación de Inscripción",
+                                    "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
+                                    kMoradoClarito);
+                              }
+                            });
+                      },
+                      child: Container(
+                        width: 296.0,
+                        height: 55.0,
+                        decoration: BoxDecoration(
+                          color: kMoradoClarito,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(0, 0),
+                                blurRadius: 7.0,
+                                color: Colors.grey.withOpacity(0.5)),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "INSCRIBIRME",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kNegro,
+                              fontSize: 20.0,
+                              fontFamily: 'PoppinSemiBold',
+                              letterSpacing: 2.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
