@@ -6,6 +6,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 
 class ListToEvaluateLettersPro extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class ListToEvaluateLettersPro extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return loadingScreen();
           }
           List<Carta> cartas = cartaMapToList(snapshot);
           return Stack(

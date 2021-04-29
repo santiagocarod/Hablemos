@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
@@ -23,7 +24,7 @@ class MainPaymentsPage extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return loadingScreen();
         }
 
         List<Pagoadmin> lista = paymentMapToList(snapshot);
