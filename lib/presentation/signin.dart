@@ -174,7 +174,7 @@ class _SignInPageState extends State<SignInPage> {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");
     final CollectionReference pacienteRef =
-        FirebaseFirestore.instance.collection("pacient");
+        FirebaseFirestore.instance.collection("pacients");
     if (_name == '') {
       showAlertDialog(context, "Por Favor Ingresa tu Nombre");
     } else if (_lastName == '') {

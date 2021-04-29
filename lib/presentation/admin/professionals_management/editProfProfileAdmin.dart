@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -33,42 +31,30 @@ class _EditProfileProfessionalAdminState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference centroMedicoCollection =
-        FirebaseFirestore.instance.collection("attentionCenters");
-    return StreamBuilder<QuerySnapshot>(
-        stream: centroMedicoCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          Profesional profesional = profesionalMapToList(snapshot)[0];
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              child: Scaffold(
-                extendBodyBehindAppBar: true,
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                body: Stack(
-                  children: <Widget>[
-                    cabeceraPerfilProfesional(size, profesional),
-                    Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size, profesional),
-                      ),
-                    ),
-                  ],
+    Profesional profesional = ModalRoute.of(context).settings.arguments;
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              cabeceraPerfilProfesional(size, profesional),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.53),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size, profesional),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {

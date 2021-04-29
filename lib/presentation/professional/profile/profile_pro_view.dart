@@ -266,7 +266,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             textAlign: TextAlign.left,
           ),
           Text(
-            content,
+            content == null ? "Falta información" : content,
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15.0,
@@ -402,7 +402,8 @@ class _ProfileProViewState extends State<ProfileProView> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: _list(content),
+            children:
+                content != null ? _list(content) : [Text("Falta Información")],
           ),
           Container(
             padding: EdgeInsets.only(top: 10.0),
