@@ -264,6 +264,37 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
   );
 }
 
+AppBar crearAppBarCitas(
+    BuildContext context,
+    String rutaBack,
+    String texto,
+    IconData icono,
+    int constante,
+    Color color,
+    IconData icon,
+    Function function) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: new IconButton(
+      icon: new Icon(Icons.arrow_back_ios, color: kNegro),
+      onPressed: () => Navigator.pushNamed(context, rutaBack),
+    ),
+    actions: [IconButton(icon: Icon(icon), onPressed: () => function())],
+    title: Text(
+      texto,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 25.0,
+      ),
+    ),
+    centerTitle: true,
+    iconTheme: IconThemeData(
+      color: Colors.black, //change your color here
+    ),
+  );
+}
+
 AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   return AppBar(
     backgroundColor: Colors.transparent,

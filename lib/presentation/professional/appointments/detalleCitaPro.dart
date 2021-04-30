@@ -262,7 +262,17 @@ Widget _buttons(BuildContext context, Cita cita) {
                 )),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dialogoConfirmacion(
+                        context,
+                        'citasProfesional',
+                        "Confirmación de Cancelación",
+                        "¿Estás seguro que deseas cancelar esta Cita?");
+                  });
+            },
             child: Container(
                 alignment: Alignment.center,
                 width: 126,
@@ -301,7 +311,7 @@ Widget _pageHeader(BuildContext context, Size size, String titulo) {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, 'citasProfesional');
           },
           child: Container(
               padding: EdgeInsets.only(left: size.width * 0.05),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+import '../../../constants.dart';
+
 class AddLetter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,8 @@ class AddLetter extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Crea una Carta", null, 0, null),
+            appBar: crearAppBarEventos(
+                context, 'Crear una Carta', 'listaCartasPaciente'),
             body: Stack(
               children: <Widget>[
                 Material(
@@ -42,8 +45,51 @@ class AddLetter extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          iconButtonBig("Guardar", () => {}, Icons.save,
-                              Colors.yellow[700])
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return dialogoConfirmacion(
+                                          context,
+                                          "listaCartasPaciente",
+                                          "Confirmación Envio de Carta",
+                                          "¿Estás seguro que deseas enviar esta carta?");
+                                    });
+                              },
+                              child: Container(
+                                width: 230.0,
+                                height: 55.0,
+                                margin: EdgeInsets.only(
+                                    bottom: size.height * 0.04,
+                                    top: size.height * 0.04),
+                                decoration: BoxDecoration(
+                                  color: Colors.yellow[700],
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: Offset(0, 0),
+                                        blurRadius: 5,
+                                        color: Colors.grey.withOpacity(0.5)),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "ENVIAR CARTA",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: kBlanco,
+                                      fontSize: 18.0,
+                                      fontFamily: 'PoppinsSemiBold',
+                                      letterSpacing: 2.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
