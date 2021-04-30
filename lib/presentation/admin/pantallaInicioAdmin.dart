@@ -84,7 +84,11 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                AuthService authService = AuthService();
+                                authService.logOut();
+                                Navigator.pushNamed(context, "/");
+                              },
                               child: Text(
                                 "Log Out",
                                 style: TextStyle(
