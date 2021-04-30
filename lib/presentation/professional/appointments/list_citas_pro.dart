@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -65,7 +66,7 @@ class ListCitasPro extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return loadingScreen();
           }
           List<Cita> citas = citaMapToList(snapshot);
           return Stack(

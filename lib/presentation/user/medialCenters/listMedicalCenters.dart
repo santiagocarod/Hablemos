@@ -5,6 +5,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 
@@ -42,7 +43,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return loadingScreen();
           }
           List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
           return Container(

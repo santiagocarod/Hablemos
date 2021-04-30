@@ -7,6 +7,7 @@ import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ViewProfile extends StatefulWidget {
@@ -84,7 +85,7 @@ class _ViewProfile extends State<ViewProfile> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return loadingScreen();
           }
           List<Paciente> pacientes = pacienteMapToList(snapshot);
 
