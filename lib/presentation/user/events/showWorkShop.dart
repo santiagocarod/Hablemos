@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/taller.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
 class ShowWorkShop extends StatelessWidget {
-  final AuthService _authService = new AuthService();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -617,7 +618,7 @@ class ShowWorkShop extends StatelessWidget {
   }
 
   Widget _inscripcion(BuildContext context, Taller taller, Size size) {
-    if (_authService.getCurrentUser() != null) {
+    if (auth.currentUser != null) {
       return GestureDetector(
         onTap: () {
           showDialog(
