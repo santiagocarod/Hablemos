@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/grupo.dart';
@@ -6,6 +7,8 @@ import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
 class ShowSupportGroup extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -154,66 +157,7 @@ class ShowSupportGroup extends StatelessWidget {
                     SizedBox(height: 10),
                     _sectionAccountNum(context, grupoApoyo),
                     SizedBox(height: size.height * 0.03),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              if (grupoApoyo.valor.toLowerCase() ==
-                                  "sin costo") {
-                                return dialogoConfirmacion(
-                                  context,
-                                  grupoApoyo,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
-                                  kMoradoClarito,
-                                );
-                              } else if (grupoApoyo.ubicacion == "virtual" ||
-                                  grupoApoyo.ubicacion == "Virtual") {
-                                return dialogoConfirmacionPago(
-                                  context,
-                                  grupoApoyo,
-                                  "Confirmación de Pago",
-                                  "¿Ya realizaste el pago al número de cuenta?",
-                                  kMoradoClarito,
-                                );
-                              } else {
-                                return dialogoConfirmacion(
-                                    context,
-                                    grupoApoyo,
-                                    "Confirmación de Inscripción",
-                                    "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
-                                    kMoradoClarito);
-                              }
-                            });
-                      },
-                      child: Container(
-                        width: 296.0,
-                        height: 55.0,
-                        decoration: BoxDecoration(
-                          color: kMoradoClarito,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 7.0,
-                                color: Colors.grey.withOpacity(0.5)),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "INSCRIBIRME",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kNegro,
-                              fontSize: 20.0,
-                              fontFamily: 'PoppinSemiBold',
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _inscripcion(context, grupoApoyo),
                     SizedBox(
                       height: 30.0,
                     ),
@@ -756,6 +700,90 @@ class ShowSupportGroup extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      );
+    }
+  }
+
+  Widget _inscripcion(BuildContext context, Grupo grupoApoyo) {
+    if (auth.currentUser != null) {
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (grupoApoyo.valor.toLowerCase() == "sin costo") {
+                  return dialogoConfirmacion(
+                    context,
+                    grupoApoyo,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
+                    kMoradoClarito,
+                  );
+                } else if (grupoApoyo.ubicacion == "virtual" ||
+                    grupoApoyo.ubicacion == "Virtual") {
+                  return dialogoConfirmacionPago(
+                    context,
+                    grupoApoyo,
+                    "Confirmación de Pago",
+                    "¿Ya realizaste el pago al número de cuenta?",
+                    kMoradoClarito,
+                  );
+                } else {
+                  return dialogoConfirmacion(
+                      context,
+                      grupoApoyo,
+                      "Confirmación de Inscripción",
+                      "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
+                      kMoradoClarito);
+                }
+              });
+        },
+        child: Container(
+          width: 296.0,
+          height: 55.0,
+          decoration: BoxDecoration(
+            color: kMoradoClarito,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              "INSCRIBIRME",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 20.0,
+                fontFamily: 'PoppinSemiBold',
+                letterSpacing: 2.0,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(228, 88, 101, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        height: 80.0,
+        child: Center(
+          child: Text(
+            "Para Inscribirse a este Grupo de Apoyo debe Registarse",
+            style: TextStyle(
+              color: kLetras,
+              fontSize: 17.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }
