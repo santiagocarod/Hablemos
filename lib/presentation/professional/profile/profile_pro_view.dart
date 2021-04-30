@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
@@ -245,6 +246,19 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionList('Proyectos', profesional.proyectos, size),
           _section('Experiencia', profesional.experiencia),
           _section('Descripcion', profesional.descripcion),
+          SizedBox(height: 20),
+          Center(
+              child: iconButtonSmall(
+                  color: kRojoOscuro,
+                  function: () {
+                    AuthService authService = AuthService();
+                    authService.logOut();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/", (_) => false);
+                  },
+                  iconData: Icons.logout,
+                  text: "Cerrar Sesion")),
+          SizedBox(height: 20)
         ],
       ),
     );
