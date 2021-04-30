@@ -87,7 +87,8 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                               onTap: () {
                                 AuthService authService = AuthService();
                                 authService.logOut();
-                                Navigator.pushNamed(context, "/");
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, "/", (_) => false);
                               },
                               child: Text(
                                 "Log Out",

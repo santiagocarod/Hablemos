@@ -156,7 +156,8 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
                   function: () {
                     AuthService authService = AuthService();
                     authService.logOut();
-                    Navigator.pushNamed(context, "/");
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/", (_) => false);
                   },
                   iconData: Icons.logout,
                   text: "Cerrar Sesion")),
