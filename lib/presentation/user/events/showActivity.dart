@@ -636,26 +636,7 @@ class ShowActivity extends StatelessWidget {
   }
 
   Widget _inscripcion(BuildContext context, Actividad actividad) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.0),
-      padding: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(228, 88, 101, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      height: 80.0,
-      child: Center(
-        child: Text(
-          "Para Inscribirse a esta Actividad debe Registarse",
-          style: TextStyle(
-            color: kLetras,
-            fontSize: 17.0,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-    /*if (_authService.getCurrentUser() != null) {
+    if (_authService.getCurrentUser() != null) {
       return GestureDetector(
         onTap: () {
           showDialog(
@@ -718,25 +699,24 @@ class ShowActivity extends StatelessWidget {
       );
     } else {
       return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.0),
-      padding: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(228, 88, 101, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      height: 80.0,
-      child: Center(
-        child: Text(
-          "Para Inscribirse a esta Actividad debe Registarse",
-          style: TextStyle(
-            color: kLetras,
-            fontSize: 17.0,
-          ),
-          textAlign: TextAlign.center,
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(228, 88, 101, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-      ),
-    );
+        height: 80.0,
+        child: Center(
+          child: Text(
+            "Para Inscribirse a esta Actividad debe Registarse",
+            style: TextStyle(
+              color: kLetras,
+              fontSize: 17.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
     }
-  }*/
   }
 }

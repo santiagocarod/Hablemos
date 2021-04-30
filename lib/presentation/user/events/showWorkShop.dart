@@ -232,7 +232,7 @@ class ShowWorkShop extends StatelessWidget {
                     SizedBox(height: 10),
                     _seccionUbicacion(context, taller),
                     SizedBox(height: size.height * 0.03),
-                    _inscripcion(context, taller),
+                    _inscripcion(context, taller, size),
                     SizedBox(
                       height: 30.0,
                     ),
@@ -616,89 +616,89 @@ class ShowWorkShop extends StatelessWidget {
     );
   }
 
-  Widget _inscripcion(BuildContext context, Taller taller) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.0),
-      padding: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(228, 88, 101, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      height: 80.0,
-      child: Center(
-        child: Text(
-          "Para Inscribirse a este Taller debe Registarse",
-          style: TextStyle(
-            color: kLetras,
-            fontSize: 17.0,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-    /*if (_authService.getCurrentUser() != null) {
+  Widget _inscripcion(BuildContext context, Taller taller, Size size) {
+    if (_authService.getCurrentUser() != null) {
       return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              if (taller.valor.toLowerCase() == "sin costo") {
-                                return dialogoConfirmacion(
-                                  context,
-                                  size,
-                                  taller,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en este taller?",
-                                  kMoradoClarito,
-                                );
-                              } else if (taller.ubicacion == "virtual" ||
-                                  taller.ubicacion == "Virtual") {
-                                return dialogoConfirmacionPago(
-                                  context,
-                                  taller,
-                                  "Confirmación de Pago",
-                                  "¿Ya realizaste el pago al número de cuenta?",
-                                  kMoradoClarito,
-                                );
-                              } else {
-                                return dialogoConfirmacion(
-                                  context,
-                                  size,
-                                  taller,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en este taller?",
-                                  kMoradoClarito,
-                                );
-                              }
-                            });
-                      },
-                      child: Container(
-                        width: 296.0,
-                        height: 55.0,
-                        decoration: BoxDecoration(
-                          color: kMoradoClarito,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 7.0,
-                                color: Colors.grey.withOpacity(0.5)),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "INSCRIBIRME",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kNegro,
-                              fontSize: 20.0,
-                              fontFamily: 'PoppinSemiBold',
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-    }*/
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (taller.valor.toLowerCase() == "sin costo") {
+                  return dialogoConfirmacion(
+                    context,
+                    size,
+                    taller,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en este taller?",
+                    kMoradoClarito,
+                  );
+                } else if (taller.ubicacion == "virtual" ||
+                    taller.ubicacion == "Virtual") {
+                  return dialogoConfirmacionPago(
+                    context,
+                    taller,
+                    "Confirmación de Pago",
+                    "¿Ya realizaste el pago al número de cuenta?",
+                    kMoradoClarito,
+                  );
+                } else {
+                  return dialogoConfirmacion(
+                    context,
+                    size,
+                    taller,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en este taller?",
+                    kMoradoClarito,
+                  );
+                }
+              });
+        },
+        child: Container(
+          width: 296.0,
+          height: 55.0,
+          decoration: BoxDecoration(
+            color: kMoradoClarito,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              "INSCRIBIRME",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 20.0,
+                fontFamily: 'PoppinSemiBold',
+                letterSpacing: 2.0,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(228, 88, 101, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        height: 80.0,
+        child: Center(
+          child: Text(
+            "Para Inscribirse a este Taller debe Registarse",
+            style: TextStyle(
+              color: kLetras,
+              fontSize: 17.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
   }
 }
