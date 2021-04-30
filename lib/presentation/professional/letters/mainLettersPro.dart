@@ -32,7 +32,8 @@ class MainLettersPro extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _pageHeader(context, size, "Cartas"),
+                        _pageHeaderAction(
+                            context, size, "Cartas", "inicioProfesional"),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
@@ -89,7 +90,8 @@ Widget _contenedor(
   );
 }
 
-Widget _pageHeader(BuildContext context, Size size, String titulo) {
+Widget _pageHeaderAction(
+    BuildContext context, Size size, String titulo, String ruta) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),
     child: Row(
@@ -97,7 +99,7 @@ Widget _pageHeader(BuildContext context, Size size, String titulo) {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, ruta);
           },
           child: Container(
               alignment: Alignment.centerLeft,
