@@ -4,6 +4,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 
 class InformationAdmin extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class InformationAdmin extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return loadingScreen();
         }
 
         List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);

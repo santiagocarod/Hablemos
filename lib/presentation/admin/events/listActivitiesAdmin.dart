@@ -6,6 +6,7 @@ import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 
 class ListActivitiesAdmin extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class ListActivitiesAdmin extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return loadingScreen();
         }
 
         List<Actividad> actividades = actividadMapToList(snapshot);

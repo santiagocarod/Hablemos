@@ -3,6 +3,7 @@ import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
@@ -23,7 +24,7 @@ class ListSupportGroups extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return loadingScreen();
         }
 
         List<Grupo> grupos = grupoMapToList(snapshot);
