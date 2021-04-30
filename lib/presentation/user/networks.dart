@@ -80,7 +80,7 @@ Widget _appBar(Size size) {
 Widget _list(Size size) {
   return Center(
     child: Container(
-      padding: EdgeInsets.only(top: size.height * 0.1, bottom: 10.0),
+      padding: EdgeInsets.only(top: size.height * 0.05, bottom: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -94,6 +94,7 @@ Widget _list(Size size) {
           _iconText('@HdeSaludMental',
               'https://mobile.twitter.com/HdeSaludMental?s=09', 'twitter.png'),
           _iconText('Podcast', '', 'spotify.png'),
+          _iconText('Medium', 'https://medium.com/', 'medium.png'),
         ],
       ),
     ),
@@ -136,6 +137,13 @@ Widget _iconText(String title, String url, String type) {
     color = const Color(0xFF1ED760);
     aIcon = Icon(
       FontAwesomeIcons.spotify,
+      size: 49.0,
+      color: color,
+    );
+  } else if (type == "medium.png") {
+    color = const Color(0xFFFFC300);
+    aIcon = Icon(
+      FontAwesomeIcons.medium,
       size: 49.0,
       color: color,
     );
