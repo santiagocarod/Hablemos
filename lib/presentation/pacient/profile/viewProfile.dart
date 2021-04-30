@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
@@ -263,6 +264,19 @@ class _ViewProfile extends State<ViewProfile> {
               paciente.telefonoContactoEmergencia ?? "Dato Faltante"),
           _section('Relación',
               paciente.relacionContactoEmergencia ?? "Dato Faltante"),
+          SizedBox(height: 20),
+          Center(
+              child: iconButtonSmall(
+                  color: kRojoOscuro,
+                  function: () {
+                    AuthService authService = AuthService();
+                    authService.logOut();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/", (_) => false);
+                  },
+                  iconData: Icons.logout,
+                  text: "Cerrar Sesion")),
+          SizedBox(height: 20)
         ],
       ),
     );
