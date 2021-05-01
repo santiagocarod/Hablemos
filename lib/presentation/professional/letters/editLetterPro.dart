@@ -151,12 +151,9 @@ class EditLetterPro extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       actions: [
-        Hero(
-          tag: constante,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(icono, color: color),
-          ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Icon(icono, color: color),
         ),
       ],
       title: Text(

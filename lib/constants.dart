@@ -42,16 +42,6 @@ const listaColores = [
   kAzul1,
 ];
 
-const heroCita = 1;
-const heroCentrosAtencion = 2;
-const heroForo = 3;
-const heroActividades = 4;
-const heroCartas = 5;
-const heroEventos = 6;
-const heroRedes = 7;
-const heroCuenta = 8;
-const heroSaludMental = 9;
-
 const listColoresForo = [
   Color(0xFFFCD06B),
   Color(0xFFFFD4C4),

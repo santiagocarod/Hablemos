@@ -91,12 +91,9 @@ AppBar appBarCarta(String texto, IconData icono, int constante, Color color) {
     backgroundColor: Colors.transparent,
     elevation: 0,
     actions: [
-      Hero(
-        tag: constante,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Icon(icono, color: color),
-        ),
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Icon(icono, color: color),
       ),
     ],
     title: Text(

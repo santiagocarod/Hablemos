@@ -223,15 +223,6 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    actions: [
-      Hero(
-        tag: constante,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Icon(icono, color: color),
-        ),
-      ),
-    ],
     title: Text(
       texto,
       style: TextStyle(
@@ -278,7 +269,7 @@ AppBar crearAppBarCitas(
     elevation: 0,
     leading: new IconButton(
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
-      onPressed: () => Navigator.pushNamed(context, rutaBack),
+      onPressed: () => Navigator.pop(context),
     ),
     actions: [IconButton(icon: Icon(icon), onPressed: () => function())],
     title: Text(
@@ -299,16 +290,10 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    leading: Navigator.canPop(context)
-        ? IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-              color: Colors.black,
-              size: 23,
-            ),
-            onPressed: () => Navigator.pushNamed(context, ruta),
-          )
-        : null,
+    leading: new IconButton(
+      icon: new Icon(Icons.arrow_back_ios, color: kNegro),
+      onPressed: () => Navigator.pop(context),
+    ),
     centerTitle: true,
     title: FittedBox(
       child: Text(

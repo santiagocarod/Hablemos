@@ -53,12 +53,9 @@ class OptionsExercises extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  Hero(
-                    tag: heroActividades,
-                    child: Icon(
-                      Icons.favorite_border_outlined,
-                      size: 50.0,
-                    ),
+                  Icon(
+                    Icons.favorite_border_outlined,
+                    size: 50.0,
                   ),
                   Text(
                     'Ejercicios',
