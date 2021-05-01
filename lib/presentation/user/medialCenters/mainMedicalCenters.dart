@@ -15,125 +15,124 @@ class MainMedicalCenter extends StatelessWidget {
     CollectionReference centroMedicoCollection =
         FirebaseFirestore.instance.collection("attentionCenters");
     return StreamBuilder<QuerySnapshot>(
-        stream: centroMedicoCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
+      stream: centroMedicoCollection.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('ALGO SALIO MAL');
+        }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              bottom: false,
-              child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  extendBodyBehindAppBar: true,
-                  appBar: crearAppBar('', null, 0, null),
-                  body: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loadingScreen();
+        }
+        List<CentroAtencion> _medicalCenters = centrosMapToList(snapshot);
+        return Container(
+          color: kRosado,
+          child: SafeArea(
+            bottom: false,
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              extendBodyBehindAppBar: true,
+              appBar: crearAppBar('', null, 0, null),
+              body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    EncabezadoMedical(
+                      size: size,
+                      text1: "Canales de Ayuda",
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.05),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          EncabezadoMedical(
-                            size: size,
-                            text1: "Canales de Ayuda",
-                          ),
-                          Espacio(size: size),
+                        children: [
+                          ButtonMedicalCenters(
+                              "Lista\nCercanos",
+                              () => Navigator.pushNamed(
+                                  context, "listCentrosMedicos",
+                                  arguments: _medicalCenters),
+                              95.0),
                           SizedBox(height: size.height * 0.03),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.05),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                ButtonMedicalCenters(
-                                    "Lista\nCercanos",
-                                    () => Navigator.pushNamed(
-                                        context, "listCentrosMedicos",
-                                        arguments: _medicalCenters),
-                                    100.0),
-                                SizedBox(height: size.height * 0.03),
-                                ButtonMedicalCenters("Gratuitos", () {
-                                  List<CentroAtencion> gratuitos = [];
-                                  _medicalCenters.forEach((element) {
-                                    if (element.gratuito) {
-                                      gratuitos.add(element);
-                                    }
-                                  });
-                                  Navigator.pushNamed(
-                                      context, "listCentrosMedicos",
-                                      arguments: gratuitos);
-                                }, 100.0),
-                                SizedBox(height: size.height * 0.03),
-                                ButtonMedicalCenters("Pagos", () {
-                                  List<CentroAtencion> pagos = [];
-                                  _medicalCenters.forEach((element) {
-                                    if (!element.gratuito) {
-                                      pagos.add(element);
-                                    }
-                                  });
-                                  Navigator.pushNamed(
-                                      context, "listCentrosMedicos",
-                                      arguments: pagos);
-                                }, 100.0),
-                                SizedBox(height: size.height * 0.03),
-                              ],
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Container(
-                                    width: (size.width / 2) - 20,
-                                    child: ButtonMedicalCenters("Ciudad", () {
-                                      List<String> ciudades = [];
-                                      _medicalCenters.forEach((element) {
-                                        if (!ciudades
-                                            .contains(element.ciudad)) {
-                                          ciudades.add(element.ciudad);
-                                        }
-                                      });
-                                      Map arguments = {
-                                        "filter": "Ciudad",
-                                        "centers": _medicalCenters,
-                                        "locations": ciudades
-                                      };
-                                      Navigator.pushNamed(
-                                          context, "filterMedicalCenters",
-                                          arguments: arguments);
-                                    }, 100.0)),
-                                Container(
-                                    width: (size.width / 2) - 20,
-                                    child: ButtonMedicalCenters("Departamento",
-                                        () {
-                                      List<String> departamentos = [];
-                                      _medicalCenters.forEach((element) {
-                                        if (!departamentos
-                                            .contains(element.departamento)) {
-                                          departamentos
-                                              .add(element.departamento);
-                                        }
-                                      });
-                                      Map arguments = {
-                                        "filter": "Departamento",
-                                        "centers": _medicalCenters,
-                                        "locations": departamentos
-                                      };
-                                      Navigator.pushNamed(
-                                          context, "filterMedicalCenters",
-                                          arguments: arguments);
-                                    }, 100.0))
-                              ]),
+                          ButtonMedicalCenters("Gratuitos", () {
+                            List<CentroAtencion> gratuitos = [];
+                            _medicalCenters.forEach((element) {
+                              if (element.gratuito) {
+                                gratuitos.add(element);
+                              }
+                            });
+                            Navigator.pushNamed(context, "listCentrosMedicos",
+                                arguments: gratuitos);
+                          }, 95.0),
+                          SizedBox(height: size.height * 0.03),
+                          ButtonMedicalCenters("Pagos", () {
+                            List<CentroAtencion> pagos = [];
+                            _medicalCenters.forEach((element) {
+                              if (!element.gratuito) {
+                                pagos.add(element);
+                              }
+                            });
+                            Navigator.pushNamed(context, "listCentrosMedicos",
+                                arguments: pagos);
+                          }, 95.0),
+                          SizedBox(height: size.height * 0.03),
                         ],
-                      ))),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                            width: (size.width / 2) - 20,
+                            child: ButtonMedicalCenters("Ciudad", () {
+                              List<String> ciudades = [];
+                              _medicalCenters.forEach((element) {
+                                if (!ciudades.contains(element.ciudad)) {
+                                  ciudades.add(element.ciudad);
+                                }
+                              });
+                              Map arguments = {
+                                "filter": "Ciudad",
+                                "centers": _medicalCenters,
+                                "locations": ciudades
+                              };
+                              Navigator.pushNamed(
+                                  context, "filterMedicalCenters",
+                                  arguments: arguments);
+                            }, 90.0)),
+                        Container(
+                          width: (size.width / 2) - 20,
+                          child: ButtonMedicalCenters("Departamento", () {
+                            List<String> departamentos = [];
+                            _medicalCenters.forEach((element) {
+                              if (!departamentos
+                                  .contains(element.departamento)) {
+                                departamentos.add(element.departamento);
+                              }
+                            });
+                            Map arguments = {
+                              "filter": "Departamento",
+                              "centers": _medicalCenters,
+                              "locations": departamentos
+                            };
+                            Navigator.pushNamed(context, "filterMedicalCenters",
+                                arguments: arguments);
+                          }, 90.0),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                  ],
+                ),
+              ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -153,7 +152,7 @@ class ButtonMedicalCenters extends StatelessWidget {
           _text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: kLetras, fontSize: 25, fontFamily: 'PoppinsRegular'),
+              color: kLetras, fontSize: 20.3, fontFamily: 'PoppinsRegular'),
         ),
         style: ElevatedButton.styleFrom(
             primary: kBlanco,
