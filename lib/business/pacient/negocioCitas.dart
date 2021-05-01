@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/services/auth.dart';
 
 bool agregarCita(Cita cita) {
   final now = DateTime.now();
@@ -12,11 +14,24 @@ bool agregarCita(Cita cita) {
   if (cita.profesional == null) {
     error = true;
   }
-  if (!error) {
-    CollectionReference reference =
-        FirebaseFirestore.instance.collection('appoinments');
-    reference.add(cita.toMap());
-  }
+  AuthService authService = AuthService();
+
+  authService.getCurrentUser().then((currentUser) {
+    FirebaseFirestore.instance
+        .collection("pacients")
+        .doc(currentUser.uid)
+        .get()
+        .then((value) {
+      print(value.data());
+      Paciente paciente = Paciente.fromMap(value);
+      cita.paciente = paciente;
+      if (!error) {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('appoinments');
+        reference.add(cita.toMap());
+      }
+    });
+  });
 
   return error;
 }

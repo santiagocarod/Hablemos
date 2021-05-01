@@ -4,6 +4,7 @@ import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
@@ -54,7 +55,6 @@ class _CreateDate extends State<CreateDate> {
 
     CollectionReference citasCollection = FirebaseFirestore.instance.collection(
         "professionals"); //TODO: APlicar filtro where uidPaciente = current user.
-
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
