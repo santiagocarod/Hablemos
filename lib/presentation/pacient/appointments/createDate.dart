@@ -66,7 +66,10 @@ class _CreateDate extends State<CreateDate> {
             return loadingScreen();
           }
           professionals = profesionalMapToList(snapshot);
-          _profController = professionals[0];
+          if (cita == null) {
+            _profController = professionals[
+                0]; //Inicializar el controlador si la cita no existe.
+          }
 
           // Screen
           return Stack(
