@@ -30,54 +30,51 @@ class ColumnaDosProfesional extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, 'citasProfesional');
             },
-            child: Hero(
-              tag: heroCita,
-              child: Stack(children: [
-                Container(
-                  width: 146,
-                  height: 128,
-                  padding: EdgeInsets.only(
-                    left: 5,
-                    right: 5,
-                    top: 75,
-                  ),
-                  decoration: BoxDecoration(
-                    color: kBlanco,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.5)),
+            child: Stack(children: [
+              Container(
+                width: 146,
+                height: 128,
+                padding: EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                  top: 75,
+                ),
+                decoration: BoxDecoration(
+                  color: kBlanco,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 5,
+                        color: Colors.grey.withOpacity(0.5)),
+                  ],
+                ),
+                child: Center(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.tight,
+                        child: Text(
+                          '$titulo1',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        ),
+                      )
                     ],
                   ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            '$titulo1',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(fontSize: 18),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 ),
-                Positioned(
-                  child: Icon(
-                    Icons.calendar_today_rounded,
-                    size: 70,
-                    color: kRojoOscuro,
-                  ),
-                  top: 10,
-                  left: 40,
+              ),
+              Positioned(
+                child: Icon(
+                  Icons.calendar_today_rounded,
+                  size: 70,
+                  color: kRojoOscuro,
                 ),
-              ]),
-            ),
+                top: 10,
+                left: 40,
+              ),
+            ]),
           ),
           //Construye Boton Quiero un Momento
           GestureDetector(
@@ -86,54 +83,51 @@ class ColumnaDosProfesional extends StatelessWidget {
             },
             child: new Column(
               children: <Widget>[
-                Hero(
-                  tag: heroActividades,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 30,
-                    ),
-                    width: 146,
-                    height: 196,
-                    padding: EdgeInsets.only(
-                      top: 30,
-                    ),
-                    decoration: BoxDecoration(
-                      color: kBlanco,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.5),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 30,
+                  ),
+                  width: 146,
+                  height: 196,
+                  padding: EdgeInsets.only(
+                    top: 30,
+                  ),
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 5,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: <Widget>[
+                            Container(
+                              child: Icon(
+                                Icons.favorite_border_rounded,
+                                size: 80,
+                                color: kVerdeClaro,
+                              ),
+                              margin: EdgeInsets.only(bottom: 15),
+                            ),
+                          ],
+                        ),
+                        Flexible(
+                          flex: 2,
+                          fit: FlexFit.tight,
+                          child: Text(
+                            '$titulo2',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(fontSize: 18),
+                          ),
                         ),
                       ],
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                child: Icon(
-                                  Icons.favorite_border_rounded,
-                                  size: 80,
-                                  color: kVerdeClaro,
-                                ),
-                                margin: EdgeInsets.only(bottom: 15),
-                              ),
-                            ],
-                          ),
-                          Flexible(
-                            flex: 2,
-                            fit: FlexFit.tight,
-                            child: Text(
-                              '$titulo2',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ),
@@ -147,50 +141,47 @@ class ColumnaDosProfesional extends StatelessWidget {
             },
             child: new Column(
               children: <Widget>[
-                Hero(
-                  tag: heroEventos,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 30,
-                    ),
-                    width: 146,
-                    height: 128,
-                    padding: EdgeInsets.only(
-                      top: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: kBlanco,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.5),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 30,
+                  ),
+                  width: 146,
+                  height: 128,
+                  padding: EdgeInsets.only(
+                    top: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 5,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Icon(
+                            Icons.people_alt_rounded,
+                            size: 70,
+                            color: kMorado,
+                          ),
+                          //margin: EdgeInsets.only(bottom: 1),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          fit: FlexFit.tight,
+                          child: Text(
+                            '$titulo3',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(fontSize: 17),
+                          ),
                         ),
                       ],
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            child: Icon(
-                              Icons.people_alt_rounded,
-                              size: 70,
-                              color: kMorado,
-                            ),
-                            //margin: EdgeInsets.only(bottom: 1),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            fit: FlexFit.tight,
-                            child: Text(
-                              '$titulo3',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(fontSize: 17),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ),
@@ -204,50 +195,47 @@ class ColumnaDosProfesional extends StatelessWidget {
             },
             child: new Column(
               children: <Widget>[
-                Hero(
-                  tag: heroCuenta,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 30,
-                    ),
-                    width: 146,
-                    height: 128,
-                    padding: EdgeInsets.only(
-                      top: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      color: kBlanco,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.5),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 30,
+                  ),
+                  width: 146,
+                  height: 128,
+                  padding: EdgeInsets.only(
+                    top: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    color: kBlanco,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 5,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Icon(
+                            Icons.account_circle_rounded,
+                            size: 70,
+                            color: kMostaza,
+                          ),
+                          //margin: EdgeInsets.only(bottom: 1),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          fit: FlexFit.tight,
+                          child: Text(
+                            '$titulo4',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(fontSize: 18),
+                          ),
                         ),
                       ],
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            child: Icon(
-                              Icons.account_circle_rounded,
-                              size: 70,
-                              color: kMostaza,
-                            ),
-                            //margin: EdgeInsets.only(bottom: 1),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            fit: FlexFit.tight,
-                            child: Text(
-                              '$titulo4',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ),
