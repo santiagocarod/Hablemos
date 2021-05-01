@@ -41,6 +41,7 @@ import 'package:hablemos/presentation/pacient/profile/editProfile.dart';
 import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
 import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
+import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
@@ -96,6 +97,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
     'detalleCitasProfesional': (context) => DetalleCitaPro(),
+    'editarCitaProfesional': (context) => EditCitaPro(),
     'citasProfesional': (context) => ListCitasPro(),
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
