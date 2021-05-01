@@ -66,4 +66,8 @@ class Profesional {
 
     return p;
   }
+
+  String nombreCompleto() {
+    return this.nombre + " " + this.apellido;
+  }
 }

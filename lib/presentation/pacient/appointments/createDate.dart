@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 class CreateDate extends StatefulWidget {
@@ -11,13 +16,13 @@ class CreateDate extends StatefulWidget {
 
 class _CreateDate extends State<CreateDate> {
   // Provisional list of professionals
-  List<String> professionals = [];
+  List<Profesional> professionals = [];
   // Provisional List of types
   List<String> types = ['Tipo 1', 'Tipo 2', 'Tipo 3', 'Tipo 4', 'Tipo 5'];
   // Text Controllers
   TextEditingController _inputFieldDateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();
-  String _profController;
+  Profesional _profController;
   String _typeController;
 
   String textDate, textHour, textProf, textType;
@@ -36,7 +41,8 @@ class _CreateDate extends State<CreateDate> {
           '/' +
           cita.dateTime.year.toString();
       textHour = format.format(cita.dateTime);
-      textProf = cita.profesional.nombre + " " + cita.profesional.apellido;
+      textProf = cita.profesional.nombreCompleto();
+      _profController = cita.profesional;
       textType = cita.tipo;
     } else if (cita == null) {
       textDate = "Fecha";
@@ -46,52 +52,69 @@ class _CreateDate extends State<CreateDate> {
     }
     Size size = MediaQuery.of(context).size;
 
-    // Screen
-    return Stack(
-      children: [
-        Container(
-          //Background Image
-          child: Image.asset(
-            'assets/images/dateBack.png',
-            alignment: Alignment.center,
-            fit: BoxFit.fill,
-            width: size.width,
-            height: size.height,
-          ),
-        ),
-        SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Crear Cita", null, 0, null),
-            body: Stack(
-              children: <Widget>[
-                // Information
-                Padding(
-                  padding: const EdgeInsets.only(top: 100.0),
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          _dateInfo(context, size),
-                          _professionalInfo(context, size),
-                          _dateType(context, size),
-                          _create(context, cita),
-                        ],
+    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
+        "professionals"); //TODO: APlicar filtro where uidPaciente = current user.
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: citasCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+          professionals = profesionalMapToList(snapshot);
+          _profController = professionals[0];
+
+          // Screen
+          return Stack(
+            children: [
+              Container(
+                //Background Image
+                child: Image.asset(
+                  'assets/images/dateBack.png',
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width,
+                  height: size.height,
+                ),
+              ),
+              SafeArea(
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  resizeToAvoidBottomInset: false,
+                  extendBodyBehindAppBar: true,
+                  appBar: crearAppBar("Crear Cita", null, 0, null),
+                  body: Stack(
+                    children: <Widget>[
+                      // Information
+                      Padding(
+                        padding: const EdgeInsets.only(top: 100.0),
+                        child: SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                _dateInfo(context, size),
+                                _professionalInfo(context, size, professionals),
+                                _dateType(context, size),
+                                _create(context, cita),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+              ),
+            ],
+          );
+        });
   }
 
 // Date and Time text Fields
@@ -191,7 +214,8 @@ class _CreateDate extends State<CreateDate> {
   }
 
 // Professional Text Field and Button
-  Widget _professionalInfo(BuildContext context, Size size) {
+  Widget _professionalInfo(
+      BuildContext context, Size size, List<Profesional> professionals) {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       child: Column(
@@ -226,8 +250,8 @@ class _CreateDate extends State<CreateDate> {
                   )),
                   value: _profController,
                   items: professionals.map((prof) {
-                    return DropdownMenuItem<String>(
-                      child: Center(child: Text(prof)),
+                    return DropdownMenuItem<Profesional>(
+                      child: Center(child: Text(prof.nombreCompleto())),
                       value: prof,
                     );
                   }).toList(),
@@ -270,7 +294,8 @@ class _CreateDate extends State<CreateDate> {
                 shadowColor: Colors.black,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, 'detalleProfesional');
+                Navigator.pushNamed(context, 'detalleProfesional',
+                    arguments: professionals);
               },
             ),
           ),
@@ -367,27 +392,36 @@ class _CreateDate extends State<CreateDate> {
             shadowColor: Colors.black,
           ),
           onPressed: () {
-            /*TODO: LOGICA DE AGREGAR UNA CITA. 
+            String title = "";
+            String content = "";
+
             // Validate if it is a create
             if (cita == null) {
               // Validate if any text field is empty
               if (_inputFieldDateController.text.isNotEmpty &&
                   _timeController.text.isNotEmpty &&
-                  _profController.isNotEmpty &&
+                  _profController != null &&
                   _typeController.isNotEmpty) {
                 DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
                     _inputFieldDateController.text +
                         ' ' +
                         _timeController.text);
+
                 cita = new Cita(
-                  uidPaciente: username,
-                  uidProfesional: _profController,
+                  // paciente: username,
+                  profesional: _profController,
                   dateTime: date,
                   tipo: _typeController,
                 );
-                title = 'Cita Creada';
-                content =
-                    "Su cita fue creada exitosamente, espere a la aprobación del profesional";
+                if (agregarCita(cita)) {
+                  title = 'Cita Creada';
+                  content =
+                      "Su cita fue creada exitosamente, espere a la aprobación del profesional";
+                } else {
+                  title = 'Error en la creación';
+                  content =
+                      "Por favor verifique los campos.\nRecuerde que la cita tiene que ser para dentro de mas de 3 dias.";
+                }
                 showDialog(
                   context: context,
                   builder: (BuildContext contex) =>
@@ -410,11 +444,11 @@ class _CreateDate extends State<CreateDate> {
               if (_inputFieldDateController.text.isEmpty)
                 _inputFieldDateController.text = textDate;
               if (_timeController.text.isEmpty) _timeController.text = textHour;
-              if (_profController == null) _profController = textProf;
+              if (_profController == null) _profController = _profController;
               if (_typeController == null) _typeController = textType;
               DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
                   _inputFieldDateController.text + ' ' + _timeController.text);
-              cita.uidProfesional = _profController;
+              // cita.uidProfesional = _profController;
               cita.dateTime = date;
               cita.tipo = _typeController;
               title = 'Cita Actualizada';
@@ -425,7 +459,7 @@ class _CreateDate extends State<CreateDate> {
                 builder: (BuildContext contex) =>
                     _buildPopupDialog(context, title, content),
               );
-            }*/
+            }
           },
         ),
       ),
@@ -433,7 +467,7 @@ class _CreateDate extends State<CreateDate> {
   }
 
 // Show de dialog box
-  /*Widget _buildPopupDialog(
+  Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(
       title: Text(tittle),
@@ -460,5 +494,5 @@ class _CreateDate extends State<CreateDate> {
         ),
       ],
     );
-  }*/
+  }
 }

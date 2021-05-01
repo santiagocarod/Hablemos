@@ -12,63 +12,47 @@ class ListProfessional extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
-        "professionals"); //TODO: APlicar filtro where uidPaciente = current user.
-
-    return StreamBuilder<QuerySnapshot>(
-        stream: citasCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          List<Profesional> profesionales = profesionalMapToList(snapshot);
-
-          return Stack(
-            children: [
-              Container(
-                //Background Image
-                child: Image.asset(
-                  'assets/images/dateBack.png',
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  width: size.width,
-                  height: size.height,
-                ),
-              ),
-              SafeArea(
-                child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  resizeToAvoidBottomInset: false,
-                  extendBodyBehindAppBar: true,
-                  appBar: crearAppBar("Profesionales", null, 0, null),
-                  body: Stack(
-                    children: <Widget>[
-                      // Contents
-                      Material(
-                        type: MaterialType.transparency,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 80.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: profToCard(context, profesionales),
-                            ),
-                          ),
-                        ),
+    List<Profesional> profesionales = ModalRoute.of(context).settings.arguments;
+    return Stack(
+      children: [
+        Container(
+          //Background Image
+          child: Image.asset(
+            'assets/images/dateBack.png',
+            alignment: Alignment.center,
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
+          ),
+        ),
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: crearAppBar("Profesionales", null, 0, null),
+            body: Stack(
+              children: <Widget>[
+                // Contents
+                Material(
+                  type: MaterialType.transparency,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 80.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: profToCard(context, profesionales),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        });
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   List<Widget> profToCard(
