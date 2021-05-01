@@ -335,7 +335,7 @@ Widget secction({String title, String text}) {
           textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: 14.0,
-            color: Colors.black,
+            color: kLetras,
             fontFamily: 'PoppinsRegular',
             decoration: TextDecoration.none,
           ),
@@ -346,7 +346,8 @@ Widget secction({String title, String text}) {
               '\n$text',
               style: TextStyle(
                 fontSize: 14.0,
-                color: Colors.black,
+                color: kLetras,
+                fontWeight: FontWeight.w300,
                 fontFamily: 'PoppinsRegular',
                 decoration: TextDecoration.none,
               ),
@@ -356,7 +357,7 @@ Widget secction({String title, String text}) {
               child: Container(
                 child: Divider(
                   color: Colors.black.withOpacity(0.40),
-                  thickness: 3.0,
+                  thickness: 1.0,
                 ),
               ),
             ),
