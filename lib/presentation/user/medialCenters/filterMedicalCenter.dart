@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';

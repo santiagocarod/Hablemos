@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/ux/loading_screen.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 
 class ListMedicalCenter extends StatefulWidget {
   @override
