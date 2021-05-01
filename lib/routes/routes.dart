@@ -74,6 +74,7 @@ import 'package:hablemos/presentation/user/exercises/options_breathe.dart';
 import 'package:hablemos/presentation/user/exercises/options_exercises.dart';
 import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
+import 'package:hablemos/presentation/user/medialCenters/filterMedicalCenter.dart';
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 import 'package:hablemos/presentation/user/networks.dart';
@@ -169,5 +170,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "newCentrosMedicosAdmin": (context) => NewMedicalAdmin(),
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
+    "filterMedicalCenters": (context) => FilterMedicalCenter(),
   };
 }
