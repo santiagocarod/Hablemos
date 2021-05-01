@@ -200,7 +200,15 @@ Widget _buttons(BuildContext context, Cita cita) {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dialogoConfirmacion(
+                        context,
+                        'detalleCitasProfesional',
+                        "Confirmación de Cancelación",
+                        "¿Estás seguro que deseas cancelar esta Cita?");
+                  });
             },
             child: Container(
                 alignment: Alignment.center,
