@@ -1,38 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
-class ListMedicalCenter extends StatefulWidget {
-  @override
-  _ListMedicalCenterState createState() => _ListMedicalCenterState();
-}
+import '../../../constants.dart';
 
-class _ListMedicalCenterState extends State<ListMedicalCenter> {
-  //final _medicalCenters = CentroAtencionProvider.getCentros();
-
-  Position _currentPosition;
-  double dirLatitud;
-  double dirLongitud;
-  LatLng center = LatLng(4.6097100, -74.0817500);
-  List<CentroAtencion> listaCercanosReal;
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
+class FilterMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(_currentPosition);
+    Map arguments = ModalRoute.of(context).settings.arguments;
+    List<String> locations = arguments["locations"];
+    List<CentroAtencion> centrosAtencion = arguments["centers"];
+    String filter = arguments["filter"];
     Size size = MediaQuery.of(context).size;
-
-    List<CentroAtencion> _medicalCenters =
-        ModalRoute.of(context).settings.arguments;
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -42,13 +22,14 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
             appBar: crearAppBar('', null, 0, null),
             body: Column(
               children: <Widget>[
-                EncabezadoMedical(size: size, text1: "Canales de Ayuda"),
+                EncabezadoMedical(size: size, text1: "Filtro por " + filter),
                 Espacio(size: size),
                 Container(
                   width: size.width - 20,
                   color: kRosado,
                   child: Center(
-                    child: Text("Lineas de ayuda",
+                    child: Text(
+                        filter == "Ciudad" ? "Ciudades" : "Departamentos",
                         style: TextStyle(
                             color: kLetras,
                             fontSize: 26,
@@ -59,7 +40,8 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
                 Expanded(
                     child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  children: centersToWidgets(context, _medicalCenters),
+                  children: locationsToWidgets(
+                      context, locations, centrosAtencion, filter),
                 ))
               ],
             )),
@@ -67,16 +49,16 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     );
   }
 
-  List<Widget> centersToWidgets(
-      BuildContext context, List<CentroAtencion> _medicalCenters) {
+  locationsToWidgets(BuildContext context, List<String> locations,
+      List<CentroAtencion> centrosAtencion, String filter) {
     List<Widget> widgets = [];
-    _medicalCenters.forEach((element) {
+    locations.forEach((element) {
       Card card = Card(
         child: Container(
             height: 60,
             child: Center(
                 child: Text(
-              element.nombre,
+              element,
               style: TextStyle(
                   color: kLetras, fontSize: 22, fontFamily: "PoppinsRegular"),
             ))),
@@ -87,8 +69,20 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          Navigator.pushNamed(context, "detailCentroMedico",
-              arguments: element);
+          List<CentroAtencion> centrosConFiltro = [];
+          filter == "Ciudad"
+              ? centrosAtencion.forEach((centroElement) {
+                  if (centroElement.ciudad == element) {
+                    centrosConFiltro.add(centroElement);
+                  }
+                })
+              : centrosAtencion.forEach((centroElement) {
+                  if (centroElement.departamento == element) {
+                    centrosConFiltro.add(centroElement);
+                  }
+                });
+          Navigator.pushNamed(context, "listCentrosMedicos",
+              arguments: centrosConFiltro);
         },
         child: card,
       );
@@ -96,18 +90,5 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     });
 
     return widgets;
-  }
-
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
   }
 }
