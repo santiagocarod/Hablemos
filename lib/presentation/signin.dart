@@ -17,6 +17,7 @@ class _SignInPageState extends State<SignInPage> {
   String _name = '';
   String _lastName = '';
   String _city = '';
+  DateTime _fecha;
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +166,7 @@ class _SignInPageState extends State<SignInPage> {
     if (picked != null) {
       setState(() {
         _date = myFormat.format(picked).toString();
+        _fecha = picked;
         _inputFieldDateController.text = _date;
       });
     }
@@ -175,46 +177,67 @@ class _SignInPageState extends State<SignInPage> {
         FirebaseFirestore.instance.collection("users");
     final CollectionReference pacienteRef =
         FirebaseFirestore.instance.collection("pacients");
-    if (_name == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
-    } else if (_lastName == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
-    } else if (_city == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
-    } else if (_inputFieldDateController.text == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
-    } else {
-      AuthService authService = new AuthService();
-      Future<String> user =
-          authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
-      user.then((value) {
-        if (value[0] == "[") {
-          showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
-        } else {
-          usersRef
-              .doc(value)
-              .set({
-                'role': 'pacient',
-              })
-              .then((value) => Navigator.pushNamed(context, 'inicio'))
-              .catchError((value) => showAlertDialog(
-                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
-          pacienteRef.doc(value).set({
-            'name': _name,
-            'lastName': _lastName,
-            'city': _city,
-            'email': bloc.email,
-            'date': _inputFieldDateController.text,
-            'picture': 'falta foto',
-            'phone': 'falta telefono',
-            'emergencyContactName': 'falta nombre emergencia',
-            'emergencyContactPhone': 'falta numero emergencia',
-            'emergencyContactRelationship': 'falta relacion emergencia',
-          }).catchError((value) => showAlertDialog(
-              context, "Hubo un error\nPor Favor intentalo mas tarde"));
-        }
-      });
+    DateTime today = DateTime.now();
+    DateTime birthDate = _fecha;
+    int yearDiff = today.year - birthDate.year;
+    int monthDiff = today.month - birthDate.month;
+    int dayDiff = today.day - birthDate.day;
+
+    if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
+      if (_name == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_lastName == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_city == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+      } else if (_inputFieldDateController.text == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else {
+        AuthService authService = new AuthService();
+        Future<String> user =
+            authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
+        user.then((value) {
+          if (value[0] == "[") {
+            showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+          } else {
+            usersRef
+                .doc(value)
+                .set({
+                  'role': 'pacient',
+                })
+                .then((value) => Navigator.pushNamed(context, 'inicio'))
+                .catchError((value) => showAlertDialog(
+                    context, "Hubo un error\nPor Favor intentalo mas tarde"));
+
+            pacienteRef.doc(value).set({
+              'name': _name,
+              'lastName': _lastName,
+              'city': _city,
+              'email': bloc.email,
+              'date': _inputFieldDateController.text,
+              'picture': 'falta foto',
+              'phone': 'falta telefono',
+              'emergencyContactName': 'falta nombre emergencia',
+              'emergencyContactPhone': 'falta numero emergencia',
+              'emergencyContactRelationship': 'falta relacion emergencia',
+            }).catchError((value) => showAlertDialog(
+                context, "Hubo un error\nPor Favor intentalo mas tarde"));
+          }
+        });
+      }
+    } else {
+      if (_name == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_lastName == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_city == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+      } else if (_inputFieldDateController.text == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else {
+        Navigator.pushNamed(context, 'registroMenorEdad');
+      }
     }
   }
 }
