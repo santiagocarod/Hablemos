@@ -539,7 +539,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                           context,
                                           "listarTalleresAdmin",
                                           "Confirmación de Creación",
-                                          "¿Está seguro que desea crear un nuevo Taller?");
+                                          "¿Está seguro que desea crear un nuevo Taller?",
+                                          () {});
                                     },
                                   );
                                 },

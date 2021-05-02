@@ -4,6 +4,8 @@ import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
 
+//TODO: Agregar registro en la parte de pago y eliminarlo
+
 Future<bool> agregarCita(Cita cita) async {
   final now = DateTime.now();
   final limite = DateTime(
@@ -34,4 +36,22 @@ Future<bool> agregarCita(Cita cita) async {
   }
 
   return !error;
+}
+
+void cancelarCita(Cita cita) {
+  final now = DateTime.now();
+  final limite = DateTime(now.year, now.month,
+      now.day + 2); //LIMITE DE CANCELAR UNA CITA SON 3 DIAS
+  bool error = false;
+  if (limite.isAfter(cita.dateTime)) {
+    error = true;
+  }
+
+  if (!error) {
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('appoinments');
+    reference.doc(cita.id).delete();
+  } else {
+    throw new Exception("No se puede cancelar");
+  }
 }

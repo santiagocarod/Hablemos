@@ -79,7 +79,8 @@ class VerPagoPro extends StatelessWidget {
                                             context,
                                             'citasProfesional',
                                             "Confirmación Aceptación de Pago",
-                                            "¿Estás seguro que deseas aceptar y aprobar esta cita?");
+                                            "¿Estás seguro que deseas aceptar y aprobar esta cita?",
+                                            () {});
                                       });
                                 },
                                 child: Container(

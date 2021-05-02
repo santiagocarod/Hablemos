@@ -668,8 +668,9 @@ showAlertDialog(BuildContext context, String text) {
   );
 }
 
-AlertDialog dialogoConfirmacion(
-    BuildContext context, String rutaSi, String titulo, String mensaje) {
+AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
+    String titulo, String mensaje, Function funcionSi,
+    {dynamic parametro}) {
   return AlertDialog(
     shape: RoundedRectangleBorder(
         side: BorderSide(color: kNegro, width: 2.0),
@@ -708,6 +709,11 @@ AlertDialog dialogoConfirmacion(
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    if (parametro != null) {
+                      funcionSi(parametro);
+                    } else {
+                      funcionSi();
+                    }
                     Navigator.pushNamed(context, rutaSi);
                   },
                   child: Container(

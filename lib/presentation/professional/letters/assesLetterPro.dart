@@ -102,7 +102,8 @@ class AssesLetterPro extends StatelessWidget {
                                           context,
                                           'listaCartasEvaluar',
                                           "Confirmación Aceptación de Carta",
-                                          "¿Estás seguro que deseas aceptar y publicar esta carta?");
+                                          "¿Estás seguro que deseas aceptar y publicar esta carta?",
+                                          () {});
                                     });
                               },
                               child: Container(
@@ -174,7 +175,8 @@ class AssesLetterPro extends StatelessWidget {
                                     context,
                                     'listaCartasEvaluar',
                                     "Confirmación Rechazo de Carta",
-                                    "¿Estás seguro que deseas rechazar y eliminar esta carta?");
+                                    "¿Estás seguro que deseas rechazar y eliminar esta carta?",
+                                    () {});
                               });
                         },
                         child: Container(

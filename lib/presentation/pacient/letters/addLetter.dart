@@ -55,7 +55,8 @@ class AddLetter extends StatelessWidget {
                                           context,
                                           "listaCartasPaciente",
                                           "Confirmación Envio de Carta",
-                                          "¿Estás seguro que deseas enviar esta carta?");
+                                          "¿Estás seguro que deseas enviar esta carta?",
+                                          () {});
                                     });
                               },
                               child: Container(

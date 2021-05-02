@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -92,7 +93,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
             secction(title: 'Tipo:', text: type),
             secction(title: 'Contacto:', text: contact),
             _state(context, cita),
-            _buttons(context),
+            _buttons(context, cita),
           ],
         ),
       ),
@@ -184,7 +185,7 @@ Widget _selectIcon(bool text) {
 }
 
 // Payment and cancel buttons
-Widget _buttons(BuildContext context) {
+Widget _buttons(BuildContext context, Cita cita) {
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
     width: 270.0,
@@ -240,6 +241,7 @@ Widget _buttons(BuildContext context) {
               shadowColor: Colors.black,
             ),
             onPressed: () {
+              bool resultado;
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -247,7 +249,10 @@ Widget _buttons(BuildContext context) {
                         context,
                         "citasPaciente",
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro:
+                            cita); //TODO: VER COMO PASAR EL PARAMETRO DE LA CITA PARA QUE SEPA QUE CITA ELIMINAR
                   });
             },
           ),

@@ -270,7 +270,8 @@ Widget _buttons(BuildContext context, Cita cita) {
                         context,
                         'citasProfesional',
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        () {});
                   });
             },
             child: Container(

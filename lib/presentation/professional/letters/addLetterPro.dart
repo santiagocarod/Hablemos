@@ -102,7 +102,8 @@ class AddLetterPro extends StatelessWidget {
                                             context,
                                             'listarCartasPro',
                                             "Confirmación Envio de Carta",
-                                            "¿Estás seguro que deseas enviar esta carta?");
+                                            "¿Estás seguro que deseas enviar esta carta?",
+                                            () {});
                                       });
                                 },
                                 child: Container(
