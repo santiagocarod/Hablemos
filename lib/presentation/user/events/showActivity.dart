@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
@@ -7,6 +8,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ShowActivity extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -154,69 +157,9 @@ class ShowActivity extends StatelessWidget {
                     SizedBox(height: 10),
                     _sectionAccountNum(context, actividad),
                     SizedBox(height: size.height * 0.03),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              if (actividad.valor.toLowerCase() ==
-                                  "sin costo") {
-                                return dialogoConfirmacion(
-                                  context,
-                                  actividad,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en esta Actividad?",
-                                  kMoradoClarito,
-                                );
-                              } else if (actividad.ubicacion == "virtual" ||
-                                  actividad.ubicacion == "Virtual") {
-                                return dialogoConfirmacionPago(
-                                  context,
-                                  actividad,
-                                  "Confirmación de Pago",
-                                  "¿Ya realizaste el pago al número de cuenta?",
-                                  kMoradoClarito,
-                                );
-                              } else {
-                                return dialogoConfirmacion(
-                                  context,
-                                  actividad,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en esta Actividad?",
-                                  kMoradoClarito,
-                                );
-                              }
-                            });
-                      },
-                      child: Container(
-                        width: 296.0,
-                        height: 55.0,
-                        decoration: BoxDecoration(
-                          color: kMoradoClarito,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 7.0,
-                                color: Colors.grey.withOpacity(0.5)),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "INSCRIBIRME",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kNegro,
-                              fontSize: 20.0,
-                              fontFamily: 'PoppinSemiBold',
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _inscripcion(context, actividad),
                     SizedBox(
-                      height: 30.0,
+                      height: 40.0,
                     ),
                   ],
                 ),
@@ -687,6 +630,91 @@ class ShowActivity extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      );
+    }
+  }
+
+  Widget _inscripcion(BuildContext context, Actividad actividad) {
+    if (auth.currentUser != null) {
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (actividad.valor.toLowerCase() == "sin costo") {
+                  return dialogoConfirmacion(
+                    context,
+                    actividad,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en esta Actividad?",
+                    kMoradoClarito,
+                  );
+                } else if (actividad.ubicacion == "virtual" ||
+                    actividad.ubicacion == "Virtual") {
+                  return dialogoConfirmacionPago(
+                    context,
+                    actividad,
+                    "Confirmación de Pago",
+                    "¿Ya realizaste el pago al número de cuenta?",
+                    kMoradoClarito,
+                  );
+                } else {
+                  return dialogoConfirmacion(
+                    context,
+                    actividad,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en esta Actividad?",
+                    kMoradoClarito,
+                  );
+                }
+              });
+        },
+        child: Container(
+          width: 296.0,
+          height: 55.0,
+          decoration: BoxDecoration(
+            color: kMoradoClarito,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              "INSCRIBIRME",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 20.0,
+                fontFamily: 'PoppinSemiBold',
+                letterSpacing: 2.0,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(228, 88, 101, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        height: 80.0,
+        child: Center(
+          child: Text(
+            "Para Inscribirse a esta Actividad debe Registarse",
+            style: TextStyle(
+              color: kLetras,
+              fontSize: 17.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }

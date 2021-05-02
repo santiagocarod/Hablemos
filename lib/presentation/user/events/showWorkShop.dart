@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/taller.dart';
@@ -6,6 +7,8 @@ import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
 class ShowWorkShop extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -230,68 +233,7 @@ class ShowWorkShop extends StatelessWidget {
                     SizedBox(height: 10),
                     _seccionUbicacion(context, taller),
                     SizedBox(height: size.height * 0.03),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              if (taller.valor.toLowerCase() == "sin costo") {
-                                return dialogoConfirmacion(
-                                  context,
-                                  size,
-                                  taller,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en este taller?",
-                                  kMoradoClarito,
-                                );
-                              } else if (taller.ubicacion == "virtual" ||
-                                  taller.ubicacion == "Virtual") {
-                                return dialogoConfirmacionPago(
-                                  context,
-                                  taller,
-                                  "Confirmación de Pago",
-                                  "¿Ya realizaste el pago al número de cuenta?",
-                                  kMoradoClarito,
-                                );
-                              } else {
-                                return dialogoConfirmacion(
-                                  context,
-                                  size,
-                                  taller,
-                                  "Confirmación de Inscripción",
-                                  "¿Estás seguro que deseas inscribirte en este taller?",
-                                  kMoradoClarito,
-                                );
-                              }
-                            });
-                      },
-                      child: Container(
-                        width: 296.0,
-                        height: 55.0,
-                        decoration: BoxDecoration(
-                          color: kMoradoClarito,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 7.0,
-                                color: Colors.grey.withOpacity(0.5)),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "INSCRIBIRME",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kNegro,
-                              fontSize: 20.0,
-                              fontFamily: 'PoppinSemiBold',
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _inscripcion(context, taller, size),
                     SizedBox(
                       height: 30.0,
                     ),
@@ -586,92 +528,178 @@ class ShowWorkShop extends StatelessWidget {
   AlertDialog dialogoConfirmacionPago(BuildContext context, Taller taller,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(37.0))),
-        backgroundColor: color,
-        content: Container(
-            height: 170.0,
-            width: 302.0,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "$titulo",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
-                ),
-                SizedBox(
-                  height: 25.0,
-                ),
-                Container(
-                  width: 259.0,
-                  height: 55.0,
-                  child: Text(
-                    "$pregunta",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                        color: kNegro,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "adjuntarPagoTaller",
-                              arguments: taller);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Si",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(37.0))),
+      backgroundColor: color,
+      content: Container(
+        height: 170.0,
+        width: 302.0,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
+            SizedBox(
+              height: 25.0,
+            ),
+            Container(
+              width: 259.0,
+              height: 55.0,
+              child: Text(
+                "$pregunta",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "adjuntarPagoTaller",
+                          arguments: taller);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 99,
+                      decoration: BoxDecoration(
+                        color: kBlanco,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(22.0),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 99,
-                          decoration: BoxDecoration(
-                            color: kBlanco,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(22.0),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("No",
-                                style: GoogleFonts.montserrat(
-                                    color: kNegro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300)),
-                          ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Si",
+                            style: GoogleFonts.montserrat(
+                                color: kNegro,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300)),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 99,
+                      decoration: BoxDecoration(
+                        color: kBlanco,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(22.0),
                         ),
                       ),
-                    ],
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("No",
+                            style: GoogleFonts.montserrat(
+                                color: kNegro,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300)),
+                      ),
+                    ),
                   ),
-                )
-              ],
-            )));
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _inscripcion(BuildContext context, Taller taller, Size size) {
+    if (auth.currentUser != null) {
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (taller.valor.toLowerCase() == "sin costo") {
+                  return dialogoConfirmacion(
+                    context,
+                    size,
+                    taller,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en este taller?",
+                    kMoradoClarito,
+                  );
+                } else if (taller.ubicacion == "virtual" ||
+                    taller.ubicacion == "Virtual") {
+                  return dialogoConfirmacionPago(
+                    context,
+                    taller,
+                    "Confirmación de Pago",
+                    "¿Ya realizaste el pago al número de cuenta?",
+                    kMoradoClarito,
+                  );
+                } else {
+                  return dialogoConfirmacion(
+                    context,
+                    size,
+                    taller,
+                    "Confirmación de Inscripción",
+                    "¿Estás seguro que deseas inscribirte en este taller?",
+                    kMoradoClarito,
+                  );
+                }
+              });
+        },
+        child: Container(
+          width: 296.0,
+          height: 55.0,
+          decoration: BoxDecoration(
+            color: kMoradoClarito,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 7.0,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              "INSCRIBIRME",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 20.0,
+                fontFamily: 'PoppinSemiBold',
+                letterSpacing: 2.0,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(228, 88, 101, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        height: 80.0,
+        child: Center(
+          child: Text(
+            "Para Inscribirse a este Taller debe Registarse",
+            style: TextStyle(
+              color: kLetras,
+              fontSize: 17.0,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
   }
 }
