@@ -1,37 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
 
-bool agregarCita(Cita cita) {
+Future<bool> agregarCita(Cita cita) async {
   final now = DateTime.now();
   final limite = DateTime(
-      now.year, now.month, now.day + 3); //LIMITE DE PONER UNA CITA SON 3 DIAS
+      now.year, now.month, now.day + 2); //LIMITE DE PONER UNA CITA SON 3 DIAS
   bool error = false;
-  if (cita.dateTime.compareTo(limite) <= 0) {
+  if (limite.isAfter(cita.dateTime)) {
     error = true;
   }
   if (cita.profesional == null) {
     error = true;
   }
+  cita.estado = false;
   AuthService authService = AuthService();
 
-  authService.getCurrentUser().then((currentUser) {
-    FirebaseFirestore.instance
-        .collection("pacients")
-        .doc(currentUser.uid)
-        .get()
-        .then((value) {
-      print(value.data());
-      Paciente paciente = Paciente.fromMap(value);
-      cita.paciente = paciente;
-      if (!error) {
-        CollectionReference reference =
-            FirebaseFirestore.instance.collection('appoinments');
-        reference.add(cita.toMap());
-      }
-    });
-  });
+  User user = await authService.getCurrentUser();
+  DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+      .collection("pacients")
+      .doc(user.uid)
+      .get();
+  Paciente paciente = Paciente.fromMap(documentSnapshot);
+  cita.paciente = paciente;
 
-  return error;
+  if (!error) {
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('appoinments');
+    Map map = cita.toMap();
+    reference.add(map);
+  }
+
+  return !error;
 }

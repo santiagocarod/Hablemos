@@ -343,7 +343,7 @@ Widget secction({String title, String text}) {
         Column(
           children: <Widget>[
             Text(
-              '\n$text',
+              text != null ? '\n$text' : '\nPor Definir',
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.black,

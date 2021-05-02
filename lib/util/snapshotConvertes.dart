@@ -91,7 +91,7 @@ List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Profesional> profesionales = [];
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
-    Profesional p = Profesional.fromMap(data, element.id);
+    Profesional p = Profesional.fromMap(data);
     profesionales.add(p);
   });
   return profesionales;

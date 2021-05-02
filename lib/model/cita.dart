@@ -27,7 +27,7 @@ class Cita {
     return Cita(
         id: id,
         paciente: Paciente.fromMap(data["pacient"]),
-        profesional: Profesional.fromMap(data["professional"], "uid"),
+        profesional: Profesional.fromMap(data["professional"]),
         dateTime: data["dateTime"].toDate(),
         costo: data["cost"],
         lugar: data["place"],

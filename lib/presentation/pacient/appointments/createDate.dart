@@ -4,7 +4,6 @@ import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
@@ -43,7 +42,6 @@ class _CreateDate extends State<CreateDate> {
           cita.dateTime.year.toString();
       textHour = format.format(cita.dateTime);
       textProf = cita.profesional.nombreCompleto();
-      _profController = cita.profesional;
       textType = cita.tipo;
     } else if (cita == null) {
       textDate = "Fecha";
@@ -66,10 +64,6 @@ class _CreateDate extends State<CreateDate> {
             return loadingScreen();
           }
           professionals = profesionalMapToList(snapshot);
-          if (cita == null) {
-            _profController = professionals[
-                0]; //Inicializar el controlador si la cita no existe.
-          }
 
           // Screen
           return Stack(
@@ -416,20 +410,24 @@ class _CreateDate extends State<CreateDate> {
                   dateTime: date,
                   tipo: _typeController,
                 );
-                if (agregarCita(cita)) {
-                  title = 'Cita Creada';
-                  content =
-                      "Su cita fue creada exitosamente, espere a la aprobación del profesional";
-                } else {
-                  title = 'Error en la creación';
-                  content =
-                      "Por favor verifique los campos.\nRecuerde que la cita tiene que ser para dentro de mas de 3 dias.";
-                }
-                showDialog(
-                  context: context,
-                  builder: (BuildContext contex) =>
-                      _buildPopupDialog(context, title, content),
-                );
+
+                agregarCita(cita).then((value) {
+                  if (value) {
+                    title = 'Cita Creada';
+                    content =
+                        "Su cita fue creada exitosamente, espere a la aprobación del profesional";
+                  } else {
+                    title = 'Error en la creación';
+                    content =
+                        "Por favor verifique los campos.\nRecuerde que la cita tiene que ser para dentro de mas de 3 dias.";
+                  }
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext contex) =>
+                        _buildPopupDialog(context, title, content),
+                  );
+                });
+
                 // If it is empty it shows a dialog box
               } else {
                 title = 'No se pudo crear la cita';
