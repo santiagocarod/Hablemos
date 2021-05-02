@@ -292,7 +292,7 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
     elevation: 0,
     leading: new IconButton(
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
-      onPressed: () => Navigator.pushNamed(context, ruta),
+      onPressed: () => Navigator.pop(context),
     ),
     centerTitle: true,
     title: FittedBox(

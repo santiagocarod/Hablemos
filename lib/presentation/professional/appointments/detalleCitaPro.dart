@@ -38,7 +38,6 @@ class DetalleCitaPro extends StatelessWidget {
           ),
         ),
         SafeArea(
-          bottom: false,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Stack(
@@ -57,7 +56,7 @@ class DetalleCitaPro extends StatelessWidget {
                             alignment: Alignment.center,
                             //margin: EdgeInsets.all(20),
                             width: 359.0,
-                            height: 585.0,
+                            height: 599.0,
                             decoration: BoxDecoration(
                               color: kBlanco,
                               boxShadow: [
@@ -96,10 +95,6 @@ class DetalleCitaPro extends StatelessWidget {
                           ),
                         ],
                       ),
-                      _verificacionEdad(cita),
-                      SizedBox(
-                        height: 10.0,
-                      )
                     ],
                   ),
                 )
@@ -108,45 +103,6 @@ class DetalleCitaPro extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-Widget _verificacionEdad(Cita cita) {
-  DateTime today = DateTime.now();
-  DateTime birthDate = cita.paciente.fechaNacimiento;
-
-  int yearDiff = today.year - birthDate.year;
-  int monthDiff = today.month - birthDate.month;
-  int dayDiff = today.day - birthDate.day;
-
-  print(yearDiff);
-
-  if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
-    return SizedBox(
-      height: 10.0,
-    );
-  } else {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-      padding: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(228, 88, 101, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      height: 80.0,
-      child: Center(
-        child: Text(
-          "¡Este paciente es menor de edad debe llamar a los padres para confirmar y llevar a cabo la cita!",
-          style: TextStyle(
-            fontFamily: 'PoppinsRegular',
-            color: kLetras,
-            fontSize: 12.0,
-            decoration: TextDecoration.none,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 }
