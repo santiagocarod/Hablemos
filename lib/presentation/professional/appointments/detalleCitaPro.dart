@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -271,7 +272,8 @@ Widget _buttons(BuildContext context, Cita cita) {
                         'citasProfesional',
                         "Confirmación de Cancelación",
                         "¿Estás seguro que deseas cancelar esta Cita?",
-                        () {});
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
             child: Container(

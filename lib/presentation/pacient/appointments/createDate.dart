@@ -449,12 +449,17 @@ class _CreateDate extends State<CreateDate> {
               if (_typeController == null) _typeController = textType;
               DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
                   _inputFieldDateController.text + ' ' + _timeController.text);
-              // cita.uidProfesional = _profController;
-              cita.dateTime = date;
-              cita.tipo = _typeController;
-              title = 'Cita Actualizada';
-              content =
-                  "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
+
+              if (actualizarCita(
+                  cita, _profController, date, _typeController)) {
+                title = 'Cita Actualizada';
+                content =
+                    "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
+              } else {
+                title = 'Error';
+                content =
+                    "No puede actualizar su cita con menos de 3 dias de anticipación.";
+              }
               showDialog(
                 context: context,
                 builder: (BuildContext contex) =>
