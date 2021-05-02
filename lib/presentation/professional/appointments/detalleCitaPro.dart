@@ -45,7 +45,7 @@ class DetalleCitaPro extends StatelessWidget {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(
-                    top: size.height * 0.06,
+                    top: size.height * 0.025,
                   ),
                   child: Column(
                     children: <Widget>[
@@ -71,16 +71,24 @@ class DetalleCitaPro extends StatelessWidget {
                               children: <Widget>[
                                 _headerDate(context, cita),
                                 secction(title: 'Hora:', text: hour),
+                                SizedBox(height: 3.0),
                                 secction(title: 'Fecha:', text: date),
-                                secction(title: 'Costo', text: priceDate),
+                                SizedBox(height: 3.0),
+                                secction(title: 'Costo:', text: priceDate),
+                                SizedBox(height: 3.0),
                                 secction(
-                                    title: 'Detalles de pago:',
+                                    title: 'Detalles de Pago:',
                                     text: paymentDetails),
+                                SizedBox(height: 3.0),
                                 secction(title: 'Lugar:', text: place),
+                                SizedBox(height: 3.0),
                                 secction(
                                     title: 'Especialidad:', text: specialty),
+                                SizedBox(height: 3.0),
                                 secction(title: 'Tipo:', text: type),
+                                SizedBox(height: 3.0),
                                 secction(title: 'Contacto:', text: contact),
+                                SizedBox(height: 3.0),
                                 _dateState(context, cita),
                                 _buttons(context, cita),
                               ],
@@ -159,7 +167,10 @@ Widget _headerDate(BuildContext context, Cita cita) {
           child: Icon(Icons.location_on),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, 'editarCitaProfesional',
+                arguments: cita);
+          },
           child: Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.only(
@@ -192,13 +203,21 @@ Widget _buttons(BuildContext context, Cita cita) {
   if (cita.pago == "" || cita.pago == null) {
     return Container(
       width: 359.0,
-      padding: EdgeInsets.only(top: 50),
+      padding: EdgeInsets.only(top: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dialogoConfirmacion(
+                        context,
+                        'citasProfesional',
+                        "Confirmación de Cancelación",
+                        "¿Estás seguro que deseas cancelar esta Cita?");
+                  });
             },
             child: Container(
                 alignment: Alignment.center,
@@ -230,7 +249,7 @@ Widget _buttons(BuildContext context, Cita cita) {
   } else {
     return Container(
       width: 359.0,
-      padding: EdgeInsets.only(top: 50),
+      padding: EdgeInsets.only(top: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

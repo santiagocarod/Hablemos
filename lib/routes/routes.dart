@@ -41,6 +41,7 @@ import 'package:hablemos/presentation/pacient/profile/editProfile.dart';
 import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
 import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
+import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
@@ -74,6 +75,7 @@ import 'package:hablemos/presentation/user/exercises/options_breathe.dart';
 import 'package:hablemos/presentation/user/exercises/options_exercises.dart';
 import 'package:hablemos/presentation/user/map.dart';
 import 'package:hablemos/presentation/user/medialCenters/detailsMedicalCenter.dart';
+import 'package:hablemos/presentation/user/medialCenters/filterMedicalCenter.dart';
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 import 'package:hablemos/presentation/user/networks.dart';
@@ -95,6 +97,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'citasPaciente': (context) => ListCitas(),
     'detalleProfesional': (context) => ListProfessional(),
     'detalleCitasProfesional': (context) => DetalleCitaPro(),
+    'editarCitaProfesional': (context) => EditCitaPro(),
     'citasProfesional': (context) => ListCitasPro(),
     'CrearCita': (context) => CreateDate(),
     'VerPagoPro': (context) => VerPagoPro(),
@@ -169,5 +172,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "newCentrosMedicosAdmin": (context) => NewMedicalAdmin(),
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
+    "filterMedicalCenters": (context) => FilterMedicalCenter(),
   };
 }
