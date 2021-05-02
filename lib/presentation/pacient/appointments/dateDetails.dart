@@ -251,8 +251,7 @@ Widget _buttons(BuildContext context, Cita cita) {
                         "Confirmación de Cancelación",
                         "¿Estás seguro que deseas cancelar esta Cita?",
                         cancelarCita,
-                        parametro:
-                            cita); //TODO: VER COMO PASAR EL PARAMETRO DE LA CITA PARA QUE SEPA QUE CITA ELIMINAR
+                        parametro: cita);
                   });
             },
           ),

@@ -11,6 +11,7 @@ class Cita {
   String especialidad;
   String tipo;
   bool estado;
+  String pago;
 
   Cita(
       {this.id,
@@ -21,7 +22,8 @@ class Cita {
       this.lugar,
       this.especialidad,
       this.tipo,
-      this.estado});
+      this.estado,
+      this.pago});
 
   static Cita fromMap(data, id) {
     return Cita(
@@ -33,7 +35,8 @@ class Cita {
         lugar: data["place"],
         especialidad: data["area"],
         tipo: data["type"],
-        estado: data["state"]);
+        estado: data["state"],
+        pago: data["payment"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -45,7 +48,8 @@ class Cita {
       "place": this.lugar,
       "area": this.especialidad,
       "type": this.tipo,
-      "state": this.estado
+      "state": this.estado,
+      "payment": this.pago
     };
   }
 }

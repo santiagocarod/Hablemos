@@ -48,7 +48,7 @@ class DetalleCitaPro extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _pageHeader(context, size, "Detalle Cita"),
+                      _pageHeader(context, size, "Detalle Cita Profesional"),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -187,8 +187,8 @@ Widget _headerDate(BuildContext context, Cita cita) {
 
 @override
 Widget _buttons(BuildContext context, Cita cita) {
-  final bool state = cita.estado;
-  if (state == false) {
+  print(cita.pago);
+  if (cita.pago == "" || cita.pago == null) {
     return Container(
       width: 359.0,
       padding: EdgeInsets.only(top: 50),
@@ -235,7 +235,7 @@ Widget _buttons(BuildContext context, Cita cita) {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'VerPagoPro');
+              Navigator.pushNamed(context, 'VerPagoPro', arguments: cita);
             },
             child: Container(
                 alignment: Alignment.center,

@@ -90,8 +90,8 @@ class ListCitasPro extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   resizeToAvoidBottomInset: false,
                   extendBodyBehindAppBar: true,
-                  appBar:
-                      crearAppBarEventos(context, 'Citas', 'inicioProfesional'),
+                  appBar: crearAppBarEventos(
+                      context, 'Citas Profesional', 'inicioProfesional'),
                   body: Stack(
                     children: <Widget>[
                       Material(
