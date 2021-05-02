@@ -120,8 +120,6 @@ Widget _verificacionEdad(Cita cita) {
   int monthDiff = today.month - birthDate.month;
   int dayDiff = today.day - birthDate.day;
 
-  print(yearDiff);
-
   if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
     return SizedBox(
       height: 10.0,
