@@ -28,7 +28,6 @@ class _SingInMinorState extends State<SingInMinor> {
   setSelectedRadio(int val) {
     setState(() {
       selectRadio = val;
-      print(selectRadio);
     });
   }
 
@@ -232,9 +231,8 @@ class _SingInMinorState extends State<SingInMinor> {
     final String fechaNacimiento = usuario[4];
     final String ciudad = usuario[2];
     final String contrasena = usuario[5];
-    print(selectRadio);
 
-    /*if (selectRadio == 1) {
+    if (selectRadio == 1) {
       return GestureDetector(
         onTap: () {
           AuthService authService = new AuthService();
@@ -244,6 +242,16 @@ class _SingInMinorState extends State<SingInMinor> {
             if (value[0] == "[") {
               showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
             } else {
+              usersRef
+                  .doc(value)
+                  .set({
+                    'role': 'pacient',
+                    'name': nombre,
+                  })
+                  .then((value) => Navigator.pushNamed(context, 'inicio'))
+                  .catchError((value) => showAlertDialog(
+                      context, "Hubo un error\nPor Favor intentalo mas tarde"));
+
               pacienteRef.doc(value).set({
                 'name': nombre,
                 'lastName': apellido,
@@ -289,97 +297,73 @@ class _SingInMinorState extends State<SingInMinor> {
         ),
       );
     } else if (selectRadio == 2) {
-      return Container(
-        margin: EdgeInsets.only(top: 30.0),
-        alignment: Alignment.center,
-        width: 280.0,
-        height: 60.0,
-        decoration: BoxDecoration(
-          color: Colors.yellow[700],
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 0),
-                blurRadius: 5,
-                color: Colors.grey.withOpacity(0.5)),
-          ],
-        ),
-        child: Text(
-          "Guardar",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontFamily: "PoppinsRegular",
-              fontSize: 18,
-              color: kBlanco,
-              decoration: TextDecoration.none,
-              fontWeight: FontWeight.w600),
-        ),
-      );*/
-    return GestureDetector(
-      onTap: () {
-        AuthService authService = new AuthService();
-        Future<String> user =
-            authService.signUp(correo, contrasena, "nombre apellido");
-        user.then((value) {
-          if (value[0] == "[") {
-            showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
-          } else {
-            usersRef
-                .doc(value)
-                .set({
-                  'role': 'pacient',
-                  'name': nombre,
-                  'lastName': apellido,
-                  'city': ciudad,
-                  'email': correo,
-                })
-                .then((value) => Navigator.pushNamed(context, 'inicio'))
-                .catchError((value) => showAlertDialog(
-                    context, "Hubo un error\nPor Favor intentalo mas tarde"));
+      return GestureDetector(
+        onTap: () {
+          AuthService authService = new AuthService();
+          Future<String> user =
+              authService.signUp(correo, contrasena, "nombre apellido");
+          user.then((value) {
+            if (value[0] == "[") {
+              showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+            } else {
+              usersRef
+                  .doc(value)
+                  .set({
+                    'role': 'pacient',
+                    'name': nombre,
+                  })
+                  .then((value) => Navigator.pushNamed(context, 'inicio'))
+                  .catchError((value) => showAlertDialog(
+                      context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
-            pacienteRef.doc(value).set({
-              'name': nombre,
-              'lastName': apellido,
-              'city': ciudad,
-              'email': correo,
-              'date': fechaNacimiento,
-              'picture': 'falta foto',
-              'cartaAutorizacion': "llamada",
-              'phone': 'falta telefono',
-              'emergencyContactName': 'falta nombre emergencia',
-              'emergencyContactPhone': 'falta numero emergencia',
-              'emergencyContactRelationship': 'falta relacion emergencia',
-            }).catchError((value) => showAlertDialog(
-                context, "Hubo un error\nPor Favor intentalo mas tarde"));
-          }
-        });
-      },
-      child: Container(
-        margin: EdgeInsets.only(top: 30.0),
-        alignment: Alignment.center,
-        width: 280.0,
-        height: 60.0,
-        decoration: BoxDecoration(
-          color: Colors.yellow[700],
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 0),
-                blurRadius: 5,
-                color: Colors.grey.withOpacity(0.5)),
-          ],
+              pacienteRef.doc(value).set({
+                'name': nombre,
+                'lastName': apellido,
+                'city': ciudad,
+                'email': correo,
+                'date': fechaNacimiento,
+                'picture': 'falta foto',
+                'autorizacion': "_image",
+                'phone': 'falta telefono',
+                'emergencyContactName': 'falta nombre emergencia',
+                'emergencyContactPhone': 'falta numero emergencia',
+                'emergencyContactRelationship': 'falta relacion emergencia',
+              }).catchError((value) => showAlertDialog(
+                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
+            }
+          });
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: 30.0),
+          alignment: Alignment.center,
+          width: 280.0,
+          height: 60.0,
+          decoration: BoxDecoration(
+            color: Colors.yellow[700],
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 5,
+                  color: Colors.grey.withOpacity(0.5)),
+            ],
+          ),
+          child: Text(
+            "Guardar",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontFamily: "PoppinsRegular",
+                fontSize: 18,
+                color: kBlanco,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.w600),
+          ),
         ),
-        child: Text(
-          "Guardar",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontFamily: "PoppinsRegular",
-              fontSize: 18,
-              color: kBlanco,
-              decoration: TextDecoration.none,
-              fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
+      );
+    } else {
+      return SizedBox(
+        height: 10.0,
+      );
+    }
   }
 }

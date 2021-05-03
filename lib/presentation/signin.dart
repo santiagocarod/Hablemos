@@ -205,6 +205,7 @@ class _SignInPageState extends State<SignInPage> {
                 .doc(value)
                 .set({
                   'role': 'pacient',
+                  'name': _name,
                 })
                 .then((value) => Navigator.pushNamed(context, 'inicio'))
                 .catchError((value) => showAlertDialog(
