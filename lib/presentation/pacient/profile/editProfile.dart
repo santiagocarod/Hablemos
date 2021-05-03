@@ -1,20 +1,19 @@
 import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditProfile extends StatefulWidget {
   @override
   _EditProfile createState() => _EditProfile();
+  final Paciente paciente;
+  const EditProfile({this.paciente});
 }
 
 class _EditProfile extends State<EditProfile> {
@@ -26,9 +25,30 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController _phoneEController = new TextEditingController();
   TextEditingController _relationController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
+  TextEditingController _lastnameController = new TextEditingController();
   String _date = '';
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    DateFormat dateFormat = DateFormat.yMEd();
+    _dateController = TextEditingController()
+      ..text = dateFormat.format(widget.paciente.fechaNacimiento);
+    _mailController = TextEditingController()..text = widget.paciente.correo;
+    _cityController = TextEditingController()..text = widget.paciente.ciudad;
+    _phoneController = TextEditingController()..text = widget.paciente.telefono;
+    _nameEController = TextEditingController()
+      ..text = widget.paciente.nombreContactoEmergencia;
+    _phoneEController = TextEditingController()
+      ..text = widget.paciente.telefonoContactoEmergencia;
+    _relationController = TextEditingController()
+      ..text = widget.paciente.relacionContactoEmergencia;
+    _nameController = TextEditingController()..text = widget.paciente.nombre;
+    _lastnameController = TextEditingController()
+      ..text = widget.paciente.apellido;
+  }
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -84,53 +104,35 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
-    return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          List<Paciente> pacientes = pacienteMapToList(snapshot);
-
-          Paciente paciente =
-              pacientes[0]; //ModalRoute.of(context).settings.arguments;
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              bottom: false,
-              child: Scaffold(
-                extendBodyBehindAppBar: true,
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                body: Stack(
-                  children: <Widget>[
-                    pacientHead(size, paciente),
-                    Container(
-                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size, paciente),
-                      ),
-                    ),
-                  ],
+    final Paciente paciente = ModalRoute.of(context).settings.arguments;
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              pacientHead(size, _nameController, _lastnameController),
+              Container(
+                padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size, widget.paciente),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
-    _nameController.text = paciente.nombre + " " + paciente.apellido;
+  Widget pacientHead(Size size, TextEditingController textNombre,
+      TextEditingController textApellido) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -222,19 +224,49 @@ class _EditProfile extends State<EditProfile> {
           ),
         ),
         // Display text name
-        Container(
-          padding: EdgeInsets.only(top: 283),
-          alignment: Alignment.topCenter,
-          child: AutoSizeTextField(
-            controller: _nameController,
-            textAlign: TextAlign.center,
-            fullwidth: false,
-            style: TextStyle(
-              color: kNegro,
-              fontSize: (size.height / 2) * 0.1,
-              fontFamily: 'PoppinsRegular',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: textNombre,
+                textAlign: TextAlign.center,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.07,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {
+                  textNombre.text = text;
+                  textNombre.selection = TextSelection.fromPosition(
+                      TextPosition(offset: textNombre.text.length));
+                },
+              ),
             ),
-          ),
+            SizedBox(width: 10.0),
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: textApellido,
+                textAlign: TextAlign.center,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.07,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {
+                  textApellido.text = text;
+                  textApellido.selection = TextSelection.fromPosition(
+                      TextPosition(offset: textNombre.text.length));
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -242,18 +274,15 @@ class _EditProfile extends State<EditProfile> {
 
   //Body of the screen
   Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
     return Container(
       width: size.width,
       child: Column(
         children: <Widget>[
-          _editSection('Correo', paciente.correo, _mailController),
+          _editSection('Correo', _mailController),
           _sectionButton(),
-          _editSection('Ciudad', paciente.ciudad, _cityController),
-          _editSection('Fecha de Nacimiento', fecha, _dateController),
-          _editSection(
-              'Teléfono', paciente.telefono.toString(), _phoneController),
+          _editSection('Ciudad', _cityController),
+          _editSection('Fecha de Nacimiento', _dateController),
+          _editSection('Teléfono', _phoneController),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -266,31 +295,16 @@ class _EditProfile extends State<EditProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _editSection(
-              'Nombre', paciente.nombreContactoEmergencia, _nameEController),
-          _editSection(
-              'Teléfono',
-              paciente.telefonoContactoEmergencia.toString(),
-              _phoneEController),
-          _editSection('Relación', paciente.relacionContactoEmergencia,
-              _relationController),
+          _editSection('Nombre', _nameEController),
+          _editSection('Teléfono', _phoneEController),
+          _editSection('Relación', _relationController),
         ],
       ),
     );
   }
 
   // Section: title and text field
-  Widget _editSection(
-      String text, String hint, TextEditingController controller) {
-    Text info = Text(
-      hint,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: kNegro,
-        fontFamily: 'PoppinsRegular',
-      ),
-    );
-    controller.text = info.data;
+  Widget _editSection(String text, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -306,6 +320,11 @@ class _EditProfile extends State<EditProfile> {
             textAlign: TextAlign.left,
           ),
           TextField(
+            onChanged: (text) {
+              controller.text = text;
+              controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length));
+            },
             controller: controller,
             enableInteractiveSelection: false,
             textAlign: TextAlign.justify,

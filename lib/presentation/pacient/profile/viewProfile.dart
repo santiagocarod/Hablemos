@@ -10,6 +10,8 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'editProfile.dart';
+
 class ViewProfile extends StatefulWidget {
   @override
   _ViewProfile createState() => _ViewProfile();
@@ -18,6 +20,8 @@ class ViewProfile extends StatefulWidget {
 class _ViewProfile extends State<ViewProfile> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  String username;
+  AuthService _authService = new AuthService();
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -70,25 +74,19 @@ class _ViewProfile extends State<ViewProfile> {
         });
   }
 
-  AuthService _authService = new AuthService();
-  String _name;
-  String _correo;
-  String _city;
-
   @override
   void initState() {
     super.initState();
     _authService.getCurrentUser().then((value) {
       FirebaseFirestore.instance
-          .collection("pacients")
+          .collection('users')
           .doc(value.uid)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            _name = documentSnapshot.get("name");
-            print(_name);
-            _correo = documentSnapshot.get("email");
+            username = documentSnapshot.get("name");
+            print(username);
           });
         }
       });
@@ -98,29 +96,46 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: kRosado,
-      child: SafeArea(
-        bottom: false,
-        child: Scaffold(
-          // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
-          extendBodyBehindAppBar: true,
-          body: Stack(
-            children: <Widget>[
-              //pacientHead(size, paciente),
-              Container(
-                padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  //child: _body(size, paciente),
+
+    CollectionReference pacientCollection = FirebaseFirestore.instance
+        .collection(
+            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    return StreamBuilder<QuerySnapshot>(
+        stream: pacientCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+          Paciente paciente = pacienteMapToList(snapshot)[0];
+
+          return Container(
+            color: kRosado,
+            child: SafeArea(
+              bottom: false,
+              child: Scaffold(
+                // Create an empty appBar, display the arrow back
+                appBar: crearAppBar('', null, 0, null),
+                extendBodyBehindAppBar: true,
+                body: Stack(
+                  children: <Widget>[
+                    pacientHead(size, paciente),
+                    Container(
+                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: _body(size, paciente),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   // Draw app bar Style
@@ -193,8 +208,9 @@ class _ViewProfile extends State<ViewProfile> {
                   padding: EdgeInsets.only(top: 0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, 'editarPerfil',
-                          arguments: paciente);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfile(paciente: paciente)));
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
