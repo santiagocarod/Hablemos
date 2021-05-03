@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,11 +18,6 @@ class _SingInMinorState extends State<SingInMinor> {
   final ImagePicker _imagePicker = new ImagePicker();
   int selectRadio;
   int selectRadioAuto;
-
-  void initState() {
-    super.initState;
-    selectRadio = 0;
-  }
 
   setSelectedRadio(int val) {
     setState(() {
@@ -156,7 +150,7 @@ class _SingInMinorState extends State<SingInMinor> {
                     onChanged: (val) {
                       setSelectedRadio(val);
                     },
-                    secondary: OutlineButton(
+                    secondary: OutlinedButton(
                       child: Text("Subir"),
                       onPressed: () {
                         _showPicker(context);
@@ -334,7 +328,7 @@ class _SingInMinorState extends State<SingInMinor> {
           });
         },
         child: Container(
-          margin: EdgeInsets.only(top: 30.0),
+          margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
           alignment: Alignment.center,
           width: 280.0,
           height: 60.0,
