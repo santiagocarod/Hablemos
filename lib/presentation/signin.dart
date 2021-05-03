@@ -236,7 +236,14 @@ class _SignInPageState extends State<SignInPage> {
       } else if (_inputFieldDateController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
       } else {
-        Navigator.pushNamed(context, 'registroMenorEdad');
+        List<String> usuario = [];
+        usuario.add(_name);
+        usuario.add(_lastName);
+        usuario.add(_city);
+        usuario.add(bloc.email);
+        usuario.add(_inputFieldDateController.text);
+        usuario.add(bloc.password);
+        Navigator.pushNamed(context, 'registroMenorEdad', arguments: usuario);
       }
     }
   }
