@@ -97,7 +97,7 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
     error = true;
   }
   int precio = int.parse(data["precio"].text);
-  String detalles = data["detalles"].text;
+  // String detalles = data["detalles"].text;
   String lugar = data["lugar"].text;
   String especialidad = data["especialidad"].text;
   String tipo = data["tipo"].text;

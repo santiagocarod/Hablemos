@@ -241,7 +241,6 @@ Widget _buttons(BuildContext context, Cita cita) {
               shadowColor: Colors.black,
             ),
             onPressed: () {
-              bool resultado;
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
