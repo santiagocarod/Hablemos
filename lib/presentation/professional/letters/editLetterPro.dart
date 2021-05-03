@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/professional/negocioCartasPro.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
 
-class EditLetterPro extends StatelessWidget {
-  final TextEditingController tituloCarta = TextEditingController();
-  final TextEditingController contenidoCarta = TextEditingController();
+class EditLetterPro extends StatefulWidget {
+  @override
+  _EditLetterPro createState() => _EditLetterPro();
+}
+
+class _EditLetterPro extends State<EditLetterPro> {
+  TextEditingController tituloCarta = TextEditingController();
+  TextEditingController contenidoCarta = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Carta carta = ModalRoute.of(context).settings.arguments;
+
+    tituloCarta = TextEditingController()..text = carta.titulo;
+    tituloCarta.selection = TextSelection.fromPosition(
+        TextPosition(offset: tituloCarta.text.length));
+    contenidoCarta = TextEditingController()..text = carta.cuerpo;
+    contenidoCarta.selection = TextSelection.fromPosition(
+        TextPosition(offset: contenidoCarta.text.length));
     return Stack(
       children: [
         Container(
@@ -47,10 +60,14 @@ class EditLetterPro extends StatelessWidget {
                               margin: EdgeInsets.symmetric(
                                   horizontal: size.width * 0.1),
                               child: TextField(
+                                onChanged: (text2) {
+                                  if (text2.isNotEmpty) {
+                                    carta.titulo = text2;
+                                  }
+                                },
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.name,
-                                controller: TextEditingController()
-                                  ..text = carta.titulo,
+                                controller: tituloCarta,
                                 decoration: InputDecoration(
                                   labelText: "Titulo",
                                   floatingLabelBehavior:
@@ -69,11 +86,15 @@ class EditLetterPro extends StatelessWidget {
                                   vertical: size.height * 0.05),
                               child: Center(
                                 child: TextField(
+                                  onChanged: (text) {
+                                    if (text.isNotEmpty) {
+                                      carta.cuerpo = text;
+                                    }
+                                  },
                                   keyboardType: TextInputType.multiline,
                                   minLines: 20,
                                   maxLines: 50,
-                                  controller: TextEditingController()
-                                    ..text = carta.cuerpo,
+                                  controller: contenidoCarta,
                                   decoration: InputDecoration(
                                     labelText: "Carta",
                                     floatingLabelBehavior:
@@ -94,6 +115,7 @@ class EditLetterPro extends StatelessWidget {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
+                                      carta.aprobado = false;
                                       return dialogoConfirmacion(
                                           context,
                                           'valorarCartaPro',
@@ -167,10 +189,19 @@ class EditLetterPro extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    tituloCarta.dispose();
+    contenidoCarta.dispose();
+    super.dispose();
+  }
 }
 
 AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
     String titulo, String mensaje, Carta carta) {
+  String title2 = "";
+  String content2 = "";
   return AlertDialog(
     shape: RoundedRectangleBorder(
         side: BorderSide(color: kNegro, width: 2.0),
@@ -209,7 +240,27 @@ AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, rutaSi, arguments: carta);
+                    editarCarta(carta).then((value) {
+                      bool state;
+                      if (value) {
+                        title2 = 'Carta modificada';
+                        content2 = "La carta fue modificada exitosamente";
+                        state = true;
+                      } else {
+                        title2 = 'Error de edición';
+                        content2 =
+                            "Hubo un error guardando los cambios de la carta, inténtelo nuevamente";
+                        state = false;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => adviceDialogLetter(
+                                context,
+                                title2,
+                                content2,
+                                state,
+                              ));
+                    });
                   },
                   child: Container(
                     height: 30,
