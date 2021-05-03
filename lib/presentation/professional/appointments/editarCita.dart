@@ -5,31 +5,48 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:intl/intl.dart';
 
-class EditCitaPro extends StatelessWidget {
+class EditCitaPro extends StatefulWidget {
+  final Cita cita;
+  const EditCitaPro({this.cita});
   @override
-  Widget build(BuildContext context) {
-    Cita cita = ModalRoute.of(context).settings.arguments;
+  _EditCitaProState createState() => _EditCitaProState();
+}
+
+class _EditCitaProState extends State<EditCitaPro> {
+  DateFormat hourformat = DateFormat('hh:mm a');
+  TextEditingController hour;
+  TextEditingController date;
+  TextEditingController paymentDetails;
+  TextEditingController place;
+  TextEditingController priceDate;
+  TextEditingController specialty;
+  TextEditingController type;
+  TextEditingController contact;
+  @override
+  void initState() {
+    super.initState();
 
     DateFormat hourformat = DateFormat('hh:mm a');
-    TextEditingController hour = TextEditingController()
-      ..text = hourformat.format(cita.dateTime);
-    TextEditingController date = TextEditingController()
-      ..text = cita.dateTime.day.toString() +
+    hour = TextEditingController()
+      ..text = hourformat.format(widget.cita.dateTime);
+    date = TextEditingController()
+      ..text = widget.cita.dateTime.day.toString() +
           '/' +
-          cita.dateTime.month.toString() +
+          widget.cita.dateTime.month.toString() +
           '/' +
-          cita.dateTime.year.toString();
-    TextEditingController paymentDetails = TextEditingController()
-      ..text = cita.profesional.banco.numCuenta;
-    TextEditingController place = TextEditingController()..text = cita.lugar;
-    TextEditingController priceDate = TextEditingController()
-      ..text = cita.costo.toString();
-    TextEditingController specialty = TextEditingController()
-      ..text = cita.especialidad;
-    TextEditingController type = TextEditingController()..text = cita.tipo;
-    TextEditingController contact = TextEditingController()
-      ..text = cita.profesional.celular.toString();
+          widget.cita.dateTime.year.toString();
+    paymentDetails = TextEditingController()
+      ..text = widget.cita.profesional.banco.numCuenta;
+    place = TextEditingController()..text = widget.cita.lugar;
+    priceDate = TextEditingController()..text = widget.cita.costo.toString();
+    specialty = TextEditingController()..text = widget.cita.especialidad;
+    type = TextEditingController()..text = widget.cita.tipo;
+    contact = TextEditingController()
+      ..text = widget.cita.profesional.celular.toString();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -53,7 +70,7 @@ class EditCitaPro extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _pageHeader(context, size, "Editar Cita", cita),
+                      _pageHeader(context, size, "Editar Cita", widget.cita),
                       Material(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +90,7 @@ class EditCitaPro extends StatelessWidget {
                               ),
                               child: Column(
                                 children: <Widget>[
-                                  _headerDate(context, cita),
+                                  _headerDate(context, widget.cita),
                                   SizedBox(
                                     height: 10.0,
                                   ),
@@ -94,8 +111,8 @@ class EditCitaPro extends StatelessWidget {
                                   SizedBox(height: 2),
                                   secctionEdit('Contacto:', contact),
                                   SizedBox(height: 2),
-                                  _dateState(context, cita),
-                                  _buttons(context, cita, {
+                                  _dateState(context, widget.cita),
+                                  _buttons(context, widget.cita, {
                                     "precio": priceDate,
                                     "hora": hour,
                                     "fecha": date,

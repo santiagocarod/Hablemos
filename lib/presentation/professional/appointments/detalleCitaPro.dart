@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -169,8 +170,10 @@ Widget _headerDate(BuildContext context, Cita cita) {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, 'editarCitaProfesional',
-                arguments: cita);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EditCitaPro(cita: cita)));
+            // Navigator.pushNamed(context, 'editarCitaProfesional',
+            //     arguments: cita);
           },
           child: Container(
               alignment: Alignment.centerRight,

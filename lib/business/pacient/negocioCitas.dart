@@ -87,7 +87,6 @@ bool actualizarCitaPaciente(
 }
 
 bool actualizarCitaProfesional(Cita cita, Map data) {
-  print(data["hora"].text + " ->" + data["fecha"].text);
   DateTime date = DateFormat('d/M/yyyy hh:mm a')
       .parse(data["fecha"].text + ' ' + data["hora"].text);
   final now = DateTime.now();
@@ -114,7 +113,8 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
       "place": lugar,
       "type": tipo,
       "area": especialidad,
-      "professional.phone": contacto
+      "professional.phone": contacto,
+      "cost": precio
     });
   }
   return !error;
