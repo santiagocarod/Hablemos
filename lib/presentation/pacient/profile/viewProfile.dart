@@ -70,50 +70,57 @@ class _ViewProfile extends State<ViewProfile> {
         });
   }
 
+  AuthService _authService = new AuthService();
+  String _name;
+  String _correo;
+  String _city;
+
+  @override
+  void initState() {
+    super.initState();
+    _authService.getCurrentUser().then((value) {
+      FirebaseFirestore.instance
+          .collection("pacients")
+          .doc(value.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            _name = documentSnapshot.get("name");
+            print(_name);
+            _correo = documentSnapshot.get("email");
+          });
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
-    return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          List<Paciente> pacientes = pacienteMapToList(snapshot);
-
-          Paciente paciente = pacientes[0];
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              bottom: false,
-              child: Scaffold(
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                extendBodyBehindAppBar: true,
-                body: Stack(
-                  children: <Widget>[
-                    pacientHead(size, paciente),
-                    Container(
-                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size, paciente),
-                      ),
-                    ),
-                  ],
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null),
+          extendBodyBehindAppBar: true,
+          body: Stack(
+            children: <Widget>[
+              //pacientHead(size, paciente),
+              Container(
+                padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  //child: _body(size, paciente),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Draw app bar Style

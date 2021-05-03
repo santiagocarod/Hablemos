@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -17,6 +18,7 @@ class ProfileProView extends StatefulWidget {
 class _ProfileProViewState extends State<ProfileProView> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  final String id = FirebaseAuth.instance.currentUser.uid;
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -69,6 +71,10 @@ class _ProfileProViewState extends State<ProfileProView> {
         });
   }
 
+  Profesional findprof(List<Profesional> profesionales, String id) {
+    profesionales.firstWhere((element) => element.uid == id);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -84,7 +90,10 @@ class _ProfileProViewState extends State<ProfileProView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
-          Profesional profesional = profesionalMapToList(snapshot)[0];
+
+          List<Profesional> profesionales = profesionalMapToList(snapshot);
+          Profesional profesional = findprof(profesionales, id);
+
           return Container(
             color: kRosado,
             child: SafeArea(
