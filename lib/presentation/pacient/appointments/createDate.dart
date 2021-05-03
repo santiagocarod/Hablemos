@@ -31,7 +31,7 @@ class _CreateDate extends State<CreateDate> {
   @override
   Widget build(BuildContext context) {
     final Cita cita = ModalRoute.of(context).settings.arguments;
-    DateFormat format = DateFormat('hh:mm a');
+    DateFormat format = DateFormat('hh:mm');
 
     // Validates if it is update or creation
     if (cita != null) {
@@ -445,9 +445,9 @@ class _CreateDate extends State<CreateDate> {
               if (_inputFieldDateController.text.isEmpty)
                 _inputFieldDateController.text = textDate;
               if (_timeController.text.isEmpty) _timeController.text = textHour;
-              if (_profController == null) _profController = _profController;
+              if (_profController == null) _profController = cita.profesional;
               if (_typeController == null) _typeController = textType;
-              DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
+              DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
                   _inputFieldDateController.text + ' ' + _timeController.text);
 
               if (actualizarCitaPaciente(
@@ -487,7 +487,7 @@ class _CreateDate extends State<CreateDate> {
       actions: <Widget>[
         new ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushNamed(context, "citasPaciente");
           },
           style: ElevatedButton.styleFrom(
             primary: kRojoOscuro,

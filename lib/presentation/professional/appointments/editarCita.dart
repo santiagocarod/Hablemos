@@ -276,7 +276,7 @@ Widget _buttons(BuildContext context, Cita cita, Map map) {
             builder: (BuildContext context) {
               return dialogoConfirmacionG(
                   context,
-                  'inicioProfesional',
+                  'citasProfesional',
                   "Confirmación de Modificación",
                   "¿Estás seguro que deseas modificar esta Cita?",
                   cita,

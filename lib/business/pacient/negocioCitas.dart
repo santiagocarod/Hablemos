@@ -79,9 +79,11 @@ bool actualizarCitaPaciente(
   if (!error) {
     CollectionReference reference =
         FirebaseFirestore.instance.collection('appoinments');
-    reference
-        .doc(cita.id)
-        .update({"type": typeController, "professional": profesional.toMap()});
+    reference.doc(cita.id).update({
+      "type": typeController,
+      "professional": profesional.toMap(),
+      "dateTime": date
+    });
   }
   return !error;
 }

@@ -58,7 +58,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
   final String count = profesional.banco.toString();
   final String place = cita.lugar;
   final String specialty = cita.especialidad;
-  final String type = cita.especialidad;
+  final String type = cita.tipo;
   final String contact = profesional.celular.toString();
 
   return Container(
