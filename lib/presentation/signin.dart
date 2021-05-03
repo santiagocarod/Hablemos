@@ -212,6 +212,7 @@ class _SignInPageState extends State<SignInPage> {
             'emergencyContactName': 'falta nombre emergencia',
             'emergencyContactPhone': 'falta numero emergencia',
             'emergencyContactRelationship': 'falta relacion emergencia',
+            'uid': value,
           }).catchError((value) => showAlertDialog(
               context, "Hubo un error\nPor Favor intentalo mas tarde"));
         }
