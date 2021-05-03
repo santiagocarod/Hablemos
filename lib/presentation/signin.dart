@@ -195,6 +195,7 @@ class _SignInPageState extends State<SignInPage> {
               .doc(value)
               .set({
                 'role': 'pacient',
+                'name': _name,
               })
               .then((value) => Navigator.pushNamed(context, 'inicio'))
               .catchError((value) => showAlertDialog(
@@ -211,6 +212,7 @@ class _SignInPageState extends State<SignInPage> {
             'emergencyContactName': 'falta nombre emergencia',
             'emergencyContactPhone': 'falta numero emergencia',
             'emergencyContactRelationship': 'falta relacion emergencia',
+            'uid': value,
           }).catchError((value) => showAlertDialog(
               context, "Hubo un error\nPor Favor intentalo mas tarde"));
         }
