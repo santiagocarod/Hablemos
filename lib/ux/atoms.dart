@@ -308,7 +308,7 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   );
 }
 
-Widget secction({String title, String text}) {
+Widget secction({String title, String text, bool banco}) {
   return Container(
     width: 270.0,
     height: 46,
@@ -328,9 +328,9 @@ Widget secction({String title, String text}) {
         Column(
           children: <Widget>[
             Text(
-              text != null ? '\n$text' : '\nPor Definir',
+              text != null || text == "" ? '\n$text' : '\nPor Definir',
               style: TextStyle(
-                fontSize: 14.0,
+                fontSize: banco == null ? 14 : 12,
                 color: kLetras,
                 fontWeight: FontWeight.w300,
                 fontFamily: 'PoppinsRegular',

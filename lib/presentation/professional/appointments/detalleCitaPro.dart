@@ -20,7 +20,7 @@ class DetalleCitaPro extends StatelessWidget {
         cita.dateTime.year.toString();
     final price = NumberFormat('#,###');
     final String priceDate = '\$' + price.format(cita.costo);
-    final String paymentDetails = cita.profesional.banco.numCuenta;
+    final String paymentDetails = cita.profesional.banco.toString();
     final String place = cita.lugar;
     final String specialty = cita.especialidad;
     final String type = cita.tipo;
@@ -78,7 +78,8 @@ class DetalleCitaPro extends StatelessWidget {
                                 SizedBox(height: 3.0),
                                 secction(
                                     title: 'Detalles de Pago:',
-                                    text: paymentDetails),
+                                    text: paymentDetails,
+                                    banco: true),
                                 SizedBox(height: 3.0),
                                 secction(title: 'Lugar:', text: place),
                                 SizedBox(height: 3.0),
