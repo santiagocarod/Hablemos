@@ -450,7 +450,7 @@ class _CreateDate extends State<CreateDate> {
               DateTime date = DateFormat('d/M/yyyy hh:mm a').parse(
                   _inputFieldDateController.text + ' ' + _timeController.text);
 
-              if (actualizarCita(
+              if (actualizarCitaPaciente(
                   cita, _profController, date, _typeController)) {
                 title = 'Cita Actualizada';
                 content =

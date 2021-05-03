@@ -23,7 +23,7 @@ class DetalleCitaPro extends StatelessWidget {
     final String paymentDetails = cita.profesional.banco.numCuenta;
     final String place = cita.lugar;
     final String specialty = cita.especialidad;
-    final String type = cita.especialidad;
+    final String type = cita.tipo;
     final String contact = cita.profesional.celular.toString();
 
     Size size = MediaQuery.of(context).size;
@@ -216,7 +216,9 @@ Widget _buttons(BuildContext context, Cita cita) {
                         context,
                         'citasProfesional',
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
             child: Container(
