@@ -16,6 +16,7 @@ class _SignInPageState extends State<SignInPage> {
   String _date = '';
   String _name = '';
   String _lastName = '';
+  String _telephone = '';
   String _city = '';
   String _nameContact = '';
   String _telephoneContact = '';
@@ -61,6 +62,12 @@ class _SignInPageState extends State<SignInPage> {
   void _updateLastName(String lastName) {
     setState(() {
       _lastName = lastName;
+    });
+  }
+
+  void _updateTelephone(String telephone) {
+    setState(() {
+      _telephone = telephone;
     });
   }
 
@@ -123,6 +130,13 @@ class _SignInPageState extends State<SignInPage> {
                         passwordTextBox(bloc), //Input para el contraseña
                         SizedBox(height: 20.0),
                         InputTextBoxWController(
+                            'Escriba su teléfono',
+                            'Teléfono ',
+                            Icons.call,
+                            _updateTelephone,
+                            _telephone),
+                        SizedBox(height: 20.0),
+                        InputTextBoxWController(
                             'Escriba su ciudad',
                             'Ciudad residencia',
                             Icons.location_on,
@@ -139,8 +153,8 @@ class _SignInPageState extends State<SignInPage> {
                             _nameContact), //Datos Adicionales
                         SizedBox(height: 20.0),
                         InputTextBoxWController(
-                            'Telefono contacto emergencia',
-                            'Telefono Contacto',
+                            'Teléfono contacto emergencia',
+                            'Teléfono Contacto',
                             Icons.call,
                             _updateContactTelephone,
                             _telephoneContact), //Datos Adicionales
@@ -246,6 +260,10 @@ class _SignInPageState extends State<SignInPage> {
               .doc(value)
               .set({
                 'role': 'pacient',
+                'name': _name,
+                'lastName': _lastName,
+                'city': _city,
+                'email': bloc.email,
               })
               .then((value) => Navigator.pushNamed(context, 'inicio'))
               .catchError((value) => showAlertDialog(
@@ -258,7 +276,7 @@ class _SignInPageState extends State<SignInPage> {
             'email': bloc.email,
             'date': _inputFieldDateController.text,
             'picture': 'falta foto',
-            'phone': 'falta telefono',
+            'phone': _telephone,
             'emergencyContactName': _nameContact,
             'emergencyContactPhone': _telephoneContact,
             'emergencyContactRelationship': _relationContact,
