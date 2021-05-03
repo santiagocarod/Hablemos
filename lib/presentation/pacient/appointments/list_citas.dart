@@ -72,6 +72,15 @@ class ListCitas extends StatelessWidget {
                       ),
                     ],
                   ),
+                  floatingActionButton: FloatingActionButton(
+                    child: Icon(Icons.add),
+                    backgroundColor: kRojoOscuro,
+                    onPressed: () {
+                      Cita cita;
+                      Navigator.pushNamed(context, 'CrearCita',
+                          arguments: cita);
+                    },
+                  ),
                 ),
               ),
             ],
@@ -127,19 +136,7 @@ class ListCitas extends StatelessWidget {
       cards.add(inkWell);
     });
     // Button
-    Container button = Container(
-      alignment: Alignment.bottomRight,
-      margin: EdgeInsets.all(20),
-      child: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: kRojoOscuro,
-        onPressed: () {
-          Cita cita;
-          Navigator.pushNamed(context, 'CrearCita', arguments: cita);
-        },
-      ),
-    );
-    cards.add(button);
+
     return cards;
   }
 }
