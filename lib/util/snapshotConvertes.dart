@@ -37,14 +37,15 @@ List<CentroAtencion> centrosMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
     CentroAtencion c = CentroAtencion(
-        uid: element.id,
+        id: element.id,
         ciudad: data["city"],
         correo: data['email'],
         departamento: data['state'],
         gratuito: data['free'],
         nombre: data['name'],
         telefono: data['telephone'],
-        ubicacion: data['location']);
+        ubicacion: data['location'],
+        horaAtencion: data["hours"]);
 
     centros.add(c);
   });

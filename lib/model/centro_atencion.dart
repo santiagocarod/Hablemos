@@ -1,5 +1,5 @@
 class CentroAtencion {
-  String uid;
+  String id;
   String nombre;
   String ciudad;
   String departamento;
@@ -9,17 +9,14 @@ class CentroAtencion {
   String ubicacion;
   bool gratuito;
 
-  CentroAtencion({
-    this.uid,
-    this.nombre,
-    this.ciudad,
-    this.departamento,
-    this.telefono,
-    this.correo,
-    this.ubicacion,
-    this.gratuito,
-  }) {
-    this.horaAtencion =
-        DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
-  }
+  CentroAtencion(
+      {this.id,
+      this.nombre,
+      this.ciudad,
+      this.departamento,
+      this.telefono,
+      this.correo,
+      this.ubicacion,
+      this.gratuito,
+      this.horaAtencion});
 }
