@@ -1,10 +1,7 @@
 name: 'nightly artifacts cleanup'
 on:
-  push:
-    branches:
-    - dev
-  #schedule:
-   # - cron: '4 18 * * *' # every night at 1 am UTC
+  schedule:
+    - cron: '0 20 * * *' # every night at 1 am UTC
 
 jobs:
   remove-old-artifacts:
@@ -12,7 +9,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
+    - name: Remove artifacts
+      uses: c-hive/gha-remove-artifacts@v1.2.0
       with:
         age: '1 day'
