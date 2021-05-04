@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/services/auth.dart';
 
 import '../ux/Encabezado.dart';
 
@@ -37,15 +39,30 @@ class StartFireBase extends StatelessWidget {
 
 // Screen of user that wants to register or login ==============================
 class HomeScreen extends StatelessWidget {
-  // final AuthService _authService = new AuthService();
+  final AuthService _authService = new AuthService();
 
   @override
   Widget build(BuildContext context) {
-    // _authService.getCurrentUser().then((value) {
-    //   if (value != null) {
-    //     Navigator.pushNamed(context, 'inicio');
-    //   }
-    // });
+    _authService.getCurrentUser().then((value) {
+      if (value != null) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(value.uid)
+            .get()
+            .then((DocumentSnapshot snapshot) {
+          if (snapshot.exists) {
+            String role = snapshot.get('role');
+            if (role.contains('pacient')) {
+              Navigator.pushNamed(context, 'inicio');
+            } else if (role.contains('professional')) {
+              Navigator.pushNamed(context, 'inicioProfesional');
+            } else if (role.contains('administrator')) {
+              Navigator.pushNamed(context, 'inicioAdministrador');
+            }
+          }
+        });
+      }
+    });
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height,
