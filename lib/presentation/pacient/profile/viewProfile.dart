@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
@@ -106,7 +107,7 @@ class _ViewProfile extends State<ViewProfile> {
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[
-                    pacientHead(size, paciente),
+                    pacientHead(size, paciente, user),
                     Container(
                       padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
                       child: SingleChildScrollView(
@@ -123,7 +124,7 @@ class _ViewProfile extends State<ViewProfile> {
   }
 
   // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
+  Widget pacientHead(Size size, Paciente paciente, User user) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -136,11 +137,34 @@ class _ViewProfile extends State<ViewProfile> {
             color: kRosado,
             child: Column(
               children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildDialog(context, paciente),
+                    );
+                  },
+                  child: Container(
+                    color: kRojo,
+                    width: 100.0,
+                    height: 50.0,
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Eliminar \nCuenta",
+                      style: TextStyle(
+                          fontFamily: 'PoppinSemiBold', fontSize: 14.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
                 Stack(
                   children: [
+                    //Button Delete Profile
+
                     // Draw profile picture
                     Container(
-                      padding: EdgeInsets.only(top: 32),
+                      padding: EdgeInsets.only(top: 25),
                       alignment: Alignment.topCenter,
                       child: ClipOval(
                         child: Container(
@@ -243,8 +267,6 @@ class _ViewProfile extends State<ViewProfile> {
 
   // Body of the screen
   Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
     return Container(
       width: size.width,
       child: Column(
@@ -252,7 +274,7 @@ class _ViewProfile extends State<ViewProfile> {
           _section('Correo', paciente.correo),
           _sectionButton(),
           _section('Ciudad', paciente.ciudad),
-          _section('Fecha de Nacimiento', fecha),
+          _section('Fecha de Nacimiento', paciente.fechaNacimiento),
           _section('Teléfono', paciente.telefono.toString()),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -418,6 +440,151 @@ class _ViewProfile extends State<ViewProfile> {
             shadowColor: Colors.black,
           ),
           child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
+
+  //Confirm PopUp Dialog
+  Widget _buildDialog(BuildContext context, Paciente paciente) {
+    String title2 = "";
+    String content2 = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Eliminación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        '¿Está seguro que desea eliminar \npermanentemente \neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                eliminarPaciente(paciente).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+// Confirm popup dialog
+  Widget adviceDialogPacient(
+      BuildContext context, String text, String content, bool state) {
+    return new AlertDialog(
+      title: Text(text),
+      content: Text(content),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              } else if (!state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+                side: BorderSide(color: kNegro),
+              ),
+              shadowColor: Colors.black,
+            ),
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 14.0,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
         ),
       ],
     );

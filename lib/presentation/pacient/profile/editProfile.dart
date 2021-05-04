@@ -1,14 +1,18 @@
 import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -33,9 +37,8 @@ class _EditProfile extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    DateFormat dateFormat = DateFormat.yMd();
     _dateController = TextEditingController()
-      ..text = dateFormat.format(widget.paciente.fechaNacimiento);
+      ..text = widget.paciente.fechaNacimiento;
 
     _mailController = TextEditingController()..text = widget.paciente.correo;
     _cityController = TextEditingController()..text = widget.paciente.ciudad;
@@ -105,6 +108,9 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
+
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -116,7 +122,7 @@ class _EditProfile extends State<EditProfile> {
           appBar: crearAppBar('', null, 0, null),
           body: Stack(
             children: <Widget>[
-              pacientHead(size, _nameController, _lastnameController),
+              pacientHead(size, _nameController, _lastnameController, user),
               Container(
                 padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
                 child: SingleChildScrollView(
@@ -133,7 +139,7 @@ class _EditProfile extends State<EditProfile> {
 
   // Draw app bar Style
   Widget pacientHead(Size size, TextEditingController textNombre,
-      TextEditingController textApellido) {
+      TextEditingController textApellido, User user) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -200,7 +206,7 @@ class _EditProfile extends State<EditProfile> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    _buildDialog(context, widget.paciente),
+                    _buildDialog(context, widget.paciente, user),
               );
             },
             child: Row(
@@ -392,7 +398,7 @@ class _EditProfile extends State<EditProfile> {
   }
 
   // Confirm popup dialog
-  Widget _buildDialog(BuildContext context, Paciente paciente) {
+  Widget _buildDialog(BuildContext context, Paciente paciente, User user) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
