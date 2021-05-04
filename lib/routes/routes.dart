@@ -53,6 +53,7 @@ import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
+import 'package:hablemos/presentation/signInMinor.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentActivity.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentGroup.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentWorkShop.dart';
@@ -91,6 +92,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'start': (context) => StartFireBase(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
+    'registroMenorEdad': (context) => SingInMinor(),
     'inicio': (context) => PantallaInicioPacinete(),
     'inicioProfesional': (context) => PantallaInicioProfesional(),
     'inicioAdministrador': (context) => PantallaInicioAdmin(),
