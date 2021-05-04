@@ -292,7 +292,10 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
     elevation: 0,
     leading: new IconButton(
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
-      onPressed: () => Navigator.pop(context),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, ruta);
+      },
     ),
     centerTitle: true,
     title: FittedBox(
@@ -308,7 +311,7 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   );
 }
 
-Widget secction({String title, String text}) {
+Widget secction({String title, String text, bool banco}) {
   return Container(
     width: 270.0,
     height: 46,
@@ -328,9 +331,9 @@ Widget secction({String title, String text}) {
         Column(
           children: <Widget>[
             Text(
-              '\n$text',
+              text != null || text == "" ? '\n$text' : '\nPor Definir',
               style: TextStyle(
-                fontSize: 14.0,
+                fontSize: banco == null ? 14 : 12,
                 color: kLetras,
                 fontWeight: FontWeight.w300,
                 fontFamily: 'PoppinsRegular',
@@ -654,8 +657,9 @@ showAlertDialog(BuildContext context, String text) {
   );
 }
 
-AlertDialog dialogoConfirmacion(
-    BuildContext context, String rutaSi, String titulo, String mensaje) {
+AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
+    String titulo, String mensaje, Function funcionSi,
+    {dynamic parametro}) {
   return AlertDialog(
     shape: RoundedRectangleBorder(
         side: BorderSide(color: kNegro, width: 2.0),
@@ -694,6 +698,11 @@ AlertDialog dialogoConfirmacion(
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    if (parametro != null) {
+                      funcionSi(parametro);
+                    } else {
+                      funcionSi();
+                    }
                     Navigator.pushNamed(context, rutaSi);
                   },
                   child: Container(

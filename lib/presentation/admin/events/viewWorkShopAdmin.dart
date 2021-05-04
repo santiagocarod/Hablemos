@@ -356,7 +356,8 @@ class ViewWorkShopAdmin extends StatelessWidget {
                                             context,
                                             "",
                                             "Confirmación de Eliminación",
-                                            "¿Está seguro que desea eliminar este Taller?");
+                                            "¿Está seguro que desea eliminar este Taller?",
+                                            () {});
                                       },
                                     );
                                   },
