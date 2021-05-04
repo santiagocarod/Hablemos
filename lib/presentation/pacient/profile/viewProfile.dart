@@ -96,6 +96,7 @@ class _ViewProfile extends State<ViewProfile> {
           }
 
           Paciente paciente = pacienteMapToList(snapshot)[0];
+          Paciente copia = paciente;
 
           return Container(
             color: kRosado,
@@ -137,34 +138,11 @@ class _ViewProfile extends State<ViewProfile> {
             color: kRosado,
             child: Column(
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildDialog(context, paciente),
-                    );
-                  },
-                  child: Container(
-                    color: kRojo,
-                    width: 100.0,
-                    height: 50.0,
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Eliminar \nCuenta",
-                      style: TextStyle(
-                          fontFamily: 'PoppinSemiBold', fontSize: 14.0),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
                 Stack(
                   children: [
-                    //Button Delete Profile
-
                     // Draw profile picture
                     Container(
-                      padding: EdgeInsets.only(top: 25),
+                      padding: EdgeInsets.only(top: 20),
                       alignment: Alignment.topCenter,
                       child: ClipOval(
                         child: Container(
@@ -257,6 +235,34 @@ class _ViewProfile extends State<ViewProfile> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                //Button Delete Profile
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildDialog(context, paciente),
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 40.0,
+                      //width: 87.0,
+                      margin: EdgeInsets.only(top: 10.0, right: 5.0),
+                      //alignment: Alignment.topRight,
+                      child: Text(
+                        "Eliminar Cuenta",
+                        style: TextStyle(
+                            fontFamily: 'PoppinSemiBold', fontSize: 14.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -275,7 +281,7 @@ class _ViewProfile extends State<ViewProfile> {
           _sectionButton(),
           _section('Ciudad', paciente.ciudad),
           _section('Fecha de Nacimiento', paciente.fechaNacimiento),
-          _section('Teléfono', paciente.telefono.toString()),
+          _section('Teléfono', paciente.telefono),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -288,12 +294,9 @@ class _ViewProfile extends State<ViewProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _section(
-              'Nombre', paciente.nombreContactoEmergencia ?? "Dato Faltante"),
-          _section('Teléfono',
-              paciente.telefonoContactoEmergencia ?? "Dato Faltante"),
-          _section('Relación',
-              paciente.relacionContactoEmergencia ?? "Dato Faltante"),
+          _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),
+          _section('Teléfono', paciente.telefonoContactoEmergencia ?? "fatl "),
+          _section('Relación', paciente.relacionContactoEmergencia ?? "tal "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -447,8 +450,6 @@ class _ViewProfile extends State<ViewProfile> {
 
   //Confirm PopUp Dialog
   Widget _buildDialog(BuildContext context, Paciente paciente) {
-    String title2 = "";
-    String content2 = "";
     return new AlertDialog(
       title: Text(
         'Confirmación de Eliminación',
@@ -479,24 +480,22 @@ class _ViewProfile extends State<ViewProfile> {
           children: [
             ElevatedButton(
               onPressed: () {
+                AuthService authService = AuthService();
+                authService.logOut();
                 eliminarPaciente(paciente).then((value) {
+                  eliminarUsuario(paciente);
                   bool state;
                   if (value) {
-                    title2 = 'Perfil modificada';
-                    content2 = "Su perfil fue modificado exitosamente";
                     state = true;
                   } else {
-                    title2 = 'Error de edición';
-                    content2 =
-                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
                     state = false;
                   }
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        adviceDialogPacient(context, title2, content2, state),
-                  );
+                  if (state) {
+                    Navigator.pushNamed(context, 'start');
+                  } else if (!state) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
                 });
               },
               style: ElevatedButton.styleFrom(
@@ -540,51 +539,6 @@ class _ViewProfile extends State<ViewProfile> {
               ),
             ),
           ],
-        ),
-      ],
-    );
-  }
-
-// Confirm popup dialog
-  Widget adviceDialogPacient(
-      BuildContext context, String text, String content, bool state) {
-    return new AlertDialog(
-      title: Text(text),
-      content: Text(content),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-        side: BorderSide(color: kNegro, width: 2.0),
-      ),
-      actions: <Widget>[
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              if (state) {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              } else if (!state) {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(378.0),
-                side: BorderSide(color: kNegro),
-              ),
-              shadowColor: Colors.black,
-            ),
-            child: const Text(
-              'Cerrar',
-              style: TextStyle(
-                color: kNegro,
-                fontSize: 14.0,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
         ),
       ],
     );

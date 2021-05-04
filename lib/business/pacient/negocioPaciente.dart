@@ -36,3 +36,10 @@ Future<bool> eliminarPaciente(Paciente paciente) {
       .then((value) => true)
       .catchError((error) => false);
 }
+
+void eliminarUsuario(Paciente paciente) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("users");
+
+  reference.doc(paciente.uid).delete();
+}

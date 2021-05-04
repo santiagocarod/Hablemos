@@ -280,7 +280,7 @@ class _SignInPageState extends State<SignInPage> {
               'lastName': _lastName,
               'city': _city,
               'email': bloc.email,
-              'date': _inputFieldDateController.text,
+              'birthDate': _inputFieldDateController.text,
               'picture': 'falta foto',
               'phone': _telephone,
               'emergencyContactName': _nameContact,
