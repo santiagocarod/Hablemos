@@ -55,6 +55,7 @@ class Paciente {
         : fechaN = DateTime.parse(data["birthDate"]);
 
     Paciente p = Paciente(
+        uid: data["uid"],
         nombre: data["name"],
         apellido: data["lastName"],
         correo: data["email"],

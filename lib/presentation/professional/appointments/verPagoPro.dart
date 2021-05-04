@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
+import 'package:hablemos/model/cita.dart';
 import '../../../constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 
@@ -12,6 +14,7 @@ class VerPagoPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Cita cita = ModalRoute.of(context).settings.arguments;
     return Stack(
       children: [
         Container(
@@ -79,7 +82,9 @@ class VerPagoPro extends StatelessWidget {
                                             context,
                                             'citasProfesional',
                                             "Confirmación Aceptación de Pago",
-                                            "¿Estás seguro que deseas aceptar y aprobar esta cita?");
+                                            "¿Estás seguro que deseas aceptar y aprobar esta cita?",
+                                            actualizarEstado,
+                                            parametro: cita);
                                       });
                                 },
                                 child: Container(

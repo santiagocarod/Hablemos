@@ -536,7 +536,8 @@ class _AddGroup extends State<AddGroup> {
                                           context,
                                           "listarGruposAdmin",
                                           "Confirmación de Creación",
-                                          "¿Está seguro que desea crear un nuevo Grupo?");
+                                          "¿Está seguro que desea crear un nuevo Grupo?",
+                                          () {});
                                     },
                                   );
                                 },

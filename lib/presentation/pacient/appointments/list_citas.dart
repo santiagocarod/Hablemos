@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
@@ -14,8 +15,13 @@ class ListCitas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
-        "appoinments"); //TODO: APlicar filtro where uidPaciente = current user.
+
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
+
+    Query citasCollection = FirebaseFirestore.instance
+        .collection("appoinments")
+        .where("pacient.uid", isEqualTo: user.uid);
 
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
@@ -65,6 +71,15 @@ class ListCitas extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                    child: Icon(Icons.add),
+                    backgroundColor: kRojoOscuro,
+                    onPressed: () {
+                      Cita cita;
+                      Navigator.pushNamed(context, 'CrearCita',
+                          arguments: cita);
+                    },
                   ),
                 ),
               ),
@@ -121,19 +136,7 @@ class ListCitas extends StatelessWidget {
       cards.add(inkWell);
     });
     // Button
-    Container button = Container(
-      alignment: Alignment.bottomRight,
-      margin: EdgeInsets.all(20),
-      child: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: kRojoOscuro,
-        onPressed: () {
-          Cita cita;
-          Navigator.pushNamed(context, 'CrearCita', arguments: cita);
-        },
-      ),
-    );
-    cards.add(button);
+
     return cards;
   }
 }

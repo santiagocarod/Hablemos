@@ -39,6 +39,7 @@ class Profesional {
 
   toMap() {
     return {
+      "uid": this.uid,
       "name": this.nombre,
       "lastName": this.apellido,
       "birthDay": this.fechaNacimiento,
@@ -54,9 +55,9 @@ class Profesional {
     };
   }
 
-  static Profesional fromMap(data, uid) {
+  static Profesional fromMap(data) {
     Profesional p = Profesional(
-        uid: uid,
+        uid: data["uid"],
         nombre: data["name"],
         apellido: data["lastName"],
         banco: Banco.fromMap(data["bank"]),
@@ -72,4 +73,14 @@ class Profesional {
 
     return p;
   }
+
+  String nombreCompleto() {
+    return this.nombre + " " + this.apellido;
+  }
+
+  bool operator ==(other) {
+    return (other is Profesional) && other.uid == uid;
+  }
+
+  int get hashCode => uid.hashCode;
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
+import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -19,10 +21,10 @@ class DetalleCitaPro extends StatelessWidget {
         cita.dateTime.year.toString();
     final price = NumberFormat('#,###');
     final String priceDate = '\$' + price.format(cita.costo);
-    final String paymentDetails = cita.profesional.banco.numCuenta;
+    final String paymentDetails = cita.profesional.banco.toString();
     final String place = cita.lugar;
     final String specialty = cita.especialidad;
-    final String type = cita.especialidad;
+    final String type = cita.tipo;
     final String contact = cita.profesional.celular.toString();
 
     Size size = MediaQuery.of(context).size;
@@ -48,7 +50,7 @@ class DetalleCitaPro extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _pageHeader(context, size, "Detalle Cita"),
+                      _pageHeader(context, size, "Detalle Cita Profesional"),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -77,7 +79,8 @@ class DetalleCitaPro extends StatelessWidget {
                                 SizedBox(height: 3.0),
                                 secction(
                                     title: 'Detalles de Pago:',
-                                    text: paymentDetails),
+                                    text: paymentDetails,
+                                    banco: true),
                                 SizedBox(height: 3.0),
                                 secction(title: 'Lugar:', text: place),
                                 SizedBox(height: 3.0),
@@ -167,8 +170,10 @@ Widget _headerDate(BuildContext context, Cita cita) {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, 'editarCitaProfesional',
-                arguments: cita);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EditCitaPro(cita: cita)));
+            // Navigator.pushNamed(context, 'editarCitaProfesional',
+            //     arguments: cita);
           },
           child: Container(
               alignment: Alignment.centerRight,
@@ -198,8 +203,8 @@ Widget _headerDate(BuildContext context, Cita cita) {
 
 @override
 Widget _buttons(BuildContext context, Cita cita) {
-  final bool state = cita.estado;
-  if (state == false) {
+  print(cita.pago);
+  if (cita.pago == "" || cita.pago == null) {
     return Container(
       width: 359.0,
       padding: EdgeInsets.only(top: 30),
@@ -215,7 +220,9 @@ Widget _buttons(BuildContext context, Cita cita) {
                         context,
                         'citasProfesional',
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
             child: Container(
@@ -254,7 +261,7 @@ Widget _buttons(BuildContext context, Cita cita) {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'VerPagoPro');
+              Navigator.pushNamed(context, 'VerPagoPro', arguments: cita);
             },
             child: Container(
                 alignment: Alignment.center,
@@ -289,7 +296,9 @@ Widget _buttons(BuildContext context, Cita cita) {
                         context,
                         'citasProfesional',
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
             child: Container(

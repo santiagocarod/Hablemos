@@ -347,7 +347,8 @@ class ViewGroupAdmin extends StatelessWidget {
                                           context,
                                           "",
                                           "Confirmación de Eliminación",
-                                          "¿Está seguro que desea eliminar este Grupo de Apoyo?");
+                                          "¿Está seguro que desea eliminar este Grupo de Apoyo?",
+                                          () {});
                                     },
                                   );
                                 },
