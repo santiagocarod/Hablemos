@@ -182,7 +182,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                       builder: (BuildContext context) {
                                         return dialogoConfirmacion(
                                             context,
-                                            "listarActividadesAdmin",
+                                            "listCentrosMedicosAdmin",
                                             "Confirmación de Creación",
                                             "¿Está seguro que desea crear una nueva Actividad?",
                                             eliminarCentroAtencion,
