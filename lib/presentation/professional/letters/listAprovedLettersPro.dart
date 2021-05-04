@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -27,7 +26,7 @@ class ListAprovedLettersPro extends StatelessWidget {
           }
           List<Carta> cartas = ModalRoute.of(context).settings.arguments;
           if (ModalRoute.of(context).settings.arguments == null) {
-            cartas = cartaMapToList(snapshot);
+            cartas = cartaMapToList(snapshot, true);
           }
 
           Size size = MediaQuery.of(context).size;
@@ -70,7 +69,8 @@ class ListAprovedLettersPro extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: letterToCard(context, size, cartas),
+                              children: letterToCard(
+                                  context, size, cartas, "verCartaPro", true),
                             ),
                           ),
                         ),
@@ -89,60 +89,5 @@ class ListAprovedLettersPro extends StatelessWidget {
             ],
           );
         });
-  }
-
-  List<Widget> letterToCard(
-      BuildContext context, Size size, List<Carta> cartas) {
-    //TODO: CONVERTIR ESTO EN ATOM PARA PACIENTE Y PROFESIONAL
-    List<Widget> cards = [];
-    cartas.forEach((element) {
-      if (element.aprobado == true) {
-        Card card = Card(
-          elevation: 5,
-          margin: EdgeInsets.only(
-              top: 60.0, left: size.width * 0.1, right: size.width * 0.1),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          shadowColor: Colors.black.withOpacity(1.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                Icon(Icons.mail),
-                SizedBox(
-                  height: 5,
-                ),
-                Text("${element.titulo}",
-                    style:
-                        TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 20),
-                  child: Text(
-                      (element.cuerpo.length <= 250)
-                          ? element.cuerpo
-                          : "${element.cuerpo.substring(0, 250)} ...",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular", fontSize: 14)),
-                )
-              ],
-            ),
-          ),
-        );
-        InkWell inkWell = InkWell(
-          splashColor: kRosado,
-          onTap: () {
-            Navigator.pushNamed(context, "verCartaPro", arguments: element);
-          },
-          child: card,
-        );
-        cards.add(inkWell);
-      }
-    });
-    return cards;
   }
 }
