@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/professional/negocioCartasPro.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -97,13 +98,8 @@ class AssesLetterPro extends StatelessWidget {
                               onTap: () {
                                 showDialog(
                                     context: context,
-                                    builder: (BuildContext context) {
-                                      return dialogoConfirmacion(
-                                          context,
-                                          'listaCartasEvaluar',
-                                          "Confirmación Aceptación de Carta",
-                                          "¿Estás seguro que deseas aceptar y publicar esta carta?");
-                                    });
+                                    builder: (BuildContext context) =>
+                                        _buildDialogAcept(context, carta));
                               },
                               child: Container(
                                 width: 155.0,
@@ -168,14 +164,10 @@ class AssesLetterPro extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return dialogoConfirmacion(
-                                    context,
-                                    'listaCartasEvaluar',
-                                    "Confirmación Rechazo de Carta",
-                                    "¿Estás seguro que deseas rechazar y eliminar esta carta?");
-                              });
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildDialogReject(context, carta),
+                          );
                         },
                         child: Container(
                           width: 155.0,
@@ -209,6 +201,206 @@ class AssesLetterPro extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  // Confirm popup dialog reject
+  Widget _buildDialogReject(BuildContext context, Carta carta) {
+    String title2 = "";
+    String content2 = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación Rechazo de Carta',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Estás seguro que deseas rechazar y eliminar esta carta?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                eliminarCarta(carta).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Carta eliminada';
+                    content2 = "La carta fue eliminada exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de eliminación';
+                    content2 =
+                        "Hubo un error eliminando la carta, inténtelo nuevamente";
+                    state = false;
+                  }
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => adviceDialogLetter(
+                            context,
+                            title2,
+                            content2,
+                            state,
+                          ));
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Confirm popup dialog acept
+  Widget _buildDialogAcept(BuildContext context, Carta carta) {
+    String title2 = "";
+    String content2 = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación Aceptación de Carta',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Estás seguro que deseas aceptar y publicar esta carta?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                aceptarCarta(carta).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Carta aceptada';
+                    content2 = "La carta fue aceptada y publicada exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de aceptación';
+                    content2 =
+                        "Hubo un error aceptando la carta, inténtelo nuevamente";
+                    state = false;
+                  }
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => adviceDialogLetter(
+                            context,
+                            title2,
+                            content2,
+                            state,
+                          ));
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
