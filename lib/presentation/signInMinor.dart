@@ -245,6 +245,9 @@ class _SingInMinorState extends State<SingInMinor> {
                   .set({
                     'role': 'pacient',
                     'name': nombre,
+                    'lastName': apellido,
+                    'city': ciudad,
+                    'email': correo,
                   })
                   .then((value) => Navigator.pushNamed(context, 'inicio'))
                   .catchError((value) => showAlertDialog(
@@ -262,6 +265,7 @@ class _SingInMinorState extends State<SingInMinor> {
                 'emergencyContactName': nombreContacto,
                 'emergencyContactPhone': telefonoContacto,
                 'emergencyContactRelationship': relacionContacto,
+                'uid': value,
               }).catchError((value) => showAlertDialog(
                   context, "Hubo un error\nPor Favor intentalo mas tarde"));
             }
