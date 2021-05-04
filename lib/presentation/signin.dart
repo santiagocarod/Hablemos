@@ -16,8 +16,12 @@ class _SignInPageState extends State<SignInPage> {
   String _date = '';
   String _name = '';
   String _lastName = '';
+  String _telephone = '';
   String _city = '';
   DateTime _fecha;
+  String _nameContact = '';
+  String _telephoneContact = '';
+  String _relationContact = '';
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +66,33 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  void _updateTelephone(String telephone) {
+    setState(() {
+      _telephone = telephone;
+    });
+  }
+
   void _updateCity(String city) {
     setState(() {
       _city = city;
+    });
+  }
+
+  void _updateContactName(String nameC) {
+    setState(() {
+      _nameContact = nameC;
+    });
+  }
+
+  void _updateContactTelephone(String telephoneC) {
+    setState(() {
+      _telephoneContact = telephoneC;
+    });
+  }
+
+  void _updateContactRelation(String relationC) {
+    setState(() {
+      _relationContact = relationC;
     });
   }
 
@@ -103,13 +131,41 @@ class _SignInPageState extends State<SignInPage> {
                         passwordTextBox(bloc), //Input para el contraseña
                         SizedBox(height: 20.0),
                         InputTextBoxWController(
+                            'Escriba su teléfono',
+                            'Teléfono ',
+                            Icons.call,
+                            _updateTelephone,
+                            _telephone),
+                        SizedBox(height: 20.0),
+                        InputTextBoxWController(
                             'Escriba su ciudad',
                             'Ciudad residencia',
                             Icons.location_on,
                             _updateCity,
                             _city), //Input para el ciudad
                         SizedBox(height: 20.0),
-                        _crearEdad(context), //Input crear edad
+                        _crearEdad(context),
+                        SizedBox(height: 20.0),
+                        InputTextBoxWController(
+                            'Nombre contacto emergencia',
+                            'Nombre Contacto ',
+                            Icons.person,
+                            _updateContactName,
+                            _nameContact), //Datos Adicionales
+                        SizedBox(height: 20.0),
+                        InputTextBoxWController(
+                            'Teléfono contacto emergencia',
+                            'Teléfono Contacto',
+                            Icons.call,
+                            _updateContactTelephone,
+                            _telephoneContact), //Datos Adicionales
+                        SizedBox(height: 20.0),
+                        InputTextBoxWController(
+                            'Parentesco contacto emergencia',
+                            'Parentesco Contacto ',
+                            Icons.supervised_user_circle_outlined,
+                            _updateContactRelation,
+                            _relationContact), //Datos Adicionales
                         SizedBox(height: 30.0),
                         iconButtonBigBloc("Crear Cuenta", () {
                           signInLogic(bloc, context);
@@ -193,6 +249,14 @@ class _SignInPageState extends State<SignInPage> {
         showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
       } else if (_inputFieldDateController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else if (_telephone == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+      } else if (_telephoneContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+      } else if (_nameContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
       } else {
         AuthService authService = new AuthService();
         Future<String> user =
@@ -206,6 +270,9 @@ class _SignInPageState extends State<SignInPage> {
                 .set({
                   'role': 'pacient',
                   'name': _name,
+                  'lastName': _lastName,
+                  'city': _city,
+                  'email': bloc.email,
                 })
                 .then((value) => Navigator.pushNamed(context, 'inicio'))
                 .catchError((value) => showAlertDialog(
@@ -218,10 +285,10 @@ class _SignInPageState extends State<SignInPage> {
               'email': bloc.email,
               'date': _inputFieldDateController.text,
               'picture': 'falta foto',
-              'phone': 'falta telefono',
-              'emergencyContactName': 'falta nombre emergencia',
-              'emergencyContactPhone': 'falta numero emergencia',
-              'emergencyContactRelationship': 'falta relacion emergencia',
+              'phone': _telephone,
+              'emergencyContactName': _nameContact,
+              'emergencyContactPhone': _telephoneContact,
+              'emergencyContactRelationship': _relationContact,
             }).catchError((value) => showAlertDialog(
                 context, "Hubo un error\nPor Favor intentalo mas tarde"));
           }
@@ -236,6 +303,14 @@ class _SignInPageState extends State<SignInPage> {
         showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
       } else if (_inputFieldDateController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else if (_telephone == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+      } else if (_telephoneContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+      } else if (_nameContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
       } else {
         List<String> usuario = [];
         usuario.add(_name);
@@ -244,6 +319,11 @@ class _SignInPageState extends State<SignInPage> {
         usuario.add(bloc.email);
         usuario.add(_inputFieldDateController.text);
         usuario.add(bloc.password);
+        usuario.add(_nameContact);
+        usuario.add(_telephoneContact);
+        usuario.add(_relationContact);
+        usuario.add(_telephone);
+
         Navigator.pushNamed(context, 'registroMenorEdad', arguments: usuario);
       }
     }

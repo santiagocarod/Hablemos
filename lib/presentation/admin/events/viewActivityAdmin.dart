@@ -346,7 +346,8 @@ class ViewActivityAdmin extends StatelessWidget {
                                             context,
                                             "listarActividades",
                                             "Confirmación de Eliminación",
-                                            "¿Está seguro que desea eliminar esta Actividad?");
+                                            "¿Está seguro que desea eliminar esta Actividad?",
+                                            () {});
                                       },
                                     );
                                   },

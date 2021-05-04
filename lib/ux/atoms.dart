@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/inh_widget.dart';
+import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/shape_appbar_border.dart';
 import 'package:hablemos/constants.dart';
 
@@ -127,7 +128,8 @@ Widget passwordTextBox(InputsBloc bloc) {
   );
 }
 
-Widget inputTextBox(String hText, String lText, IconData icon) {
+Widget inputTextBox(String hText, String lText, IconData icon,
+    TextEditingController controller) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
     child: TextField(
@@ -139,6 +141,7 @@ Widget inputTextBox(String hText, String lText, IconData icon) {
         hintText: hText,
         labelText: lText,
       ),
+      controller: controller,
     ),
   );
 }
@@ -179,7 +182,8 @@ class InputTextBoxWController extends StatelessWidget {
   }
 }
 
-Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
+Widget inputTextBoxMultiline(String hText, String lText, IconData icon,
+    TextEditingController controller) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
     child: TextField(
@@ -194,6 +198,7 @@ Widget inputTextBoxMultiline(String hText, String lText, IconData icon) {
         hintText: hText,
         labelText: lText,
       ),
+      controller: controller,
     ),
   );
 }
@@ -292,7 +297,10 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
     elevation: 0,
     leading: new IconButton(
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
-      onPressed: () => Navigator.pushNamed(context, ruta),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, ruta);
+      },
     ),
     centerTitle: true,
     title: FittedBox(
@@ -308,7 +316,7 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   );
 }
 
-Widget secction({String title, String text}) {
+Widget secction({String title, String text, bool banco}) {
   return Container(
     width: 270.0,
     height: 46,
@@ -328,9 +336,9 @@ Widget secction({String title, String text}) {
         Column(
           children: <Widget>[
             Text(
-              '\n$text',
+              text != null || text == "" ? '\n$text' : '\nPor Definir',
               style: TextStyle(
-                fontSize: 14.0,
+                fontSize: banco == null ? 14 : 12,
                 color: kLetras,
                 fontWeight: FontWeight.w300,
                 fontFamily: 'PoppinsRegular',
@@ -654,8 +662,9 @@ showAlertDialog(BuildContext context, String text) {
   );
 }
 
-AlertDialog dialogoConfirmacion(
-    BuildContext context, String rutaSi, String titulo, String mensaje) {
+AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
+    String titulo, String mensaje, Function funcionSi,
+    {dynamic parametro}) {
   return AlertDialog(
     shape: RoundedRectangleBorder(
         side: BorderSide(color: kNegro, width: 2.0),
@@ -694,6 +703,11 @@ AlertDialog dialogoConfirmacion(
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    if (parametro != null) {
+                      funcionSi(parametro);
+                    } else {
+                      funcionSi();
+                    }
                     Navigator.pushNamed(context, rutaSi);
                   },
                   child: Container(
@@ -763,4 +777,106 @@ class MyClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false;
   }
+}
+
+List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
+    String route, bool condition) {
+  List<Widget> cards = [];
+  cartas.forEach((element) {
+    if (element.aprobado == condition) {
+      Card card = Card(
+        elevation: 5,
+        margin: EdgeInsets.only(
+          top: 45.0,
+          left: size.width * 0.05,
+          right: size.width * 0.05,
+          bottom: 15.0,
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        shadowColor: Colors.black.withOpacity(1.0),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              Icon(Icons.mail),
+              SizedBox(
+                height: 5,
+              ),
+              Text("${element.titulo}",
+                  style: TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 20),
+                child: Text(
+                    (element.cuerpo.length <= 250)
+                        ? element.cuerpo
+                        : "${element.cuerpo.substring(0, 250)} ...",
+                    style:
+                        TextStyle(fontFamily: "PoppinsRegular", fontSize: 14)),
+              )
+            ],
+          ),
+        ),
+      );
+      InkWell inkWell = InkWell(
+        splashColor: kRosado,
+        onTap: () {
+          Navigator.pushNamed(context, route, arguments: element);
+        },
+        child: card,
+      );
+      cards.add(inkWell);
+    }
+  });
+  return cards;
+}
+
+// Confirm popup dialog
+Widget adviceDialogLetter(
+    BuildContext context, String text, String content, bool state) {
+  return new AlertDialog(
+    title: Text(text),
+    content: Text(content),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+      side: BorderSide(color: kNegro, width: 2.0),
+    ),
+    actions: <Widget>[
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            if (state) {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            } else if (!state) {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(378.0),
+              side: BorderSide(color: kNegro),
+            ),
+            shadowColor: Colors.black,
+          ),
+          child: const Text(
+            'Cerrar',
+            style: TextStyle(
+              color: kNegro,
+              fontSize: 14.0,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }

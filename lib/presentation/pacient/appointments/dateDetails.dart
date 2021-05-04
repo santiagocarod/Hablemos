@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -54,10 +55,10 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
       cita.dateTime.year.toString();
   final price = NumberFormat('#,###');
   final String pay = '\$' + price.format(cita.costo);
-  final String count = profesional.banco.numCuenta;
+  final String count = profesional.banco.toString();
   final String place = cita.lugar;
   final String specialty = cita.especialidad;
-  final String type = cita.especialidad;
+  final String type = cita.tipo;
   final String contact = profesional.celular.toString();
 
   return Container(
@@ -86,13 +87,13 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
             secction(title: 'Hora:', text: hour),
             secction(title: 'Fecha:', text: date),
             secction(title: 'Costo', text: pay),
-            secction(title: 'Detalles de pago:', text: count),
+            secction(title: 'Detalles de pago:', text: count, banco: true),
             secction(title: 'Lugar:', text: place),
             secction(title: 'Especialidad:', text: specialty),
             secction(title: 'Tipo:', text: type),
             secction(title: 'Contacto:', text: contact),
             _state(context, cita),
-            _buttons(context),
+            _buttons(context, cita),
           ],
         ),
       ),
@@ -184,7 +185,7 @@ Widget _selectIcon(bool text) {
 }
 
 // Payment and cancel buttons
-Widget _buttons(BuildContext context) {
+Widget _buttons(BuildContext context, Cita cita) {
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
     width: 270.0,
@@ -247,7 +248,9 @@ Widget _buttons(BuildContext context) {
                         context,
                         "citasPaciente",
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
           ),
