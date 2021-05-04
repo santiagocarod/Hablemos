@@ -1,28 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioCentrosAtencion.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
-class DetailsMedicalAdmin extends StatelessWidget {
+class DetailsMedicalAdmin extends StatefulWidget {
+  CentroAtencion centroAtencion;
+  DetailsMedicalAdmin({this.centroAtencion});
+  @override
+  _DetailsMedicalAdminState createState() =>
+      _DetailsMedicalAdminState(this.centroAtencion);
+}
+
+class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
+  CentroAtencion centroAtencion;
+  _DetailsMedicalAdminState(CentroAtencion centroAtencion) {
+    this.centroAtencion = centroAtencion;
+  }
+  TextEditingController nombre;
+  TextEditingController telefono;
+  TextEditingController ciudad;
+  TextEditingController departamento;
+  TextEditingController horario;
+  TextEditingController correo;
+  TextEditingController direccion;
+  bool gratuito;
+
+  @override
+  void initState() {
+    super.initState();
+    nombre = TextEditingController(text: widget.centroAtencion.nombre);
+    telefono = TextEditingController(text: widget.centroAtencion.telefono);
+    ciudad = TextEditingController(text: widget.centroAtencion.ciudad);
+    departamento =
+        TextEditingController(text: widget.centroAtencion.departamento);
+    horario = TextEditingController(text: widget.centroAtencion.horaAtencion);
+    correo = TextEditingController(text: widget.centroAtencion.correo);
+    direccion = TextEditingController(text: widget.centroAtencion.ubicacion);
+    gratuito = widget.centroAtencion.gratuito;
+  }
+
   @override
   Widget build(BuildContext context) {
-    CentroAtencion centroAtencion = ModalRoute.of(context).settings.arguments;
-    TextEditingController nombre =
-        TextEditingController(text: centroAtencion.nombre);
-    TextEditingController telefono =
-        TextEditingController(text: centroAtencion.telefono);
-    TextEditingController ciudad =
-        TextEditingController(text: centroAtencion.ciudad);
-    TextEditingController departamento =
-        TextEditingController(text: centroAtencion.departamento);
-    TextEditingController horario =
-        TextEditingController(text: centroAtencion.horaAtencion);
-    TextEditingController correo =
-        TextEditingController(text: centroAtencion.correo);
-    TextEditingController direccion =
-        TextEditingController(text: centroAtencion.ubicacion);
-
     TextStyle estiloTitulo = TextStyle(
         color: kAzulLetras,
         fontSize: 19,
@@ -35,7 +55,7 @@ class DetailsMedicalAdmin extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar(centroAtencion.nombre, null, 0, null),
+          appBar: crearAppBar(widget.centroAtencion.nombre, null, 0, null),
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -93,7 +113,13 @@ class DetailsMedicalAdmin extends StatelessWidget {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Text("Gratuito: ", style: estiloTitulo)),
-                          TextField(controller: telefono),
+                          Switch(
+                              value: gratuito,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  gratuito = value;
+                                });
+                              }),
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -105,7 +131,35 @@ class DetailsMedicalAdmin extends StatelessWidget {
                                   text: "Eliminar"),
                               iconButtonSmall(
                                   color: kAzulLetras,
-                                  function: () {},
+                                  function: () {
+                                    CentroAtencion nuevoCentro = CentroAtencion(
+                                        id: widget.centroAtencion.id,
+                                        ciudad: ciudad.text,
+                                        correo: correo.text,
+                                        departamento: departamento.text,
+                                        gratuito: gratuito,
+                                        nombre: nombre.text,
+                                        telefono: telefono.text,
+                                        ubicacion: direccion.text,
+                                        horaAtencion: horario.text);
+                                    if (actualizarCentroAtencion(nuevoCentro)) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Exito",
+                                                  "El contenido fue actualizado"));
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Error",
+                                                  "Ocurrio un error\nIntentelo de nuevo mas tarde"));
+                                    }
+                                  },
                                   iconData: Icons.save,
                                   text: "Guardar"),
                             ],
@@ -121,6 +175,35 @@ class DetailsMedicalAdmin extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPopupDialog(
+      BuildContext context, String tittle, String content) {
+    return new AlertDialog(
+      title: Text(tittle),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(content),
+        ],
+      ),
+      actions: <Widget>[
+        new ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: kRojoOscuro,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(378.0),
+            ),
+            shadowColor: Colors.black,
+          ),
+          child: const Text('Cerrar'),
+        ),
+      ],
     );
   }
 }
