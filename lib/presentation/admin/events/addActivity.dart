@@ -537,7 +537,8 @@ class _AddActivity extends State<AddActivity> {
                                           context,
                                           "listarActividadesAdmin",
                                           "Confirmación de Creación",
-                                          "¿Está seguro que desea crear una nueva Actividad?");
+                                          "¿Está seguro que desea crear una nueva Actividad?",
+                                          () {});
                                     },
                                   );
                                 },
