@@ -184,7 +184,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                             context,
                                             "listCentrosMedicosAdmin",
                                             "Confirmación de Creación",
-                                            "¿Está seguro que desea crear una nueva Actividad?",
+                                            "¿Está seguro que desea Eliminar el centro de Ayuda?",
                                             eliminarCentroAtencion,
                                             parametro: widget.centroAtencion);
                                       },
