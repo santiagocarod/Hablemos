@@ -177,20 +177,18 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                               iconButtonSmall(
                                   color: Colors.red,
                                   function: () {
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) {
-                                    //     return dialogoConfirmacion(
-                                    //         context,
-                                    //         "listarActividadesAdmin",
-                                    //         "Confirmación de Creación",
-                                    //         "¿Está seguro que desea crear una nueva Actividad?",eliminarCentroAtencion,parametro:widget.centroAtencion);
-                                    //   },
-                                    // );
-                                    eliminarCentroAtencion(
-                                        widget.centroAtencion);
-                                    Navigator.pushNamed(
-                                        context, "listCentrosMedicosAdmin");
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return dialogoConfirmacion(
+                                            context,
+                                            "listarActividadesAdmin",
+                                            "Confirmación de Creación",
+                                            "¿Está seguro que desea crear una nueva Actividad?",
+                                            eliminarCentroAtencion,
+                                            parametro: widget.centroAtencion);
+                                      },
+                                    );
                                   },
                                   iconData: Icons.delete,
                                   text: "Eliminar"),
