@@ -274,12 +274,13 @@ class _SignInPageState extends State<SignInPage> {
             'lastName': _lastName,
             'city': _city,
             'email': bloc.email,
-            'date': _inputFieldDateController.text,
+            'birthDate': _inputFieldDateController.text,
             'picture': 'falta foto',
-            'phone': _telephone,
-            'emergencyContactName': _nameContact,
-            'emergencyContactPhone': _telephoneContact,
-            'emergencyContactRelationship': _relationContact,
+            'phone': 'falta telefono',
+            'emergencyContactName': 'falta nombre emergencia',
+            'emergencyContactPhone': 'falta numero emergencia',
+            'emergencyContactRelationship': 'falta relacion emergencia',
+            'uid': value,
           }).catchError((value) => showAlertDialog(
               context, "Hubo un error\nPor Favor intentalo mas tarde"));
         }
