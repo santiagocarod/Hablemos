@@ -18,6 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   String _lastName = '';
   String _telephone = '';
   String _city = '';
+  DateTime _fecha;
   String _nameContact = '';
   String _telephoneContact = '';
   String _relationContact = '';
@@ -221,6 +222,7 @@ class _SignInPageState extends State<SignInPage> {
     if (picked != null) {
       setState(() {
         _date = myFormat.format(picked).toString();
+        _fecha = picked;
         _inputFieldDateController.text = _date;
       });
     }
@@ -231,60 +233,97 @@ class _SignInPageState extends State<SignInPage> {
         FirebaseFirestore.instance.collection("users");
     final CollectionReference pacienteRef =
         FirebaseFirestore.instance.collection("pacients");
-    if (_name == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
-    } else if (_lastName == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Nombre");
-    } else if (_city == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
-    } else if (_inputFieldDateController.text == '') {
-      showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
-    } else if (_nameContact == '') {
-      showAlertDialog(context,
-          "Por Favor Ingresa el\nNombre de tu Contacto \nde Emergencia");
-    } else if (_telephoneContact == '') {
-      showAlertDialog(context,
-          "Por Favor Ingresa el\nTelefono de tu Contacto \nde Emergencia");
-    } else if (_relationContact == '') {
-      showAlertDialog(context,
-          "Por Favor Ingresa el\nParentezco de tu Contacto \nde Emergencia");
-    } else {
-      AuthService authService = new AuthService();
-      Future<String> user =
-          authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
-      user.then((value) {
-        if (value[0] == "[") {
-          showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
-        } else {
-          usersRef
-              .doc(value)
-              .set({
-                'role': 'pacient',
-                'name': _name,
-                'lastName': _lastName,
-                'city': _city,
-                'email': bloc.email,
-              })
-              .then((value) => Navigator.pushNamed(context, 'inicio'))
-              .catchError((value) => showAlertDialog(
-                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
-          pacienteRef.doc(value).set({
-            'name': _name,
-            'lastName': _lastName,
-            'city': _city,
-            'email': bloc.email,
-            'birthDate': _inputFieldDateController.text,
-            'picture': 'falta foto',
-            'phone': 'falta telefono',
-            'emergencyContactName': 'falta nombre emergencia',
-            'emergencyContactPhone': 'falta numero emergencia',
-            'emergencyContactRelationship': 'falta relacion emergencia',
-            'uid': value,
-          }).catchError((value) => showAlertDialog(
-              context, "Hubo un error\nPor Favor intentalo mas tarde"));
-        }
-      });
+    DateTime today = DateTime.now();
+    DateTime birthDate = _fecha;
+    int yearDiff = today.year - birthDate.year;
+    int monthDiff = today.month - birthDate.month;
+    int dayDiff = today.day - birthDate.day;
+
+    if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
+      if (_name == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_lastName == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_city == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+      } else if (_inputFieldDateController.text == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else if (_telephone == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+      } else if (_telephoneContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+      } else if (_nameContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
+      } else {
+        AuthService authService = new AuthService();
+        Future<String> user =
+            authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
+        user.then((value) {
+          if (value[0] == "[") {
+            showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+          } else {
+            usersRef
+                .doc(value)
+                .set({
+                  'role': 'pacient',
+                  'name': _name,
+                })
+                .then((value) => Navigator.pushNamed(context, 'inicio'))
+                .catchError((value) => showAlertDialog(
+                    context, "Hubo un error\nPor Favor intentalo mas tarde"));
+
+            pacienteRef.doc(value).set({
+              'name': _name,
+              'lastName': _lastName,
+              'city': _city,
+              'email': bloc.email,
+              'date': _inputFieldDateController.text,
+              'picture': 'falta foto',
+              'phone': _telephone,
+              'emergencyContactName': _nameContact,
+              'emergencyContactPhone': _telephoneContact,
+              'emergencyContactRelationship': _relationContact,
+              'uid': value,
+            }).catchError((value) => showAlertDialog(
+                context, "Hubo un error\nPor Favor intentalo mas tarde"));
+          }
+        });
+      }
+    } else {
+      if (_name == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_lastName == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+      } else if (_city == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+      } else if (_inputFieldDateController.text == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+      } else if (_telephone == '') {
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+      } else if (_telephoneContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+      } else if (_nameContact == '') {
+        showAlertDialog(context,
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
+      } else {
+        List<String> usuario = [];
+        usuario.add(_name);
+        usuario.add(_lastName);
+        usuario.add(_city);
+        usuario.add(bloc.email);
+        usuario.add(_inputFieldDateController.text);
+        usuario.add(bloc.password);
+        usuario.add(_nameContact);
+        usuario.add(_telephoneContact);
+        usuario.add(_relationContact);
+        usuario.add(_telephone);
+
+        Navigator.pushNamed(context, 'registroMenorEdad', arguments: usuario);
+      }
     }
   }
 }
