@@ -245,9 +245,6 @@ class _SingInMinorState extends State<SingInMinor> {
                   .set({
                     'role': 'pacient',
                     'name': nombre,
-                    'lastName': apellido,
-                    'city': ciudad,
-                    'email': correo,
                   })
                   .then((value) => Navigator.pushNamed(context, 'inicio'))
                   .catchError((value) => showAlertDialog(
