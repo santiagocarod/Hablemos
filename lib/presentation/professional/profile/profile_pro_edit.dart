@@ -1,35 +1,63 @@
 import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 
 import '../../../constants.dart';
 
 class EditProfileProfesional extends StatefulWidget {
+  final Profesional profesional;
+  const EditProfileProfesional({this.profesional});
   @override
   _EditProfileProfesionalState createState() => _EditProfileProfesionalState();
 }
 
 class _EditProfileProfesionalState extends State<EditProfileProfesional> {
-  TextEditingController _dateController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _mailController = new TextEditingController();
+  TextEditingController _lastNameController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
   TextEditingController _especialidadController = new TextEditingController();
   TextEditingController _proyectosController = new TextEditingController();
   TextEditingController _experienciaController = new TextEditingController();
   TextEditingController _descripcionController = new TextEditingController();
-  String _date = '';
+  TextEditingController _phoneController = new TextEditingController();
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _mailController = TextEditingController()..text = widget.profesional.correo;
+    _cityController = TextEditingController()..text = widget.profesional.ciudad;
+    _phoneController = TextEditingController()
+      ..text = widget.profesional.celular;
+    _nameController = TextEditingController()..text = widget.profesional.nombre;
+    _lastNameController = TextEditingController()
+      ..text = widget.profesional.apellido;
+    _convenioController = TextEditingController()
+      ..text = widget.profesional.convenios.toString();
+    _proyectosController = TextEditingController()
+      ..text = widget.profesional.proyectos.toString();
+    _especialidadController = TextEditingController()
+      ..text = widget.profesional.especialidad;
+    _experienciaController = TextEditingController()
+      ..text = widget.profesional.experiencia;
+    _descripcionController = TextEditingController()
+      ..text = widget.profesional.descripcion;
+
+    List<TextEditingController> _conveniosController = [];
+    for (int i = 1; i < widget.profesional.proyectos.length; i++)
+      _conveniosController.add(TextEditingController());
+    List<TextEditingController> _proyectoController = [];
+    for (int i = 1; i < widget.profesional.proyectos.length; i++)
+      _proyectoController.add(TextEditingController());
+  }
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -85,47 +113,32 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference professionalCollection =
-        FirebaseFirestore.instance.collection("professionals");
-    return StreamBuilder<QuerySnapshot>(
-        stream: professionalCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          Profesional profesional = profesionalMapToList(snapshot)[0];
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              bottom: false,
-              child: Scaffold(
-                extendBodyBehindAppBar: true,
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                body: Stack(
-                  children: <Widget>[
-                    cabeceraPerfilProfesional(size, profesional),
-                    Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size, profesional),
-                      ),
-                    ),
-                  ],
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null),
+          body: Stack(
+            children: <Widget>[
+              cabeceraPerfilProfesional(size, widget.profesional),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.53),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size, widget.profesional),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
-    _nameController.text = profesional.nombre + " " + profesional.apellido;
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -217,20 +230,44 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
           ),
         ),
         // Display text name
-        Container(
-          padding: EdgeInsets.only(top: 283),
-          alignment: Alignment.topCenter,
-          child: AutoSizeTextField(
-            controller: _nameController,
-            textAlign: TextAlign.center,
-            fullwidth: false,
-            style: TextStyle(
-              color: kNegro,
-              fontSize: (size.height / 2) * 0.1,
-              fontFamily: 'PoppinsRegular',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: _nameController,
+                textAlign: TextAlign.center,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.06,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {},
+              ),
             ),
-          ),
-        )
+            SizedBox(
+              width: 5.0,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: _lastNameController,
+                textAlign: TextAlign.center,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.06,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {},
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -241,35 +278,55 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       child: Column(
         children: <Widget>[
           _sectionButton(),
-          _editSection('Correo', profesional.correo, _mailController),
-          _editSection('Ciudad', 'Bogotá D.C', _cityController),
-          _editSection('Convenio', profesional.convenios.toString(),
-              _convenioController),
-          _editSection('Especialidad', profesional.especialidad,
-              _especialidadController),
-          _editSection('Proyectos', profesional.proyectos.toString(),
-              _proyectosController),
-          _editSection(
-              'Experiencia', profesional.experiencia, _experienciaController),
-          _editSection(
-              'Descripción', profesional.descripcion, _descripcionController),
+          _editSectionCorreo("Correo", _mailController.text),
+          _editSection('Ciudad', _cityController),
+          _editSection('Convenio', _convenioController),
+          _editSection('Especialidad', _especialidadController),
+          _editSection('Proyectos', _proyectosController),
+          _editSection('Experiencia', _experienciaController),
+          _editSection('Descripción', _descripcionController),
+        ],
+      ),
+    );
+  }
+
+  Widget _editSectionCorreo(String title, String content) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            content == null ? "Falta información" : content,
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: kNegro,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
         ],
       ),
     );
   }
 
   // Section: title and text field
-  Widget _editSection(
-      String text, String hint, TextEditingController controller) {
-    Text info = Text(
-      hint,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: kNegro,
-        fontFamily: 'PoppinsRegular',
-      ),
-    );
-    controller.text = info.data;
+  Widget _editSection(String text, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -288,33 +345,15 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
             controller: controller,
             enableInteractiveSelection: false,
             textAlign: TextAlign.justify,
-            onTap: () {
-              if (text == 'Fecha de Nacimiento') {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                _selectDate(context);
-              }
+            minLines: 1,
+            maxLines: 10,
+            onChanged: (text) {
+              controller.text = text;
             },
           ),
         ],
       ),
     );
-  }
-
-  // Picker Date
-  _selectDate(BuildContext context) async {
-    DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(1945),
-      lastDate: new DateTime(2025),
-    );
-    var myFormat = DateFormat('d/MM/yyyy');
-    if (picked != null) {
-      setState(() {
-        _date = myFormat.format(picked).toString();
-        _dateController.text = _date;
-      });
-    }
   }
 
   // Confirm popup dialog

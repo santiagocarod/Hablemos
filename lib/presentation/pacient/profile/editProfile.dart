@@ -33,7 +33,7 @@ class _EditProfile extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    DateFormat dateFormat = DateFormat.yMEd();
+    DateFormat dateFormat = DateFormat.yMd();
     _dateController = TextEditingController()
       ..text = dateFormat.format(widget.paciente.fechaNacimiento);
     _mailController = TextEditingController()..text = widget.paciente.correo;
@@ -104,7 +104,6 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Paciente paciente = ModalRoute.of(context).settings.arguments;
     return Container(
       color: kRosado,
       child: SafeArea(

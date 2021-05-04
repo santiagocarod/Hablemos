@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -71,10 +72,6 @@ class _ProfileProViewState extends State<ProfileProView> {
         });
   }
 
-  Profesional findprof(List<Profesional> profesionales, String id) {
-    profesionales.firstWhere((element) => element.uid == id);
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -91,8 +88,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             return loadingScreen();
           }
 
-          List<Profesional> profesionales = profesionalMapToList(snapshot);
-          Profesional profesional = findprof(profesionales, id);
+          Profesional profesional = profesionalMapToList(snapshot)[0];
 
           return Container(
             color: kRosado,
@@ -183,8 +179,9 @@ class _ProfileProViewState extends State<ProfileProView> {
           padding: EdgeInsets.only(top: size.height * 0.33),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'editarPerfilProfesional',
-                  arguments: profesional);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfileProfesional(profesional: profesional)));
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
