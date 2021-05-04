@@ -27,7 +27,7 @@ class ListLetters extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
-          List<Carta> cartas = cartaMapToList(snapshot);
+          List<Carta> cartas = cartaMapToList(snapshot, true);
           return Stack(
             children: [
               Container(
@@ -62,7 +62,8 @@ class ListLetters extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: letterToCard(context, cartas),
+                              children: letterToCard(
+                                  context, size, cartas, "verCarta", true),
                             ),
                           ),
                         ),
@@ -81,55 +82,5 @@ class ListLetters extends StatelessWidget {
             ],
           );
         });
-  }
-
-  List<Widget> letterToCard(BuildContext context, List<Carta> cartas) {
-    List<Widget> cards = [];
-    cartas.forEach((element) {
-      if (element.aprobado) {
-        Card card = Card(
-          elevation: 5,
-          margin: EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          shadowColor: Colors.black.withOpacity(1.0),
-          child: Center(
-              child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              Icon(Icons.mail),
-              SizedBox(
-                height: 5,
-              ),
-              Text("${element.titulo}",
-                  style: TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 15, 20),
-                child: Text(
-                    (element.cuerpo.length <= 250)
-                        ? element.cuerpo
-                        : "${element.cuerpo.substring(0, 250)} ...",
-                    style:
-                        TextStyle(fontFamily: "PoppinsRegular", fontSize: 12)),
-              )
-            ],
-          )),
-        );
-        InkWell inkWell = InkWell(
-          splashColor: kRosado,
-          onTap: () {
-            Navigator.pushNamed(context, "verCarta", arguments: element);
-          },
-          child: card,
-        );
-        cards.add(inkWell);
-      }
-    });
-    return cards;
   }
 }
