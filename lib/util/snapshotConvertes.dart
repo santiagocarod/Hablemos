@@ -13,16 +13,21 @@ import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/taller.dart';
 
-List<Carta> cartaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
+List<Carta> cartaMapToList(
+    AsyncSnapshot<QuerySnapshot> snapshot, bool condition) {
   List<Carta> cartas = [];
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
     Carta c = Carta(
-        uid: element.id,
+        id: element.id,
         aprobado: data['approved'],
         cuerpo: data['body'],
         titulo: data['title']);
-    cartas.add(c);
+    if (c.aprobado && condition) {
+      cartas.add(c);
+    } else if (!c.aprobado && !condition) {
+      cartas.add(c);
+    }
   });
   return cartas;
 }
@@ -32,14 +37,15 @@ List<CentroAtencion> centrosMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   snapshot.data.docs.forEach((element) {
     dynamic data = element.data();
     CentroAtencion c = CentroAtencion(
-        uid: element.id,
+        id: element.id,
         ciudad: data["city"],
         correo: data['email'],
         departamento: data['state'],
         gratuito: data['free'],
         nombre: data['name'],
         telefono: data['telephone'],
-        ubicacion: data['location']);
+        ubicacion: data['location'],
+        horaAtencion: data["hours"]);
 
     centros.add(c);
   });

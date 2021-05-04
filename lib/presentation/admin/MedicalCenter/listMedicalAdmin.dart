@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/centro_atencion.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/EncabezadoMedicalAdmin.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -109,8 +110,11 @@ class ListMedicalAdmin extends StatelessWidget {
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
-              arguments: element);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  DetailsMedicalAdmin(centroAtencion: element)));
+          // Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
+          //     arguments: element);
         },
         child: card,
       );

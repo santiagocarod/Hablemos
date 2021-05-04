@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioCartas.dart';
+import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
-class AddLetter extends StatelessWidget {
+class AddLetter extends StatefulWidget {
+  @override
+  _AddLetter createState() => _AddLetter();
+}
+
+class _AddLetter extends State<AddLetter> {
+  TextEditingController _titleController = new TextEditingController();
+  TextEditingController _bodyController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,9 +49,10 @@ class AddLetter extends StatelessWidget {
                           SizedBox(
                             height: 15,
                           ),
-                          inputTextBox("Titulo", "Titulo", Icons.title),
-                          inputTextBoxMultiline(
-                              "Cuerpo", "Cuerpo", Icons.subject),
+                          inputTextBox("Titulo", "Titulo", Icons.title,
+                              _titleController),
+                          inputTextBoxMultiline("Cuerpo", "Cuerpo",
+                              Icons.subject, _bodyController),
                           SizedBox(
                             height: 20,
                           ),
@@ -49,15 +60,10 @@ class AddLetter extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return dialogoConfirmacion(
-                                          context,
-                                          "listaCartasPaciente",
-                                          "Confirmación Envio de Carta",
-                                          "¿Estás seguro que deseas enviar esta carta?",
-                                          () {});
-                                    });
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      _buildDialog(context),
+                                );
                               },
                               child: Container(
                                 width: 230.0,
@@ -99,6 +105,116 @@ class AddLetter extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  // Confirm popup dialog
+  Widget _buildDialog(BuildContext context) {
+    String title = "";
+    String content = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación Envío de Carta',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Estás seguro que desea enviar esta carta?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                if (_titleController.text.isNotEmpty &&
+                    _bodyController.text.isNotEmpty) {
+                  Carta carta = new Carta(
+                    titulo: _titleController.text,
+                    cuerpo: _bodyController.text,
+                    aprobado: false,
+                  );
+
+                  agregarCarta(carta).then((value) {
+                    bool state;
+                    if (value) {
+                      title = 'Carta enviada';
+                      content =
+                          "Su carta fue enviada exitosamente, espere la aprobación de nuestro equipo para su publicación";
+                      state = true;
+                    } else {
+                      title = 'Error de envío';
+                      content =
+                          "Hubo un error enviando la carta, inténtelo nuevamente";
+                      state = false;
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => adviceDialogLetter(
+                              context,
+                              title,
+                              content,
+                              state,
+                            ));
+                  });
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

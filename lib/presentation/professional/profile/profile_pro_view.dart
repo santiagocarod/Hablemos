@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -72,8 +73,12 @@ class _ProfileProViewState extends State<ProfileProView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference professionalCollection =
-        FirebaseFirestore.instance.collection("professionals");
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User user = auth.currentUser;
+
+    Query professionalCollection = FirebaseFirestore.instance
+        .collection("professionals")
+        .where("uid", isEqualTo: user.uid);
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
