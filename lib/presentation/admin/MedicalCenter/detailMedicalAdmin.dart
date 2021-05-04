@@ -1,12 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioCentrosAtencion.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
+import 'DptosyCiudades.dart';
 
 class DetailsMedicalAdmin extends StatefulWidget {
-  CentroAtencion centroAtencion;
+  final CentroAtencion centroAtencion;
   DetailsMedicalAdmin({this.centroAtencion});
   @override
   _DetailsMedicalAdminState createState() =>
@@ -20,21 +23,29 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
   }
   TextEditingController nombre;
   TextEditingController telefono;
-  TextEditingController ciudad;
-  TextEditingController departamento;
+  String ciudad;
   TextEditingController horario;
   TextEditingController correo;
   TextEditingController direccion;
   bool gratuito;
+  List<dynamic> locaciones;
+  Map departamento;
+  List<dynamic> ciudades = [];
 
   @override
   void initState() {
     super.initState();
+    locaciones = json.decode(locacionesString);
     nombre = TextEditingController(text: widget.centroAtencion.nombre);
     telefono = TextEditingController(text: widget.centroAtencion.telefono);
-    ciudad = TextEditingController(text: widget.centroAtencion.ciudad);
-    departamento =
-        TextEditingController(text: widget.centroAtencion.departamento);
+    ciudad = widget.centroAtencion.ciudad;
+    locaciones.forEach((element) {
+      if (element["departamento"] == widget.centroAtencion.departamento) {
+        departamento = element;
+        ciudades = element["ciudades"];
+      }
+    });
+
     horario = TextEditingController(text: widget.centroAtencion.horaAtencion);
     correo = TextEditingController(text: widget.centroAtencion.correo);
     direccion = TextEditingController(text: widget.centroAtencion.ubicacion);
@@ -86,14 +97,53 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
-                              child: Text("Ciudad: ", style: estiloTitulo)),
-                          TextField(controller: ciudad),
-                          SizedBox(height: 20),
-                          Align(
-                              alignment: Alignment.centerLeft,
                               child:
                                   Text("Departamento: ", style: estiloTitulo)),
-                          TextField(controller: departamento),
+                          DropdownButton(
+                              isExpanded: true,
+                              value: departamento,
+                              items: locaciones.map((dpto) {
+                                return DropdownMenuItem<Map>(
+                                  child:
+                                      Center(child: Text(dpto["departamento"])),
+                                  value: dpto,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                ciudad = null;
+                                setState(() {
+                                  departamento = value;
+                                  ciudades = value["ciudades"];
+                                });
+                              },
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontFamily: 'PoppinRegular',
+                              )),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Ciudad: ", style: estiloTitulo)),
+                          DropdownButton(
+                              isExpanded: true,
+                              value: ciudad,
+                              items: ciudades.map((ciu) {
+                                return DropdownMenuItem<String>(
+                                  child: Center(child: Text(ciu)),
+                                  value: ciu,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  ciudad = value;
+                                });
+                                print(value["ciudades"]);
+                              },
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontFamily: 'PoppinRegular',
+                              )),
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
@@ -126,7 +176,22 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                             children: [
                               iconButtonSmall(
                                   color: Colors.red,
-                                  function: () {},
+                                  function: () {
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return dialogoConfirmacion(
+                                    //         context,
+                                    //         "listarActividadesAdmin",
+                                    //         "Confirmación de Creación",
+                                    //         "¿Está seguro que desea crear una nueva Actividad?",eliminarCentroAtencion,parametro:widget.centroAtencion);
+                                    //   },
+                                    // );
+                                    eliminarCentroAtencion(
+                                        widget.centroAtencion);
+                                    Navigator.pushNamed(
+                                        context, "listCentrosMedicosAdmin");
+                                  },
                                   iconData: Icons.delete,
                                   text: "Eliminar"),
                               iconButtonSmall(
@@ -134,9 +199,10 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                   function: () {
                                     CentroAtencion nuevoCentro = CentroAtencion(
                                         id: widget.centroAtencion.id,
-                                        ciudad: ciudad.text,
+                                        ciudad: ciudad,
                                         correo: correo.text,
-                                        departamento: departamento.text,
+                                        departamento:
+                                            departamento["departamento"],
                                         gratuito: gratuito,
                                         nombre: nombre.text,
                                         telefono: telefono.text,
