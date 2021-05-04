@@ -225,6 +225,10 @@ class _SingInMinorState extends State<SingInMinor> {
     final String fechaNacimiento = usuario[4];
     final String ciudad = usuario[2];
     final String contrasena = usuario[5];
+    final String nombreContacto = usuario[6];
+    final String telefonoContacto = usuario[7];
+    final String relacionContacto = usuario[8];
+    final String telefono = usuario[9];
 
     if (selectRadio == 1) {
       return GestureDetector(
@@ -254,10 +258,10 @@ class _SingInMinorState extends State<SingInMinor> {
                 'date': fechaNacimiento,
                 'picture': 'falta foto',
                 'autorizacion': "llamada",
-                'phone': 'falta telefono',
-                'emergencyContactName': 'falta nombre emergencia',
-                'emergencyContactPhone': 'falta numero emergencia',
-                'emergencyContactRelationship': 'falta relacion emergencia',
+                'phone': telefono,
+                'emergencyContactName': nombreContacto,
+                'emergencyContactPhone': telefonoContacto,
+                'emergencyContactRelationship': relacionContacto,
               }).catchError((value) => showAlertDialog(
                   context, "Hubo un error\nPor Favor intentalo mas tarde"));
             }
@@ -318,10 +322,10 @@ class _SingInMinorState extends State<SingInMinor> {
                 'date': fechaNacimiento,
                 'picture': 'falta foto',
                 'autorizacion': "_image",
-                'phone': 'falta telefono',
-                'emergencyContactName': 'falta nombre emergencia',
-                'emergencyContactPhone': 'falta numero emergencia',
-                'emergencyContactRelationship': 'falta relacion emergencia',
+                'phone': telefono,
+                'emergencyContactName': nombreContacto,
+                'emergencyContactPhone': telefonoContacto,
+                'emergencyContactRelationship': relacionContacto,
               }).catchError((value) => showAlertDialog(
                   context, "Hubo un error\nPor Favor intentalo mas tarde"));
             }
