@@ -280,6 +280,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
           _sectionButton(),
           _editSectionCorreo("Correo", _mailController.text),
           _editSection('Ciudad', _cityController),
+          _editSection('Teléfono', _phoneController),
           _editSection('Convenio', _convenioController),
           _editSection('Especialidad', _especialidadController),
           _editSection('Proyectos', _proyectosController),

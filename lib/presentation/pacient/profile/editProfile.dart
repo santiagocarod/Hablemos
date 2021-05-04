@@ -27,7 +27,6 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController _relationController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _lastnameController = new TextEditingController();
-  String _date = '';
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
@@ -392,23 +391,6 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Picker Date
-  _selectDate(BuildContext context) async {
-    DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(1945),
-      lastDate: new DateTime(2025),
-    );
-    var myFormat = DateFormat('d/MM/yyyy');
-    if (picked != null) {
-      setState(() {
-        _date = myFormat.format(picked).toString();
-        _dateController.text = _date;
-      });
-    }
-  }
-
   // Confirm popup dialog
   Widget _buildDialog(BuildContext context, Paciente paciente) {
     String title2 = "";
@@ -502,43 +484,6 @@ class _EditProfile extends State<EditProfile> {
               ),
             ),
           ],
-        ),
-      ],
-    );
-  }
-
-  // Confirm popup dialog
-  Widget _adviceDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Perfil Actualizado'),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-        side: BorderSide(color: kNegro, width: 2.0),
-      ),
-      actions: <Widget>[
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(378.0),
-                side: BorderSide(color: kNegro),
-              ),
-              shadowColor: Colors.black,
-            ),
-            child: const Text(
-              'Cerrar',
-              style: TextStyle(
-                color: kNegro,
-                fontSize: 14.0,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
         ),
       ],
     );
