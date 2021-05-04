@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -36,6 +37,7 @@ class _EditProfile extends State<EditProfile> {
     DateFormat dateFormat = DateFormat.yMd();
     _dateController = TextEditingController()
       ..text = dateFormat.format(widget.paciente.fechaNacimiento);
+
     _mailController = TextEditingController()..text = widget.paciente.correo;
     _cityController = TextEditingController()..text = widget.paciente.ciudad;
     _phoneController = TextEditingController()..text = widget.paciente.telefono;
@@ -109,6 +111,7 @@ class _EditProfile extends State<EditProfile> {
       child: SafeArea(
         bottom: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
           appBar: crearAppBar('', null, 0, null),
@@ -195,10 +198,10 @@ class _EditProfile extends State<EditProfile> {
           padding: EdgeInsets.only(top: 253),
           child: GestureDetector(
             onTap: () {
-              // TODO: Save values in pacient
               showDialog(
                 context: context,
-                builder: (BuildContext context) => _buildDialog(context),
+                builder: (BuildContext context) =>
+                    _buildDialog(context, widget.paciente),
               );
             },
             child: Row(
@@ -232,16 +235,18 @@ class _EditProfile extends State<EditProfile> {
               child: AutoSizeTextField(
                 controller: textNombre,
                 textAlign: TextAlign.center,
+                enableInteractiveSelection: false,
                 fullwidth: false,
                 style: TextStyle(
                   color: kNegro,
-                  fontSize: (size.height / 2) * 0.07,
+                  fontSize: (size.height / 2) * 0.06,
                   fontFamily: 'PoppinsRegular',
                 ),
                 onChanged: (text) {
                   textNombre.text = text;
                   textNombre.selection = TextSelection.fromPosition(
                       TextPosition(offset: textNombre.text.length));
+                  widget.paciente.nombre = textNombre.text;
                 },
               ),
             ),
@@ -252,16 +257,18 @@ class _EditProfile extends State<EditProfile> {
               child: AutoSizeTextField(
                 controller: textApellido,
                 textAlign: TextAlign.center,
+                enableInteractiveSelection: false,
                 fullwidth: false,
                 style: TextStyle(
                   color: kNegro,
-                  fontSize: (size.height / 2) * 0.07,
+                  fontSize: (size.height / 2) * 0.06,
                   fontFamily: 'PoppinsRegular',
                 ),
                 onChanged: (text) {
                   textApellido.text = text;
                   textApellido.selection = TextSelection.fromPosition(
-                      TextPosition(offset: textNombre.text.length));
+                      TextPosition(offset: textApellido.text.length));
+                  widget.paciente.apellido = textApellido.text;
                 },
               ),
             ),
@@ -277,11 +284,11 @@ class _EditProfile extends State<EditProfile> {
       width: size.width,
       child: Column(
         children: <Widget>[
-          _editSection('Correo', _mailController),
+          _nonEditSection('Correo', _mailController.text),
           _sectionButton(),
-          _editSection('Ciudad', _cityController),
-          _editSection('Fecha de Nacimiento', _dateController),
-          _editSection('Teléfono', _phoneController),
+          _editSection('Ciudad', _cityController, 1),
+          _nonEditSection('Fecha de Nacimiento', _dateController.text),
+          _editSection('Teléfono', _phoneController, 2),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -294,16 +301,53 @@ class _EditProfile extends State<EditProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _editSection('Nombre', _nameEController),
-          _editSection('Teléfono', _phoneEController),
-          _editSection('Relación', _relationController),
+          _editSection('Nombre', _nameEController, 3),
+          _editSection('Teléfono', _phoneEController, 4),
+          _editSection('Relación', _relationController, 5),
+        ],
+      ),
+    );
+  }
+
+  //Section non editable
+  Widget _nonEditSection(String title, String content) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            content == null ? "Falta información" : content,
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: kNegro,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
         ],
       ),
     );
   }
 
   // Section: title and text field
-  Widget _editSection(String text, TextEditingController controller) {
+  Widget _editSection(
+      String text, TextEditingController controller, int categoria) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -323,16 +367,25 @@ class _EditProfile extends State<EditProfile> {
               controller.text = text;
               controller.selection = TextSelection.fromPosition(
                   TextPosition(offset: controller.text.length));
+              if (categoria == 1) {
+                widget.paciente.ciudad = controller.text;
+              }
+              if (categoria == 2) {
+                widget.paciente.telefono = controller.text;
+              }
+              if (categoria == 3) {
+                widget.paciente.nombreContactoEmergencia = controller.text;
+              }
+              if (categoria == 4) {
+                widget.paciente.telefonoContactoEmergencia = controller.text;
+              }
+              if (categoria == 5) {
+                widget.paciente.relacionContactoEmergencia = controller.text;
+              }
             },
             controller: controller,
             enableInteractiveSelection: false,
             textAlign: TextAlign.justify,
-            onTap: () {
-              if (text == 'Fecha de Nacimiento') {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                _selectDate(context);
-              }
-            },
           ),
         ],
       ),
@@ -357,7 +410,9 @@ class _EditProfile extends State<EditProfile> {
   }
 
   // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
+  Widget _buildDialog(BuildContext context, Paciente paciente) {
+    String title2 = "";
+    String content2 = "";
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
@@ -386,10 +441,25 @@ class _EditProfile extends State<EditProfile> {
           children: [
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => _adviceDialog(context),
-                );
+                editarPaciente(paciente).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -566,6 +636,51 @@ class _EditProfile extends State<EditProfile> {
             shadowColor: Colors.black,
           ),
           child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
+
+  // Confirm popup dialog
+  Widget adviceDialogPacient(
+      BuildContext context, String text, String content, bool state) {
+    return new AlertDialog(
+      title: Text(text),
+      content: Text(content),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              } else if (!state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+                side: BorderSide(color: kNegro),
+              ),
+              shadowColor: Colors.black,
+            ),
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 14.0,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
         ),
       ],
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
@@ -21,7 +22,6 @@ class _ViewProfile extends State<ViewProfile> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
   String username;
-  AuthService _authService = new AuthService();
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -75,33 +75,16 @@ class _ViewProfile extends State<ViewProfile> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _authService.getCurrentUser().then((value) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(value.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          setState(() {
-            username = documentSnapshot.get("name");
-            print(username);
-          });
-        }
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
 
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    Query pacientsCollection = FirebaseFirestore.instance
+        .collection("pacients")
+        .where("uid", isEqualTo: user.uid);
     return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
+        stream: pacientsCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');
@@ -110,6 +93,7 @@ class _ViewProfile extends State<ViewProfile> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
+
           Paciente paciente = pacienteMapToList(snapshot)[0];
 
           return Container(
