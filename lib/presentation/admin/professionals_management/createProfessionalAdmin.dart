@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
@@ -12,12 +14,15 @@ class CreateProfileProfessionalAdmin extends StatefulWidget {
   @override
   _CreateProfileProfessionalAdmin createState() =>
       _CreateProfileProfessionalAdmin();
+  final Profesional profesional;
+  const CreateProfileProfessionalAdmin({this.profesional});
 }
 
 class _CreateProfileProfessionalAdmin
     extends State<CreateProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
+  TextEditingController _lastNameController = new TextEditingController();
   TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
@@ -35,6 +40,7 @@ class _CreateProfileProfessionalAdmin
     Size size = MediaQuery.of(context).size;
     CollectionReference centroMedicoCollection =
         FirebaseFirestore.instance.collection("professional");
+
     return StreamBuilder<QuerySnapshot>(
         stream: centroMedicoCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -54,7 +60,8 @@ class _CreateProfileProfessionalAdmin
                 appBar: crearAppBar('', null, 0, null),
                 body: Stack(
                   children: <Widget>[
-                    cabeceraPerfilProfesional(size),
+                    cabeceraPerfilProfesional(
+                        size, _nameController, _lastNameController),
                     Container(
                       padding: EdgeInsets.only(top: size.height * 0.53),
                       child: SingleChildScrollView(
@@ -70,7 +77,8 @@ class _CreateProfileProfessionalAdmin
         });
   }
 
-  Widget cabeceraPerfilProfesional(Size size) {
+  Widget cabeceraPerfilProfesional(Size size, TextEditingController textNombre,
+      TextEditingController textApellido) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -143,33 +151,53 @@ class _CreateProfileProfessionalAdmin
                 ),
                 // Display text name
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Container(
                       alignment: Alignment.topCenter,
-                      child: Text(
-                        'Nombre',
+                      child: AutoSizeTextField(
+                        controller: textNombre,
                         textAlign: TextAlign.center,
+                        enableInteractiveSelection: false,
+                        fullwidth: false,
                         style: TextStyle(
                           color: kNegro,
-                          fontSize: (size.height / 2) * 0.08,
+                          fontSize: (size.height / 2) * 0.06,
                           fontFamily: 'PoppinsRegular',
                         ),
+                        onChanged: (text) {
+                          textNombre.text = text;
+                          textNombre.selection = TextSelection.fromPosition(
+                              TextPosition(offset: textNombre.text.length));
+                          widget.profesional.nombre = textNombre.text;
+                        },
                       ),
                     ),
-                    SizedBox(
-                      width: 7.0,
-                    ),
+                    SizedBox(width: 10.0),
                     Container(
                       alignment: Alignment.topCenter,
-                      child: Text(
-                        'Apellido',
+                      child: AutoSizeTextField(
+                        controller: textApellido,
                         textAlign: TextAlign.center,
+                        enableInteractiveSelection: false,
+                        fullwidth: false,
+                        decoration: InputDecoration(
+                            hintText: "Apellido",
+                            hintStyle: TextStyle(
+                              color: kNegro,
+                              fontSize: 20.0,
+                              fontFamily: 'PoppinsRegular',
+                            )),
                         style: TextStyle(
                           color: kNegro,
-                          fontSize: (size.height / 2) * 0.08,
+                          fontSize: (size.height / 2) * 0.06,
                           fontFamily: 'PoppinsRegular',
                         ),
+                        onChanged: (text) {
+                          textApellido.text = text;
+                          textApellido.selection = TextSelection.fromPosition(
+                              TextPosition(offset: textApellido.text.length));
+                          widget.profesional.apellido = textApellido.text;
+                        },
                       ),
                     ),
                   ],
