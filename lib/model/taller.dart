@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'banco.dart';
 
 class Taller {
-  String uid;
+  String id;
   String titulo;
   String fecha;
   String hora;
@@ -15,7 +15,7 @@ class Taller {
   Banco banco;
 
   Taller(
-      {this.uid,
+      {this.id,
       this.titulo,
       this.valor,
       this.numeroSesiones,
@@ -32,5 +32,33 @@ class Taller {
         DateTime.now().year.toString();
     this.hora =
         DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
+  }
+
+  toMap() {
+    return {
+      "title": titulo,
+      "cost": valor,
+      "numSessions": numeroSesiones,
+      "description": descripcion,
+      "photo": foto,
+      "location": ubicacion,
+      "bank": banco,
+      "date": fecha,
+      "hour": hora
+    };
+  }
+
+  static fromMap(data, id) {
+    return Taller(
+        id: id,
+        titulo: data["title"],
+        valor: data["cost"],
+        numeroSesiones: data["numSessions"],
+        descripcion: data["description"],
+        foto: data["photo"] ?? null,
+        ubicacion: data["location"],
+        banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
+        fecha: data["date"],
+        hora: data["hour"]);
   }
 }
