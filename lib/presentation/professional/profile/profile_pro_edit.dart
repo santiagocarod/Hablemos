@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
@@ -113,29 +117,47 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: kRosado,
-      child: SafeArea(
-        bottom: false,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
-          body: Stack(
-            children: <Widget>[
-              cabeceraPerfilProfesional(size, widget.profesional),
-              Container(
-                padding: EdgeInsets.only(top: size.height * 0.53),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: _body(size, widget.profesional),
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User user = auth.currentUser;
+    Query professionalCollection = FirebaseFirestore.instance
+        .collection("professionals")
+        .where("uid", isEqualTo: user.uid);
+    return StreamBuilder<QuerySnapshot>(
+        stream: professionalCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+          Profesional profesional = profesionalMapToList(snapshot)[0];
+          print(profesional);
+          return Container(
+            color: kRosado,
+            child: SafeArea(
+              bottom: false,
+              child: Scaffold(
+                extendBodyBehindAppBar: true,
+                // Create an empty appBar, display the arrow back
+                appBar: crearAppBar('', null, 0, null),
+                body: Stack(
+                  children: <Widget>[
+                    cabeceraPerfilProfesional(size, profesional),
+                    Container(
+                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: _body(size, profesional),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {

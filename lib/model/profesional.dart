@@ -62,7 +62,7 @@ class Profesional {
         apellido: data["lastName"],
         banco: Banco.fromMap(data["bank"]),
         fechaNacimiento: data["birthDay"],
-        especialidad: data["specialty"],
+        especialidad: data["speciality"],
         experiencia: data["experience"],
         convenios: List<String>.from(data["contracts"]),
         proyectos: List<String>.from(["projects"]),
