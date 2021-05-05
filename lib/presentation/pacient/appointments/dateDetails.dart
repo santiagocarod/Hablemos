@@ -186,6 +186,13 @@ Widget _selectIcon(bool text) {
 
 // Payment and cancel buttons
 Widget _buttons(BuildContext context, Cita cita) {
+  String text;
+  if (cita.pago == "") {
+    text = "ADJUNTAR PAGO";
+  } else {
+    text = "VER PAGO";
+  }
+
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
     width: 270.0,
@@ -198,7 +205,7 @@ Widget _buttons(BuildContext context, Cita cita) {
           height: 35,
           child: ElevatedButton(
             child: Text(
-              "ADJUNTAR PAGO",
+              text,
               style: TextStyle(
                 fontSize: 9.0,
                 color: Colors.black,
@@ -215,7 +222,7 @@ Widget _buttons(BuildContext context, Cita cita) {
               shadowColor: Colors.black,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, 'AdjuntarPago');
+              Navigator.pushNamed(context, 'AdjuntarPago', arguments: cita);
             },
           ),
         ),
