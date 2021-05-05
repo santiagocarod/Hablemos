@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -18,6 +19,7 @@ class ProfileProView extends StatefulWidget {
 class _ProfileProViewState extends State<ProfileProView> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  final String id = FirebaseAuth.instance.currentUser.uid;
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -89,7 +91,9 @@ class _ProfileProViewState extends State<ProfileProView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
+
           Profesional profesional = profesionalMapToList(snapshot)[0];
+
           return Container(
             color: kRosado,
             child: SafeArea(
@@ -179,8 +183,9 @@ class _ProfileProViewState extends State<ProfileProView> {
           padding: EdgeInsets.only(top: size.height * 0.33),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'editarPerfilProfesional',
-                  arguments: profesional);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfileProfesional(profesional: profesional)));
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
