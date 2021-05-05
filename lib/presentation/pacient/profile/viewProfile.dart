@@ -96,7 +96,6 @@ class _ViewProfile extends State<ViewProfile> {
           }
 
           Paciente paciente = pacienteMapToList(snapshot)[0];
-          Paciente copia = paciente;
 
           return Container(
             color: kRosado,
@@ -482,17 +481,12 @@ class _ViewProfile extends State<ViewProfile> {
               onPressed: () {
                 AuthService authService = AuthService();
                 authService.logOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "start", (_) => false);
                 eliminarPaciente(paciente).then((value) {
                   eliminarUsuario(paciente);
-                  bool state;
                   if (value) {
-                    state = true;
-                  } else {
-                    state = false;
-                  }
-                  if (state) {
-                    Navigator.pushNamed(context, 'start');
-                  } else if (!state) {
+                  } else if (!value) {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   }

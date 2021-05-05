@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 
@@ -24,6 +23,12 @@ Future<bool> editarPaciente(Paciente paciente) {
       })
       .then((value) => true)
       .catchError((error) => false);
+}
+
+void actualizarPacienteCita(Paciente paciente, Cita cita, User user) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("appoinments");
+  reference.doc(cita.id).update({"pacient": paciente.toMap()});
 }
 
 Future<bool> eliminarPaciente(Paciente paciente) {

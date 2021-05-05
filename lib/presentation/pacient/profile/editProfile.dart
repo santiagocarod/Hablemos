@@ -399,6 +399,26 @@ class _EditProfile extends State<EditProfile> {
 
   // Confirm popup dialog
   Widget _buildDialog(BuildContext context, Paciente paciente, User user) {
+    Query reference = FirebaseFirestore.instance
+        .collection("appoinments")
+        .where('pacient.uid', isEqualTo: user.uid);
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: reference.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return modificacionDialogs(paciente, user);
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+
+          Cita cita = citaMapToList(snapshot)[0];
+          return modificacionDialogsCita(paciente, user, cita);
+        });
+  }
+
+  Widget modificacionDialogs(Paciente paciente, User user) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
@@ -429,6 +449,104 @@ class _EditProfile extends State<EditProfile> {
           children: [
             ElevatedButton(
               onPressed: () {
+                editarPaciente(paciente).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget modificacionDialogsCita(Paciente paciente, User user, Cita cita) {
+    String title2 = "";
+    String content2 = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Modificación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Está seguro que desea modificar\neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                actualizarPacienteCita(paciente, cita, user);
                 editarPaciente(paciente).then((value) {
                   bool state;
                   if (value) {
