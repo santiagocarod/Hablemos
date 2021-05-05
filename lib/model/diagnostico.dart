@@ -29,8 +29,8 @@ class Diagnostico {
         id: id,
         nombre: data["name"],
         definicion: data["definition"],
-        sintomas: data["symtoms"],
+        sintomas: List<String>.from(data["symptoms"]),
         autoayuda: data["selfhelp"],
-        fuentes: data["reference"]);
+        fuentes: List<String>.from(data["reference"]));
   }
 }
