@@ -6,6 +6,7 @@ class EventsMainSigned extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String rutaAtras = ModalRoute.of(context).settings.arguments;
     return Stack(
       children: [
         Container(
@@ -23,7 +24,7 @@ class EventsMainSigned extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
             appBar:
-                crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'inicio'),
+                crearAppBarEventos(context, "¿Qué hay p'a hacer?", rutaAtras),
             body: Stack(
               children: <Widget>[
                 SingleChildScrollView(

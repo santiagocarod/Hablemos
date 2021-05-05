@@ -18,7 +18,7 @@ class Diagnostico {
     return {
       "name": this.nombre,
       "definition": this.definicion,
-      "symtoms": this.sintomas,
+      "symptoms": this.sintomas,
       "selfhelp": this.autoayuda,
       "reference": this.fuentes
     };

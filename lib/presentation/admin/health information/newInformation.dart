@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioDiagnosticos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -116,10 +117,14 @@ class _NewInformation extends State<NewInformation> {
             ),
           ),
           _secction('Definición', _definitionController, size),
-          _secction('Síntomas', _symptomController,
+          _secction(
+              'Síntomas (Separados por punto y comas)',
+              _symptomController,
               size), // Modelo separar por enter y agregar en una lista
           _secction('Autoayuda y Afrontamiento', _helpController, size),
-          _secction('Fuente Información', _sourceController,
+          _secction(
+              'Fuente Información (Separados por punto y comas)',
+              _sourceController,
               size), // Modelo separar por enter y agregar en una lista
           _button(size, trastorno),
         ],
@@ -167,7 +172,7 @@ class _NewInformation extends State<NewInformation> {
   String _convert(List<String> content) {
     String aux = "";
     content.forEach((element) {
-      aux += element + "\n";
+      aux += element + ";\n ";
     });
 
     return aux;
@@ -185,7 +190,24 @@ class _NewInformation extends State<NewInformation> {
       padding: EdgeInsets.only(top: 30.0, right: 20.0),
       child: GestureDetector(
         onTap: () {
-          // TODO: Save information
+          print(_definitionController.text);
+          Diagnostico diagnostico = Diagnostico(
+              definicion: _definitionController.text,
+              nombre: _nameController.text,
+              autoayuda: _helpController.text,
+              fuentes: _sourceController.text.replaceAll("\n", "").split(";"),
+              sintomas:
+                  _symptomController.text.replaceAll("\n", "").split(";"));
+          if (trastorno == null) {
+            if (!agregarDiagnostico(diagnostico)) {
+              text = 'Ocurrió un Error intentelo mas tarde';
+            }
+          } else {
+            diagnostico.id = trastorno.id;
+            if (agregarDiagnostico(diagnostico)) {
+              text = 'Ocurrió un Error intentelo mas tarde';
+            }
+          }
           showDialog(
             context: context,
             builder: (BuildContext context) => _adviceDialog(context, text),
