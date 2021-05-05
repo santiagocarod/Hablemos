@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/pagoadmin.dart';
-import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class DetailedPaymentAdmin extends StatelessWidget {
