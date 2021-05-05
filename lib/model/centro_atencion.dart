@@ -19,4 +19,30 @@ class CentroAtencion {
       this.ubicacion,
       this.gratuito,
       this.horaAtencion});
+
+  toMap() {
+    return {
+      "name": this.nombre,
+      "city": this.ciudad,
+      "state": this.departamento,
+      "telephone": this.telefono,
+      "email": this.correo,
+      "location": this.ubicacion,
+      "free": this.gratuito,
+      "hours": this.horaAtencion
+    };
+  }
+
+  static fromMap(data, id) {
+    return CentroAtencion(
+        id: id,
+        nombre: data["name"],
+        ciudad: data["city"],
+        departamento: data["state"],
+        telefono: data["telephone"],
+        correo: data["email"],
+        ubicacion: data["location"],
+        gratuito: data["free"],
+        horaAtencion: data["hours"]);
+  }
 }
