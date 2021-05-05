@@ -7,7 +7,11 @@ class Pagoadmin {
 
   Pagoadmin({this.profesional, this.pago, this.listCitasProfesional});
 
-  /*toMap() {
+  toMap() {
+    List<Map<String, dynamic>> mapa = [];
+    listCitasProfesional.forEach((element) {
+      mapa.add({"fecha": element["fecha"], "name": element["name"]});
+    });
     return {
       "professional": {
         "id": profesional.uid,
@@ -15,20 +19,21 @@ class Pagoadmin {
         "name": profesional.nombre
       },
       "payment": pago,
-      "citas": listCitasProfesional.forEach((element) {
-        return {"fecha": element["fecha"], "name": element["name"]};
-      })
+      "citas": mapa
     };
-  }*/
+  }
 
   static fromMap(data) {
     Pagoadmin pa = Pagoadmin(
         profesional: Profesional(
-            uid: data["professional.id"],
-            nombre: data["professional.name"],
-            apellido: data["professional.lastname"]),
-        pago: int.parse(data["payment"]),
-        listCitasProfesional: data["citas"]);
+            uid: data["professional"]["id"],
+            nombre: data["professional"]["name"],
+            apellido: data["professional"]["lastname"]),
+        pago: data["payment"]);
+    pa.listCitasProfesional = [];
+    List<Map<String, dynamic>> listaCitas =
+        data["citas"].cast<Map<String, dynamic>>().toList();
+    pa.listCitasProfesional = listaCitas;
 
     return pa;
   }
