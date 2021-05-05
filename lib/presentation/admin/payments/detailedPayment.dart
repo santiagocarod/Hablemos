@@ -193,7 +193,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.add_circle_outline),
               SizedBox(width: 3),
-              Text('Pago'),
+              Text('Pagó'),
             ],
           ),
         ),
@@ -205,7 +205,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.remove_circle_outline),
               SizedBox(width: 3),
-              Text('No pago'),
+              Text('No pagó'),
             ],
           ),
         ),
