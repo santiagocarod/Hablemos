@@ -16,8 +16,8 @@ class EditProfileProfessionalAdmin extends StatefulWidget {
 class _EditProfileProfessionalAdminState
     extends State<EditProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
-  // TextEditingController _nameController = new TextEditingController();
-  // TextEditingController _mailController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
   TextEditingController _especialidadController = new TextEditingController();
@@ -171,7 +171,7 @@ class _EditProfileProfessionalAdminState
       child: Column(
         children: <Widget>[
           _sectionButton(),
-          // _editSection('Correo', profesional.correo, _mailController),
+          _nonEditSection('Correo', _mailController.text),
           _editSection('Ciudad', 'Bogotá D.C', _cityController),
           _editSection('Convenio', profesional.convenios.toString(),
               _convenioController),
@@ -458,6 +458,42 @@ class _EditProfileProfessionalAdminState
           child: const Text('Cerrar'),
         ),
       ],
+    );
+  }
+
+  //Section non editable
+  Widget _nonEditSection(String title, String content) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            content == null ? "Falta información" : content,
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: kNegro,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

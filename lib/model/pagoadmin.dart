@@ -7,7 +7,7 @@ class Pagoadmin {
 
   Pagoadmin({this.profesional, this.pago, this.listCitasProfesional});
 
-  toMap() {
+  /*toMap() {
     return {
       "professional": {
         "id": profesional.uid,
@@ -19,7 +19,7 @@ class Pagoadmin {
         return {"fecha": element["fecha"], "name": element["name"]};
       })
     };
-  }
+  }*/
 
   static fromMap(data) {
     Pagoadmin pa = Pagoadmin(

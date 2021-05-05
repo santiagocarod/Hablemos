@@ -17,8 +17,8 @@ class CreateProfileProfessionalAdmin extends StatefulWidget {
 class _CreateProfileProfessionalAdmin
     extends State<CreateProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
-  // TextEditingController _nameController = new TextEditingController();
-  // TextEditingController _mailController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
   TextEditingController _especialidadController = new TextEditingController();
@@ -142,19 +142,37 @@ class _CreateProfileProfessionalAdmin
                   ),
                 ),
                 // Display text name
-                Center(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      'Nombre y Apellido',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kNegro,
-                        fontSize: (size.height / 2) * 0.08,
-                        fontFamily: 'PoppinsRegular',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'Nombre',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: (size.height / 2) * 0.08,
+                          fontFamily: 'PoppinsRegular',
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 7.0,
+                    ),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'Apellido',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: (size.height / 2) * 0.08,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Center(
                   child: Container(
