@@ -224,10 +224,20 @@ Widget textoFinalRojo(String texto) {
   );
 }
 
-AppBar crearAppBar(String texto, IconData icono, int constante, Color color) {
+AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
+    {String atras, BuildContext context}) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
+    leading: new IconButton(
+      icon: new Icon(Icons.arrow_back_ios, color: kNegro),
+      onPressed: () {
+        Navigator.pop(context);
+        if (context != null && atras != null) {
+          Navigator.pushNamed(context, atras);
+        }
+      },
+    ),
     title: Text(
       texto,
       style: TextStyle(
