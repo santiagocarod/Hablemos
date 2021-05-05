@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
@@ -9,6 +11,8 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'editProfile.dart';
 
 class ViewProfile extends StatefulWidget {
   @override
@@ -18,6 +22,7 @@ class ViewProfile extends StatefulWidget {
 class _ViewProfile extends State<ViewProfile> {
   File _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  String username;
 
   // Set the image form camera
   _imagenDesdeCamara() async {
@@ -73,12 +78,14 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
 
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    Query pacientsCollection = FirebaseFirestore.instance
+        .collection("pacients")
+        .where("uid", isEqualTo: user.uid);
     return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
+        stream: pacientsCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');
@@ -87,9 +94,9 @@ class _ViewProfile extends State<ViewProfile> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
-          List<Paciente> pacientes = pacienteMapToList(snapshot);
 
-          Paciente paciente = pacientes[0];
+          Paciente paciente = pacienteMapToList(snapshot)[0];
+
           return Container(
             color: kRosado,
             child: SafeArea(
@@ -100,7 +107,7 @@ class _ViewProfile extends State<ViewProfile> {
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[
-                    pacientHead(size, paciente),
+                    pacientHead(size, paciente, user),
                     Container(
                       padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
                       child: SingleChildScrollView(
@@ -117,7 +124,7 @@ class _ViewProfile extends State<ViewProfile> {
   }
 
   // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
+  Widget pacientHead(Size size, Paciente paciente, User user) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -134,7 +141,7 @@ class _ViewProfile extends State<ViewProfile> {
                   children: [
                     // Draw profile picture
                     Container(
-                      padding: EdgeInsets.only(top: 32),
+                      padding: EdgeInsets.only(top: 20),
                       alignment: Alignment.topCenter,
                       child: ClipOval(
                         child: Container(
@@ -186,8 +193,9 @@ class _ViewProfile extends State<ViewProfile> {
                   padding: EdgeInsets.only(top: 0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, 'editarPerfil',
-                          arguments: paciente);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfile(paciente: paciente)));
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,6 +234,34 @@ class _ViewProfile extends State<ViewProfile> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                //Button Delete Profile
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildDialog(context, paciente),
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 40.0,
+                      //width: 87.0,
+                      margin: EdgeInsets.only(top: 10.0, right: 5.0),
+                      //alignment: Alignment.topRight,
+                      child: Text(
+                        "Eliminar Cuenta",
+                        style: TextStyle(
+                            fontFamily: 'PoppinSemiBold', fontSize: 14.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -236,8 +272,6 @@ class _ViewProfile extends State<ViewProfile> {
 
   // Body of the screen
   Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
     return Container(
       width: size.width,
       child: Column(
@@ -245,8 +279,8 @@ class _ViewProfile extends State<ViewProfile> {
           _section('Correo', paciente.correo),
           _sectionButton(),
           _section('Ciudad', paciente.ciudad),
-          _section('Fecha de Nacimiento', fecha),
-          _section('Teléfono', paciente.telefono.toString()),
+          _section('Fecha de Nacimiento', paciente.fechaNacimiento),
+          _section('Teléfono', paciente.telefono),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -259,12 +293,9 @@ class _ViewProfile extends State<ViewProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _section(
-              'Nombre', paciente.nombreContactoEmergencia ?? "Dato Faltante"),
-          _section('Teléfono',
-              paciente.telefonoContactoEmergencia ?? "Dato Faltante"),
-          _section('Relación',
-              paciente.relacionContactoEmergencia ?? "Dato Faltante"),
+          _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),
+          _section('Teléfono', paciente.telefonoContactoEmergencia ?? "fatl "),
+          _section('Relación', paciente.relacionContactoEmergencia ?? "tal "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -411,6 +442,97 @@ class _ViewProfile extends State<ViewProfile> {
             shadowColor: Colors.black,
           ),
           child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
+
+  //Confirm PopUp Dialog
+  Widget _buildDialog(BuildContext context, Paciente paciente) {
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Eliminación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        '¿Está seguro que desea eliminar \npermanentemente \neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                AuthService authService = AuthService();
+                authService.logOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "start", (_) => false);
+                eliminarPaciente(paciente).then((value) {
+                  eliminarUsuario(paciente);
+                  if (value) {
+                  } else if (!value) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
