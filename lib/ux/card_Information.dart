@@ -23,7 +23,7 @@ class CardInformation extends StatelessWidget {
       width: double.infinity,
       height: size.height * 0.55,
       child: Swiper(
-        autoplay: true,
+        autoplay: false,
         layout: SwiperLayout.STACK,
         itemWidth: size.width * 0.8,
         itemBuilder: (BuildContext context, int index) {
