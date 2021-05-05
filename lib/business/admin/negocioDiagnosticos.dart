@@ -3,6 +3,7 @@ import 'package:hablemos/model/diagnostico.dart';
 
 bool agregarDiagnostico(Diagnostico diagnostico) {
   bool error = false;
+  diagnostico = revisarListas(diagnostico);
 
   if (!error) {
     CollectionReference reference =
@@ -14,6 +15,8 @@ bool agregarDiagnostico(Diagnostico diagnostico) {
 
 bool actualizarDiagnostico(Diagnostico diagnostico) {
   bool error = false;
+
+  diagnostico = revisarListas(diagnostico);
 
   if (!error) {
     CollectionReference reference =
@@ -33,4 +36,13 @@ void eliminarDiagnostico(Diagnostico diagnostico) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('diagnostics');
   reference.doc(diagnostico.id).delete();
+}
+
+Diagnostico revisarListas(Diagnostico diagnostico) {
+  diagnostico.fuentes
+      .removeWhere((element) => element.toString().replaceAll(" ", "") == "");
+  diagnostico.sintomas
+      .removeWhere((element) => element.toString().replaceAll(" ", "") == "");
+
+  return diagnostico;
 }
