@@ -434,7 +434,7 @@ class _EditProfileProfessionalAdminState
                   actualizarUsuario(profesional);
                   bool state;
                   if (value) {
-                    title2 = 'Perfil modificada';
+                    title2 = 'Perfil Modificado';
                     content2 = "Su perfil fue modificado exitosamente";
                     state = true;
                   } else {
@@ -537,7 +537,7 @@ class _EditProfileProfessionalAdminState
                   actualizarProfesional(profesional);
                   bool state;
                   if (value) {
-                    title2 = 'Perfil modificada';
+                    title2 = 'Perfil Modificado';
                     content2 = "Este perfil fue modificado exitosamente";
                     state = true;
                   } else {

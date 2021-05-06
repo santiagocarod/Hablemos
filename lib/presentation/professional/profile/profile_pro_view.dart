@@ -257,6 +257,22 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
           _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _section('Banco', profesional.banco.banco ?? " "),
+          _section('Número de Cuenta', profesional.banco.numCuenta ?? " "),
+          _section('Tipo de Cuenta', profesional.banco.tipoCuenta ?? " "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(

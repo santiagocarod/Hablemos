@@ -243,12 +243,13 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
             ),
           ),
         ),
+
         // Display text name
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.only(top: 283),
+              padding: EdgeInsets.only(top: 320),
               alignment: Alignment.topCenter,
               child: AutoSizeTextField(
                 controller: _nameController,
@@ -271,7 +272,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
               width: 5.0,
             ),
             Container(
-              padding: EdgeInsets.only(top: 283),
+              padding: EdgeInsets.only(top: 320),
               alignment: Alignment.topCenter,
               child: AutoSizeTextField(
                 controller: _lastNameController,
@@ -567,7 +568,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                   actualizarProfesional(profesional);
                   bool state;
                   if (value) {
-                    title2 = 'Perfil modificada';
+                    title2 = 'Perfil Modificado';
                     content2 = "Su perfil fue modificado exitosamente";
                     state = true;
                   } else {
@@ -670,7 +671,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                   actualizarUsuario(profesional);
                   bool state;
                   if (value) {
-                    title2 = 'Perfil modificada';
+                    title2 = 'Perfil Modificado';
                     content2 = "Este perfil fue modificado exitosamente";
                     state = true;
                   } else {
