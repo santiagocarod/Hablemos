@@ -55,6 +55,14 @@ class Profesional {
     };
   }
 
+  toMapPago() {
+    return {
+      "uid": this.uid,
+      "name": this.nombre,
+      "lastName": this.apellido,
+    };
+  }
+
   static Profesional fromMap(data) {
     Profesional p = Profesional(
         uid: data["uid"],

@@ -429,7 +429,7 @@ class _EditProfileProfessionalAdminState
             ElevatedButton(
               onPressed: () {
                 editarProfesional(profesional).then((value) {
-                  //editarProfesionalPago(profesional, pago);
+                  actualizarUsuario(profesional);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';
@@ -531,6 +531,7 @@ class _EditProfileProfessionalAdminState
                   actualizarProfesionalCita(profesional, element);
                 });
                 editarProfesional(profesional).then((value) {
+                  actualizarUsuario(profesional);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';

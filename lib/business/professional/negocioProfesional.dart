@@ -45,6 +45,15 @@ void eliminarUsuario(Profesional profesional) {
   reference.doc(profesional.uid).delete();
 }
 
+void actualizarUsuario(Profesional profesional) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("users");
+
+  reference.doc(profesional.uid).update({
+    "name": profesional.nombre,
+  });
+}
+
 Future<bool> editarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
