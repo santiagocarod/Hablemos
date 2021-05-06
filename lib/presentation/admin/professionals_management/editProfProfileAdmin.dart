@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -78,8 +76,6 @@ class _EditProfileProfessionalAdminState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
-    final User user = auth.currentUser;
 
     return Container(
       color: kRosado,

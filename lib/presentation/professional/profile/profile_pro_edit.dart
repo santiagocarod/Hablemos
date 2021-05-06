@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/professional/negocioProfesional.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
