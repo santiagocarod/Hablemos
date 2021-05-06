@@ -7,9 +7,10 @@ class Profesional {
   String uid;
   String nombre;
   String apellido;
-  DateTime fechaNacimiento;
+  String fechaNacimiento;
   String especialidad;
   String experiencia;
+  String ciudad;
   List<String> convenios;
   List<String> proyectos;
   String descripcion;
@@ -30,9 +31,10 @@ class Profesional {
       this.proyectos,
       this.banco,
       this.celular,
+      this.ciudad,
+      this.descripcion,
       this.correo}) {
     this.foto = null;
-    this.descripcion = 'Aqui va la descripción';
   }
 
   toMap() {
@@ -47,7 +49,9 @@ class Profesional {
       "projects": this.proyectos,
       "bank": this.banco.toMap(),
       "phone": this.celular,
-      "email": this.correo
+      "email": this.correo,
+      "city": this.ciudad,
+      "description": this.descripcion,
     };
   }
 
@@ -63,6 +67,8 @@ class Profesional {
         convenios: List<String>.from(data["contracts"]),
         proyectos: List<String>.from(["projects"]),
         celular: data["phone"],
+        ciudad: data["city"],
+        descripcion: data["description"],
         correo: data["email"]);
 
     return p;
