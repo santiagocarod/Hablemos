@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
@@ -89,9 +90,9 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                 Container(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, 'editarPerfilProfesionalManage',
-                          arguments: profesional);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditProfileProfessionalAdmin(
+                              profesional: profesional)));
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

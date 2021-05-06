@@ -39,8 +39,9 @@ class _EditProfileProfessionalAdminState
   void initState() {
     super.initState();
 
-    _dateController = TextEditingController()
-      ..text = widget.profesional.fechaNacimiento;
+    //_dateController = TextEditingController()
+    //..text = widget.profesional.fechaNacimiento;
+
     _mailController = TextEditingController()..text = widget.profesional.correo;
     _cityController = TextEditingController()..text = widget.profesional.ciudad;
     _phoneController = TextEditingController()
@@ -207,19 +208,35 @@ class _EditProfileProfessionalAdminState
       width: size.width,
       child: Column(
         children: <Widget>[
-          _nonEditSection('Correo', _mailController.text),
-          _editSection('Ciudad', 'Bogotá D.C', _cityController),
-          _editSection('Ciudad', 'Bogotá D.C', _phoneController),
+          _nonEditSection('Correo', _mailController.text ?? ''),
+          _editSection('Ciudad', 'Bogotá D.C', _cityController ?? ''),
+          _editSection('Teléfono', '', _phoneController ?? ''),
           _editSection('Convenio', profesional.convenios.toString(),
-              _convenioController),
+              _convenioController ?? ''),
           _editSection('Especialidad', profesional.especialidad,
-              _especialidadController),
+              _especialidadController ?? ''),
           _editSection('Proyectos', profesional.proyectos.toString(),
-              _proyectosController),
-          _editSection(
-              'Experiencia', profesional.experiencia, _experienciaController),
-          _editSection(
-              'Descripción', profesional.descripcion, _descripcionController),
+              _proyectosController ?? ''),
+          _editSection('Experiencia', profesional.experiencia,
+              _experienciaController ?? ''),
+          _editSection('Descripción', profesional.descripcion,
+              _descripcionController ?? ''),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _editSection('Banco', "", _bankNameController ?? " "),
+          _editSection('Número de Cuenta', "", _accountNumberController ?? " "),
+          _editSection('Tipo de Cuenta', "", _accountTypeController ?? " "),
         ],
       ),
     );
@@ -515,7 +532,7 @@ class _EditProfileProfessionalAdminState
             textAlign: TextAlign.left,
           ),
           Text(
-            content == null ? "Falta información" : content,
+            content,
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15.0,
