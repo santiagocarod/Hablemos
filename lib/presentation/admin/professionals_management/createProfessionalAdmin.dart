@@ -57,6 +57,7 @@ class _CreateProfileProfessionalAdmin
     return Container(
       color: kRosado,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
@@ -553,32 +554,6 @@ class _CreateProfileProfessionalAdmin
               ),
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  // Change password popup dialog
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Cambio de Contraseña'),
-      content: Text(
-        'Hemos enviado las instrucciones de restablecimiento de contraseña a tu correo electrónico.',
-        textAlign: TextAlign.justify,
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            primary: kRojoOscuro,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
-            ),
-            shadowColor: Colors.black,
-          ),
-          child: const Text('Cerrar'),
         ),
       ],
     );

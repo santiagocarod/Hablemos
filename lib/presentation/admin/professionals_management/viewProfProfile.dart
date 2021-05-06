@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -26,6 +27,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     return Container(
       color: kRosado,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           // Create an empty appBar, display the arrow back
           appBar: crearAppBar('', null, 0, null),
@@ -140,6 +142,31 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                         color: kRojo,
                         fontSize: (size.height / 2) * 0.07,
                         fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildDialog(context, profesional),
+                    );
+                  },
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 15.0),
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'Eliminar Cuenta',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: 15.0,
+                          fontFamily: 'PoppinsRegular',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),
@@ -272,5 +299,93 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
       info.add(inf);
     });
     return info;
+  }
+
+  //Confirm PopUp Dialog
+  Widget _buildDialog(BuildContext context, Profesional profesional) {
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Eliminación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        '¿Está seguro que desea eliminar \npermanentemente \neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                eliminarUsuario(profesional);
+                eliminarProfesional(profesional).then((value) {
+                  if (value) {
+                    Navigator.pushNamed(context, 'adminManageProffessional');
+                  } else if (!value) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

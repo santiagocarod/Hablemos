@@ -251,7 +251,7 @@ class _ProfileProViewState extends State<ProfileProView> {
         children: <Widget>[
           _sectionButton(),
           _section('Correo', profesional.correo),
-          _section('Ciudad', 'Bogota D.C'),
+          _section('Ciudad', profesional.ciudad ?? ''),
           _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
           _sectionList('Proyectos', profesional.proyectos, size ?? ['']),

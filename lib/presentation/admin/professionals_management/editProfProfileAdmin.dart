@@ -1,10 +1,10 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -84,14 +84,15 @@ class _EditProfileProfessionalAdminState
     return Container(
       color: kRosado,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
           appBar: crearAppBar('', null, 0, null),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(size, widget.profesional, user,
-                  _nameController, _lastNameController),
+              cabeceraPerfilProfesional(
+                  size, _nameController, _lastNameController),
               Container(
                 padding: EdgeInsets.only(top: size.height * 0.53),
                 child: SingleChildScrollView(
@@ -106,11 +107,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  Widget cabeceraPerfilProfesional(
-      Size size,
-      Profesional profesional,
-      User user,
-      TextEditingController textNombre,
+  Widget cabeceraPerfilProfesional(Size size, TextEditingController textNombre,
       TextEditingController textApellido) {
     return Stack(
       children: <Widget>[
@@ -223,6 +220,7 @@ class _EditProfileProfessionalAdminState
                           textApellido.text = text;
                           textApellido.selection = TextSelection.fromPosition(
                               TextPosition(offset: textApellido.text.length));
+                          widget.profesional.apellido = textApellido.text;
                         },
                       ),
                     ),
@@ -379,8 +377,6 @@ class _EditProfileProfessionalAdminState
   // Confirm popup dialog
   Widget _buildDialog(
       BuildContext context, Profesional profesional, String usuario) {
-    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
-    final User user = auth.currentUser;
     Query citasCollection = FirebaseFirestore.instance
         .collection("appoinments")
         .where("professional.uid", isEqualTo: usuario);
@@ -407,8 +403,7 @@ class _EditProfileProfessionalAdminState
   Widget modificacionDialogs(BuildContext context, Profesional profesional) {
     String title2 = "";
     String content2 = "";
-    print("confirmar");
-    print(profesional.uid);
+
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
@@ -437,8 +432,8 @@ class _EditProfileProfessionalAdminState
           children: [
             ElevatedButton(
               onPressed: () {
-                print(profesional.nombre);
                 editarProfesional(profesional).then((value) {
+                  //editarProfesionalPago(profesional, pago);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';
@@ -453,8 +448,8 @@ class _EditProfileProfessionalAdminState
 
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        adviceDialogPacient(context, title2, content2, state),
+                    builder: (BuildContext context) => adviceDialogProfesional(
+                        context, title2, content2, state),
                   );
                 });
               },
@@ -554,8 +549,8 @@ class _EditProfileProfessionalAdminState
 
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        adviceDialogPacient(context, title2, content2, state),
+                    builder: (BuildContext context) => adviceDialogProfesional(
+                        context, title2, content2, state),
                   );
                 });
               },
@@ -605,44 +600,8 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  Widget _adviceDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Perfil Actualizado'),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-        side: BorderSide(color: kNegro, width: 2.0),
-      ),
-      actions: <Widget>[
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(378.0),
-                side: BorderSide(color: kNegro),
-              ),
-              shadowColor: Colors.black,
-            ),
-            child: const Text(
-              'Cerrar',
-              style: TextStyle(
-                color: kNegro,
-                fontSize: 14.0,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   // Confirm popup dialog
-  Widget adviceDialogPacient(
+  Widget adviceDialogProfesional(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(
       title: Text(text),
