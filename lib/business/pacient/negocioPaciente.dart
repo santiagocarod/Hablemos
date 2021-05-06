@@ -25,10 +25,19 @@ Future<bool> editarPaciente(Paciente paciente) {
       .catchError((error) => false);
 }
 
-void actualizarPacienteCita(Paciente paciente, Cita cita, User user) {
+void actualizarPacienteCita(Paciente paciente, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
   reference.doc(cita.id).update({"pacient": paciente.toMap()});
+}
+
+void actualizarUsuario(Paciente paciente) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("users");
+
+  reference.doc(paciente.uid).update({
+    "name": paciente.nombre,
+  });
 }
 
 Future<bool> eliminarPaciente(Paciente paciente) {
