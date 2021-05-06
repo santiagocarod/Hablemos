@@ -1,8 +1,16 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioProfesionales.dart';
+import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -49,10 +57,10 @@ class _EditProfileProfessionalAdminState
     _nameController = TextEditingController()..text = widget.profesional.nombre;
     _lastNameController = TextEditingController()
       ..text = widget.profesional.apellido;
-    //_convenioController = TextEditingController()
-    //..text = widget.profesional.convenios
-    //_proyectosController = TextEditingController()
-    //..text = widget.profesional.convenios
+    _convenioController = TextEditingController()
+      ..text = widget.profesional.convenios.toString();
+    _proyectosController = TextEditingController()
+      ..text = widget.profesional.convenios.toString();
     _experienciaController = TextEditingController()
       ..text = widget.profesional.experiencia;
     _especialidadController = TextEditingController()
@@ -70,6 +78,8 @@ class _EditProfileProfessionalAdminState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
 
     return Container(
       color: kRosado,
@@ -80,7 +90,8 @@ class _EditProfileProfessionalAdminState
           appBar: crearAppBar('', null, 0, null),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(size, widget.profesional),
+              cabeceraPerfilProfesional(size, widget.profesional, user,
+                  _nameController, _lastNameController),
               Container(
                 padding: EdgeInsets.only(top: size.height * 0.53),
                 child: SingleChildScrollView(
@@ -95,7 +106,12 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
+  Widget cabeceraPerfilProfesional(
+      Size size,
+      Profesional profesional,
+      User user,
+      TextEditingController textNombre,
+      TextEditingController textApellido) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -138,11 +154,11 @@ class _EditProfileProfessionalAdminState
                 Container(
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: Save values in profesional
+                      widget.profesional.banco.toMap();
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) =>
-                            _buildDialog(context),
+                        builder: (BuildContext context) => _buildDialog(context,
+                            widget.profesional, widget.profesional.uid),
                       );
                     },
                     child: Row(
@@ -167,19 +183,53 @@ class _EditProfileProfessionalAdminState
                   ),
                 ),
                 // Display text name
-                Center(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      profesional.nombre + " " + profesional.apellido,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kNegro,
-                        fontSize: (size.height / 2) * 0.08,
-                        fontFamily: 'PoppinsRegular',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: AutoSizeTextField(
+                        controller: textNombre,
+                        textAlign: TextAlign.center,
+                        enableInteractiveSelection: false,
+                        fullwidth: false,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: (size.height / 2) * 0.06,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        onChanged: (text) {
+                          textNombre.text = text;
+                          textNombre.selection = TextSelection.fromPosition(
+                              TextPosition(offset: textNombre.text.length));
+                          widget.profesional.nombre = textNombre.text;
+                        },
                       ),
                     ),
-                  ),
+                    SizedBox(width: 10.0),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: AutoSizeTextField(
+                        controller: textApellido,
+                        textAlign: TextAlign.center,
+                        enableInteractiveSelection: false,
+                        fullwidth: false,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: (size.height / 2) * 0.06,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        onChanged: (text) {
+                          textApellido.text = text;
+                          textApellido.selection = TextSelection.fromPosition(
+                              TextPosition(offset: textApellido.text.length));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5.0,
                 ),
                 Center(
                   child: Container(
@@ -209,18 +259,15 @@ class _EditProfileProfessionalAdminState
       child: Column(
         children: <Widget>[
           _nonEditSection('Correo', _mailController.text ?? ''),
-          _editSection('Ciudad', 'Bogotá D.C', _cityController ?? ''),
-          _editSection('Teléfono', '', _phoneController ?? ''),
-          _editSection('Convenio', profesional.convenios.toString(),
-              _convenioController ?? ''),
-          _editSection('Especialidad', profesional.especialidad,
-              _especialidadController ?? ''),
-          _editSection('Proyectos', profesional.proyectos.toString(),
-              _proyectosController ?? ''),
-          _editSection('Experiencia', profesional.experiencia,
-              _experienciaController ?? ''),
-          _editSection('Descripción', profesional.descripcion,
-              _descripcionController ?? ''),
+          _editSection('Ciudad', _cityController ?? '', 1),
+          _editSection('Teléfono', _phoneController ?? '', 2),
+          _editSection(
+              'Convenio (Separelos con ";")', _convenioController ?? '', 3),
+          _editSection('Especialidad', _especialidadController ?? '', 4),
+          _editSection(
+              'Proyectos (Separelos con ";")', _proyectosController ?? '', 5),
+          _editSection('Experiencia', _experienciaController ?? '', 6),
+          _editSection('Descripción', _descripcionController ?? '', 7),
           Container(
             padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,
@@ -234,9 +281,9 @@ class _EditProfileProfessionalAdminState
               textAlign: TextAlign.left,
             ),
           ),
-          _editSection('Banco', "", _bankNameController ?? " "),
-          _editSection('Número de Cuenta', "", _accountNumberController ?? " "),
-          _editSection('Tipo de Cuenta', "", _accountTypeController ?? " "),
+          _editSection('Banco', _bankNameController ?? " ", 8),
+          _editSection('Número de Cuenta', _accountNumberController ?? " ", 9),
+          _editSection('Tipo de Cuenta', _accountTypeController ?? " ", 10),
         ],
       ),
     );
@@ -244,16 +291,7 @@ class _EditProfileProfessionalAdminState
 
   // Section: title and text field
   Widget _editSection(
-      String text, String hint, TextEditingController controller) {
-    Text info = Text(
-      hint,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: kNegro,
-        fontFamily: 'PoppinsRegular',
-      ),
-    );
-    controller.text = info.data;
+      String text, TextEditingController controller, int categoria) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -276,6 +314,43 @@ class _EditProfileProfessionalAdminState
               if (text == 'Fecha de Nacimiento') {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 _selectDate(context);
+              }
+            },
+            onChanged: (text) {
+              controller.text = text;
+              controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length));
+              if (categoria == 1) {
+                widget.profesional.ciudad = controller.text;
+              }
+              if (categoria == 2) {
+                widget.profesional.celular = controller.text;
+              }
+              if (categoria == 3) {
+                widget.profesional.convenios =
+                    controller.text.replaceAll("\n", "").split(";");
+              }
+              if (categoria == 4) {
+                widget.profesional.especialidad = controller.text;
+              }
+              if (categoria == 5) {
+                widget.profesional.proyectos =
+                    controller.text.replaceAll("\n", "").split(";");
+              }
+              if (categoria == 6) {
+                widget.profesional.experiencia = controller.text;
+              }
+              if (categoria == 7) {
+                widget.profesional.descripcion = controller.text;
+              }
+              if (categoria == 8) {
+                widget.profesional.banco.banco = controller.text;
+              }
+              if (categoria == 9) {
+                widget.profesional.banco.numCuenta = controller.text;
+              }
+              if (categoria == 10) {
+                widget.profesional.banco.tipoCuenta = controller.text;
               }
             },
           ),
@@ -302,7 +377,38 @@ class _EditProfileProfessionalAdminState
   }
 
   // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
+  Widget _buildDialog(
+      BuildContext context, Profesional profesional, String usuario) {
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
+    Query citasCollection = FirebaseFirestore.instance
+        .collection("appoinments")
+        .where("professional.uid", isEqualTo: usuario);
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: citasCollection.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+          List<Cita> citas = citaMapToList(snapshot);
+          if (citas.length == 0) {
+            return modificacionDialogs(context, profesional);
+          } else {
+            return modificacionDialogsCita(context, profesional, citas);
+          }
+        });
+  }
+
+  Widget modificacionDialogs(BuildContext context, Profesional profesional) {
+    String title2 = "";
+    String content2 = "";
+    print("confirmar");
+    print(profesional.uid);
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
@@ -331,10 +437,127 @@ class _EditProfileProfessionalAdminState
           children: [
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => _adviceDialog(context),
-                );
+                print(profesional.nombre);
+                editarProfesional(profesional).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget modificacionDialogsCita(
+      BuildContext context, Profesional profesional, List<Cita> citas) {
+    String title2 = "";
+    String content2 = "";
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Modificación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Está seguro que desea modificar\neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                citas.forEach((element) {
+                  actualizarProfesionalCita(profesional, element);
+                });
+                editarProfesional(profesional).then((value) {
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Este perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de este perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -418,98 +641,46 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Password section and button
-  Widget _sectionButton() {
-    return Container(
-      padding: EdgeInsets.only(right: 15.0, left: 15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Contraseña',
-            style: TextStyle(
-              fontSize: 20.0,
-              color: kRojoOscuro,
-              fontFamily: 'PoppinsRegular',
-            ),
-            textAlign: TextAlign.left,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '*******',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: kNegro,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-              Container(
-                width: 109.0,
-                height: 29.0,
-                child: ElevatedButton(
-                  child: Text(
-                    'Cambiar',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.white,
-                      fontFamily: 'PoppinsRegular',
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kRojoOscuro,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(378.0),
-                    ),
-                    shadowColor: Colors.black,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 5.0),
-            child: Divider(
-              color: Colors.black.withOpacity(0.40),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Change password popup dialog
-  Widget _buildPopupDialog(BuildContext context) {
+  // Confirm popup dialog
+  Widget adviceDialogPacient(
+      BuildContext context, String text, String content, bool state) {
     return new AlertDialog(
-      title: Text('Cambio de Contraseña'),
-      content: Text(
-        'Hemos enviado las instrucciones de restablecimiento de contraseña a tu correo electrónico.',
-        textAlign: TextAlign.justify,
+      title: Text(text),
+      content: Text(content),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            primary: kRojoOscuro,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              } else if (!state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+                side: BorderSide(color: kNegro),
+              ),
+              shadowColor: Colors.black,
             ),
-            shadowColor: Colors.black,
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 14.0,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
           ),
-          child: const Text('Cerrar'),
         ),
       ],
     );
