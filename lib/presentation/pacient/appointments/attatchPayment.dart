@@ -115,18 +115,24 @@ class _AttatchPaymentState extends State<AttatchPayment> {
                       ? SizedBox(
                           height: 10,
                         )
-                      : Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Image.network(
-                            _image,
-                            height: size.height / 1.5,
+                      : Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Image.network(
+                              _image,
+                              height: size.height / 1.5,
+                            ),
                           ),
                         ),
-                  Center(
-                    child: iconButtonBig("Subir prueba de pago", () {
-                      _showPicker(context, cita);
-                    }, Icons.cloud_upload, Colors.yellow[700]),
-                  ),
+                  _image == null
+                      ? Center(
+                          child: iconButtonBig("Subir prueba de pago", () {
+                            _showPicker(context, cita);
+                          }, Icons.cloud_upload, Colors.yellow[700]),
+                        )
+                      : SizedBox(
+                          height: 10,
+                        ),
                 ],
               ),
             ]),

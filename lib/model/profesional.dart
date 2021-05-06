@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'banco.dart';
 
 class Profesional {
@@ -14,7 +12,7 @@ class Profesional {
   List<String> convenios;
   List<String> proyectos;
   String descripcion;
-  Image foto;
+  String foto;
   Banco banco;
   String celular;
   String correo;

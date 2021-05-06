@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
-
 class Paciente {
   //Unias del profesional
   String uid;
   String nombre;
   String apellido;
-  Image foto;
+  String foto;
   String correo;
   String ciudad;
   String fechaNacimiento;
@@ -25,9 +23,8 @@ class Paciente {
       this.telefono,
       this.nombreContactoEmergencia,
       this.telefonoContactoEmergencia,
-      this.relacionContactoEmergencia}) {
-    this.foto = null;
-  }
+      this.relacionContactoEmergencia,
+      this.foto});
 
   toMap() {
     return {
@@ -38,6 +35,7 @@ class Paciente {
       "city": this.ciudad,
       "birthDate": this.fechaNacimiento,
       "phone": this.telefono,
+      "picture": this.foto,
       "emergencyContactName": this.nombreContactoEmergencia,
       "emergencyContactPhone": this.telefonoContactoEmergencia,
       "emergencyContactRelationship": this.relacionContactoEmergencia
@@ -57,6 +55,7 @@ class Paciente {
         ciudad: data["city"],
         fechaNacimiento: data["birthDate"],
         telefono: data["phone"],
+        foto: data["picture"],
         nombreContactoEmergencia: data["emergencyContactName"],
         telefonoContactoEmergencia: data["emergencyContactPhone"],
         relacionContactoEmergencia: data["emergencyContactRelationship"]);

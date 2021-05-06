@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/administrador.dart';
@@ -16,8 +14,6 @@ class ViewAdminProfile extends StatefulWidget {
 }
 
 class _ViewAdminProfileState extends State<ViewAdminProfile> {
-  File _image;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -50,7 +46,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
                 children: <Widget>[
                   adminHead(size, admin),
                   Container(
-                    padding: EdgeInsets.only(top: size.height * 0.66),
+                    padding: EdgeInsets.only(top: size.height * 0.55),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: _body(size, admin),
@@ -70,7 +66,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
       clipper: MyClipper(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
-        height: (size.height / 2) + 120.0,
+        height: (size.height / 2) + 50.0,
         width: double.infinity,
         color: kRosado,
         child: Column(
@@ -78,35 +74,13 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
             SizedBox(
               height: size.height * 0.02,
             ),
-            // Draw profile picture
-            Container(
-              padding: EdgeInsets.only(top: 32),
-              alignment: Alignment.topCenter,
-              child: ClipOval(
-                child: Container(
-                  color: Colors.white,
-                  width: 200.0,
-                  height: 200.0,
-                  child: _image == null
-                      ? Icon(
-                          Icons.account_circle,
-                          color: Colors.indigo[100],
-                          size: 200.0,
-                        )
-                      : Image.file(
-                          _image,
-                          width: 200.0,
-                          height: 200.0,
-                        ),
-                ),
-              ),
-            ),
             // Plus icon and edit text
             SizedBox(
               height: size.height * 0.01,
             ),
             Center(
               child: Container(
+                padding: EdgeInsets.only(top: 102),
                 alignment: Alignment.topCenter,
                 child: Text(
                   admin.nombre + " " + admin.apellido,

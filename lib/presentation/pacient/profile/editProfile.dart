@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
@@ -31,7 +32,7 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController _relationController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _lastnameController = new TextEditingController();
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   @override
@@ -52,30 +53,58 @@ class _EditProfile extends State<EditProfile> {
     _nameController = TextEditingController()..text = widget.paciente.nombre;
     _lastnameController = TextEditingController()
       ..text = widget.paciente.apellido;
+    _image = widget.paciente.foto;
   }
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
-      _image = File(image.path);
+      uploadImage(image.path, PROFILE_FOLDER).then((value) {
+        if (value != null) {
+          actualizarPerfil(paciente, value).then((val) {
+            if (val) {
+              _image = value;
+              Navigator.pop(context);
+              setState(() {});
+            } else {
+              showAlertDialog(context,
+                  "Hubo un error subiendo la foto, inténtelo nuevamente");
+            }
+          });
+        }
+      });
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfil(paciente, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, paciente) {
+    deleteImage(paciente.foto);
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -88,14 +117,14 @@ class _EditProfile extends State<EditProfile> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(paciente);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(paciente);
                     },
                   ),
                 ],
@@ -122,9 +151,10 @@ class _EditProfile extends State<EditProfile> {
           appBar: crearAppBar('', null, 0, null),
           body: Stack(
             children: <Widget>[
-              pacientHead(size, _nameController, _lastnameController, user),
+              pacientHead(size, _nameController, _lastnameController, user,
+                  widget.paciente),
               Container(
-                padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                padding: EdgeInsets.only(top: (size.height / 2) + 70.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: _body(size, widget.paciente),
@@ -139,7 +169,7 @@ class _EditProfile extends State<EditProfile> {
 
   // Draw app bar Style
   Widget pacientHead(Size size, TextEditingController textNombre,
-      TextEditingController textApellido, User user) {
+      TextEditingController textApellido, User user, Paciente paciente) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -147,7 +177,7 @@ class _EditProfile extends State<EditProfile> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: (size.height / 2) + 80.0,
             width: double.infinity,
             color: kRosado,
           ),
@@ -167,7 +197,7 @@ class _EditProfile extends State<EditProfile> {
                       color: Colors.indigo[100],
                       size: 200.0,
                     )
-                  : Image.file(
+                  : Image.network(
                       _image,
                       width: 200.0,
                       height: 200.0,
@@ -182,7 +212,7 @@ class _EditProfile extends State<EditProfile> {
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
-              _showPicker(context);
+              _showPicker(context, paciente);
             },
             child: ClipOval(
               child: Container(
@@ -200,7 +230,7 @@ class _EditProfile extends State<EditProfile> {
         ),
         // Check icon and save text
         Container(
-          padding: EdgeInsets.only(top: 253),
+          margin: EdgeInsets.only(top: 253.0),
           child: GestureDetector(
             onTap: () {
               showDialog(

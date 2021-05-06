@@ -46,8 +46,7 @@ class VerPagoPro extends StatelessWidget {
                               margin: EdgeInsets.only(top: size.height * 0.15),
                               height: 270.0,
                               width: 370.0,
-                              child: Image.asset(
-                                  'assets/images/ejemploPago.png',
+                              child: Image.network(cita.pago,
                                   height: 270.0,
                                   width: 370.0,
                                   fit: BoxFit.cover),

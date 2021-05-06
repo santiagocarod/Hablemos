@@ -56,3 +56,4 @@ const API_KEY = "975698479996151";
 const API_SECRET = "wtgtBmSssA1UixdejKpU53XTLTk";
 const CLOUD_NAME = "hablemos";
 const PAY_FOLDER = "payment";
+const PROFILE_FOLDER = "profile_pictures";

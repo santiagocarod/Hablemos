@@ -48,3 +48,16 @@ void eliminarUsuario(Paciente paciente) {
 
   reference.doc(paciente.uid).delete();
 }
+
+Future<bool> actualizarPerfil(Paciente paciente, String imagePath) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("pacients");
+
+  return reference
+      .doc(paciente.uid)
+      .update({
+        "picture": imagePath,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
+}
