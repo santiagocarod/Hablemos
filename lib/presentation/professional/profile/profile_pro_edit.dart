@@ -564,6 +564,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
               onPressed: () {
                 editarProfesional(profesional).then((value) {
                   actualizarUsuario(profesional);
+                  actualizarProfesional(profesional);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';
@@ -665,6 +666,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                   actualizarProfesionalCita(profesional, element);
                 });
                 editarProfesional(profesional).then((value) {
+                  actualizarProfesional(profesional);
                   actualizarUsuario(profesional);
                   bool state;
                   if (value) {

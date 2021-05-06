@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -429,6 +430,7 @@ class _EditProfileProfessionalAdminState
             ElevatedButton(
               onPressed: () {
                 editarProfesional(profesional).then((value) {
+                  actualizarProfesional(profesional);
                   actualizarUsuario(profesional);
                   bool state;
                   if (value) {
@@ -532,6 +534,7 @@ class _EditProfileProfessionalAdminState
                 });
                 editarProfesional(profesional).then((value) {
                   actualizarUsuario(profesional);
+                  actualizarProfesional(profesional);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';
