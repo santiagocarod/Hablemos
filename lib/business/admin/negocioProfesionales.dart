@@ -2,12 +2,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 
-Future<bool> agregarCarta(Profesional profesional) {
+Future<bool> agregarProfesional(Profesional profesional, String value) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
 
-  Map prof = profesional.toMap();
-  return reference.add(prof).then((value) => true).catchError((error) => false);
+  return reference
+      .doc(value)
+      .set({
+        'name': profesional.nombre,
+        'lastName': profesional.apellido,
+        'phone': profesional.celular,
+        'email': profesional.correo,
+        'speciality': profesional.especialidad,
+        'experience': profesional.experiencia,
+        'birthDate': profesional.fechaNacimiento,
+        'contracts': profesional.convenios,
+        'projects': profesional.proyectos,
+        'bank': profesional.banco.toMap(),
+        'city': profesional.ciudad,
+        'description': profesional.descripcion,
+        'uid': value,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
 }
 
 Future<bool> eliminarProfesional(Profesional profesional) {
@@ -39,12 +56,14 @@ Future<bool> editarProfesional(Profesional profesional) {
         'lastName': profesional.apellido,
         'phone': profesional.celular,
         'email': profesional.correo,
-        'specialty': profesional.especialidad,
+        'speciality': profesional.especialidad,
         'experience': profesional.experiencia,
         'birthDate': profesional.fechaNacimiento,
         'contracts': profesional.convenios,
         'projects': profesional.proyectos,
-        'bank': profesional.banco,
+        'bank': profesional.banco.toMap(),
+        'city': profesional.ciudad,
+        'description': profesional.descripcion,
       })
       .then((value) => true)
       .catchError((error) => false);
@@ -53,5 +72,5 @@ Future<bool> editarProfesional(Profesional profesional) {
 void actualizarProfesionalCita(Profesional profesional, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
-  reference.doc(cita.id).update({"pacient": profesional.toMap()});
+  reference.doc(cita.id).update({"professional": profesional.toMap()});
 }

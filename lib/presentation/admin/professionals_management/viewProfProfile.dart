@@ -18,7 +18,10 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     Profesional profesional = ModalRoute.of(context).settings.arguments;
+
+    print(profesional.uid);
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -153,14 +156,32 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
       width: size.width,
       child: Column(
         children: <Widget>[
-          // _section('Correo', profesional.correo),
-          _section('Ciudad', 'Bogota D.C'),
-          _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidad),
-          _sectionList('Proyectos', profesional.proyectos, size),
-          _section('Experiencia', profesional.experiencia),
-          _section('Descripcion', profesional.descripcion),
-          // _sectionList('Redes Sociales', profesional.redes, size),
+          _section('Correo', profesional.correo),
+          _section('Ciudad', profesional.ciudad ?? " "),
+          _section('Telefono', profesional.celular ?? " "),
+          _sectionList('Convenio', profesional.convenios ?? [" "], size),
+          _section('Especialidad', profesional.especialidad ?? " "),
+          _sectionList('Proyectos', profesional.proyectos ?? [" "], size),
+          _section('Experiencia', profesional.experiencia ?? " "),
+          _section('Descripcion', profesional.descripcion ?? " "),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _section('Banco', profesional.banco.banco ?? " "),
+          _section('Número de Cuenta', profesional.banco.numCuenta ?? " "),
+          _section('Tipo de Cuenta', profesional.banco.tipoCuenta ?? " "),
+
+          //_sectionList('Redes Sociales', profesional.redes, size),
         ],
       ),
     );
@@ -249,7 +270,6 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
       );
       info.add(inf);
     });
-
     return info;
   }
 }

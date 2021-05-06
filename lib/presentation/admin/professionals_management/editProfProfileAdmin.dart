@@ -11,12 +11,16 @@ class EditProfileProfessionalAdmin extends StatefulWidget {
   @override
   _EditProfileProfessionalAdminState createState() =>
       _EditProfileProfessionalAdminState();
+  final Profesional profesional;
+  const EditProfileProfessionalAdmin({this.profesional});
 }
 
 class _EditProfileProfessionalAdminState
     extends State<EditProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
+  TextEditingController _phoneController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
+  TextEditingController _lastNameController = new TextEditingController();
   TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
@@ -24,15 +28,48 @@ class _EditProfileProfessionalAdminState
   TextEditingController _proyectosController = new TextEditingController();
   TextEditingController _experienciaController = new TextEditingController();
   TextEditingController _descripcionController = new TextEditingController();
+  TextEditingController _bankNameController = new TextEditingController();
+  TextEditingController _accountNumberController = new TextEditingController();
+  TextEditingController _accountTypeController = new TextEditingController();
 
   String _date = '';
   File _image;
 
   @override
+  void initState() {
+    super.initState();
+
+    _dateController = TextEditingController()
+      ..text = widget.profesional.fechaNacimiento;
+    _mailController = TextEditingController()..text = widget.profesional.correo;
+    _cityController = TextEditingController()..text = widget.profesional.ciudad;
+    _phoneController = TextEditingController()
+      ..text = widget.profesional.celular;
+    _nameController = TextEditingController()..text = widget.profesional.nombre;
+    _lastNameController = TextEditingController()
+      ..text = widget.profesional.apellido;
+    //_convenioController = TextEditingController()
+    //..text = widget.profesional.convenios
+    //_proyectosController = TextEditingController()
+    //..text = widget.profesional.convenios
+    _experienciaController = TextEditingController()
+      ..text = widget.profesional.experiencia;
+    _especialidadController = TextEditingController()
+      ..text = widget.profesional.especialidad;
+    _descripcionController = TextEditingController()
+      ..text = widget.profesional.descripcion;
+    _bankNameController = TextEditingController()
+      ..text = widget.profesional.banco.banco;
+    _accountNumberController = TextEditingController()
+      ..text = widget.profesional.banco.numCuenta;
+    _accountTypeController = TextEditingController()
+      ..text = widget.profesional.banco.tipoCuenta;
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Profesional profesional = ModalRoute.of(context).settings.arguments;
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -42,12 +79,12 @@ class _EditProfileProfessionalAdminState
           appBar: crearAppBar('', null, 0, null),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(size, profesional),
+              cabeceraPerfilProfesional(size, widget.profesional),
               Container(
                 padding: EdgeInsets.only(top: size.height * 0.53),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: _body(size, profesional),
+                  child: _body(size, widget.profesional),
                 ),
               ),
             ],
@@ -170,9 +207,9 @@ class _EditProfileProfessionalAdminState
       width: size.width,
       child: Column(
         children: <Widget>[
-          _sectionButton(),
           _nonEditSection('Correo', _mailController.text),
           _editSection('Ciudad', 'Bogotá D.C', _cityController),
+          _editSection('Ciudad', 'Bogotá D.C', _phoneController),
           _editSection('Convenio', profesional.convenios.toString(),
               _convenioController),
           _editSection('Especialidad', profesional.especialidad,

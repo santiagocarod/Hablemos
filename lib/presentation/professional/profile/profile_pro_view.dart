@@ -81,6 +81,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     Query professionalCollection = FirebaseFirestore.instance
         .collection("professionals")
         .where("uid", isEqualTo: user.uid);
+    print(user.uid);
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -251,11 +252,11 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionButton(),
           _section('Correo', profesional.correo),
           _section('Ciudad', 'Bogota D.C'),
-          _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidad),
-          _sectionList('Proyectos', profesional.proyectos, size),
-          _section('Experiencia', profesional.experiencia),
-          _section('Descripcion', profesional.descripcion),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
+          _section('Especialidad', profesional.especialidad ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _section('Descripcion', profesional.descripcion ?? ''),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -291,7 +292,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             textAlign: TextAlign.left,
           ),
           Text(
-            content == null ? "Falta información" : content,
+            content == null ? " " : content,
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15.0,
@@ -427,8 +428,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                content != null ? _list(content) : [Text("Falta Información")],
+            children: content != null ? _list(content) : [Text(" ")],
           ),
           Container(
             padding: EdgeInsets.only(top: 10.0),
