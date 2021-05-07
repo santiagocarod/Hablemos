@@ -3,6 +3,7 @@ import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hablemos/model/diagnostico.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 
 const listaColoresAdmin = [
   kMorado,
@@ -29,8 +30,10 @@ class CardInformation extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'information',
-                  arguments: list[index]);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NewInformation(
+                        trastorno: list[index],
+                      )));
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -67,13 +70,18 @@ class CardInformation extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Text(
-                        list[index].definicion,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'PoppinsRegular',
+                      child: Flexible(
+                        child: RichText(
+                          maxLines: 12,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            text: list[index].definicion,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'PoppinsRegular',
+                            ),
+                          ),
                         ),
-                        textAlign: TextAlign.justify,
                       ),
                     ),
                   ],
