@@ -66,7 +66,8 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar(widget.centroAtencion.nombre, null, 0, null),
+          appBar: crearAppBar(widget.centroAtencion.nombre, null, 0, null,
+              context: context),
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

@@ -25,7 +25,8 @@ class LoginPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar('Inicio de Sesión', null, 0, null),
+            appBar: crearAppBar('Inicio de Sesión', null, 0, null,
+                context: context),
             body: Stack(
               children: [
                 Padding(

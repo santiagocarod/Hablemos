@@ -21,7 +21,8 @@ class SubscribedActivity extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar(actividad.titulo, null, 0, null),
+          appBar:
+              crearAppBar(actividad.titulo, null, 0, null, context: context),
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[

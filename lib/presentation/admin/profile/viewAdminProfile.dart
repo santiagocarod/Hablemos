@@ -45,7 +45,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
             bottom: false,
             child: Scaffold(
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar('', null, 0, null),
+              appBar: crearAppBar('', null, 0, null, context: context),
               body: Stack(
                 children: <Widget>[
                   adminHead(size, admin),
