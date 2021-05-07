@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../ux/atoms.dart';
 
