@@ -117,6 +117,9 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 20.0,
+                ),
                 // Display text name
                 Center(
                   child: Container(
@@ -126,7 +129,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kNegro,
-                        fontSize: (size.height / 2) * 0.08,
+                        fontSize: (size.height / 2) * 0.06,
                         fontFamily: 'PoppinsRegular',
                       ),
                     ),
@@ -140,7 +143,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kRojo,
-                        fontSize: (size.height / 2) * 0.07,
+                        fontSize: (size.height / 2) * 0.06,
                         fontFamily: 'PoppinsRegular',
                       ),
                     ),
@@ -165,7 +168,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                           color: kNegro,
                           fontSize: 15.0,
                           fontFamily: 'PoppinsRegular',
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
