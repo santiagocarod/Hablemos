@@ -161,14 +161,14 @@ class _EditProfileProfessionalAdminState
                       children: <Widget>[
                         Icon(
                           Icons.check,
-                          size: 20.0,
+                          size: 25.0,
                           color: kNegro,
                         ),
                         Text(
                           ' Guardar',
                           style: TextStyle(
                             color: kNegro,
-                            fontSize: 15.0,
+                            fontSize: 20.0,
                             fontFamily: 'PoppinsRegular',
                           ),
                         ),
