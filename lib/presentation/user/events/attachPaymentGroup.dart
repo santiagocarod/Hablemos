@@ -83,7 +83,8 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Adjuntar Pago", null, 0, null),
+            appBar:
+                crearAppBar("Adjuntar Pago", null, 0, null, context: context),
             body: Stack(children: [
               SingleChildScrollView(
                 child: Column(

@@ -13,7 +13,7 @@ class OptionsBreathe extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: SingleChildScrollView(
             child: Stack(
               children: <Widget>[

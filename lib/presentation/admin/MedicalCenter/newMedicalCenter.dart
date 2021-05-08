@@ -51,7 +51,8 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar("Nuevo Centro de Atención", null, 0, null),
+          appBar: crearAppBar("Nuevo Centro de Atención", null, 0, null,
+              context: context),
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

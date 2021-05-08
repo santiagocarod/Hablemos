@@ -19,7 +19,7 @@ class OptionsExercises extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar('', null, 0, null),
+            appBar: crearAppBar('', null, 0, null, context: context),
             body: Center(
               child: Stack(
                 children: <Widget>[

@@ -82,6 +82,7 @@ class _AddWorkShop extends State<AddWorkShop> {
         context: context,
         builder: (BuildContext buildContext) {
           return SafeArea(
+            bottom: false,
             child: Container(
               child: new Wrap(
                 children: <Widget>[
@@ -115,6 +116,7 @@ class _AddWorkShop extends State<AddWorkShop> {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
@@ -133,7 +135,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: size.height * 0.15,
+                      height: size.height * 0.1,
                     ),
                     TextField(
                       controller: _tituloController,

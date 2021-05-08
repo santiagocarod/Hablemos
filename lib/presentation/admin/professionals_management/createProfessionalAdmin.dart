@@ -61,7 +61,7 @@ class _CreateProfileProfessionalAdmin
         child: Scaffold(
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
               cabeceraPerfilProfesional(
@@ -393,7 +393,7 @@ class _CreateProfileProfessionalAdmin
     String content = "";
     return new AlertDialog(
       title: Text(
-        'Confirmación de Creaasción',
+        'Confirmación de Creación',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
@@ -529,8 +529,6 @@ class _CreateProfileProfessionalAdmin
           child: ElevatedButton(
             onPressed: () {
               if (state) {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               } else if (!state) {
                 Navigator.of(context).pop();

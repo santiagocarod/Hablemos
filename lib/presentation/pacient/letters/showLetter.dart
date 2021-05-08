@@ -25,7 +25,7 @@ class ShowLetter extends StatelessWidget {
               backgroundColor: Colors.transparent,
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar("Carta", null, 0, null),
+              appBar: crearAppBar("Carta", null, 0, null, context: context),
               body: Stack(children: <Widget>[
                 Material(
                   type: MaterialType.transparency,

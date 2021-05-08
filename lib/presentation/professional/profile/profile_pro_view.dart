@@ -100,7 +100,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             child: SafeArea(
               bottom: false,
               child: Scaffold(
-                appBar: crearAppBar('', null, 0, null),
+                appBar: crearAppBar('', null, 0, null, context: context),
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[

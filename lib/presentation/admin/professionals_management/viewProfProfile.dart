@@ -30,7 +30,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
         bottom: false,
         child: Scaffold(
           // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           extendBodyBehindAppBar: true,
           body: Stack(
             children: <Widget>[

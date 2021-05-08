@@ -85,7 +85,7 @@ class _EditProfileProfessionalAdminState
         child: Scaffold(
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
               cabeceraPerfilProfesional(
