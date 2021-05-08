@@ -37,7 +37,13 @@ bool agregarTaller(Taller taller) {
 bool actualizarTaller(Taller taller) {
   bool error = false;
   CollectionReference reference =
-      FirebaseFirestore.instance.collection("workshops");
+      FirebaseFirestore.instance.collection('workshops');
+
+  print("aaaaaaaaaaaaaa");
+  print(taller.titulo);
+  print(taller.descripcion);
+  print(taller.ubicacion);
+  print(taller.id);
 
   taller.banco != null
       ? reference.doc(taller.id).update({
