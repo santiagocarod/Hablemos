@@ -22,6 +22,7 @@ Future<bool> agregarProfesional(Profesional profesional, String value) {
         'city': profesional.ciudad,
         'description': profesional.descripcion,
         'uid': value,
+        'picture': profesional.foto,
       })
       .then((value) => true)
       .catchError((error) => false);
@@ -73,6 +74,7 @@ Future<bool> editarProfesional(Profesional profesional) {
         'bank': profesional.banco.toMap(),
         'city': profesional.ciudad,
         'description': profesional.descripcion,
+        'picture': profesional.foto,
       })
       .then((value) => true)
       .catchError((error) => false);
@@ -82,4 +84,17 @@ void actualizarProfesionalCita(Profesional profesional, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
   reference.doc(cita.id).update({"professional": profesional.toMap()});
+}
+
+Future<bool> actualizarPerfilPro(Profesional profesional, String imagePath) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("professionals");
+
+  return reference
+      .doc(profesional.uid)
+      .update({
+        "picture": imagePath,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
 }

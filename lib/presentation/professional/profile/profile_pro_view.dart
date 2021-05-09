@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/professional/negocioProfesional.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
@@ -9,7 +11,6 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileProView extends StatefulWidget {
   @override
@@ -17,32 +18,56 @@ class ProfileProView extends StatefulWidget {
 }
 
 class _ProfileProViewState extends State<ProfileProView> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
   final String id = FirebaseAuth.instance.currentUser.uid;
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, profesional) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -55,14 +80,14 @@ class _ProfileProViewState extends State<ProfileProView> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(profesional);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(profesional);
                     },
                   ),
                 ],
@@ -94,7 +119,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           }
 
           Profesional profesional = profesionalMapToList(snapshot)[0];
-
+          _image = profesional.foto;
           return Container(
             color: kRosado,
             child: SafeArea(
@@ -148,22 +173,36 @@ class _ProfileProViewState extends State<ProfileProView> {
                       color: Colors.indigo[100],
                       size: 200,
                     )
-                  : Image.file(
+                  : Image.network(
                       _image,
                       width: 200,
                       height: 200,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      },
                     ),
             ),
           ),
         ),
         // Draw camera icon
         Container(
-          padding:
-              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
+          padding: EdgeInsets.only(
+            top: (size.height / 2) * 0.45,
+            left: (size.width / 2) * 0.55,
+          ),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
-              _showPicker(context);
+              _showPicker(context, profesional);
             },
             child: ClipOval(
               child: Container(
