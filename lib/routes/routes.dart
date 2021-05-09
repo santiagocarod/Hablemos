@@ -32,6 +32,7 @@ import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
+import 'package:hablemos/presentation/pacient/appointments/professionalDetails.dart';
 import 'package:hablemos/presentation/pacient/health%20information/information.dart';
 import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
@@ -43,6 +44,7 @@ import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
+import 'package:hablemos/presentation/professional/appointments/pacientDetails.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
@@ -175,5 +177,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
     "filterMedicalCenters": (context) => FilterMedicalCenter(),
+    'professionalDetails': (context) => ProfessionalDetails(),
+    'pacientDetails': (context) => PacientDetails(),
   };
 }
