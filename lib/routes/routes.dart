@@ -81,6 +81,7 @@ import 'package:hablemos/presentation/user/medialCenters/filterMedicalCenter.dar
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 import 'package:hablemos/presentation/user/networks.dart';
+import 'package:hablemos/presentation/verifyEmail.dart';
 import 'package:hablemos/start.dart';
 
 import '../presentation/login.dart';
@@ -176,6 +177,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
     "filterMedicalCenters": (context) => FilterMedicalCenter(),
+    "verifyEmail": (context) => VerifyEmail(),
     "olvideConstrasena": (context) => ForgotPassword(),
   };
 }
