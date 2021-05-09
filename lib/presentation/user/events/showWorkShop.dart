@@ -24,6 +24,8 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
 
   Participante participante;
 
+  String uid;
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     if (auth.currentUser != null) {
       User user = auth.currentUser;
 
-      final uid = user.uid;
+      uid = user.uid;
 
       FirebaseFirestore.instance
           .collection('users')
@@ -40,42 +42,13 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
+            print("OJOOOOOOOOOOOOOOO");
+            print(uid);
+            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }
       });
-
-      if (rol == "pacient") {
-        FirebaseFirestore.instance
-            .collection("pacients")
-            .doc(uid)
-            .get()
-            .then((DocumentSnapshot documentSnapshot) {
-          participante = Participante(
-            nombre: documentSnapshot.get("name"),
-            apellido: documentSnapshot.get("lastName"),
-            correo: documentSnapshot.get("email"),
-            telefono: documentSnapshot.get("phone"),
-            uid: documentSnapshot.get("uid"),
-          );
-        });
-      }
-
-      if (rol == "professional") {
-        FirebaseFirestore.instance
-            .collection("professionals")
-            .doc(uid)
-            .get()
-            .then((DocumentSnapshot documentSnapshot) {
-          participante = Participante(
-            nombre: documentSnapshot.get("name"),
-            apellido: documentSnapshot.get("lastName"),
-            correo: documentSnapshot.get("email"),
-            telefono: documentSnapshot.get("phone"),
-            uid: documentSnapshot.get("uid"),
-          );
-        });
-      }
     }
   }
 
@@ -83,6 +56,42 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
+
+    if (rol == "pacient") {
+      FirebaseFirestore.instance
+          .collection("pacients")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
+
+    print("OJITO");
+    print(rol);
+
+    if (rol == "professional") {
+      print("ENTRAAAAAAAAAA");
+      FirebaseFirestore.instance
+          .collection("professionals")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
 
     FirebaseFirestore.instance
         .collection("workshops")
