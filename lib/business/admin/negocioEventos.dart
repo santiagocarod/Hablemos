@@ -77,6 +77,10 @@ bool agregarParticipante(Participante participante, Taller taller) {
 
   Map<String, String> p = participante.toMap();
 
+  if (taller.participantes == null) {
+    taller.participantes = [];
+  }
+
   taller.participantes.add(p);
 
   reference.doc(taller.id).update({

@@ -98,14 +98,17 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
         .get()
         .then((value) {
       Map<String, dynamic> map = value.data();
-      List<dynamic> list = map["participants"];
-      list.forEach((element) {
-        Map<String, dynamic> map2 = element;
-        if (map2["uid"] == auth.currentUser.uid) {
-          Navigator.pushReplacementNamed(context, 'tallerSubscripto',
-              arguments: taller);
-        }
-      });
+
+      if (map["participants"] != null) {
+        List<dynamic> list = map["participants"];
+        list.forEach((element) {
+          Map<String, dynamic> map2 = element;
+          if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+            Navigator.pushReplacementNamed(context, 'tallerSubscripto',
+                arguments: taller);
+          }
+        });
+      }
     });
 
     return Container(
