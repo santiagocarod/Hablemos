@@ -158,12 +158,6 @@ class _CreateProfileProfessionalAdmin
                           builder: (BuildContext context) =>
                               _buildDialog(context, prof, password),
                         );
-                      } else {
-                        print(_nameController.text);
-                        print(_lastNameController.text);
-                        print(_mailController.text);
-                        print(_cityController.text);
-                        print("nose pudo");
                       }
                     },
                     child: Row(

@@ -533,8 +533,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
   Widget modificacionDialogs(BuildContext context, Profesional profesional) {
     String title2 = "";
     String content2 = "";
-    print("confirmar");
-    print(profesional.uid);
+
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',

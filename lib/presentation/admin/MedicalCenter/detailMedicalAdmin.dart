@@ -138,7 +138,6 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                 setState(() {
                                   ciudad = value;
                                 });
-                                print(value["ciudades"]);
                               },
                               style: TextStyle(
                                 fontSize: 18.0,

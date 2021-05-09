@@ -28,7 +28,6 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
 
   @override
   Widget build(BuildContext context) {
-    print(_currentPosition);
     Size size = MediaQuery.of(context).size;
 
     List<CentroAtencion> _medicalCenters =

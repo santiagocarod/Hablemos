@@ -20,7 +20,6 @@ class StartFireBase extends StatelessWidget {
             future: _firebaseApp,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                print("Error: ${snapshot.error.toString()}");
                 return Text("Algo salio Mal");
               } else if (snapshot.hasData) {
                 return HomeScreen();
