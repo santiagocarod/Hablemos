@@ -432,6 +432,7 @@ class _CreateProfileProfessionalAdmin
                     showAlertDialog(
                         context, "Hubo un error\nCorreo ya registrado");
                   } else {
+                    profesional.uid = value;
                     usersRef
                         .doc(value)
                         .set({
