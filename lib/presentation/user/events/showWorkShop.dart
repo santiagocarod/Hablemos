@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hablemos/model/participante.dart';
 
 import 'banco.dart';
 
