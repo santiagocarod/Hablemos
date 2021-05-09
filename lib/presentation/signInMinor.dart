@@ -247,7 +247,7 @@ class _SingInMinorState extends State<SingInMinor> {
                     'role': 'pacient',
                     'name': nombre,
                   })
-                  .then((value) => Navigator.pushNamed(context, 'inicio'))
+                  .then((value) => Navigator.pushNamed(context, 'verifyEmail'))
                   .catchError((value) => showAlertDialog(
                       context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
