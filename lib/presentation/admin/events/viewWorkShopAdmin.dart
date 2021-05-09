@@ -75,18 +75,25 @@ class ViewWorkShopAdmin extends StatelessWidget {
                                             fontSize: 18.0),
                                       ),
                                     ),
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.assignment_ind),
-                                          SizedBox(width: 10.0),
-                                          Text(
-                                            "Ver Inscritos",
-                                            style: GoogleFonts.montserrat(
-                                              fontSize: 15.0,
-                                            ),
-                                          )
-                                        ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, "verListaDeInscritos",
+                                            arguments: taller);
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.assignment_ind),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Ver Inscritos",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 15.0,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
