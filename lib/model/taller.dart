@@ -13,7 +13,7 @@ class Taller {
   DecorationImage foto;
   String ubicacion;
   Banco banco;
-  List<dynamic> participantes = [{}];
+  List<dynamic> participantes = [];
 
   Taller(
       {this.id,
@@ -26,15 +26,7 @@ class Taller {
       this.banco,
       this.fecha,
       this.hora,
-      this.participantes}) {
-    this.fecha = DateTime.now().day.toString() +
-        '/' +
-        DateTime.now().month.toString() +
-        '/' +
-        DateTime.now().year.toString();
-    this.hora =
-        DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
-  }
+      this.participantes});
 
   toMap() {
     return {
