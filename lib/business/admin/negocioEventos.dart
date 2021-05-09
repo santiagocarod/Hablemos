@@ -53,7 +53,8 @@ bool actualizarTaller(Taller taller) {
             "bank": taller.banco.banco,
             "type": taller.banco.tipoCuenta,
             "numAccount": taller.banco.numCuenta
-          }
+          },
+          "participants": taller.participantes,
         })
       : reference.doc(taller.id).update({
           "title": taller.titulo,
@@ -63,6 +64,7 @@ bool actualizarTaller(Taller taller) {
           "cost": taller.valor,
           'date': taller.fecha,
           'hour': taller.hora,
+          "participants": taller.participantes,
         });
   return !error;
 }

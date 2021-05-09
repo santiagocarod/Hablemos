@@ -14,7 +14,7 @@ class Taller {
   DecorationImage foto;
   String ubicacion;
   Banco banco;
-  List<dynamic> participantes;
+  List<dynamic> participantes = [{}];
 
   Taller(
       {this.id,
