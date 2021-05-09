@@ -4,6 +4,7 @@ class Participante {
   String correo;
   String telefono;
   String uid;
+  String pago;
 
   Participante({
     this.nombre,
@@ -11,6 +12,7 @@ class Participante {
     this.correo,
     this.telefono,
     this.uid,
+    this.pago,
   });
 
   toMap() {
@@ -20,6 +22,7 @@ class Participante {
       "email": this.correo,
       "phone": this.telefono,
       "uid": this.uid,
+      "payment": this.pago,
     };
   }
 
@@ -34,6 +37,7 @@ class Participante {
       correo: data["email"],
       telefono: data["phone"],
       uid: data["uid"],
+      pago: data["payment"],
     );
     return p;
   }

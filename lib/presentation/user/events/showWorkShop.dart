@@ -56,6 +56,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
             apellido: documentSnapshot.get("lastName"),
             correo: documentSnapshot.get("email"),
             telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
           );
         });
       }
@@ -71,6 +72,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
             apellido: documentSnapshot.get("lastName"),
             correo: documentSnapshot.get("email"),
             telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
           );
         });
       }
@@ -84,10 +86,18 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
 
     FirebaseFirestore.instance
         .collection("workshops")
-        .where("uid", isEqualTo: auth.currentUser.uid)
+        .doc(taller.id)
         .get()
         .then((value) {
-      Navigator.pushNamed(context, 'tallerSubscripto', arguments: taller);
+      Map<String, dynamic> map = value.data();
+      List<dynamic> list = map["participants"];
+      list.forEach((element) {
+        Map<String, dynamic> map2 = element;
+        if (map2["uid"] == auth.currentUser.uid) {
+          Navigator.pushReplacementNamed(context, 'tallerSubscripto',
+              arguments: taller);
+        }
+      });
     });
 
     return Container(
@@ -553,11 +563,9 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(
-                                        context, "Exito!", "Taller Agregado!",
-                                        ruta: "listarTalleresAdmin"));
-                            Navigator.pushNamed(context, 'tallerSubscripto',
-                                arguments: taller);
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", taller,
+                                        ruta: "tallerSubscripto"));
                           }
                         },
                         child: Container(
@@ -647,8 +655,11 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
+                      Map<String, dynamic> aux =
+                          ({"taller": taller, "participante": participante});
+
                       Navigator.pushNamed(context, "adjuntarPagoTaller",
-                          arguments: taller);
+                          arguments: aux);
                     },
                     child: Container(
                       height: 30,
@@ -788,7 +799,8 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
   }
 }
 
-Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Taller taller,
     {String ruta}) {
   return new AlertDialog(
     title: Text(tittle),
@@ -804,7 +816,7 @@ Widget _buildPopupDialog(BuildContext context, String tittle, String content,
         onPressed: () {
           Navigator.of(context).pop();
           if (ruta != null) {
-            Navigator.pushNamed(context, ruta);
+            Navigator.pushNamed(context, ruta, arguments: taller);
           }
         },
         style: ElevatedButton.styleFrom(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:io';
@@ -65,7 +67,10 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
 
   @override
   Widget build(BuildContext context) {
-    final Taller taller = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> aux = ModalRoute.of(context).settings.arguments;
+    final Taller taller = aux["taller"];
+    final Participante participante = aux["participante"];
+
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -146,8 +151,14 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "tallerSubscripto",
-                            arguments: taller);
+                        if (agregarParticipante(participante, taller)) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Exito!",
+                                      "Inscripción correcta!", taller,
+                                      ruta: "tallerSubscripto"));
+                        }
                       },
                       child: Container(
                         height: 55,
@@ -182,4 +193,37 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
       ],
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Taller taller,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: taller);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }
