@@ -232,19 +232,19 @@ class ShowActivity extends StatelessWidget {
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    if (kIsWeb) {
-                      Navigator.pushNamed(context, 'Mapa');
-                    } else {
-                      MapsLauncher.launchQuery(actividad.ubicacion);
-                      Navigator.pushNamed(context, 'Mapa');
-                    }
-                  },
-                  child: Align(
+            GestureDetector(
+              onTap: () {
+                if (kIsWeb) {
+                  Navigator.pushNamed(context, 'Mapa');
+                } else {
+                  MapsLauncher.launchQuery(actividad.ubicacion);
+                  Navigator.pushNamed(context, 'Mapa');
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "${actividad.ubicacion}",
@@ -254,9 +254,9 @@ class ShowActivity extends StatelessWidget {
                           fontSize: 17.0),
                     ),
                   ),
-                ),
-                Icon(Icons.location_on, size: 26.0)
-              ],
+                  Icon(Icons.location_on, size: 26.0)
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),

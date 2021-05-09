@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import '../../../constants.dart';
 
 class SubscribedWorkShop extends StatelessWidget {
@@ -188,7 +191,7 @@ class SubscribedWorkShop extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(taller),
+                    _seccionUbicacion(context, taller),
                     SizedBox(height: size.height * 0.03),
                     GestureDetector(
                       onTap: () {
@@ -266,7 +269,7 @@ class SubscribedWorkShop extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(Taller taller) {
+  Widget _seccionUbicacion(BuildContext context, Taller taller) {
     if (taller.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
@@ -319,21 +322,31 @@ class SubscribedWorkShop extends StatelessWidget {
                   fontSize: 20.0),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "${taller.ubicacion}",
-                  style: TextStyle(
-                      fontFamily: "PoppinsRegular",
-                      color: kLetras,
-                      fontSize: 17.0),
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, 'Mapa');
+              } else {
+                MapsLauncher.launchQuery(taller.ubicacion);
+                Navigator.pushNamed(context, 'Mapa');
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${taller.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
                 ),
-              ),
-              Icon(Icons.location_on, size: 26.0)
-            ],
+                Icon(Icons.location_on, size: 26.0)
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
