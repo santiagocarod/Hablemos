@@ -83,8 +83,8 @@ class VerifyEmail extends StatelessWidget {
             onPressed: () {
               FirebaseAuth firebaseAuth = FirebaseAuth.instance;
               firebaseAuth.currentUser.sendEmailVerification().then((value) =>
-                  showAlertDialog(context,
-                      "Correo enviado")); //TODO: Actualizar para mostrar titulo de exito
+                  showAlertDialog(context, "Correo enviado 📤",
+                      titulo: "¡Listo!"));
             },
             timeOutInSeconds: 60,
             disabledColor: Colors.red,
