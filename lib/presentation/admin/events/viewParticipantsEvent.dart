@@ -46,6 +46,17 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
   Widget _crearBody(BuildContext context, Size size, Taller taller) {
     int totalInscritos = taller.participantes.length;
 
+    if (totalInscritos == null || totalInscritos == 0) {
+      return Container(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Center(
+            child: Text("No hay inscritos aún"),
+          ),
+        ),
+      );
+    }
+
     return Container(
       child: Padding(
         padding: EdgeInsets.all(20),

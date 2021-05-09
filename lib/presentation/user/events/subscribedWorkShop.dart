@@ -409,7 +409,7 @@ class SubscribedWorkShop extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", taller,
+                                        "Inscripción cancelada!", taller,
                                         ruta: "verTaller"));
                           }
                         },
