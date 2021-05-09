@@ -414,7 +414,7 @@ class ViewGroupAdmin extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "${grupo.banco}",
+                        "${grupo.banco.banco}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,

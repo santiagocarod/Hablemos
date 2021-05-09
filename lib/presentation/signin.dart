@@ -42,7 +42,7 @@ class _SignInPageState extends State<SignInPage> {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Registro", null, 0, null),
+            appBar: crearAppBar("Registro", null, 0, null, context: context),
             body: Stack(
               children: <Widget>[
                 _signinForm(context, size),

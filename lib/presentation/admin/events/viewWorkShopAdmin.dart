@@ -424,7 +424,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "${taller.banco}",
+                        "${taller.banco.banco}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,

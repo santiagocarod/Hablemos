@@ -27,7 +27,7 @@ class SubscribedWorkShop extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar(taller.titulo, null, 0, null),
+          appBar: crearAppBar(taller.titulo, null, 0, null, context: context),
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[

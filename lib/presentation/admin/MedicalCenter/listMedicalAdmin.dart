@@ -33,7 +33,7 @@ class ListMedicalAdmin extends StatelessWidget {
               child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   extendBodyBehindAppBar: true,
-                  appBar: crearAppBar('', null, 0, null),
+                  appBar: crearAppBar('', null, 0, null, context: context),
                   body: Column(
                     children: <Widget>[
                       EncabezadoMedicalAdmin(

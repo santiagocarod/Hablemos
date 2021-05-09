@@ -112,6 +112,7 @@ class _AddActivity extends State<AddActivity> {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
@@ -130,7 +131,7 @@ class _AddActivity extends State<AddActivity> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: size.height * 0.15,
+                      height: size.height * 0.1,
                     ),
                     TextField(
                       controller: _tituloController,

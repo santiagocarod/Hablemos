@@ -95,7 +95,8 @@ class _SingInMinorState extends State<SingInMinor> {
         SafeArea(
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: crearAppBar("Autorización", null, 0, null),
+            appBar:
+                crearAppBar("Autorización", null, 0, null, context: context),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
