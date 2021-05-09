@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/actividad.dart';
-import 'package:hablemos/model/grupo.dart';
-import 'package:hablemos/model/taller.dart';
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
