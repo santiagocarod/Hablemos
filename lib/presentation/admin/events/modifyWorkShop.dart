@@ -108,28 +108,72 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   }
 
   @override
+  void dispose() {
+    _inputFieldDateController.dispose();
+    _timeController.dispose();
+    _ubicacionController.dispose();
+    _bancoController.dispose();
+    _descripcionController.dispose();
+    _tituloController.dispose();
+    _tituloController.dispose();
+    _numCuentaController.dispose();
+    _precioController.dispose();
+    _sesionesController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
 
     if (taller.banco == null) {
-      _ubicacionController.text = taller.ubicacion;
-      _descripcionController.text = taller.descripcion;
-      _tituloController.text = taller.titulo;
+      _ubicacionController = TextEditingController()..text = taller.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = taller.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = taller.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
       _date = taller.fecha;
       _time = taller.hora;
-      _precioController.text = taller.valor;
-      _sesionesController.text = taller.numeroSesiones.toString();
+      _precioController = TextEditingController()..text = taller.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = taller.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
     } else {
-      _ubicacionController.text = taller.ubicacion;
-      _bancoController.text = taller.banco.banco;
-      _descripcionController.text = taller.descripcion;
-      _tituloController.text = taller.titulo;
+      _ubicacionController = TextEditingController()..text = taller.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _bancoController = TextEditingController()..text = taller.banco.banco;
+      _bancoController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _bancoController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = taller.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = taller.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
       _date = taller.fecha;
       _time = taller.hora;
-      _numCuentaController.text = taller.banco.numCuenta.toString();
-      _precioController.text = taller.valor;
-      _sesionesController.text = taller.numeroSesiones.toString();
+      _numCuentaController = TextEditingController()
+        ..text = taller.banco.numCuenta.toString();
+      _numCuentaController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _numCuentaController.text.length));
+      _precioController = TextEditingController()..text = taller.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = taller.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
     }
 
     return Container(
@@ -157,6 +201,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       height: size.height * 0.15,
                     ),
                     TextField(
+                      onChanged: (text2) {
+                        if (text2.isNotEmpty) {
+                          taller.titulo = text2;
+                        }
+                      },
                       textAlign: TextAlign.center,
                       controller: _tituloController,
                       enableInteractiveSelection: false,
@@ -248,6 +297,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                 ),
                               ),
                               TextField(
+                                onChanged: (text2) {
+                                  if (text2.isNotEmpty) {
+                                    taller.ubicacion = text2;
+                                  }
+                                },
                                 controller: _ubicacionController,
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
@@ -283,6 +337,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                 ),
                               ),
                               TextField(
+                                onChanged: (text2) {
+                                  if (text2.isNotEmpty) {
+                                    taller.descripcion = text2;
+                                  }
+                                },
                                 controller: _descripcionController,
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
@@ -329,6 +388,8 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                   GestureDetector(
                                     onTap: () {
                                       _selectdate(context);
+                                      taller.fecha =
+                                          _inputFieldDateController.text;
                                     },
                                     child: Container(
                                       child: Row(children: <Widget>[
@@ -352,6 +413,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                   GestureDetector(
                                     onTap: () {
                                       _selectTime(context);
+                                      taller.hora = _timeController.text;
                                     },
                                     child: Container(
                                       child: Row(children: <Widget>[
@@ -411,6 +473,12 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        onChanged: (text2) {
+                                          if (text2.isNotEmpty) {
+                                            taller.numeroSesiones =
+                                                int.parse(text2);
+                                          }
+                                        },
                                         controller: _sesionesController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
@@ -448,6 +516,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        onChanged: (text2) {
+                                          if (text2.isNotEmpty) {
+                                            taller.valor = text2;
+                                          }
+                                        },
                                         controller: _precioController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
