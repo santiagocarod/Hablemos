@@ -1,19 +1,95 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
+import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
-class ShowWorkShop extends StatelessWidget {
+class ShowWorkShop extends StatefulWidget {
+  @override
+  _ShowWorkShopState createState() => _ShowWorkShopState();
+}
+
+class _ShowWorkShopState extends State<ShowWorkShop> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   final TextEditingController searchController = TextEditingController();
+
+  String rol = "pacient";
+
+  Participante participante;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (auth.currentUser != null) {
+      User user = auth.currentUser;
+
+      final uid = user.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            rol = documentSnapshot.get("role");
+          });
+        }
+      });
+
+      if (rol == "pacient") {
+        FirebaseFirestore.instance
+            .collection("pacients")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+          );
+        });
+      }
+
+      if (rol == "professional") {
+        FirebaseFirestore.instance
+            .collection("professionals")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+          );
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
+
+    FirebaseFirestore.instance
+        .collection("workshops")
+        .where("uid", isEqualTo: auth.currentUser.uid)
+        .get()
+        .then((value) {
+      Navigator.pushNamed(context, 'tallerSubscripto', arguments: taller);
+    });
+
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -473,8 +549,16 @@ class ShowWorkShop extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'tallerSubscripto',
-                              arguments: taller);
+                          if (agregarParticipante(participante, taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(
+                                        context, "Exito!", "Taller Agregado!",
+                                        ruta: "listarTalleresAdmin"));
+                            Navigator.pushNamed(context, 'tallerSubscripto',
+                                arguments: taller);
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -702,4 +786,36 @@ class ShowWorkShop extends StatelessWidget {
         ),
       );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

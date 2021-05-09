@@ -3,8 +3,15 @@ class Participante {
   String apellido;
   String correo;
   String telefono;
+  String uid;
 
-  Participante({this.nombre, this.apellido, this.correo, this.telefono});
+  Participante({
+    this.nombre,
+    this.apellido,
+    this.correo,
+    this.telefono,
+    this.uid,
+  });
 
   toMap() {
     return {
@@ -12,6 +19,7 @@ class Participante {
       "lastName": this.apellido,
       "email": this.correo,
       "phone": this.telefono,
+      "uid": this.uid,
     };
   }
 
@@ -19,12 +27,13 @@ class Participante {
     return this.nombre + " " + this.apellido;
   }
 
-  static frommap(data) {
+  static fromMap(data) {
     Participante p = Participante(
       nombre: data["name"],
       apellido: data["lastName"],
       correo: data["email"],
-      telefono: data["telefono"],
+      telefono: data["phone"],
+      uid: data["uid"],
     );
     return p;
   }

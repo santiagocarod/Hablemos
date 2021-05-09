@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
 
 bool agregarTaller(Taller taller) {
@@ -39,12 +40,6 @@ bool actualizarTaller(Taller taller) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('workshops');
 
-  print("aaaaaaaaaaaaaa");
-  print(taller.titulo);
-  print(taller.descripcion);
-  print(taller.ubicacion);
-  print(taller.id);
-
   taller.banco != null
       ? reference.doc(taller.id).update({
           "title": taller.titulo,
@@ -69,6 +64,23 @@ bool actualizarTaller(Taller taller) {
           'date': taller.fecha,
           'hour': taller.hora,
         });
+  return !error;
+}
+
+bool agregarParticipante(Participante participante, Taller taller) {
+  bool error = false;
+
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("workshops");
+
+  Map<String, String> p = participante.toMap();
+
+  taller.participantes.add(p);
+
+  reference.doc(taller.id).update({
+    "participants": taller.participantes,
+  });
+
   return !error;
 }
 
