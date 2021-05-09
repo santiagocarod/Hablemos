@@ -56,7 +56,7 @@ class Taller {
       fecha: data["date"],
       hora: data["hour"],
       participantes:
-          data["participants"] == null ? [{}] : data["participants"].toList(),
+          data["participants"] == null ? null : data["participants"].toList(),
     );
   }
 }

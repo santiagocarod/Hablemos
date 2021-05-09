@@ -44,9 +44,10 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
   }
 
   Widget _crearBody(BuildContext context, Size size, Taller taller) {
-    int totalInscritos = taller.participantes.length;
+    print("EYYYYYYYYYYYY");
+    print(taller.participantes);
 
-    if (totalInscritos == null || totalInscritos == 0) {
+    if (taller.participantes == null || taller.participantes.length == 0) {
       return Container(
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -57,6 +58,7 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
       );
     }
 
+    int totalInscritos = taller.participantes.length;
     return Container(
       child: Padding(
         padding: EdgeInsets.all(20),
