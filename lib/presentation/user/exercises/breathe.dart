@@ -37,7 +37,7 @@ class _BreatheClassState extends State<BreatheClass> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: [
               Align(

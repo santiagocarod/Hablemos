@@ -34,3 +34,14 @@ Future<bool> crearPago(Profesional profesional) {
       .then((value) => true)
       .catchError((error) => false);
 }
+
+Future<bool> actualizarProfesional(Profesional profesional) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("payments");
+
+  return reference
+      .doc(profesional.uid)
+      .update({"profesional": profesional.toMapPago()})
+      .then((value) => true)
+      .catchError((error) => false);
+}

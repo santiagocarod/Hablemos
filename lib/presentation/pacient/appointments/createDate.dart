@@ -83,7 +83,8 @@ class _CreateDate extends State<CreateDate> {
                   backgroundColor: Colors.transparent,
                   resizeToAvoidBottomInset: false,
                   extendBodyBehindAppBar: true,
-                  appBar: crearAppBar("Crear Cita", null, 0, null),
+                  appBar: crearAppBar("Crear Cita", null, 0, null,
+                      context: context),
                   body: Stack(
                     children: <Widget>[
                       // Information

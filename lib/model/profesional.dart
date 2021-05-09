@@ -40,8 +40,8 @@ class Profesional {
       "uid": this.uid,
       "name": this.nombre,
       "lastName": this.apellido,
-      "birthDay": this.fechaNacimiento,
-      "specialty": this.especialidad,
+      "birthDate": this.fechaNacimiento,
+      "speciality": this.especialidad,
       "experience": this.experiencia,
       "contracts": this.convenios,
       "projects": this.proyectos,
@@ -53,17 +53,29 @@ class Profesional {
     };
   }
 
+  toMapPago() {
+    return {
+      "uid": this.uid,
+      "name": this.nombre,
+      "lastName": this.apellido,
+    };
+  }
+
   static Profesional fromMap(data) {
     Profesional p = Profesional(
         uid: data["uid"],
         nombre: data["name"],
         apellido: data["lastName"],
-        banco: Banco.fromMap(data["bank"]),
+        banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
         fechaNacimiento: data["birthDay"],
         especialidad: data["speciality"],
         experiencia: data["experience"],
-        convenios: List<String>.from(data["contracts"]),
-        proyectos: List<String>.from(["projects"]),
+        convenios: data["contracts"] == null
+            ? null
+            : List<String>.from(data["contracts"]),
+        proyectos: data["projects"] == null
+            ? null
+            : List<String>.from(data["projects"]),
         celular: data["phone"],
         ciudad: data["city"],
         descripcion: data["description"],

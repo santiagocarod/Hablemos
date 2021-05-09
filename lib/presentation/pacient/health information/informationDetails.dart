@@ -15,7 +15,7 @@ class InformationDetails extends StatelessWidget {
         bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           extendBodyBehindAppBar: true,
           body: SingleChildScrollView(
             child: Column(

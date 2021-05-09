@@ -40,7 +40,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar('', null, 0, null),
+            appBar: crearAppBar('', null, 0, null, context: context),
             body: Column(
               children: <Widget>[
                 EncabezadoMedical(size: size, text1: "Canales de Ayuda"),

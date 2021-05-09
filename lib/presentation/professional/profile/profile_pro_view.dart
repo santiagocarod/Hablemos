@@ -81,6 +81,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     Query professionalCollection = FirebaseFirestore.instance
         .collection("professionals")
         .where("uid", isEqualTo: user.uid);
+    print(user.uid);
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -99,7 +100,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             child: SafeArea(
               bottom: false,
               child: Scaffold(
-                appBar: crearAppBar('', null, 0, null),
+                appBar: crearAppBar('', null, 0, null, context: context),
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[
@@ -250,12 +251,28 @@ class _ProfileProViewState extends State<ProfileProView> {
         children: <Widget>[
           _sectionButton(),
           _section('Correo', profesional.correo),
-          _section('Ciudad', 'Bogota D.C'),
-          _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidad),
-          _sectionList('Proyectos', profesional.proyectos, size),
-          _section('Experiencia', profesional.experiencia),
-          _section('Descripcion', profesional.descripcion),
+          _section('Ciudad', profesional.ciudad ?? ''),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
+          _section('Especialidad', profesional.especialidad ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _section('Descripcion', profesional.descripcion ?? ''),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _section('Banco', profesional.banco.banco ?? " "),
+          _section('Número de Cuenta', profesional.banco.numCuenta ?? " "),
+          _section('Tipo de Cuenta', profesional.banco.tipoCuenta ?? " "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -291,7 +308,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             textAlign: TextAlign.left,
           ),
           Text(
-            content == null ? "Falta información" : content,
+            content == null ? " " : content,
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15.0,
@@ -427,8 +444,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                content != null ? _list(content) : [Text("Falta Información")],
+            children: content != null ? _list(content) : [Text(" ")],
           ),
           Container(
             padding: EdgeInsets.only(top: 10.0),

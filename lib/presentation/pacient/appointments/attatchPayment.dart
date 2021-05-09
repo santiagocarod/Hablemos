@@ -106,7 +106,8 @@ class _AttatchPaymentState extends State<AttatchPayment> {
         SafeArea(
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: crearAppBar("Adjuntar Pago", null, 0, null),
+            appBar:
+                crearAppBar("Adjuntar Pago", null, 0, null, context: context),
             body: Stack(children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,

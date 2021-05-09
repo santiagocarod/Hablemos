@@ -43,7 +43,7 @@ class _NewInformation extends State<NewInformation> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
               _background(size),

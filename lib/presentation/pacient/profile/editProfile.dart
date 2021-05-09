@@ -146,7 +146,7 @@ class _EditProfile extends State<EditProfile> {
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
           // Create an empty appBar, display the arrow back
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
               pacientHead(size, _nameController, _lastnameController, user,
@@ -435,18 +435,22 @@ class _EditProfile extends State<EditProfile> {
         stream: reference.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return modificacionDialogs(paciente, user);
+            return Text('ALGO SALIO MAL');
           }
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
-
-          Cita cita = citaMapToList(snapshot)[0];
-          return modificacionDialogsCita(paciente, user, cita);
+          List<Cita> citas = citaMapToList(snapshot);
+          if (citas.length == 0) {
+            return modificacionDialogs(paciente, paciente.uid);
+          } else {
+            return modificacionDialogsCita(paciente, paciente.uid, citas);
+          }
         });
   }
 
-  Widget modificacionDialogs(Paciente paciente, User user) {
+  Widget modificacionDialogs(Paciente paciente, String user) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
@@ -478,6 +482,7 @@ class _EditProfile extends State<EditProfile> {
             ElevatedButton(
               onPressed: () {
                 editarPaciente(paciente).then((value) {
+                  actualizarUsuario(paciente);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';
@@ -543,7 +548,8 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  Widget modificacionDialogsCita(Paciente paciente, User user, Cita cita) {
+  Widget modificacionDialogsCita(
+      Paciente paciente, String user, List<Cita> citas) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
@@ -574,8 +580,11 @@ class _EditProfile extends State<EditProfile> {
           children: [
             ElevatedButton(
               onPressed: () {
-                actualizarPacienteCita(paciente, cita, user);
+                citas.forEach((element) {
+                  actualizarPacienteCita(paciente, element);
+                });
                 editarPaciente(paciente).then((value) {
+                  actualizarUsuario(paciente);
                   bool state;
                   if (value) {
                     title2 = 'Perfil modificada';

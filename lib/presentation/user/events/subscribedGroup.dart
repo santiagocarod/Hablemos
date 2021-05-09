@@ -21,7 +21,7 @@ class SubscribedGroup extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar(grupo.titulo, null, 0, null),
+          appBar: crearAppBar(grupo.titulo, null, 0, null, context: context),
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[
