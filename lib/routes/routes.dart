@@ -26,6 +26,7 @@ import 'package:hablemos/presentation/admin/professionals_management/editProfPro
 import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
 import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
+import 'package:hablemos/presentation/forgotPassword.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
@@ -177,5 +178,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
     "filterMedicalCenters": (context) => FilterMedicalCenter(),
     "verifyEmail": (context) => VerifyEmail(),
+    "olvideConstrasena": (context) => ForgotPassword(),
   };
 }

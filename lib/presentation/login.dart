@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../ux/atoms.dart';
 
@@ -75,7 +75,10 @@ Widget _centerLogin(BuildContext context) {
         }, Icons.login, Colors.yellow[700], bloc),
         SizedBox(height: 20.0),
         GestureDetector(
-          onTap: () => {print("haisd")},
+          onTap: () => {
+            Navigator.pushNamed(context, "olvideConstrasena",
+                arguments: bloc.email)
+          },
           child: Text("¿Olvidaste tu Contraseña?"),
         ),
         SizedBox(height: 20.0),
