@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/grupo.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -65,7 +67,9 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
 
   @override
   Widget build(BuildContext context) {
-    final Grupo grupo = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> aux = ModalRoute.of(context).settings.arguments;
+    final Grupo grupo = aux["grupo"];
+    final Participante participante = aux["participante"];
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -147,8 +151,14 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "grupoSubscripto",
-                            arguments: grupo);
+                        if (agregarParticipanteGrupo(participante, grupo)) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Exito!",
+                                      "Inscripción correcta!", grupo,
+                                      ruta: "grupoSubscripto"));
+                        }
                       },
                       child: Container(
                         height: 55,
@@ -183,4 +193,37 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
       ],
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Grupo grupo,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: grupo);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

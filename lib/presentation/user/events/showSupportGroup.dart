@@ -1,21 +1,113 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/grupo.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
-class ShowSupportGroup extends StatelessWidget {
+class ShowSupportGroup extends StatefulWidget {
+  @override
+  _ShowSupportGroupState createState() => _ShowSupportGroupState();
+}
+
+class _ShowSupportGroupState extends State<ShowSupportGroup> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   final TextEditingController searchController = TextEditingController();
+
+  String rol = "pacient";
+
+  Participante participante;
+
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (auth.currentUser != null) {
+      User user = auth.currentUser;
+
+      uid = user.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            print(documentSnapshot.get("role"));
+            rol = documentSnapshot.get("role");
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Grupo grupoApoyo = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
+
+    if (rol == "pacient") {
+      FirebaseFirestore.instance
+          .collection("pacients")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
+
+    if (rol == "professional") {
+      print("ENTRAAAAAAAAAA");
+      FirebaseFirestore.instance
+          .collection("professionals")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
+
+    FirebaseFirestore.instance
+        .collection("workshops")
+        .doc(grupoApoyo.id)
+        .get()
+        .then((value) {
+      Map<String, dynamic> map = value.data();
+
+      if (map["participants"] != null) {
+        List<dynamic> list = map["participants"];
+        list.forEach((element) {
+          Map<String, dynamic> map2 = element;
+          if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+            Navigator.pushReplacementNamed(context, 'grupoSubscripto',
+                arguments: grupoApoyo);
+          }
+        });
+      }
+    });
+
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -310,8 +402,14 @@ class ShowSupportGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "grupoSubscripto",
-                              arguments: grupo);
+                          if (agregarParticipanteGrupo(participante, grupo)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", grupo,
+                                        ruta: "grupoSubscripto"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -402,8 +500,11 @@ class ShowSupportGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          Map<String, dynamic> aux =
+                              ({"grupo": grupo, "participante": participante});
+
                           Navigator.pushNamed(context, "adjuntarPagoGrupo",
-                              arguments: grupo);
+                              arguments: aux);
                         },
                         child: Container(
                           height: 30,
@@ -800,4 +901,37 @@ class ShowSupportGroup extends StatelessWidget {
       );
     }
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Grupo grupo,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: grupo);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }
