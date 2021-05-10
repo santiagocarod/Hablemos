@@ -233,6 +233,7 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
       onPressed: () {
         Navigator.pop(context);
+        // Navigator.maybePop(context);
         if (context != null && atras != null) {
           Navigator.pushNamed(context, atras);
         }

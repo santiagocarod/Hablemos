@@ -44,7 +44,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                          medicalCenterDetailsMap(_centroAtencion.ubicacion),
                           Icon(Icons.pin_drop)
                         ],
                       ),
@@ -106,7 +106,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                     ),
                     Espacio(size: size),
                     MedicalCenterDetailsTitle("Correo"),
-                    MedicalCenterDetailsInfo(_centroAtencion.correo),
+                    medicalCenterDetailsEmail(_centroAtencion.correo),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: _horizontalPadding),
@@ -136,10 +136,41 @@ class DetailsMedicalCenter extends StatelessWidget {
     List<String> phones = info.split("-");
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: phonesToGesture(phones),
       ),
+    );
+  }
+
+  Widget medicalCenterDetailsEmail(String info) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: GestureDetector(
+        onTap: () => launch("mailto://$info"),
+        child: Text(info,
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              color: kAzulOscuro,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              fontFamily: 'PoppinsRegular',
+            )),
+      ),
+    );
+  }
+
+  Widget medicalCenterDetailsMap(String info) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Text(info,
+          style: TextStyle(
+            decoration: TextDecoration.underline,
+            color: kAzulOscuro,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontFamily: 'PoppinsRegular',
+          )),
     );
   }
 
@@ -151,7 +182,8 @@ class DetailsMedicalCenter extends StatelessWidget {
         child: Text(element,
             style: TextStyle(
               decoration: TextDecoration.underline,
-              color: kLetras,
+              fontWeight: FontWeight.bold,
+              color: kAzulOscuro,
               fontSize: 18,
               fontFamily: 'PoppinsRegular',
             )),
