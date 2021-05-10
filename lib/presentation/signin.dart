@@ -271,7 +271,8 @@ class _SignInPageState extends State<SignInPage> {
                   'role': 'pacient',
                   'name': _name,
                 })
-                .then((value) => Navigator.pushNamed(context, 'inicio'))
+                .then((value) => Navigator.pushNamed(context, 'verifyEmail',
+                    arguments: bloc.email))
                 .catchError((value) => showAlertDialog(
                     context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
