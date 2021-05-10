@@ -5,6 +5,7 @@ import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsMedicalCenter extends StatelessWidget {
   final double _horizontalPadding = 25.0;
@@ -116,7 +117,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                     ),
                     Espacio(size: size),
                     MedicalCenterDetailsTitle("Telefonos"),
-                    MedicalCenterDetailsInfo(_centroAtencion.telefono),
+                    medicalCenterDetailsTel(_centroAtencion.telefono),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: _horizontalPadding),
@@ -129,6 +130,36 @@ class DetailsMedicalCenter extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  Widget medicalCenterDetailsTel(String info) {
+    List<String> phones = info.split("-");
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: phonesToGesture(phones),
+      ),
+    );
+  }
+
+  List<Widget> phonesToGesture(List<String> phones) {
+    List<Widget> gestures = [];
+    phones.forEach((element) {
+      GestureDetector ge = GestureDetector(
+        onTap: () => launch("tel://$element"),
+        child: Text(element,
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              color: kLetras,
+              fontSize: 18,
+              fontFamily: 'PoppinsRegular',
+            )),
+      );
+      gestures.add(ge);
+    });
+
+    return gestures;
   }
 }
 
