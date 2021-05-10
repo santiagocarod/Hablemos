@@ -210,6 +210,11 @@ class _ModifyActivity extends State<ModifyActivity> {
                           fontSize: 27.0, fontWeight: FontWeight.w300),
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: actividad.titulo),
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          actividad.titulo = text;
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -295,6 +300,11 @@ class _ModifyActivity extends State<ModifyActivity> {
                               ),
                               TextField(
                                 controller: _ubicacionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.ubicacion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -330,6 +340,11 @@ class _ModifyActivity extends State<ModifyActivity> {
                               ),
                               TextField(
                                 controller: _descripcionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.descripcion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 3,
@@ -457,9 +472,13 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                        controller: _sesionesController
-                                          ..text = actividad.numeroSesiones
-                                              .toString(),
+                                        controller: _sesionesController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.numeroSesiones =
+                                                int.parse(text);
+                                          }
+                                        },
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
                                             fontFamily: "PoppinsRegular",
@@ -496,8 +515,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                        controller: _precioController
-                                          ..text = actividad.valor,
+                                        controller: _precioController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.valor = text;
+                                          }
+                                        },
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
                                             fontFamily: "PoppinsRegular",
@@ -604,8 +627,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController
-                          ..text = actividad.banco.banco,
+                        controller: _bancoController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            actividad.banco.banco = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -640,8 +667,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _numCuentaController
-                          ..text = actividad.banco.numCuenta,
+                        controller: _numCuentaController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            actividad.banco.numCuenta = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",

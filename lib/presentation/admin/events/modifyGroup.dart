@@ -203,6 +203,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                     TextField(
                       textAlign: TextAlign.center,
                       controller: _tituloController,
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          grupo.titulo = text;
+                        }
+                      },
                       enableInteractiveSelection: false,
                       style: GoogleFonts.montserrat(
                           fontSize: 27.0, fontWeight: FontWeight.w300),
@@ -293,6 +298,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                               ),
                               TextField(
                                 controller: _ubicacionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    grupo.ubicacion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -328,6 +338,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                               ),
                               TextField(
                                 controller: _descripcionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    grupo.descripcion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 3,
@@ -456,6 +471,12 @@ class _ModifyGroup extends State<ModifyGroup> {
                                       alignment: Alignment.topLeft,
                                       child: TextField(
                                           controller: _sesionesController,
+                                          onChanged: (text) {
+                                            if (text.isNotEmpty) {
+                                              grupo.numeroSesiones =
+                                                  int.parse(text);
+                                            }
+                                          },
                                           enableInteractiveSelection: false,
                                           style: TextStyle(
                                               fontFamily: "PoppinsRegular",
@@ -491,6 +512,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                                       alignment: Alignment.topLeft,
                                       child: TextField(
                                           controller: _precioController,
+                                          onChanged: (text) {
+                                            if (text.isNotEmpty) {
+                                              grupo.valor = text;
+                                            }
+                                          },
                                           enableInteractiveSelection: false,
                                           style: TextStyle(
                                               fontFamily: "PoppinsRegular",
@@ -596,6 +622,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                         controller: _bancoController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            grupo.banco.banco = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -631,6 +662,11 @@ class _ModifyGroup extends State<ModifyGroup> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                         controller: _numCuentaController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            grupo.banco.numCuenta = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",

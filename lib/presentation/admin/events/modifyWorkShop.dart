@@ -629,6 +629,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                         controller: _bancoController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            taller.banco.banco = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -664,6 +669,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                     alignment: Alignment.topLeft,
                     child: TextField(
                       controller: _numCuentaController,
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          taller.banco.numCuenta = text;
+                        }
+                      },
                       enableInteractiveSelection: false,
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
