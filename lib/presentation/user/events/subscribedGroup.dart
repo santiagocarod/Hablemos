@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -11,10 +13,14 @@ class SubscribedGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Grupo grupo = ModalRoute.of(context).settings.arguments;
-    return eventoSubcripto(context, size, grupo);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User user = auth.currentUser;
+
+    return eventoSubcripto(context, size, grupo, user);
   }
 
-  Widget eventoSubcripto(BuildContext context, Size size, Grupo grupo) {
+  Widget eventoSubcripto(
+      BuildContext context, Size size, Grupo grupo, User user) {
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -204,6 +210,7 @@ class SubscribedGroup extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a este Grupo de Apoyo?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               } else if (grupo.ubicacion.toLowerCase() ==
                                   "virtual") {
@@ -214,6 +221,7 @@ class SubscribedGroup extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
                                   kMoradoClarito,
+                                  user,
                                 );
                               } else {
                                 return dialogoConfirmacion(
@@ -223,6 +231,7 @@ class SubscribedGroup extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a este Grupo de Apoyo?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               }
                             });
@@ -359,7 +368,7 @@ class SubscribedGroup extends StatelessWidget {
   }
 
   AlertDialog dialogoConfirmacion(BuildContext context, Size size, Grupo grupo,
-      String titulo, String pregunta, Color color) {
+      String titulo, String pregunta, Color color, User user) {
     return AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -398,8 +407,23 @@ class SubscribedGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'verGrupoApoyo',
-                              arguments: grupo);
+                          grupo.participantes.removeWhere((participante) {
+                            Map<String, dynamic> map = participante;
+                            if (map["uid"] == user.uid) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          });
+
+                          if (actualizarGrupo(grupo)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción cancelada!", grupo,
+                                        ruta: "verGrupoApoyo"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -451,7 +475,7 @@ class SubscribedGroup extends StatelessWidget {
   }
 
   AlertDialog dialogoConfirmacionConPago(BuildContext context, Size size,
-      Grupo grupo, String titulo, String pregunta, Color color) {
+      Grupo grupo, String titulo, String pregunta, Color color, User user) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -485,7 +509,22 @@ class SubscribedGroup extends StatelessWidget {
             Container(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'verGrupo', arguments: grupo);
+                  grupo.participantes.removeWhere((participante) {
+                    Map<String, dynamic> map = participante;
+                    if (map["uid"] == user.uid) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+
+                  if (actualizarGrupo(grupo)) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext contex) => _buildPopupDialog(
+                            context, "Exito!", "Inscripción correcta!", grupo,
+                            ruta: "verGrupo"));
+                  }
                 },
                 child: Container(
                   height: 30,
@@ -512,4 +551,37 @@ class SubscribedGroup extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Grupo grupo,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: grupo);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

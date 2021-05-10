@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class ParticipantsEvent extends StatefulWidget {
@@ -13,7 +12,7 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Taller taller = ModalRoute.of(context).settings.arguments;
+    dynamic evento = ModalRoute.of(context).settings.arguments;
     return Stack(
       children: [
         Container(
@@ -31,10 +30,10 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
             appBar: crearAppBarEventos(
-                context, "${taller.titulo}", "listarTalleresAdmin"),
+                context, "${evento.titulo}", "listarTalleresAdmin"),
             body: Stack(
               children: <Widget>[
-                _crearBody(context, size, taller),
+                _crearBody(context, size, evento),
               ],
             ),
           ),
@@ -43,11 +42,11 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
     );
   }
 
-  Widget _crearBody(BuildContext context, Size size, Taller taller) {
+  Widget _crearBody(BuildContext context, Size size, dynamic evento) {
     print("EYYYYYYYYYYYY");
-    print(taller.participantes);
+    print(evento.participantes);
 
-    if (taller.participantes == null || taller.participantes.length == 0) {
+    if (evento.participantes == null || evento.participantes.length == 0) {
       return Container(
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -58,7 +57,7 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
       );
     }
 
-    int totalInscritos = taller.participantes.length;
+    int totalInscritos = evento.participantes.length;
     return Container(
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -73,7 +72,7 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: _createTable(context, size, taller.participantes),
+                child: _createTable(context, size, evento.participantes),
               ),
             ),
           ],
