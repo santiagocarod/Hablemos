@@ -93,11 +93,17 @@ class ListProfessional extends StatelessWidget {
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                 ),
-                child: Image.network(
-                  'https://picsum.photos/250?image=9', //Foto del profesional
-                  height: 250,
-                  fit: BoxFit.fill,
-                ),
+                child: '${element.foto}' == "null"
+                    ? Icon(
+                        Icons.account_circle,
+                        color: Colors.indigo[100],
+                        size: 200.0,
+                      )
+                    : Image.network(
+                        '${element.foto}', //Foto del profesional
+                        height: 250,
+                        fit: BoxFit.fill,
+                      ),
               ),
               // Especialty below the picture
               ListTile(
@@ -116,7 +122,8 @@ class ListProfessional extends StatelessWidget {
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          //Colocar Detalles Profesional
+          Navigator.pushNamed(context, 'professionalDetails',
+              arguments: element);
         },
         child: card,
       );

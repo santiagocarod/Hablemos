@@ -4,6 +4,7 @@ import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
+import 'package:hablemos/presentation/professional/appointments/pacientDetails.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -45,6 +46,7 @@ class DetalleCitaPro extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
+                  height: size.height,
                   padding: EdgeInsets.only(
                     top: size.height * 0.025,
                   ),
@@ -58,7 +60,7 @@ class DetalleCitaPro extends StatelessWidget {
                             alignment: Alignment.center,
                             //margin: EdgeInsets.all(20),
                             width: 359.0,
-                            height: 599.0,
+                            height: 610.0,
                             decoration: BoxDecoration(
                               color: kBlanco,
                               boxShadow: [
@@ -186,14 +188,38 @@ Widget _headerDate(BuildContext context, Cita cita) {
           alignment: Alignment.center,
           margin: EdgeInsets.only(
             top: 40.0,
+            bottom: 30.0,
           ),
-          child: Text(
-            "Cita con $pacientName",
-            style: GoogleFonts.roboto(
-                fontStyle: FontStyle.normal,
-                fontSize: 16,
-                color: kNegro,
-                decoration: TextDecoration.none),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Cita con ",
+                style: GoogleFonts.roboto(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 18,
+                    color: kNegro,
+                    decoration: TextDecoration.none),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          PacientDetails(paciente: cita.paciente)));
+                },
+                child: Text(
+                  "$pacientName",
+                  style: GoogleFonts.roboto(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    color: kNegro,
+                    decoration: TextDecoration.underline,
+                    decorationColor: kNegro,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
