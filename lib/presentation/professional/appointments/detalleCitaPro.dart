@@ -184,25 +184,42 @@ Widget _headerDate(BuildContext context, Cita cita) {
               ),
               child: Icon(Icons.edit, size: 47)),
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PacientDetails(paciente: cita.paciente)));
-          },
-          child: Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(
-              top: 40.0,
-              bottom: 30.0,
-            ),
-            child: Text(
-              "Cita con $pacientName",
-              style: GoogleFonts.roboto(
-                  fontStyle: FontStyle.normal,
-                  fontSize: 18,
-                  color: kNegro,
-                  decoration: TextDecoration.none),
-            ),
+        Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(
+            top: 40.0,
+            bottom: 30.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Cita con ",
+                style: GoogleFonts.roboto(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 18,
+                    color: kNegro,
+                    decoration: TextDecoration.none),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          PacientDetails(paciente: cita.paciente)));
+                },
+                child: Text(
+                  "$pacientName",
+                  style: GoogleFonts.roboto(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    color: kNegro,
+                    decoration: TextDecoration.underline,
+                    decorationColor: kNegro,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -109,7 +109,7 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
     child: Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
           alignment: Alignment.center,
           child: Icon(Icons.location_on),
         ),
@@ -128,14 +128,37 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
-          child: Text(
-            'Cita con $text',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.black,
-              fontFamily: 'PoppinsRegular',
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Cita con ',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'professionalDetails',
+                      arguments: profesional);
+                },
+                child: Text(
+                  '$text',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.black,
+                    fontFamily: 'PoppinsRegular',
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.black,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
