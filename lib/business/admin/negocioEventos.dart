@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
 
@@ -194,3 +195,95 @@ void eliminarActividad(Actividad actividad) {
 }
 
 //GRUPOS
+bool agregarGrupo(Grupo grupo) {
+  bool error = false;
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection('groups');
+
+  grupo.banco != null
+      ? reference.add({
+          "title": grupo.titulo,
+          "description": grupo.descripcion,
+          "numSessions": grupo.numeroSesiones,
+          "location": grupo.ubicacion,
+          "cost": grupo.valor,
+          'date': grupo.fecha,
+          'hour': grupo.hora,
+          "bank": {
+            "bank": grupo.banco.banco,
+            "type": grupo.banco.tipoCuenta,
+            "numAccount": grupo.banco.numCuenta
+          }
+        })
+      : reference.add({
+          "title": grupo.titulo,
+          "description": grupo.descripcion,
+          "numSessions": grupo.numeroSesiones,
+          "location": grupo.ubicacion,
+          "cost": grupo.valor,
+          'date': grupo.fecha,
+          'hour': grupo.hora,
+        });
+  return !error;
+}
+
+bool actualizarGrupo(Grupo grupo) {
+  bool error = false;
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection('groups');
+
+  grupo.banco != null
+      ? reference.doc(grupo.id).update({
+          "title": grupo.titulo,
+          "description": grupo.descripcion,
+          "numSessions": grupo.numeroSesiones,
+          "location": grupo.ubicacion,
+          "cost": grupo.valor,
+          'date': grupo.fecha,
+          'hour': grupo.hora,
+          "bank": {
+            "bank": grupo.banco.banco,
+            "type": grupo.banco.tipoCuenta,
+            "numAccount": grupo.banco.numCuenta
+          },
+          "participants": grupo.participantes,
+        })
+      : reference.doc(grupo.id).update({
+          "title": grupo.titulo,
+          "description": grupo.descripcion,
+          "numSessions": grupo.numeroSesiones,
+          "location": grupo.ubicacion,
+          "cost": grupo.valor,
+          'date': grupo.fecha,
+          'hour': grupo.hora,
+          "participants": grupo.participantes,
+        });
+  return !error;
+}
+
+bool agregarParticipanteGrupo(Participante participante, Grupo grupo) {
+  bool error = false;
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection('groups');
+
+  Map<String, String> p = participante.toMap();
+
+  if (grupo.participantes == null) {
+    grupo.participantes = [];
+  }
+
+  grupo.participantes.add(p);
+
+  reference.doc(grupo.id).update({
+    "participants": grupo.participantes,
+  });
+
+  return !error;
+}
+
+void eliminarGrupo(Grupo grupo) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection('groups');
+
+  reference.doc(grupo.id).delete();
+}
