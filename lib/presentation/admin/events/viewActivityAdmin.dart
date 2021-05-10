@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
@@ -76,18 +77,25 @@ class ViewActivityAdmin extends StatelessWidget {
                                             fontSize: 18.0),
                                       ),
                                     ),
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.assignment_ind),
-                                          SizedBox(width: 10.0),
-                                          Text(
-                                            "Ver Inscritos",
-                                            style: GoogleFonts.montserrat(
-                                              fontSize: 15.0,
-                                            ),
-                                          )
-                                        ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, "verListaDeInscritos",
+                                            arguments: actividad);
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.assignment_ind),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Ver Inscritos",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 15.0,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -312,10 +320,11 @@ class ViewActivityAdmin extends StatelessWidget {
                                       builder: (BuildContext context) {
                                         return dialogoConfirmacion(
                                             context,
-                                            "listarActividades",
-                                            "Confirmación de Eliminación",
-                                            "¿Está seguro que desea eliminar esta Actividad?",
-                                            () {});
+                                            "listarActividadesAdmin",
+                                            "Confirmacion Eliminación",
+                                            "¿Esta seguro que quiere eliminar esta actividad? ",
+                                            eliminarActividad,
+                                            parametro: actividad);
                                       },
                                     );
                                   },
