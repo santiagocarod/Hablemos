@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/ux/atoms.dart';
-
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../../constants.dart';
 
 class SubscribedGroup extends StatelessWidget {
@@ -188,7 +189,7 @@ class SubscribedGroup extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(grupo),
+                    _seccionUbicacion(context, grupo),
                     SizedBox(height: size.height * 0.03),
                     GestureDetector(
                       onTap: () {
@@ -266,7 +267,7 @@ class SubscribedGroup extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(Grupo grupo) {
+  Widget _seccionUbicacion(BuildContext context, Grupo grupo) {
     if (grupo.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
@@ -319,21 +320,31 @@ class SubscribedGroup extends StatelessWidget {
                   fontSize: 20.0),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "${grupo.ubicacion}",
-                  style: TextStyle(
-                      fontFamily: "PoppinsRegular",
-                      color: kLetras,
-                      fontSize: 17.0),
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, 'Mapa');
+              } else {
+                MapsLauncher.launchQuery(grupo.ubicacion);
+                Navigator.pushNamed(context, 'Mapa');
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${grupo.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
                 ),
-              ),
-              Icon(Icons.location_on, size: 26.0)
-            ],
+                Icon(Icons.location_on, size: 26.0)
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),

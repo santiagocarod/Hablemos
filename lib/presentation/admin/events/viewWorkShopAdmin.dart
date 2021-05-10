@@ -4,6 +4,9 @@ import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import '../../../constants.dart';
 
 class ViewWorkShopAdmin extends StatelessWidget {
@@ -121,51 +124,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: 330.5,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Ubicación",
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kMostazaOscuro,
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                SizedBox(height: 7.0),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        "${taller.ubicacion}",
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 17.0),
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.location_on,
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                                  child: Container(
-                                    height: 1.0,
-                                    color: kGrisN,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          _ubicacion(context, taller),
                           SizedBox(height: 10),
                           Container(
                             width: 330.5,
@@ -400,6 +359,102 @@ class ViewWorkShopAdmin extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  Widget _ubicacion(BuildContext context, Taller taller) {
+    if (taller.ubicacion.toLowerCase() == "virtual") {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "${taller.ubicacion}",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kLetras,
+                    fontSize: 17.0),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${taller.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (kIsWeb) {
+                      Navigator.pushNamed(context, 'Mapa');
+                    } else {
+                      MapsLauncher.launchQuery(taller.ubicacion);
+                      Navigator.pushNamed(context, 'Mapa');
+                    }
+                  },
+                  child: Icon(
+                    Icons.location_on,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _datosFinancieros(BuildContext context, Taller taller) {
