@@ -1,15 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hablemos/model/taller.dart';
-import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
-class EventsMainAdmin extends StatelessWidget {
+class EventsMainAdmin extends StatefulWidget {
+  @override
+  _EventsMainAdminState createState() => _EventsMainAdminState();
+}
+
+class _EventsMainAdminState extends State<EventsMainAdmin> {
+  int tamTalleres = 0;
+  int tamActividad = 0;
+  int tamGrupos = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance.collection("workshops").get().then((value) {
+      tamTalleres = value.size;
+      setState(() {});
+    });
+    FirebaseFirestore.instance.collection("activities").get().then((value) {
+      tamActividad = value.size;
+      setState(() {});
+    });
+    FirebaseFirestore.instance.collection("groups").get().then((value) {
+      tamGrupos = value.size;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Taller> talleres = EventoProvider.getTalleres();
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
@@ -44,7 +69,7 @@ class EventsMainAdmin extends StatelessWidget {
                                 size,
                                 Icons.transfer_within_a_station_outlined,
                                 "Talleres",
-                                talleres.length,
+                                tamTalleres,
                                 'listarTalleresAdmin',
                                 "agregarTaller"),
                             SizedBox(
@@ -55,7 +80,7 @@ class EventsMainAdmin extends StatelessWidget {
                                 size,
                                 Icons.thumbs_up_down_outlined,
                                 "Actividades",
-                                6, //TODO: Crear entidad o realizar consultas?
+                                tamActividad,
                                 'listarActividadesAdmin',
                                 "agregarActividad"),
                             SizedBox(
@@ -66,7 +91,7 @@ class EventsMainAdmin extends StatelessWidget {
                                 size,
                                 Icons.people_alt_outlined,
                                 "Grupos de Apoyo",
-                                6,
+                                tamGrupos,
                                 'listarGruposAdmin',
                                 "agregarGrupo"),
                             SizedBox(

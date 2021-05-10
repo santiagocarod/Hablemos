@@ -14,6 +14,7 @@ import 'package:hablemos/presentation/admin/events/modifyGroup.dart';
 import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewParticipantsEvent.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
@@ -181,6 +182,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "filterMedicalCenters": (context) => FilterMedicalCenter(),
     'professionalDetails': (context) => ProfessionalDetails(),
     'pacientDetails': (context) => PacientDetails(),
+    "verListaDeInscritos": (context) => ParticipantsEvent(),
     "verifyEmail": (context) => VerifyEmail(),
     "olvideConstrasena": (context) => ForgotPassword(),
   };

@@ -13,6 +13,7 @@ class Taller {
   DecorationImage foto;
   String ubicacion;
   Banco banco;
+  List<dynamic> participantes;
 
   Taller(
       {this.id,
@@ -24,15 +25,8 @@ class Taller {
       this.ubicacion,
       this.banco,
       this.fecha,
-      this.hora}) {
-    this.fecha = DateTime.now().day.toString() +
-        '/' +
-        DateTime.now().month.toString() +
-        '/' +
-        DateTime.now().year.toString();
-    this.hora =
-        DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
-  }
+      this.hora,
+      this.participantes});
 
   toMap() {
     return {
@@ -44,21 +38,25 @@ class Taller {
       "location": ubicacion,
       "bank": banco,
       "date": fecha,
-      "hour": hora
+      "hour": hora,
+      "participants": participantes,
     };
   }
 
   static fromMap(data, id) {
     return Taller(
-        id: id,
-        titulo: data["title"],
-        valor: data["cost"],
-        numeroSesiones: data["numSessions"],
-        descripcion: data["description"],
-        foto: data["photo"] ?? null,
-        ubicacion: data["location"],
-        banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
-        fecha: data["date"],
-        hora: data["hour"]);
+      id: id,
+      titulo: data["title"],
+      valor: data["cost"],
+      numeroSesiones: data["numSessions"],
+      descripcion: data["description"],
+      foto: data["photo"] ?? null,
+      ubicacion: data["location"],
+      banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
+      fecha: data["date"],
+      hora: data["hour"],
+      participantes:
+          data["participants"] == null ? null : data["participants"].toList(),
+    );
   }
 }
