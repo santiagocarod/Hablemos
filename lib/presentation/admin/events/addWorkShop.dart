@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/services/providers/eventos_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -523,28 +525,102 @@ class _AddWorkShop extends State<AddWorkShop> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  /*Taller nuevaTaller = new Taller(
-                                    titulo: _tituloController.text,
-                                    valor: _precioController.text,
-                                    descripcion: _descripcionController.text,
-                                    ubicacion: _ubicacionController.text,
-                                    numeroSesiones:
-                                        int.parse(_sesionesController.text),
-                                    banco: _bancoController.text,
-                                    numeroCuenta: _numCuentaController.text,
-                                  );
-                                  talleres.add(nuevaTaller);*/
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return dialogoConfirmacion(
-                                          context,
-                                          "listarTalleresAdmin",
-                                          "Confirmación de Creación",
-                                          "¿Está seguro que desea crear un nuevo Taller?",
-                                          () {});
-                                    },
-                                  );
+                                  if (_bancoController.text != "") {
+                                    if (_tituloController.text == "" ||
+                                        _ubicacionController.text == "" ||
+                                        _bancoController.text == "" ||
+                                        _date == null ||
+                                        _descripcionController.text == "" ||
+                                        _sesionesController.text == "" ||
+                                        _numCuentaController.text == "" ||
+                                        _time == null) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Error",
+                                                  "Por favor ingresa todos los valores"));
+                                    } else {
+                                      Taller taller = Taller(
+                                        banco: Banco(
+                                          banco: _bancoController.text,
+                                          numCuenta: _numCuentaController.text,
+                                          tipoCuenta: "Corriente",
+                                        ),
+                                        descripcion:
+                                            _descripcionController.text,
+                                        fecha: _date.toString(),
+                                        hora: _time.toString(),
+                                        numeroSesiones:
+                                            int.parse(_sesionesController.text),
+                                        titulo: _tituloController.text,
+                                        ubicacion: _ubicacionController.text,
+                                        valor: _precioController.text,
+                                      );
+                                      if (agregarTaller(taller)) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext contex) =>
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "Exito!",
+                                                    "Taller Agregado!",
+                                                    ruta:
+                                                        "listarTalleresAdmin"));
+                                      }
+                                    }
+                                  } else {
+                                    if (_tituloController.text == "" ||
+                                        _ubicacionController.text == "" ||
+                                        _date == null ||
+                                        _descripcionController.text == "" ||
+                                        _time == null) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Error",
+                                                  "Por favor ingresa todos los valores"));
+                                    } else {
+                                      Taller taller = Taller(
+                                        descripcion:
+                                            _descripcionController.text,
+                                        fecha: _date.toString(),
+                                        hora: _time.toString(),
+                                        numeroSesiones:
+                                            int.parse(_sesionesController.text),
+                                        titulo: _tituloController.text,
+                                        ubicacion: _ubicacionController.text,
+                                        valor: _precioController.text,
+                                      );
+
+                                      if (agregarTaller(taller)) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext contex) =>
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "Exito!",
+                                                    "Taller Agregado!",
+                                                    ruta:
+                                                        "listarTalleresAdmin"));
+                                      }
+                                    }
+                                  }
+
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (BuildContext context) {
+                                  //     return dialogoConfirmacion(
+                                  //         context,
+                                  //         "listarTalleresAdmin",
+                                  //         "Confirmación de Creación",
+                                  //         "¿Está seguro que desea crear un nuevo Taller?",
+                                  //         () {});
+                                  //   },
+                                  // );
                                 },
                                 child: Container(
                                   child: Row(
@@ -578,4 +654,36 @@ class _AddWorkShop extends State<AddWorkShop> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

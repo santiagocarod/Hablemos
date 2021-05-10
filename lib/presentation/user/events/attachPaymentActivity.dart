@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -65,7 +67,9 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
 
   @override
   Widget build(BuildContext context) {
-    final Actividad actividad = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> aux = ModalRoute.of(context).settings.arguments;
+    final Actividad actividad = aux["actividad"];
+    final Participante participante = aux["participante"];
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -147,8 +151,15 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "actividadSubscripto",
-                            arguments: actividad);
+                        if (agregarParticipanteActividad(
+                            participante, actividad)) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Exito!",
+                                      "Inscripción correcta!", actividad,
+                                      ruta: "actividadSubscripto"));
+                        }
                       },
                       child: Container(
                         height: 55,
@@ -183,4 +194,37 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
       ],
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Actividad actividad,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: actividad);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

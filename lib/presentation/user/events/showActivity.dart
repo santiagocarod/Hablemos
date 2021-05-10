@@ -1,19 +1,112 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class ShowActivity extends StatelessWidget {
+class ShowActivity extends StatefulWidget {
+  @override
+  _ShowActivityState createState() => _ShowActivityState();
+}
+
+class _ShowActivityState extends State<ShowActivity> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  final TextEditingController searchController = TextEditingController();
+
+  String rol = "pacient";
+
+  Participante participante;
+
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (auth.currentUser != null) {
+      User user = auth.currentUser;
+
+      uid = user.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            print(documentSnapshot.get("role"));
+            rol = documentSnapshot.get("role");
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
+
+    if (rol == "pacient") {
+      FirebaseFirestore.instance
+          .collection("pacients")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
+
+    if (rol == "professional") {
+      print("ENTRAAAAAAAAAA");
+      FirebaseFirestore.instance
+          .collection("professionals")
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        participante = Participante(
+          nombre: documentSnapshot.get("name"),
+          apellido: documentSnapshot.get("lastName"),
+          correo: documentSnapshot.get("email"),
+          telefono: documentSnapshot.get("phone"),
+          uid: documentSnapshot.get("uid"),
+        );
+      });
+    }
+
+    FirebaseFirestore.instance
+        .collection("activities")
+        .doc(actividad.id)
+        .get()
+        .then((value) {
+      Map<String, dynamic> map = value.data();
+
+      if (map["participants"] != null) {
+        List<dynamic> list = map["participants"];
+        list.forEach((element) {
+          Map<String, dynamic> map2 = element;
+          if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+            Navigator.pushReplacementNamed(context, 'actividadSubscripto',
+                arguments: actividad);
+          }
+        });
+      }
+    });
+
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -232,19 +325,19 @@ class ShowActivity extends StatelessWidget {
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    if (kIsWeb) {
-                      Navigator.pushNamed(context, 'Mapa');
-                    } else {
-                      MapsLauncher.launchQuery(actividad.ubicacion);
-                      Navigator.pushNamed(context, 'Mapa');
-                    }
-                  },
-                  child: Align(
+            GestureDetector(
+              onTap: () {
+                if (kIsWeb) {
+                  Navigator.pushNamed(context, 'Mapa');
+                } else {
+                  MapsLauncher.launchQuery(actividad.ubicacion);
+                  Navigator.pushNamed(context, 'Mapa');
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "${actividad.ubicacion}",
@@ -254,9 +347,9 @@ class ShowActivity extends StatelessWidget {
                           fontSize: 17.0),
                     ),
                   ),
-                ),
-                Icon(Icons.location_on, size: 26.0)
-              ],
+                  Icon(Icons.location_on, size: 26.0)
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -311,8 +404,15 @@ class ShowActivity extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "actividadSubscripto",
-                              arguments: actividad);
+                          if (agregarParticipanteActividad(
+                              participante, actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", actividad,
+                                        ruta: "actividadSubscripto"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -403,8 +503,12 @@ class ShowActivity extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          Map<String, dynamic> aux = ({
+                            "actividad": actividad,
+                            "participante": participante
+                          });
                           Navigator.pushNamed(context, "adjuntarPagoActividad",
-                              arguments: actividad);
+                              arguments: aux);
                         },
                         child: Container(
                           height: 30,
@@ -719,4 +823,37 @@ class ShowActivity extends StatelessWidget {
       );
     }
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Actividad actividad,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: actividad);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

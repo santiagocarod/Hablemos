@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
+
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
@@ -10,10 +15,14 @@ class SubscribedWorkShop extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
-    return eventoSubcripto(context, size, taller);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User user = auth.currentUser;
+
+    return eventoSubcripto(context, size, taller, user);
   }
 
-  Widget eventoSubcripto(BuildContext context, Size size, Taller taller) {
+  Widget eventoSubcripto(
+      BuildContext context, Size size, Taller taller, User user) {
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -188,7 +197,7 @@ class SubscribedWorkShop extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(taller),
+                    _seccionUbicacion(context, taller),
                     SizedBox(height: size.height * 0.03),
                     GestureDetector(
                       onTap: () {
@@ -203,17 +212,18 @@ class SubscribedWorkShop extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               } else if (taller.ubicacion.toLowerCase() ==
                                   "virtual") {
                                 return dialogoConfirmacionConPago(
-                                  context,
-                                  size,
-                                  taller,
-                                  "Confirmación de Cancelación",
-                                  "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
-                                  kMoradoClarito,
-                                );
+                                    context,
+                                    size,
+                                    taller,
+                                    "Confirmación de Cancelación",
+                                    "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
+                                    kMoradoClarito,
+                                    user);
                               } else {
                                 return dialogoConfirmacion(
                                   context,
@@ -222,6 +232,7 @@ class SubscribedWorkShop extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a este taller?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               }
                             });
@@ -266,7 +277,7 @@ class SubscribedWorkShop extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(Taller taller) {
+  Widget _seccionUbicacion(BuildContext context, Taller taller) {
     if (taller.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
@@ -319,21 +330,31 @@ class SubscribedWorkShop extends StatelessWidget {
                   fontSize: 20.0),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "${taller.ubicacion}",
-                  style: TextStyle(
-                      fontFamily: "PoppinsRegular",
-                      color: kLetras,
-                      fontSize: 17.0),
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, 'Mapa');
+              } else {
+                MapsLauncher.launchQuery(taller.ubicacion);
+                Navigator.pushNamed(context, 'Mapa');
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${taller.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
                 ),
-              ),
-              Icon(Icons.location_on, size: 26.0)
-            ],
+                Icon(Icons.location_on, size: 26.0)
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -348,7 +369,7 @@ class SubscribedWorkShop extends StatelessWidget {
   }
 
   AlertDialog dialogoConfirmacion(BuildContext context, Size size,
-      Taller taller, String titulo, String pregunta, Color color) {
+      Taller taller, String titulo, String pregunta, Color color, User user) {
     return AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -387,8 +408,23 @@ class SubscribedWorkShop extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'verTaller',
-                              arguments: taller);
+                          taller.participantes.removeWhere((participante) {
+                            Map<String, dynamic> map = participante;
+                            if (map["uid"] == user.uid) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          });
+
+                          if (actualizarTaller(taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción cancelada!", taller,
+                                        ruta: "verTaller"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -440,7 +476,7 @@ class SubscribedWorkShop extends StatelessWidget {
   }
 
   AlertDialog dialogoConfirmacionConPago(BuildContext context, Size size,
-      Taller taller, String titulo, String pregunta, Color color) {
+      Taller taller, String titulo, String pregunta, Color color, User user) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -474,7 +510,22 @@ class SubscribedWorkShop extends StatelessWidget {
             Container(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'verTaller', arguments: taller);
+                  taller.participantes.removeWhere((participante) {
+                    Map<String, dynamic> map = participante;
+                    if (map["uid"] == user.uid) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+
+                  if (actualizarTaller(taller)) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext contex) => _buildPopupDialog(
+                            context, "Exito!", "Inscripción correcta!", taller,
+                            ruta: "verTaller"));
+                  }
                 },
                 child: Container(
                   height: 30,
@@ -501,4 +552,37 @@ class SubscribedWorkShop extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Taller taller,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: taller);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

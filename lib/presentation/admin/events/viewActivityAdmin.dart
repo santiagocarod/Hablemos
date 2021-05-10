@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
+
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ViewActivityAdmin extends StatelessWidget {
   @override
@@ -73,18 +77,25 @@ class ViewActivityAdmin extends StatelessWidget {
                                             fontSize: 18.0),
                                       ),
                                     ),
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.assignment_ind),
-                                          SizedBox(width: 10.0),
-                                          Text(
-                                            "Ver Inscritos",
-                                            style: GoogleFonts.montserrat(
-                                              fontSize: 15.0,
-                                            ),
-                                          )
-                                        ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, "verListaDeInscritos",
+                                            arguments: actividad);
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.assignment_ind),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Ver Inscritos",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 15.0,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -112,42 +123,7 @@ class ViewActivityAdmin extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: 330.5,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "Ubicación",
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kMostazaOscuro,
-                                        fontSize: 18.0),
-                                  ),
-                                ),
-                                SizedBox(height: 7.0),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "${actividad.ubicacion}",
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsRegular",
-                                        color: kLetras,
-                                        fontSize: 17.0),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                                  child: Container(
-                                    height: 1.0,
-                                    color: kGrisN,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          _ubicacion(context, actividad),
                           SizedBox(height: 10),
                           Container(
                             width: 330.5,
@@ -344,10 +320,11 @@ class ViewActivityAdmin extends StatelessWidget {
                                       builder: (BuildContext context) {
                                         return dialogoConfirmacion(
                                             context,
-                                            "listarActividades",
-                                            "Confirmación de Eliminación",
-                                            "¿Está seguro que desea eliminar esta Actividad?",
-                                            () {});
+                                            "listarActividadesAdmin",
+                                            "Confirmacion Eliminación",
+                                            "¿Esta seguro que quiere eliminar esta actividad? ",
+                                            eliminarActividad,
+                                            parametro: actividad);
                                       },
                                     );
                                   },
@@ -381,6 +358,102 @@ class ViewActivityAdmin extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  Widget _ubicacion(BuildContext context, Actividad actividad) {
+    if (actividad.ubicacion.toLowerCase() == "virtual") {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "${actividad.ubicacion}",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kLetras,
+                    fontSize: 17.0),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${actividad.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (kIsWeb) {
+                      Navigator.pushNamed(context, 'Mapa');
+                    } else {
+                      MapsLauncher.launchQuery(actividad.ubicacion);
+                      Navigator.pushNamed(context, 'Mapa');
+                    }
+                  },
+                  child: Icon(
+                    Icons.location_on,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _datosFinancieros(BuildContext context, Actividad actividad) {

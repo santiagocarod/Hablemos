@@ -233,6 +233,7 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
       onPressed: () {
         Navigator.pop(context);
+        // Navigator.maybePop(context);
         if (context != null && atras != null) {
           Navigator.pushNamed(context, atras);
         }
@@ -645,18 +646,25 @@ class Espacio extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context, String text) {
+showAlertDialog(BuildContext context, String text,
+    {String titulo, String ruta}) {
+  String title = titulo ?? "Error";
   Widget okButton = FloatingActionButton(
     child: Text("OK"),
     backgroundColor: kMostaza,
     onPressed: () {
       Navigator.of(context).pop();
+      if (ruta != null) {
+        Navigator.pushNamed(context, ruta);
+      }
     },
   );
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Error"),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+    title: Text(title),
     content: Text(text),
     actions: [
       okButton,

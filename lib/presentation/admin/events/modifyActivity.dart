@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -107,9 +108,75 @@ class _ModifyActivity extends State<ModifyActivity> {
   }
 
   @override
+  void dispose() {
+    _inputFieldDateController.dispose();
+    _timeController.dispose();
+    _ubicacionController.dispose();
+    _bancoController.dispose();
+    _descripcionController.dispose();
+    _tituloController.dispose();
+    _tituloController.dispose();
+    _numCuentaController.dispose();
+    _precioController.dispose();
+    _sesionesController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
+
+    if (actividad.banco == null) {
+      _ubicacionController = TextEditingController()
+        ..text = actividad.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = actividad.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = actividad.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = actividad.fecha;
+      _time = actividad.hora;
+      _precioController = TextEditingController()..text = actividad.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = actividad.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+    } else {
+      _ubicacionController = TextEditingController()
+        ..text = actividad.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _bancoController = TextEditingController()..text = actividad.banco.banco;
+      _bancoController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _bancoController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = actividad.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = actividad.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = actividad.fecha;
+      _time = actividad.hora;
+      _numCuentaController = TextEditingController()
+        ..text = actividad.banco.numCuenta.toString();
+      _numCuentaController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _numCuentaController.text.length));
+      _precioController = TextEditingController()..text = actividad.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = actividad.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+    }
 
     return Container(
       color: kAmarilloClaro,
@@ -143,6 +210,11 @@ class _ModifyActivity extends State<ModifyActivity> {
                           fontSize: 27.0, fontWeight: FontWeight.w300),
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: actividad.titulo),
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          actividad.titulo = text;
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -227,8 +299,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                                 ),
                               ),
                               TextField(
-                                controller: _ubicacionController
-                                  ..text = actividad.ubicacion,
+                                controller: _ubicacionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.ubicacion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -263,8 +339,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                                 ),
                               ),
                               TextField(
-                                controller: _descripcionController
-                                  ..text = actividad.descripcion,
+                                controller: _descripcionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.descripcion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 3,
@@ -392,21 +472,27 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _sesionesController
-                                            ..text = actividad.numeroSesiones
-                                                .toString(),
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        controller: _sesionesController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.numeroSesiones =
+                                                int.parse(text);
+                                          }
+                                        },
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -429,20 +515,26 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _precioController
-                                            ..text = actividad.valor,
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        controller: _precioController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.valor = text;
+                                          }
+                                        },
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -461,17 +553,6 @@ class _ModifyActivity extends State<ModifyActivity> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  /*Actividad nuevaActividad = new Actividad(
-                                    titulo: _tituloController.text,
-                                    valor: _precioController.text,
-                                    descripcion: _descripcionController.text,
-                                    ubicacion: _ubicacionController.text,
-                                    numeroSesiones:
-                                        int.parse(_sesionesController.text),
-                                    banco: _bancoController.text,
-                                    numeroCuenta: _numCuentaController.text,
-                                  );
-                                  actividades.add(nuevaActividad);*/
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -479,7 +560,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                                           context,
                                           "verActividadAdmin",
                                           "Confirmación de Modificación",
-                                          "¿Está seguro que desea modificar esta Actividad?",
+                                          "¿Está seguro que desea modificar esta actividad?",
                                           actividad);
                                     },
                                   );
@@ -546,8 +627,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController
-                          ..text = actividad.banco.banco,
+                        controller: _bancoController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            actividad.banco.banco = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -582,8 +667,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _numCuentaController
-                          ..text = actividad.banco.numCuenta,
+                        controller: _numCuentaController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            actividad.banco.numCuenta = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -648,8 +737,58 @@ class _ModifyActivity extends State<ModifyActivity> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, rutaSi,
-                          arguments: actividad);
+                      if (_bancoController.text != "") {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _bancoController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _sesionesController.text == "" ||
+                            _numCuentaController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Error",
+                                      "Por favor ingresa todos los valores"));
+                        } else {
+                          if (actualizarActividad(actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(
+                                        context, "Exito!", "Actividad editada!",
+                                        ruta: "listarActividadesAdmin"));
+                          }
+                        }
+                      } else {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext contex) => _buildPopupDialog(
+                                context,
+                                "Error",
+                                "Por favor ingresa todos los valores"),
+                          );
+                        } else {
+                          if (actualizarActividad(actividad)) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(
+                                      context, "Exito!", "Actividad editada!",
+                                      ruta: "listarActividadesAdmin"),
+                            );
+                          }
+                        }
+                      }
+
+                      // Navigator.pushNamed(context, rutaSi,
+                      //     arguments: actividad);
                     },
                     child: Container(
                       height: 30,
@@ -701,4 +840,36 @@ class _ModifyActivity extends State<ModifyActivity> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

@@ -53,7 +53,11 @@ class HomeScreen extends StatelessWidget {
           if (snapshot.exists) {
             String role = snapshot.get('role');
             if (role.contains('pacient')) {
-              Navigator.pushNamed(context, 'inicio');
+              if (value.emailVerified) {
+                Navigator.pushNamed(context, 'inicio');
+              } else {
+                Navigator.pushNamed(context, "verifyEmail");
+              }
             } else if (role.contains('professional')) {
               Navigator.pushNamed(context, 'inicioProfesional');
             } else if (role.contains('administrator')) {
