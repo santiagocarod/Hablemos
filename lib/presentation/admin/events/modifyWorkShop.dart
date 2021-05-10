@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -107,9 +108,73 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   }
 
   @override
+  void dispose() {
+    _inputFieldDateController.dispose();
+    _timeController.dispose();
+    _ubicacionController.dispose();
+    _bancoController.dispose();
+    _descripcionController.dispose();
+    _tituloController.dispose();
+    _tituloController.dispose();
+    _numCuentaController.dispose();
+    _precioController.dispose();
+    _sesionesController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
+
+    if (taller.banco == null) {
+      _ubicacionController = TextEditingController()..text = taller.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = taller.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = taller.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = taller.fecha;
+      _time = taller.hora;
+      _precioController = TextEditingController()..text = taller.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = taller.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+    } else {
+      _ubicacionController = TextEditingController()..text = taller.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _bancoController = TextEditingController()..text = taller.banco.banco;
+      _bancoController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _bancoController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = taller.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = taller.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = taller.fecha;
+      _time = taller.hora;
+      _numCuentaController = TextEditingController()
+        ..text = taller.banco.numCuenta.toString();
+      _numCuentaController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _numCuentaController.text.length));
+      _precioController = TextEditingController()..text = taller.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = taller.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+    }
 
     return Container(
       color: kAmarilloClaro,
@@ -136,6 +201,11 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       height: size.height * 0.15,
                     ),
                     TextField(
+                      onChanged: (text2) {
+                        if (text2.isNotEmpty) {
+                          taller.titulo = text2;
+                        }
+                      },
                       textAlign: TextAlign.center,
                       controller: _tituloController,
                       enableInteractiveSelection: false,
@@ -227,8 +297,12 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                 ),
                               ),
                               TextField(
-                                controller: _ubicacionController
-                                  ..text = taller.ubicacion,
+                                onChanged: (text2) {
+                                  if (text2.isNotEmpty) {
+                                    taller.ubicacion = text2;
+                                  }
+                                },
+                                controller: _ubicacionController,
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -263,8 +337,12 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                 ),
                               ),
                               TextField(
-                                controller: _descripcionController
-                                  ..text = taller.descripcion,
+                                onChanged: (text2) {
+                                  if (text2.isNotEmpty) {
+                                    taller.descripcion = text2;
+                                  }
+                                },
+                                controller: _descripcionController,
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 3,
@@ -310,6 +388,8 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                   GestureDetector(
                                     onTap: () {
                                       _selectdate(context);
+                                      taller.fecha =
+                                          _inputFieldDateController.text;
                                     },
                                     child: Container(
                                       child: Row(children: <Widget>[
@@ -333,6 +413,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                   GestureDetector(
                                     onTap: () {
                                       _selectTime(context);
+                                      taller.hora = _timeController.text;
                                     },
                                     child: Container(
                                       child: Row(children: <Widget>[
@@ -392,21 +473,27 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _sesionesController
-                                            ..text = taller.numeroSesiones
-                                                .toString(),
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        onChanged: (text2) {
+                                          if (text2.isNotEmpty) {
+                                            taller.numeroSesiones =
+                                                int.parse(text2);
+                                          }
+                                        },
+                                        controller: _sesionesController,
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -429,20 +516,26 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _precioController
-                                            ..text = taller.valor,
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        onChanged: (text2) {
+                                          if (text2.isNotEmpty) {
+                                            taller.valor = text2;
+                                          }
+                                        },
+                                        controller: _precioController,
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -461,17 +554,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  /*Actividad nuevaActividad = new Actividad(
-                                    titulo: _tituloController.text,
-                                    valor: _precioController.text,
-                                    descripcion: _descripcionController.text,
-                                    ubicacion: _ubicacionController.text,
-                                    numeroSesiones:
-                                        int.parse(_sesionesController.text),
-                                    banco: _bancoController.text,
-                                    numeroCuenta: _numCuentaController.text,
-                                  );
-                                  actividades.add(nuevaActividad);*/
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -546,7 +628,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _bancoController..text = taller.banco.banco,
+                        controller: _bancoController,
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -581,20 +663,20 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _numCuentaController
-                          ..text = taller.banco.numCuenta,
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
+                      controller: _numCuentaController,
+                      enableInteractiveSelection: false,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 15.0),
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(
                             fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                            fontSize: 15.0,
+                            color: kLetras),
+                        contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -647,7 +729,54 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, rutaSi, arguments: taller);
+                      if (_bancoController.text != "") {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _bancoController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _sesionesController.text == "" ||
+                            _numCuentaController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Error",
+                                      "Por favor ingresa todos los valores"));
+                        } else {
+                          if (actualizarTaller(taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(
+                                        context, "Exito!", "Taller Agregado!",
+                                        ruta: "listarTalleresAdmin"));
+                          }
+                        }
+                      } else {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Error",
+                                      "Por favor ingresa todos los valores"));
+                        } else {
+                          if (actualizarTaller(taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(
+                                        context, "Exito!", "Taller Editado!",
+                                        ruta: "listarTalleresAdmin"));
+                          }
+                        }
+                      }
+
+                      // Navigator.pushNamed(context, rutaSi, arguments: taller);
                     },
                     child: Container(
                       height: 30,
@@ -699,4 +828,36 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }
