@@ -78,7 +78,8 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
-                              child: Text("Numero: ", style: estiloTitulo)),
+                              child: Text("Telefono (Separado por '-'): ",
+                                  style: estiloTitulo)),
                           TextField(controller: telefono),
                           SizedBox(height: 20),
                           Align(

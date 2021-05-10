@@ -5,6 +5,7 @@ import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsMedicalCenter extends StatelessWidget {
   final double _horizontalPadding = 25.0;
@@ -43,7 +44,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          MedicalCenterDetailsInfo(_centroAtencion.ubicacion),
+                          medicalCenterDetailsMap(_centroAtencion.ubicacion),
                           Icon(Icons.pin_drop)
                         ],
                       ),
@@ -105,7 +106,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                     ),
                     Espacio(size: size),
                     MedicalCenterDetailsTitle("Correo"),
-                    MedicalCenterDetailsInfo(_centroAtencion.correo),
+                    medicalCenterDetailsEmail(_centroAtencion.correo),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: _horizontalPadding),
@@ -116,7 +117,7 @@ class DetailsMedicalCenter extends StatelessWidget {
                     ),
                     Espacio(size: size),
                     MedicalCenterDetailsTitle("Telefonos"),
-                    MedicalCenterDetailsInfo(_centroAtencion.telefono),
+                    medicalCenterDetailsTel(_centroAtencion.telefono),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: _horizontalPadding),
@@ -129,6 +130,68 @@ class DetailsMedicalCenter extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  Widget medicalCenterDetailsTel(String info) {
+    List<String> phones = info.split("-");
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: phonesToGesture(phones),
+      ),
+    );
+  }
+
+  Widget medicalCenterDetailsEmail(String info) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: GestureDetector(
+        onTap: () => launch("mailto://$info"),
+        child: Text(info,
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              color: kAzulOscuro,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              fontFamily: 'PoppinsRegular',
+            )),
+      ),
+    );
+  }
+
+  Widget medicalCenterDetailsMap(String info) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Text(info,
+          style: TextStyle(
+            decoration: TextDecoration.underline,
+            color: kAzulOscuro,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontFamily: 'PoppinsRegular',
+          )),
+    );
+  }
+
+  List<Widget> phonesToGesture(List<String> phones) {
+    List<Widget> gestures = [];
+    phones.forEach((element) {
+      GestureDetector ge = GestureDetector(
+        onTap: () => launch("tel://$element"),
+        child: Text(element,
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.bold,
+              color: kAzulOscuro,
+              fontSize: 18,
+              fontFamily: 'PoppinsRegular',
+            )),
+      );
+      gestures.add(ge);
+    });
+
+    return gestures;
   }
 }
 

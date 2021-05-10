@@ -674,8 +674,12 @@ class _EditProfile extends State<EditProfile> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
                     );
                   },
                 ),

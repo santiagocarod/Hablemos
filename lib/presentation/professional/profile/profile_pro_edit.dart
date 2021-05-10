@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/professional/negocioProfesional.dart';
@@ -484,10 +485,13 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                   ),
                   onPressed: () {
                     showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
+                        context: context,
+                        builder: (BuildContext context) {
+                          FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                          firebaseAuth.sendPasswordResetEmail(
+                              email: firebaseAuth.currentUser.email);
+                          return _buildPopupDialog(context);
+                        });
                   },
                 ),
               ),
