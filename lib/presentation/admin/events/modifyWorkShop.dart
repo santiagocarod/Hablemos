@@ -749,7 +749,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Taller Agregado!",
+                                        context, "Exito!", "Taller editado!",
                                         ruta: "listarTalleresAdmin"));
                           }
                         }

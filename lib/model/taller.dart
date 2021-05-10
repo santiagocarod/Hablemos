@@ -15,18 +15,19 @@ class Taller {
   Banco banco;
   List<dynamic> participantes;
 
-  Taller(
-      {this.id,
-      this.titulo,
-      this.valor,
-      this.numeroSesiones,
-      this.descripcion,
-      this.foto,
-      this.ubicacion,
-      this.banco,
-      this.fecha,
-      this.hora,
-      this.participantes});
+  Taller({
+    this.id,
+    this.titulo,
+    this.valor,
+    this.numeroSesiones,
+    this.descripcion,
+    this.foto,
+    this.ubicacion,
+    this.banco,
+    this.fecha,
+    this.hora,
+    this.participantes,
+  });
 
   toMap() {
     return {
