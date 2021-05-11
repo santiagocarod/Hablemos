@@ -184,7 +184,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                         return dialogoConfirmacion(
                                             context,
                                             "listCentrosMedicosAdmin",
-                                            "Confirmación de Creación",
+                                            "Confirmación de Eliminación",
                                             "¿Está seguro que desea Eliminar el centro de Ayuda?",
                                             eliminarCentroAtencion,
                                             parametro: widget.centroAtencion);
