@@ -42,7 +42,8 @@ class ViewActivityAdmin extends StatelessWidget {
                           width: 315.0,
                           height: 137.0,
                           decoration: BoxDecoration(
-                            image: actividad.foto,
+                            image: DecorationImage(
+                                image: NetworkImage(actividad.foto)),
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             boxShadow: [
                               BoxShadow(

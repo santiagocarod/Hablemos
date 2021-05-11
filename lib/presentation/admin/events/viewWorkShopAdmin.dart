@@ -43,7 +43,8 @@ class ViewWorkShopAdmin extends StatelessWidget {
                           width: 315.0,
                           height: 137.0,
                           decoration: BoxDecoration(
-                            image: taller.foto,
+                            image: DecorationImage(
+                                image: NetworkImage(taller.foto)),
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             boxShadow: [
                               BoxShadow(

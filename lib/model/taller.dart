@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'banco.dart';
 
 class Taller {
@@ -10,7 +8,7 @@ class Taller {
   String valor;
   int numeroSesiones;
   String descripcion;
-  DecorationImage foto;
+  String foto;
   String ubicacion;
   Banco banco;
   List<dynamic> participantes;

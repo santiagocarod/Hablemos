@@ -69,7 +69,9 @@ class _ViewProfile extends State<ViewProfile> {
 
   // Display options (Camera or Gallery)
   void _showPicker(context, paciente) {
-    deleteImage(paciente.foto);
+    if (paciente.foto != "falta foto") {
+      deleteImage(paciente.foto);
+    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -172,7 +174,7 @@ class _ViewProfile extends State<ViewProfile> {
                           color: Colors.white,
                           width: 200.0,
                           height: 200.0,
-                          child: _image == null
+                          child: _image == "falta foto"
                               ? Icon(
                                   Icons.account_circle,
                                   color: Colors.indigo[100],

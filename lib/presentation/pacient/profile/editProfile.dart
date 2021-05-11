@@ -189,7 +189,7 @@ class _EditProfile extends State<EditProfile> {
               color: Colors.white,
               width: 200.0,
               height: 200.0,
-              child: _image == null
+              child: _image == "falta foto"
                   ? Icon(
                       Icons.account_circle,
                       color: Colors.indigo[100],

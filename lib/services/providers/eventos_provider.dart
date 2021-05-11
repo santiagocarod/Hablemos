@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
@@ -24,8 +23,7 @@ class EventoProvider {
         numCuenta: "513-6453-653",
         tipoCuenta: "Corriente");
     int numeroSes1 = 5;
-    DecorationImage foto = DecorationImage(
-        image: AssetImage('assets/images/workshop.png'), fit: BoxFit.cover);
+    String foto = 'assets/images/workshop.png';
     String fecha = "22/06/2021";
     String hora = "10:00";
 

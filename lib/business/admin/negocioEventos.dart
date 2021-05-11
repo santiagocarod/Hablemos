@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/participante.dart';
@@ -19,6 +21,7 @@ bool agregarTaller(Taller taller) {
           "cost": taller.valor,
           'date': taller.fecha,
           'hour': taller.hora,
+          'photo': taller.foto,
           "bank": {
             "bank": taller.banco.banco,
             "type": taller.banco.tipoCuenta,
@@ -33,6 +36,7 @@ bool agregarTaller(Taller taller) {
           "cost": taller.valor,
           'date': taller.fecha,
           'hour': taller.hora,
+          'photo': taller.foto,
         });
   return !error;
 }
@@ -57,6 +61,7 @@ bool actualizarTaller(Taller taller) {
             "numAccount": taller.banco.numCuenta
           },
           "participants": taller.participantes,
+          'photo': taller.foto,
         })
       : reference.doc(taller.id).update({
           "title": taller.titulo,
@@ -67,6 +72,7 @@ bool actualizarTaller(Taller taller) {
           'date': taller.fecha,
           'hour': taller.hora,
           "participants": taller.participantes,
+          'photo': taller.foto,
         });
   return !error;
 }
@@ -96,6 +102,10 @@ void eliminarTaller(Taller taller) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("workshops");
 
+  if (taller.foto != null) {
+    deleteImage(taller.foto);
+    deleteFolder(WORKSHOP_PAYMENT + "/" + taller.foto);
+  }
   reference.doc(taller.id).delete();
 }
 
@@ -114,6 +124,7 @@ bool agregarActividades(Actividad actividad) {
           "cost": actividad.valor,
           'date': actividad.fecha,
           'hour': actividad.hora,
+          'photo': actividad.foto,
           "bank": {
             "bank": actividad.banco.banco,
             "type": actividad.banco.tipoCuenta,
@@ -128,6 +139,7 @@ bool agregarActividades(Actividad actividad) {
           "cost": actividad.valor,
           'date': actividad.fecha,
           'hour': actividad.hora,
+          'photo': actividad.foto,
         });
   return !error;
 }
@@ -152,6 +164,7 @@ bool actualizarActividad(Actividad actividad) {
             "numAccount": actividad.banco.numCuenta
           },
           "participants": actividad.participantes,
+          'photo': actividad.foto,
         })
       : reference.doc(actividad.id).update({
           "title": actividad.titulo,
@@ -162,6 +175,7 @@ bool actualizarActividad(Actividad actividad) {
           'date': actividad.fecha,
           'hour': actividad.hora,
           "participants": actividad.participantes,
+          'photo': actividad.foto,
         });
   return !error;
 }
@@ -191,6 +205,10 @@ void eliminarActividad(Actividad actividad) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('activities');
 
+  if (actividad.foto != null) {
+    deleteImage(actividad.foto);
+    deleteFolder(ACTIVITY_PAYMENT + "/" + actividad.foto);
+  }
   reference.doc(actividad.id).delete();
 }
 
@@ -209,6 +227,7 @@ bool agregarGrupo(Grupo grupo) {
           "cost": grupo.valor,
           'date': grupo.fecha,
           'hour': grupo.hora,
+          'photo': grupo.foto,
           "bank": {
             "bank": grupo.banco.banco,
             "type": grupo.banco.tipoCuenta,
@@ -223,6 +242,7 @@ bool agregarGrupo(Grupo grupo) {
           "cost": grupo.valor,
           'date': grupo.fecha,
           'hour': grupo.hora,
+          'photo': grupo.foto,
         });
   return !error;
 }
@@ -247,6 +267,7 @@ bool actualizarGrupo(Grupo grupo) {
             "numAccount": grupo.banco.numCuenta
           },
           "participants": grupo.participantes,
+          'photo': grupo.foto,
         })
       : reference.doc(grupo.id).update({
           "title": grupo.titulo,
@@ -257,6 +278,7 @@ bool actualizarGrupo(Grupo grupo) {
           'date': grupo.fecha,
           'hour': grupo.hora,
           "participants": grupo.participantes,
+          'photo': grupo.foto,
         });
   return !error;
 }
@@ -285,5 +307,9 @@ void eliminarGrupo(Grupo grupo) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('groups');
 
+  if (grupo.foto != null) {
+    deleteImage(grupo.foto);
+    deleteFolder(GROUP_PAYMENT + "/" + grupo.foto);
+  }
   reference.doc(grupo.id).delete();
 }

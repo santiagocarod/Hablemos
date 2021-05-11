@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class AttachPaymentGroup extends StatefulWidget {
@@ -13,28 +13,47 @@ class AttachPaymentGroup extends StatefulWidget {
 }
 
 class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(String name) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, GROUP_PAYMENT + "/" + name).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(String name) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, GROUP_PAYMENT + "/" + name).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, name) {
+    if (_image != null) {
+      deleteImage(_image);
+    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -47,7 +66,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(name);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -55,7 +74,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(name);
                     },
                   ),
                 ],
@@ -103,7 +122,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context);
+                          _showPicker(context, grupo.titulo);
                         },
                         child: Container(
                             height: 46,
@@ -144,9 +163,24 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                           )
                         : Padding(
                             padding: const EdgeInsets.all(20),
-                            child: Image.file(
+                            child: Image.network(
                               _image,
                               height: size.height / 2,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                           ),
                     GestureDetector(

@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -29,15 +28,22 @@ class _AddActivity extends State<AddActivity> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -45,8 +51,17 @@ class _AddActivity extends State<AddActivity> {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -78,6 +93,9 @@ class _AddActivity extends State<AddActivity> {
   }
 
   void _showPicker(context) {
+    if (_image != null) {
+      deleteImage(_image);
+    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -474,7 +492,30 @@ class _AddActivity extends State<AddActivity> {
                                         borderRadius:
                                             BorderRadius.circular(40.0),
                                         child: (_image != null)
-                                            ? new Image.file(_image)
+                                            ? new Image.network(
+                                                _image,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                              )
                                             : Container(),
                                       ),
                                     ),
@@ -531,7 +572,8 @@ class _AddActivity extends State<AddActivity> {
                                         _descripcionController.text == "" ||
                                         _sesionesController.text == "" ||
                                         _numCuentaController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -555,6 +597,7 @@ class _AddActivity extends State<AddActivity> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
                                       if (agregarActividades(actividad)) {
                                         showDialog(
@@ -573,7 +616,8 @@ class _AddActivity extends State<AddActivity> {
                                         _ubicacionController.text == "" ||
                                         _date == null ||
                                         _descripcionController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -592,6 +636,7 @@ class _AddActivity extends State<AddActivity> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
 
                                       if (agregarActividades(actividad)) {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 
@@ -54,6 +55,9 @@ void eliminarUsuario(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
 
+  if (paciente.foto != "falta foto") {
+    deleteImage(paciente.foto);
+  }
   reference.doc(paciente.uid).delete();
 }
 

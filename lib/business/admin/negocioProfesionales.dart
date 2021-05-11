@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 
@@ -31,6 +32,9 @@ Future<bool> eliminarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
 
+  if (profesional.foto != null) {
+    deleteImage(profesional.foto);
+  }
   return reference
       .doc(profesional.uid)
       .delete()
