@@ -151,77 +151,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
           _section('Correo', admin.correo),
           _section('Ciudad', admin.ciudad),
           _section('Permisos', admin.permisos),
-          Container(
-            padding: EdgeInsets.only(right: 15.0, left: 15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Contraseña',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: kRojoOscuro,
-                    fontFamily: 'PoppinsRegular',
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '*******',
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: kNegro,
-                        fontFamily: 'PoppinsRegular',
-                      ),
-                    ),
-                    Container(
-                      width: 109.0,
-                      height: 29.0,
-                      child: ElevatedButton(
-                        child: Text(
-                          'Cambiar',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.white,
-                            fontFamily: 'PoppinsRegular',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: kRojoOscuro,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(378.0),
-                          ),
-                          shadowColor: Colors.black,
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-                              firebaseAuth.sendPasswordResetEmail(
-                                  email: firebaseAuth.currentUser.email);
-                              return _buildPopupDialog(context);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Divider(
-                    color: Colors.black.withOpacity(0.40),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _sectionPassword(),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -235,6 +165,80 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
                   iconData: Icons.logout,
                   text: "Cerrar Sesion")),
           SizedBox(height: 20)
+        ],
+      ),
+    );
+  }
+
+  Container _sectionPassword() {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Contraseña',
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '*******',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: kNegro,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+              Container(
+                width: 109.0,
+                height: 29.0,
+                child: ElevatedButton(
+                  child: Text(
+                    'Cambiar',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                      fontFamily: 'PoppinsRegular',
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: kRojoOscuro,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(378.0),
+                    ),
+                    shadowColor: Colors.black,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
         ],
       ),
     );
