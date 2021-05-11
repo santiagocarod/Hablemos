@@ -44,6 +44,9 @@ Future<bool> eliminarPaciente(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("pacients");
 
+  if (paciente.foto != "falta foto") {
+    deleteImage(paciente.foto);
+  }
   return reference
       .doc(paciente.uid)
       .delete()
@@ -55,9 +58,6 @@ void eliminarUsuario(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
 
-  if (paciente.foto != "falta foto") {
-    deleteImage(paciente.foto);
-  }
   reference.doc(paciente.uid).delete();
 }
 

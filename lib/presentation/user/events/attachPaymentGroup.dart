@@ -16,13 +16,14 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara(String name) async {
+  _imagenDesdeCamara(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    uploadImage(image.path, GROUP_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, GROUP_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -32,13 +33,14 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
     });
   }
 
-  _imagenDesdeGaleria(String name) async {
+  _imagenDesdeGaleria(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    uploadImage(image.path, GROUP_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, GROUP_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -50,7 +52,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
     });
   }
 
-  void _showPicker(context, name) {
+  void _showPicker(context, participante) {
     if (_image != null) {
       deleteImage(_image);
     }
@@ -66,7 +68,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria(name);
+                        _imagenDesdeGaleria(participante);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -74,7 +76,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara(name);
+                      _imagenDesdeCamara(participante);
                     },
                   ),
                 ],
@@ -122,7 +124,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context, grupo.titulo);
+                          _showPicker(context, participante);
                         },
                         child: Container(
                             height: 46,
@@ -185,13 +187,21 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        if (agregarParticipanteGrupo(participante, grupo)) {
+                        if (participante.pago != null) {
+                          if (agregarParticipanteGrupo(participante, grupo)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", grupo,
+                                        ruta: "grupoSubscripto"));
+                          }
+                        } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Exito!",
-                                      "Inscripción correcta!", grupo,
-                                      ruta: "grupoSubscripto"));
+                                  _buildPopupDialog(context, "Fallo!",
+                                      "Agregue la foto del pago", grupo));
                         }
                       },
                       child: Container(

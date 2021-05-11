@@ -16,13 +16,14 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara(String name) async {
+  _imagenDesdeCamara(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    uploadImage(image.path, WORKSHOP_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, WORKSHOP_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -32,13 +33,14 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
     });
   }
 
-  _imagenDesdeGaleria(String name) async {
+  _imagenDesdeGaleria(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    uploadImage(image.path, WORKSHOP_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, WORKSHOP_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -50,7 +52,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
     });
   }
 
-  void _showPicker(context, name) {
+  void _showPicker(context, participante) {
     if (_image != null) {
       deleteImage(_image);
     }
@@ -66,7 +68,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria(name);
+                        _imagenDesdeGaleria(participante);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -74,7 +76,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara(name);
+                      _imagenDesdeCamara(participante);
                     },
                   ),
                 ],
@@ -123,7 +125,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context, taller.titulo);
+                          _showPicker(context, participante);
                         },
                         child: Container(
                             height: 46,
@@ -186,13 +188,21 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        if (agregarParticipante(participante, taller)) {
+                        if (participante.pago != null) {
+                          if (agregarParticipante(participante, taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", taller,
+                                        ruta: "tallerSubscripto"));
+                          }
+                        } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Exito!",
-                                      "Inscripción correcta!", taller,
-                                      ruta: "tallerSubscripto"));
+                                  _buildPopupDialog(context, "Fallo!",
+                                      "Agregue la foto del pago", taller));
                         }
                       },
                       child: Container(

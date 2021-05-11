@@ -28,11 +28,3 @@ Future<bool> deleteImage(String imagePath) async {
 
   return response.isSuccessful;
 }
-
-Future<bool> deleteFolder(String folder) async {
-  final response = await cloudinary.deleteFiles(
-    prefix: folder,
-  );
-
-  return response.isSuccessful;
-}

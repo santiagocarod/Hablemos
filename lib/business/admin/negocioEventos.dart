@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/business/cloudinary.dart';
-import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/participante.dart';
@@ -104,9 +103,17 @@ void eliminarTaller(Taller taller) {
 
   if (taller.foto != null) {
     deleteImage(taller.foto);
-    deleteFolder(WORKSHOP_PAYMENT + "/" + taller.foto);
+    eliminarPagosTaller(taller);
   }
   reference.doc(taller.id).delete();
+}
+
+void eliminarPagosTaller(Taller taller) {
+  if (taller.participantes != null) {
+    taller.participantes.forEach((element) {
+      deleteImage(element["payment"]);
+    });
+  }
 }
 
 //ACTIVIDADES
@@ -207,9 +214,17 @@ void eliminarActividad(Actividad actividad) {
 
   if (actividad.foto != null) {
     deleteImage(actividad.foto);
-    deleteFolder(ACTIVITY_PAYMENT + "/" + actividad.foto);
+    eliminarPagosActividad(actividad);
   }
   reference.doc(actividad.id).delete();
+}
+
+void eliminarPagosActividad(Actividad actividad) {
+  if (actividad.participantes != null) {
+    actividad.participantes.forEach((element) {
+      deleteImage(element["payment"]);
+    });
+  }
 }
 
 //GRUPOS
@@ -309,7 +324,15 @@ void eliminarGrupo(Grupo grupo) {
 
   if (grupo.foto != null) {
     deleteImage(grupo.foto);
-    deleteFolder(GROUP_PAYMENT + "/" + grupo.foto);
+    eliminarPagosGrupo(grupo);
   }
   reference.doc(grupo.id).delete();
+}
+
+void eliminarPagosGrupo(Grupo grupo) {
+  if (grupo.participantes != null) {
+    grupo.participantes.forEach((element) {
+      deleteImage(element["payment"]);
+    });
+  }
 }

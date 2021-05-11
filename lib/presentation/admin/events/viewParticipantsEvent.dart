@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ParticipantsEvent extends StatefulWidget {
   @override
@@ -43,9 +44,6 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
   }
 
   Widget _crearBody(BuildContext context, Size size, dynamic evento) {
-    print("EYYYYYYYYYYYY");
-    print(evento.participantes);
-
     if (evento.participantes == null || evento.participantes.length == 0) {
       return Container(
         child: Padding(
@@ -72,7 +70,8 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: _createTable(context, size, evento.participantes),
+                child:
+                    _createTable(context, size, evento.participantes, evento),
               ),
             ),
           ],
@@ -109,31 +108,44 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
     );
   }
 
-  Widget _createTable(
-      BuildContext context, Size size, List<dynamic> participantes) {
+  Widget _createTable(BuildContext context, Size size,
+      List<dynamic> participantes, dynamic event) {
     List<DataRow> rows = [];
 
     participantes.forEach((element) {
       String nombreParticipante = element["name"] + " " + element["lastName"];
       String telefono = element["phone"];
-
       DataRow data = DataRow(cells: [
         DataCell(
-          Text(
-            "$nombreParticipante",
-            style: GoogleFonts.montserrat(
-                fontSize: 17.0, fontWeight: FontWeight.w300),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+            Text(
+              "$nombreParticipante",
+              style: GoogleFonts.montserrat(
+                  fontSize: 17.0, fontWeight: FontWeight.w300),
+              overflow: TextOverflow.ellipsis,
+            ), onTap: () {
+          if (event.ubicacion.toLowerCase() == "virtual" &&
+              event.valor != "sin costo" &&
+              event.valor != "gratis" &&
+              event.valor != "gratuito" &&
+              event.valor != "0") {
+            _launchInBrowser(element["payment"]);
+          }
+        }),
         DataCell(
-          Text(
-            "$telefono",
-            style: GoogleFonts.montserrat(
-                fontSize: 15.0, fontWeight: FontWeight.w300),
-            overflow: TextOverflow.ellipsis,
-          ),
-        )
+            Text(
+              "$telefono",
+              style: GoogleFonts.montserrat(
+                  fontSize: 15.0, fontWeight: FontWeight.w300),
+              overflow: TextOverflow.ellipsis,
+            ), onTap: () {
+          if (event.ubicacion.toLowerCase() == "virtual" &&
+              event.valor != "sin costo" &&
+              event.valor != "gratis" &&
+              event.valor != "gratuito" &&
+              event.valor != "0") {
+            _launchInBrowser(element["payment"]);
+          }
+        })
       ]);
       rows.add(data);
     });
@@ -169,5 +181,13 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
           ],
           rows: rows),
     );
+  }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

@@ -16,13 +16,14 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara(String name) async {
+  _imagenDesdeCamara(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    uploadImage(image.path, ACTIVITY_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, ACTIVITY_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -32,13 +33,14 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
     });
   }
 
-  _imagenDesdeGaleria(String name) async {
+  _imagenDesdeGaleria(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    uploadImage(image.path, ACTIVITY_PAYMENT + "/" + name).then((value) {
+    uploadImage(image.path, ACTIVITY_PAYMENT).then((value) {
       if (value != null) {
         _image = value;
+        participante.pago = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -50,7 +52,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
     });
   }
 
-  void _showPicker(context, name) {
+  void _showPicker(context, participante) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -63,7 +65,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria(name);
+                        _imagenDesdeGaleria(participante);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -71,7 +73,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara(name);
+                      _imagenDesdeCamara(participante);
                     },
                   ),
                 ],
@@ -119,7 +121,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context, actividad.titulo);
+                          _showPicker(context, participante);
                         },
                         child: Container(
                             height: 46,
@@ -182,14 +184,22 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                           ),
                     GestureDetector(
                       onTap: () {
-                        if (agregarParticipanteActividad(
-                            participante, actividad)) {
+                        if (participante.pago != null) {
+                          if (agregarParticipanteActividad(
+                              participante, actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", actividad,
+                                        ruta: "actividadSubscripto"));
+                          }
+                        } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Exito!",
-                                      "Inscripción correcta!", actividad,
-                                      ruta: "actividadSubscripto"));
+                                  _buildPopupDialog(context, "Fallo!",
+                                      "Agregue la foto del pago", actividad));
                         }
                       },
                       child: Container(
