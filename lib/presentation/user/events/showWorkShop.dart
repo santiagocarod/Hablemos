@@ -251,13 +251,14 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    _seccionUbicacion(context, taller),
                     Container(
                       width: 330.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            width: 133.5,
+                            width: 150.5,
                             child: Column(
                               children: <Widget>[
                                 Align(
@@ -292,7 +293,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                             ),
                           ),
                           Container(
-                            width: 133.5,
+                            width: 150.5,
                             child: Column(
                               children: <Widget>[
                                 Align(
@@ -330,7 +331,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(context, taller),
+                    _seccionFinanciera(context, taller),
                     SizedBox(height: size.height * 0.03),
                     _inscripcion(context, taller, size),
                     SizedBox(
@@ -344,6 +345,67 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
         ),
       ),
     );
+  }
+
+  Widget _seccionFinanciera(BuildContext context, Taller taller) {
+    if (taller.valor.toLowerCase() == "sin costo" ||
+        taller.valor.toLowerCase() == "gratis" ||
+        taller.valor.toLowerCase() == "gratuito" ||
+        taller.valor.toLowerCase() == "0") {
+      return SizedBox(height: 5.0);
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 330.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Información de Pago",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            "${taller.banco.toString()}",
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kLetras,
+                                fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGrisN,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _seccionUbicacion(BuildContext context, Taller taller) {
@@ -385,101 +447,6 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                   child: Container(
                     height: 1.0,
                     color: kGrisN,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 330.5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                "${taller.banco}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "Número de Cuenta",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: FittedBox(
-                              child: Text(
-                                "${taller.banco.numCuenta}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],
@@ -742,7 +709,10 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (taller.valor.toLowerCase() == "sin costo") {
+                if (taller.valor.toLowerCase() == "sin costo" ||
+                    taller.valor.toLowerCase() == "gratis" ||
+                    taller.valor.toLowerCase() == "gratuito" ||
+                    taller.valor.toLowerCase() == "0") {
                   return dialogoConfirmacion(
                     context,
                     size,

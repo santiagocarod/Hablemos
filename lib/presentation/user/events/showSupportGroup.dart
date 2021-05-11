@@ -250,6 +250,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                     SizedBox(height: 10),
                     _sectionCosto(context, grupoApoyo),
                     SizedBox(height: 10),
+                    _seccionUbicacion(context, grupoApoyo),
+                    SizedBox(height: 10),
                     _sectionAccountNum(context, grupoApoyo),
                     SizedBox(height: size.height * 0.03),
                     _inscripcion(context, grupoApoyo),
@@ -269,7 +271,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
   Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
     if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -310,7 +312,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
       );
     } else {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -557,10 +559,12 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
   }
 
   Widget _sectionAccountNum(BuildContext context, Grupo grupo) {
-    if (grupo.valor.toLowerCase() == "sin costo") {
-      return Container(
-        width: 330.5,
-        child: _seccionUbicacion(context, grupo),
+    if (grupo.valor.toLowerCase() == "sin costo" ||
+        grupo.valor.toLowerCase() == "gratis" ||
+        grupo.valor.toLowerCase() == "gratuito" ||
+        grupo.valor.toLowerCase() == "0") {
+      return SizedBox(
+        height: 5.0,
       );
     } else {
       return Column(
@@ -573,7 +577,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                   alignment: Alignment.topLeft,
                   child: FittedBox(
                     child: Text(
-                      "Banco",
+                      "Información de Pago",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
@@ -586,7 +590,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                   alignment: Alignment.topLeft,
                   child: FittedBox(
                     child: Text(
-                      "${grupo.banco}",
+                      "${grupo.banco.toString()}",
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
                           color: kLetras,
@@ -604,61 +608,16 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
               ],
             ),
           ),
-          Container(
-            width: 330.5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _seccionUbicacion(context, grupo),
-                Container(
-                  width: 183.0,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "Número de Cuenta",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "${grupo.numCuenta}",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       );
     }
   }
 
   Widget _sectionCosto(BuildContext context, Grupo grupo) {
-    if (grupo.valor.toLowerCase() == "sin costo") {
+    if (grupo.valor.toLowerCase() == "sin costo" ||
+        grupo.valor.toLowerCase() == "gratis" ||
+        grupo.valor.toLowerCase() == "gratuito" ||
+        grupo.valor.toLowerCase() == "0") {
       return Container(
         width: 330.5,
         child: Row(
@@ -826,7 +785,10 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (grupoApoyo.valor.toLowerCase() == "sin costo") {
+                if (grupoApoyo.valor.toLowerCase() == "sin costo" ||
+                    grupoApoyo.valor.toLowerCase() == "gratis" ||
+                    grupoApoyo.valor.toLowerCase() == "gratuito" ||
+                    grupoApoyo.valor.toLowerCase() == "0") {
                   return dialogoConfirmacion(
                     context,
                     grupoApoyo,
