@@ -180,6 +180,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     return Container(
       color: kAmarilloClaro,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           extendBodyBehindAppBar: true,
