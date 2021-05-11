@@ -212,7 +212,7 @@ Widget _headerDate(BuildContext context, Cita cita) {
                   style: GoogleFonts.roboto(
                     fontStyle: FontStyle.normal,
                     fontSize: 20,
-                    color: kNegro,
+                    color: kAzulOscuro,
                     decoration: TextDecoration.underline,
                     decorationColor: kNegro,
                     decorationStyle: TextDecorationStyle.solid,

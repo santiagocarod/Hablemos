@@ -150,7 +150,7 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 20.0,
-                    color: Colors.black,
+                    color: Color(0xFF205072),
                     fontFamily: 'PoppinsRegular',
                     decoration: TextDecoration.underline,
                     decorationColor: Colors.black,
