@@ -30,13 +30,14 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        taller.foto = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -46,13 +47,14 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        taller.foto = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -91,7 +93,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     }
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, taller) {
     if (_image != null) {
       deleteImage(_image);
     }
@@ -107,7 +109,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(taller);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -115,7 +117,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(taller);
                     },
                   ),
                 ],
@@ -286,7 +288,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _showPicker(context);
+                              _showPicker(context, taller);
                             },
                             child: Align(
                               alignment: Alignment.topRight,

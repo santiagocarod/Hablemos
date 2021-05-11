@@ -30,13 +30,14 @@ class _ModifyActivity extends State<ModifyActivity> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        actividad.foto = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -46,13 +47,14 @@ class _ModifyActivity extends State<ModifyActivity> {
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        actividad.foto = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -91,7 +93,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     }
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, actividad) {
     if (_image != null) {
       deleteImage(_image);
     }
@@ -107,7 +109,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(actividad);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -115,7 +117,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(actividad);
                     },
                   ),
                 ],
@@ -288,7 +290,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _showPicker(context);
+                              _showPicker(context, actividad);
                             },
                             child: Align(
                               alignment: Alignment.topRight,

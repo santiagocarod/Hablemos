@@ -30,13 +30,14 @@ class _ModifyGroup extends State<ModifyGroup> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        grupo.foto = value;
         Navigator.pop(context);
         setState(() {});
       } else {
@@ -46,13 +47,14 @@ class _ModifyGroup extends State<ModifyGroup> {
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
       if (value != null) {
         _image = value;
+        grupo.foto = value;
         Navigator.pop(context);
         setState(() {
           build(context);
@@ -91,7 +93,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     }
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, grupo) {
     if (_image != null) {
       deleteImage(_image);
     }
@@ -108,7 +110,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(grupo);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -116,7 +118,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(grupo);
                     },
                   ),
                 ],
@@ -286,7 +288,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _showPicker(context);
+                              _showPicker(context, grupo);
                             },
                             child: Align(
                               alignment: Alignment.topRight,
