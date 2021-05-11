@@ -94,9 +94,6 @@ class _ModifyActivity extends State<ModifyActivity> {
   }
 
   void _showPicker(context, actividad) {
-    if (_image != null) {
-      deleteImage(_image);
-    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -109,6 +106,9 @@ class _ModifyActivity extends State<ModifyActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria(actividad);
                         //Navigator.of(context).pop();
                       }),
@@ -117,6 +117,9 @@ class _ModifyActivity extends State<ModifyActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara(actividad);
                     },
                   ),

@@ -95,9 +95,6 @@ class _AddWorkShop extends State<AddWorkShop> {
   }
 
   void _showPicker(context) {
-    if (_image != null) {
-      deleteImage(_image);
-    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -111,6 +108,9 @@ class _AddWorkShop extends State<AddWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -119,6 +119,9 @@ class _AddWorkShop extends State<AddWorkShop> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara();
                     },
                   ),

@@ -94,9 +94,6 @@ class _ModifyGroup extends State<ModifyGroup> {
   }
 
   void _showPicker(context, grupo) {
-    if (_image != null) {
-      deleteImage(_image);
-    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -110,6 +107,9 @@ class _ModifyGroup extends State<ModifyGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria(grupo);
                         //Navigator.of(context).pop();
                       }),
@@ -118,6 +118,9 @@ class _ModifyGroup extends State<ModifyGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara(grupo);
                     },
                   ),
