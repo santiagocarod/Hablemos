@@ -86,6 +86,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
           Text(
             titulo,
             style: TextStyle(
+              fontFamily: "PoppinsRegular",
               color: kVerdePagos,
               fontWeight: FontWeight.bold,
               fontSize: 22,
@@ -97,7 +98,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
           Text(
             info,
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 21,
             ),
           ),
           SizedBox(height: 15),
