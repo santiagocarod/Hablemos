@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -29,15 +28,22 @@ class _AddGroup extends State<AddGroup> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -45,8 +51,17 @@ class _AddGroup extends State<AddGroup> {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -90,6 +105,9 @@ class _AddGroup extends State<AddGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -98,6 +116,9 @@ class _AddGroup extends State<AddGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara();
                     },
                   ),
@@ -473,7 +494,30 @@ class _AddGroup extends State<AddGroup> {
                                         borderRadius:
                                             BorderRadius.circular(40.0),
                                         child: (_image != null)
-                                            ? new Image.file(_image)
+                                            ? new Image.network(
+                                                _image,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                              )
                                             : Container(),
                                       ),
                                     ),
@@ -530,7 +574,8 @@ class _AddGroup extends State<AddGroup> {
                                         _descripcionController.text == "" ||
                                         _sesionesController.text == "" ||
                                         _numCuentaController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -554,6 +599,7 @@ class _AddGroup extends State<AddGroup> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
                                       if (agregarGrupo(grupo)) {
                                         showDialog(
@@ -569,7 +615,8 @@ class _AddGroup extends State<AddGroup> {
                                         _ubicacionController.text == "" ||
                                         _date == null ||
                                         _descripcionController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -588,6 +635,7 @@ class _AddGroup extends State<AddGroup> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
 
                                       if (agregarGrupo(grupo)) {

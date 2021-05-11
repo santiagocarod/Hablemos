@@ -73,9 +73,26 @@ class _PacientDetails extends State<PacientDetails> {
                                   size: 200.0,
                                 )
                               : Image.network(
-                                  paciente.foto.toString(),
+                                  paciente.foto,
                                   width: 200.0,
                                   height: 200.0,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes
+                                            : null,
+                                      ),
+                                    );
+                                  },
                                 ),
                         ),
                       ),

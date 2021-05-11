@@ -118,7 +118,7 @@ Widget passwordTextBox(InputsBloc bloc) {
               color: Colors.yellow[700],
             ),
             labelText: "Contraseña",
-            counterText: snapshot.data,
+            // counterText: snapshot.data,
             errorText: snapshot.error,
           ),
           onChanged: bloc.changePassword,

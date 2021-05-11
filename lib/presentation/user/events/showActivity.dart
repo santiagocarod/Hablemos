@@ -127,7 +127,8 @@ class _ShowActivityState extends State<ShowActivity> {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: actividad.foto,
+                      image:
+                          DecorationImage(image: NetworkImage(actividad.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(

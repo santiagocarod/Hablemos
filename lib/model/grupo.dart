@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hablemos/model/banco.dart';
 
 class Grupo {
@@ -9,7 +8,7 @@ class Grupo {
   String valor;
   int numeroSesiones;
   String descripcion;
-  DecorationImage foto;
+  String foto;
   String ubicacion;
   Banco banco;
   String numCuenta;

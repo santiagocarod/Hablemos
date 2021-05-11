@@ -50,6 +50,7 @@ dependencies:
   firebase_core: 
   firebase_auth: 
   auto_size_text_field: 
+  cloudinary_sdk: 
 
 flutter_icons:
   android: true

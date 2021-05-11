@@ -128,7 +128,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: grupoApoyo.foto,
+                      image:
+                          DecorationImage(image: NetworkImage(grupoApoyo.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(

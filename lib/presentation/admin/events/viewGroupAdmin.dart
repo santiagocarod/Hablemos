@@ -42,7 +42,8 @@ class ViewGroupAdmin extends StatelessWidget {
                         width: 315.0,
                         height: 137.0,
                         decoration: BoxDecoration(
-                          image: grupo.foto,
+                          image:
+                              DecorationImage(image: NetworkImage(grupo.foto)),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           boxShadow: [
                             BoxShadow(

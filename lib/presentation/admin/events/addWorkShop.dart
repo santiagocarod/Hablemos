@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/services/providers/eventos_provider.dart';
@@ -31,15 +30,22 @@ class _AddWorkShop extends State<AddWorkShop> {
   TextEditingController _tituloController = new TextEditingController();
   final List<Taller> taller = EventoProvider.getTalleres();
 
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -47,8 +53,17 @@ class _AddWorkShop extends State<AddWorkShop> {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -93,6 +108,9 @@ class _AddWorkShop extends State<AddWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -101,6 +119,9 @@ class _AddWorkShop extends State<AddWorkShop> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara();
                     },
                   ),
@@ -476,7 +497,30 @@ class _AddWorkShop extends State<AddWorkShop> {
                                         borderRadius:
                                             BorderRadius.circular(40.0),
                                         child: (_image != null)
-                                            ? new Image.file(_image)
+                                            ? new Image.network(
+                                                _image,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                              )
                                             : Container(),
                                       ),
                                     ),
@@ -533,7 +577,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                         _descripcionController.text == "" ||
                                         _sesionesController.text == "" ||
                                         _numCuentaController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -557,6 +602,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
                                       if (agregarTaller(taller)) {
                                         showDialog(
@@ -575,7 +621,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                         _ubicacionController.text == "" ||
                                         _date == null ||
                                         _descripcionController.text == "" ||
-                                        _time == null) {
+                                        _time == null ||
+                                        _image == null) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext contex) =>
@@ -594,6 +641,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                                         titulo: _tituloController.text,
                                         ubicacion: _ubicacionController.text,
                                         valor: _precioController.text,
+                                        foto: _image,
                                       );
 
                                       if (agregarTaller(taller)) {

@@ -6,6 +6,8 @@ import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:intl/intl.dart';
 
+import '../cloudinary.dart';
+
 //TODO: Agregar registro en la parte de pago y eliminarlo
 
 Future<bool> agregarCita(Cita cita) async {
@@ -120,4 +122,20 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
     });
   }
   return !error;
+}
+
+Future<bool> actualizarPago(Cita cita, String imagePath) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection('appoinments');
+  if (cita.pago != null && cita.pago != "") {
+    deleteImage(cita.pago);
+  }
+
+  return reference
+      .doc(cita.id)
+      .update({
+        "payment": imagePath,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
 }

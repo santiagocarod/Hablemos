@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioPagos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/business/professional/negocioProfesional.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -37,7 +36,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
   TextEditingController _accountNumberController = new TextEditingController();
   TextEditingController _accountTypeController = new TextEditingController();
 
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   @override
@@ -67,30 +66,58 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       ..text = widget.profesional.banco.numCuenta;
     _accountTypeController = TextEditingController()
       ..text = widget.profesional.banco.tipoCuenta;
+    _image = widget.profesional.foto;
   }
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
-      _image = File(image.path);
+      uploadImage(image.path, PROFILE_FOLDER).then((value) {
+        if (value != null) {
+          actualizarPerfilPro(profesional, value).then((val) {
+            if (val) {
+              _image = value;
+              Navigator.pop(context);
+              setState(() {});
+            } else {
+              showAlertDialog(context,
+                  "Hubo un error subiendo la foto, inténtelo nuevamente");
+            }
+          });
+        }
+      });
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, profesional) {
+    deleteImage(profesional.foto);
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -103,14 +130,14 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(profesional);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(profesional);
                     },
                   ),
                 ],
@@ -134,8 +161,8 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
           appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(
-                  size, _nameController, _lastNameController),
+              cabeceraPerfilProfesional(size, _nameController,
+                  _lastNameController, widget.profesional),
               Container(
                 padding: EdgeInsets.only(top: size.height * 0.53),
                 child: SingleChildScrollView(
@@ -153,7 +180,8 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
   Widget cabeceraPerfilProfesional(
       Size size,
       TextEditingController _nameController,
-      TextEditingController _lastNameController) {
+      TextEditingController _lastNameController,
+      Profesional profesional) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -181,22 +209,34 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                       color: Colors.indigo[100],
                       size: 200,
                     )
-                  : Image.file(
+                  : Image.network(
                       _image,
                       width: 200,
                       height: 200,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      },
                     ),
             ),
           ),
         ),
         // Draw camera icon
         Container(
-          padding:
-              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
+          padding: EdgeInsets.only(
+              top: (size.height / 2) * 0.45, left: (size.width / 2) * 0.55),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
-              _showPicker(context);
+              _showPicker(context, profesional);
             },
             child: ClipOval(
               child: Container(

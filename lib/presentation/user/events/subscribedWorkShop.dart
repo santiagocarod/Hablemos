@@ -42,7 +42,7 @@ class SubscribedWorkShop extends StatelessWidget {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: taller.foto,
+                      image: DecorationImage(image: NetworkImage(taller.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(

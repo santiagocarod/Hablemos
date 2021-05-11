@@ -93,7 +93,7 @@ List<Widget> objectCard(BuildContext context, Size size, List<Grupo> grupos) {
               width: 333.0,
               height: 185.0,
               decoration: BoxDecoration(
-                image: element.foto,
+                image: DecorationImage(image: NetworkImage(element.foto)),
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 boxShadow: [
                   BoxShadow(

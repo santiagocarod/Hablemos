@@ -40,7 +40,7 @@ class SubscribedGroup extends StatelessWidget {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: grupo.foto,
+                      image: DecorationImage(image: NetworkImage(grupo.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
