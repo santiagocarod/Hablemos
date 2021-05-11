@@ -692,24 +692,27 @@ AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
       height: 170.0,
       width: 302.0,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text(
-            "$titulo",
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+          Center(
+            child: Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
           ),
           SizedBox(
             height: 25.0,
           ),
-          Container(
-            width: 259.0,
-            height: 55.0,
-            child: Text(
-              "$mensaje",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                  color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+          Center(
+            child: Container(
+              width: 259.0,
+              height: 55.0,
+              child: Text(
+                "$mensaje",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
             ),
           ),
           SizedBox(

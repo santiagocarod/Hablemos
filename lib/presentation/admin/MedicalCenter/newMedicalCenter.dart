@@ -65,7 +65,7 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 150,
+                    height: 110,
                   ),
                   Expanded(
                     child: SingleChildScrollView(
