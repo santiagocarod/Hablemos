@@ -565,7 +565,8 @@ class _ShowActivityState extends State<ShowActivity> {
     if (actividad.valor.toLowerCase() == "sin costo" ||
         actividad.valor.toLowerCase() == "gratis" ||
         actividad.valor.toLowerCase() == "gratuito" ||
-        actividad.valor.toLowerCase() == "0") {
+        actividad.valor.toLowerCase() == "0" ||
+        actividad.valor.toLowerCase() == "") {
       return SizedBox(
         height: 5.0,
       );
@@ -711,7 +712,8 @@ class _ShowActivityState extends State<ShowActivity> {
                 if (actividad.valor.toLowerCase() == "sin costo" ||
                     actividad.valor.toLowerCase() == "gratis" ||
                     actividad.valor.toLowerCase() == "gratuito" ||
-                    actividad.valor.toLowerCase() == "0") {
+                    actividad.valor.toLowerCase() == "0" ||
+                    actividad.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     actividad,

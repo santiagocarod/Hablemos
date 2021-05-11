@@ -562,7 +562,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
         grupo.valor.toLowerCase() == "gratuito" ||
-        grupo.valor.toLowerCase() == "0") {
+        grupo.valor.toLowerCase() == "0" ||
+        grupo.valor.toLowerCase() == "") {
       return SizedBox(
         height: 5.0,
       );
@@ -617,7 +618,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
         grupo.valor.toLowerCase() == "gratuito" ||
-        grupo.valor.toLowerCase() == "0") {
+        grupo.valor.toLowerCase() == "0" ||
+        grupo.valor.toLowerCase() == "") {
       return Container(
         width: 330.5,
         child: Row(
@@ -788,7 +790,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                 if (grupoApoyo.valor.toLowerCase() == "sin costo" ||
                     grupoApoyo.valor.toLowerCase() == "gratis" ||
                     grupoApoyo.valor.toLowerCase() == "gratuito" ||
-                    grupoApoyo.valor.toLowerCase() == "0") {
+                    grupoApoyo.valor.toLowerCase() == "0" ||
+                    grupoApoyo.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     grupoApoyo,

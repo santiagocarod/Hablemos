@@ -205,7 +205,8 @@ class SubscribedGroup extends StatelessWidget {
                               if (grupo.valor.toLowerCase() == "sin costo" ||
                                   grupo.valor.toLowerCase() == "gratis" ||
                                   grupo.valor.toLowerCase() == "gratuito" ||
-                                  grupo.valor.toLowerCase() == "0") {
+                                  grupo.valor.toLowerCase() == "0" ||
+                                  grupo.valor.toLowerCase() == "") {
                                 return dialogoConfirmacion(
                                   context,
                                   size,

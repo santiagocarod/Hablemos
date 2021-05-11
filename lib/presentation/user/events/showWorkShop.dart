@@ -351,7 +351,8 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     if (taller.valor.toLowerCase() == "sin costo" ||
         taller.valor.toLowerCase() == "gratis" ||
         taller.valor.toLowerCase() == "gratuito" ||
-        taller.valor.toLowerCase() == "0") {
+        taller.valor.toLowerCase() == "0" ||
+        taller.valor.toLowerCase() == "") {
       return SizedBox(height: 5.0);
     } else {
       return Container(
@@ -712,7 +713,8 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                 if (taller.valor.toLowerCase() == "sin costo" ||
                     taller.valor.toLowerCase() == "gratis" ||
                     taller.valor.toLowerCase() == "gratuito" ||
-                    taller.valor.toLowerCase() == "0") {
+                    taller.valor.toLowerCase() == "0" ||
+                    taller.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     size,

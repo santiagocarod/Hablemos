@@ -209,7 +209,8 @@ class SubscribedActivity extends StatelessWidget {
                                       "sin costo" ||
                                   actividad.valor.toLowerCase() == "gratis" ||
                                   actividad.valor.toLowerCase() == "gratuito" ||
-                                  actividad.valor.toLowerCase() == "0") {
+                                  actividad.valor.toLowerCase() == "0" ||
+                                  actividad.valor.toLowerCase() == "") {
                                 return dialogoConfirmacion(
                                   context,
                                   size,
