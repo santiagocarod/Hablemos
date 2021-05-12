@@ -54,38 +54,39 @@ class _ShowActivityState extends State<ShowActivity> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      if (rol == "pacient") {
+        FirebaseFirestore.instance
+            .collection("pacients")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
 
-    if (rol == "pacient") {
-      FirebaseFirestore.instance
-          .collection("pacients")
-          .doc(uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        participante = Participante(
-          nombre: documentSnapshot.get("name"),
-          apellido: documentSnapshot.get("lastName"),
-          correo: documentSnapshot.get("email"),
-          telefono: documentSnapshot.get("phone"),
-          uid: documentSnapshot.get("uid"),
-        );
-      });
-    }
-
-    if (rol == "professional") {
-      print("ENTRAAAAAAAAAA");
-      FirebaseFirestore.instance
-          .collection("professionals")
-          .doc(uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        participante = Participante(
-          nombre: documentSnapshot.get("name"),
-          apellido: documentSnapshot.get("lastName"),
-          correo: documentSnapshot.get("email"),
-          telefono: documentSnapshot.get("phone"),
-          uid: documentSnapshot.get("uid"),
-        );
-      });
+      if (rol == "professional") {
+        FirebaseFirestore.instance
+            .collection("professionals")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
     }
 
     FirebaseFirestore.instance
