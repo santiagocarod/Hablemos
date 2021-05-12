@@ -246,6 +246,7 @@ class _ShowActivityState extends State<ShowActivity> {
                         ],
                       ),
                     ),
+                    _seccionUbicacion(context, actividad),
                     SizedBox(height: 10),
                     _sectionCosto(context, actividad),
                     SizedBox(height: 10),
@@ -268,7 +269,7 @@ class _ShowActivityState extends State<ShowActivity> {
   Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -562,11 +563,12 @@ class _ShowActivityState extends State<ShowActivity> {
 
   Widget _sectionAccountNum(BuildContext context, Actividad actividad) {
     if (actividad.valor.toLowerCase() == "sin costo" ||
-        actividad.ubicacion.toLowerCase() != "virtual") {
-      return Container(
-        alignment: Alignment.centerLeft,
-        width: 330.5,
-        child: _seccionUbicacion(context, actividad),
+        actividad.valor.toLowerCase() == "gratis" ||
+        actividad.valor.toLowerCase() == "gratuito" ||
+        actividad.valor.toLowerCase() == "0" ||
+        actividad.valor.toLowerCase() == "") {
+      return SizedBox(
+        height: 5.0,
       );
     } else {
       return Container(
@@ -574,16 +576,15 @@ class _ShowActivityState extends State<ShowActivity> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _seccionUbicacion(context, actividad),
             Container(
-              width: 183.0,
+              width: 330.5,
               child: Column(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                       child: Text(
-                        "Número de Cuenta",
+                        "Información de Pago",
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -596,7 +597,7 @@ class _ShowActivityState extends State<ShowActivity> {
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                       child: Text(
-                        "${actividad.banco.numCuenta}",
+                        "${actividad.banco.toString()}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,
@@ -621,123 +622,84 @@ class _ShowActivityState extends State<ShowActivity> {
   }
 
   Widget _sectionCosto(BuildContext context, Actividad actividad) {
-    if (actividad.valor.toLowerCase() == "sin costo" ||
-        actividad.ubicacion.toLowerCase() != "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Costo",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: "PoppinsRegular",
-                    color: kMoradoOscuro,
-                    fontSize: 20.0),
-              ),
+    return Container(
+      width: 330.5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: 133.5,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Costo",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kMoradoOscuro,
+                        fontSize: 20.0),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${actividad.valor}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+              ],
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "${actividad.valor}",
-                style: TextStyle(
-                    fontFamily: "PoppinsRegular",
-                    color: kLetras,
-                    fontSize: 17.0),
-              ),
+          ),
+          Container(
+            width: 183.0,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Sesiones",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kMoradoOscuro,
+                        fontSize: 20.0),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${actividad.numeroSesiones}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    height: 1.0,
+                    color: kGrisN,
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                height: 1.0,
-                color: kGrisN,
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container(
-        width: 330.5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              width: 133.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Costo",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMoradoOscuro,
-                          fontSize: 20.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "${actividad.valor}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGrisN,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 183.0,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Banco",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMoradoOscuro,
-                          fontSize: 20.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "${actividad.banco.banco}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGrisN,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _inscripcion(BuildContext context, Actividad actividad) {
@@ -747,7 +709,11 @@ class _ShowActivityState extends State<ShowActivity> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (actividad.valor.toLowerCase() == "sin costo") {
+                if (actividad.valor.toLowerCase() == "sin costo" ||
+                    actividad.valor.toLowerCase() == "gratis" ||
+                    actividad.valor.toLowerCase() == "gratuito" ||
+                    actividad.valor.toLowerCase() == "0" ||
+                    actividad.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     actividad,

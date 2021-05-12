@@ -26,6 +26,7 @@ class _AddActivity extends State<AddActivity> {
   TextEditingController _precioController = new TextEditingController();
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
+  TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
   String _image;
@@ -387,40 +388,77 @@ class _AddActivity extends State<AddActivity> {
                         SizedBox(height: 20.0),
                         Container(
                           width: 330.5,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width: 133.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        "Banco",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras.withOpacity(0.7),
-                                            fontSize: 18.0),
-                                      ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    width: 133.5,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Banco",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras.withOpacity(0.7),
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: TextField(
+                                            controller: _bancoController,
+                                            enableInteractiveSelection: false,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras,
+                                                fontSize: 15.0),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _bancoController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
+                                  ),
+                                  Container(
+                                    width: 183.5,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Tipo de Cuenta",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras.withOpacity(0.7),
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: TextField(
+                                            controller: _tipoCuentaController,
+                                            enableInteractiveSelection: false,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras,
+                                                fontSize: 15.0),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.0,
                               ),
                               Container(
-                                width: 183.5,
+                                width: 330.5,
                                 child: Column(
                                   children: <Widget>[
                                     Align(
@@ -575,6 +613,7 @@ class _AddActivity extends State<AddActivity> {
                                         _descripcionController.text == "" ||
                                         _sesionesController.text == "" ||
                                         _numCuentaController.text == "" ||
+                                        _tipoCuentaController.text == "" ||
                                         _time == null ||
                                         _image == null) {
                                       showDialog(
@@ -589,7 +628,8 @@ class _AddActivity extends State<AddActivity> {
                                         banco: Banco(
                                           banco: _bancoController.text,
                                           numCuenta: _numCuentaController.text,
-                                          tipoCuenta: "Corriente",
+                                          tipoCuenta:
+                                              _tipoCuentaController.text,
                                         ),
                                         descripcion:
                                             _descripcionController.text,

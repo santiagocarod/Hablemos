@@ -204,7 +204,11 @@ class SubscribedWorkShop extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              if (taller.valor.toLowerCase() == "sin costo") {
+                              if (taller.valor.toLowerCase() == "sin costo" ||
+                                  taller.valor.toLowerCase() == "gratis" ||
+                                  taller.valor.toLowerCase() == "gratuito" ||
+                                  taller.valor.toLowerCase() == "0" ||
+                                  taller.valor.toLowerCase() == "") {
                                 return dialogoConfirmacion(
                                   context,
                                   size,

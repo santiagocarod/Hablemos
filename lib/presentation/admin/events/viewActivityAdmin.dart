@@ -467,14 +467,14 @@ class ViewActivityAdmin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              width: 133.5,
+              width: 330.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Banco",
+                      "Información de Pago",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
@@ -486,47 +486,12 @@ class ViewActivityAdmin extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "${actividad.banco.banco}",
+                        "${actividad.banco.toString()}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,
                             fontSize: 17.0),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGrisN,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 183.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMostazaOscuro,
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      "${actividad.banco.numCuenta}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
                     ),
                   ),
                   Padding(
