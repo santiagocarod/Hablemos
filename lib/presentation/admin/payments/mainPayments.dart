@@ -39,7 +39,7 @@ class MainPaymentsPage extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset: false,
                 extendBodyBehindAppBar: true,
-                appBar: crearAppBar("Pagos", null, 0, null),
+                appBar: crearAppBar("Pagos", null, 0, null, context: context),
                 body: Stack(
                   children: <Widget>[
                     _crearBody(context, size, lista),
@@ -111,7 +111,7 @@ class MainPaymentsPage extends StatelessWidget {
               Text(
                 "$nombreProfesional",
                 style: GoogleFonts.montserrat(
-                    fontSize: 17.0, fontWeight: FontWeight.w300),
+                    fontSize: 16.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
             Navigator.pushNamed(context, "detayledPaymentAdmin",
@@ -121,7 +121,7 @@ class MainPaymentsPage extends StatelessWidget {
               Text(
                 "$valor",
                 style: GoogleFonts.montserrat(
-                    fontSize: 17.0, fontWeight: FontWeight.w300),
+                    fontSize: 16.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
             Navigator.pushNamed(context, "detayledPaymentAdmin",

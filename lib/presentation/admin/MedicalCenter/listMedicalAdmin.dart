@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/centro_atencion.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/EncabezadoMedicalAdmin.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -30,60 +31,66 @@ class ListMedicalAdmin extends StatelessWidget {
             child: SafeArea(
               bottom: false,
               child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  extendBodyBehindAppBar: true,
-                  appBar: crearAppBar('', null, 0, null),
-                  body: Column(
-                    children: <Widget>[
-                      EncabezadoMedicalAdmin(
-                          size: size, text1: "Canales de Ayuda"),
-                      Espacio(size: size),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 40),
-                            child: GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, "newCentrosMedicosAdmin"),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.add_circle_outline,
-                                    size: 40,
-                                  ),
-                                  Text("Agregar",
-                                      style: TextStyle(
-                                          color: kLetras,
-                                          fontSize: 26,
-                                          fontFamily: "PoppinsRegular"))
-                                ],
-                              ),
+                resizeToAvoidBottomInset: false,
+                extendBodyBehindAppBar: true,
+                appBar: crearAppBar('', null, 0, null, context: context),
+                body: Column(
+                  children: <Widget>[
+                    EncabezadoMedicalAdmin(
+                        size: size, text1: "Canales de Ayuda"),
+                    Espacio(size: size),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 40),
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                                context, "newCentrosMedicosAdmin"),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.add_circle_outline,
+                                  size: 20,
+                                ),
+                                SizedBox(width: 5.0),
+                                Text("Agregar",
+                                    style: TextStyle(
+                                        color: kLetras,
+                                        fontSize: 18,
+                                        fontFamily: "PoppinsRegular"))
+                              ],
                             ),
-                          )
-                        ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Espacio(size: size),
+                    Container(
+                      width: size.width * 0.95,
+                      color: kAzul1,
+                      child: Center(
+                        child: Text("Lineas de ayuda",
+                            style: TextStyle(
+                                color: kLetras,
+                                fontSize: 26,
+                                fontFamily: "PoppinsRegular")),
                       ),
-                      Espacio(size: size),
-                      Container(
-                        width: size.width - 20,
-                        color: kAzul1,
-                        child: Center(
-                          child: Text("Lineas de ayuda",
-                              style: TextStyle(
-                                  color: kLetras,
-                                  fontSize: 26,
-                                  fontFamily: "PoppinsRegular")),
-                        ),
-                      ),
-                      Espacio(size: size),
-                      Expanded(
-                          child: ListView(
+                    ),
+                    Espacio(size: size),
+                    Expanded(
+                      child: ListView(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         children:
                             centersToWidgetsMedical(context, _medicalCenters),
-                      ))
-                    ],
-                  )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         });
@@ -95,22 +102,27 @@ class ListMedicalAdmin extends StatelessWidget {
     _medicalCenters.forEach((element) {
       Card card = Card(
         child: Container(
-            height: 70,
-            child: Center(
-                child: Text(
+          height: 100,
+          child: Center(
+            child: Text(
               element.nombre + "\n" + element.telefono,
               style: TextStyle(
-                  color: kLetras, fontSize: 22, fontFamily: "PoppinsRegular"),
-            ))),
+                  color: kLetras, fontSize: 20, fontFamily: "PoppinsRegular"),
+            ),
+          ),
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: 7,
+        elevation: 2,
       );
 
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
-              arguments: element);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  DetailsMedicalAdmin(centroAtencion: element)));
+          // Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
+          //     arguments: element);
         },
         child: card,
       );

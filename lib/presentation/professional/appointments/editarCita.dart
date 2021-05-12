@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:intl/intl.dart';
 
-class EditCitaPro extends StatelessWidget {
+class EditCitaPro extends StatefulWidget {
+  final Cita cita;
+  const EditCitaPro({this.cita});
+  @override
+  _EditCitaProState createState() => _EditCitaProState();
+}
+
+class _EditCitaProState extends State<EditCitaPro> {
+  DateFormat hourformat = DateFormat('hh:mm a');
+  TextEditingController hour;
+  TextEditingController date;
+  TextEditingController paymentDetails;
+  TextEditingController place;
+  TextEditingController priceDate;
+  TextEditingController specialty;
+  TextEditingController type;
+  TextEditingController contact;
+  @override
+  void initState() {
+    super.initState();
+
+    DateFormat hourformat = DateFormat('hh:mm a');
+    hour = TextEditingController()
+      ..text = hourformat.format(widget.cita.dateTime);
+    date = TextEditingController()
+      ..text = widget.cita.dateTime.day.toString() +
+          '/' +
+          widget.cita.dateTime.month.toString() +
+          '/' +
+          widget.cita.dateTime.year.toString();
+    paymentDetails = TextEditingController()
+      ..text = widget.cita.profesional.banco.numCuenta;
+    place = TextEditingController()..text = widget.cita.lugar;
+    priceDate = TextEditingController()..text = widget.cita.costo.toString();
+    specialty = TextEditingController()..text = widget.cita.especialidad;
+    type = TextEditingController()..text = widget.cita.tipo;
+    contact = TextEditingController()
+      ..text = widget.cita.profesional.celular.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Cita cita = ModalRoute.of(context).settings.arguments;
-
-    final DateFormat houformat = DateFormat('hh:mm a');
-    final String hour = houformat.format(cita.dateTime);
-    final String date = cita.dateTime.day.toString() +
-        '/' +
-        cita.dateTime.month.toString() +
-        '/' +
-        cita.dateTime.year.toString();
-    final price = NumberFormat('#,###');
-    final String priceDate = '\$' + price.format(cita.costo);
-    final String paymentDetails = cita.profesional.banco.numCuenta;
-    final String place = cita.lugar;
-    final String specialty = cita.especialidad;
-    final String type = cita.especialidad;
-    final String contact = cita.profesional.celular.toString();
-
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -47,7 +70,7 @@ class EditCitaPro extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _pageHeader(context, size, "Editar Cita", cita),
+                      _pageHeader(context, size, "Editar Cita", widget.cita),
                       Material(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,30 +90,38 @@ class EditCitaPro extends StatelessWidget {
                               ),
                               child: Column(
                                 children: <Widget>[
-                                  _headerDate(context, cita),
+                                  _headerDate(context, widget.cita),
                                   SizedBox(
                                     height: 10.0,
                                   ),
-                                  secctionEdit('Hora:', hour, cita),
+                                  secctionEdit('Hora:', hour),
                                   SizedBox(height: 2),
-                                  secctionEdit('Fecha:', date, cita),
+                                  secctionEdit('Fecha:', date),
                                   SizedBox(height: 2),
-                                  secctionEdit('Costo', priceDate, cita),
-                                  SizedBox(height: 2),
-                                  secctionEdit('Detalles de Pago:',
-                                      paymentDetails, cita),
-                                  SizedBox(height: 2),
-                                  secctionEdit('Lugar:', place, cita),
+                                  secctionEdit('Costo', priceDate),
                                   SizedBox(height: 2),
                                   secctionEdit(
-                                      'Especialidad:', specialty, cita),
+                                      'Detalles de Pago:', paymentDetails),
                                   SizedBox(height: 2),
-                                  secctionEdit('Tipo:', type, cita),
+                                  secctionEdit('Lugar:', place),
                                   SizedBox(height: 2),
-                                  secctionEdit('Contacto:', contact, cita),
+                                  secctionEdit('Especialidad:', specialty),
                                   SizedBox(height: 2),
-                                  _dateState(context, cita),
-                                  _buttons(context, cita),
+                                  secctionEdit('Tipo:', type),
+                                  SizedBox(height: 2),
+                                  secctionEdit('Contacto:', contact),
+                                  SizedBox(height: 2),
+                                  _dateState(context, widget.cita),
+                                  _buttons(context, widget.cita, {
+                                    "precio": priceDate,
+                                    "hora": hour,
+                                    "fecha": date,
+                                    "detalles": paymentDetails,
+                                    "lugar": place,
+                                    "especialidad": specialty,
+                                    "tipo": type,
+                                    "contacto": contact
+                                  }),
                                 ],
                               ),
                             ),
@@ -155,7 +186,7 @@ Widget _stateIcon(bool state) {
   }
 }
 
-Widget secctionEdit(String title, String text, Cita cita) {
+Widget secctionEdit(String title, TextEditingController textEditingController) {
   return Container(
     margin: EdgeInsets.only(bottom: 2.0),
     width: 270.0,
@@ -187,7 +218,12 @@ Widget secctionEdit(String title, String text, Cita cita) {
             style: TextStyle(
                 fontSize: 14.0, color: kLetras, fontFamily: 'PoppinsRegular'),
             textAlignVertical: TextAlignVertical.center,
-            controller: TextEditingController()..text = text,
+            controller: textEditingController,
+            onChanged: (text) {
+              textEditingController.text = text;
+              textEditingController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: textEditingController.text.length));
+            },
             maxLines: 1,
             enableInteractiveSelection: true,
             autofocus: false,
@@ -229,7 +265,7 @@ Widget _headerDate(BuildContext context, Cita cita) {
 }
 
 @override
-Widget _buttons(BuildContext context, Cita cita) {
+Widget _buttons(BuildContext context, Cita cita, Map map) {
   return Container(
     width: 126.0,
     padding: EdgeInsets.only(top: 30.0),
@@ -240,10 +276,11 @@ Widget _buttons(BuildContext context, Cita cita) {
             builder: (BuildContext context) {
               return dialogoConfirmacionG(
                   context,
-                  'detalleCitasProfesional',
+                  'citasProfesional',
                   "Confirmación de Modificación",
                   "¿Estás seguro que deseas modificar esta Cita?",
-                  cita);
+                  cita,
+                  map);
             });
       },
       child: Container(
@@ -313,7 +350,7 @@ Widget _pageHeader(BuildContext context, Size size, String titulo, Cita cita) {
 }
 
 AlertDialog dialogoConfirmacionG(BuildContext context, String rutaSi,
-    String titulo, String mensaje, Cita cita) {
+    String titulo, String mensaje, Cita cita, Map map) {
   return AlertDialog(
     shape: RoundedRectangleBorder(
         side: BorderSide(color: kNegro, width: 2.0),
@@ -352,6 +389,7 @@ AlertDialog dialogoConfirmacionG(BuildContext context, String rutaSi,
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    actualizarCitaProfesional(cita, map);
                     Navigator.pushNamed(context, rutaSi, arguments: cita);
                   },
                   child: Container(
@@ -374,9 +412,7 @@ AlertDialog dialogoConfirmacionG(BuildContext context, String rutaSi,
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 30,
                     width: 99,

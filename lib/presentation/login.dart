@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/inh_widget.dart';
 import 'package:hablemos/services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../ux/atoms.dart';
 
@@ -25,7 +26,8 @@ class LoginPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar('Inicio de Sesión', null, 0, null),
+            appBar: crearAppBar('Inicio de Sesión', null, 0, null,
+                context: context),
             body: Stack(
               children: [
                 Padding(
@@ -73,7 +75,10 @@ Widget _centerLogin(BuildContext context) {
         }, Icons.login, Colors.yellow[700], bloc),
         SizedBox(height: 20.0),
         GestureDetector(
-          onTap: () => {print("haisd")},
+          onTap: () => {
+            Navigator.pushNamed(context, "olvideConstrasena",
+                arguments: bloc.email)
+          },
           child: Text("¿Olvidaste tu Contraseña?"),
         ),
         SizedBox(height: 20.0),
@@ -85,19 +90,25 @@ Widget _centerLogin(BuildContext context) {
 
 loginLogic(dynamic bloc, BuildContext context) {
   AuthService authService = new AuthService();
-  Future<String> user = authService.logIn(bloc.email, bloc.password);
+  Future<User> user = authService.logIn(bloc.email, bloc.password);
   user.then((value) {
-    if (value[0] == "[") {
-      showAlertDialog(context, "Hubo un error\nRevisa tu Usuario y Contraseña");
+    if (value == null) {
+      showAlertDialog(
+          context, "Hubo un error😔\nRevisa tu Usuario y Contraseña");
     } else {
       FirebaseFirestore.instance
           .collection('users')
-          .doc(value)
+          .doc(value.uid)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           if (documentSnapshot.get('role') == 'pacient') {
-            Navigator.pushNamed(context, 'inicio');
+            if (value.emailVerified) {
+              Navigator.pushNamed(context, 'inicio');
+            } else {
+              Navigator.pushNamed(context, "verifyEmail",
+                  arguments: bloc.email);
+            }
           } else if (documentSnapshot.get('role') == 'professional') {
             Navigator.pushNamed(context, 'inicioProfesional');
           } else if (documentSnapshot.get('role') == 'administrator') {

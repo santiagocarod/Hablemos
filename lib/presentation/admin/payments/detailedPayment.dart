@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -20,7 +21,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Pagos", null, 0, null),
+            appBar: crearAppBar("Pagos", null, 0, null, context: context),
             body: Stack(
               children: <Widget>[
                 _crearBody(context, size, pagoAdmin),
@@ -68,7 +69,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-              child: _crearBotones(context, size),
+              child: _crearBotones(context, size, pagoAdmin),
             )
           ],
         ),
@@ -85,6 +86,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
           Text(
             titulo,
             style: TextStyle(
+              fontFamily: "PoppinsRegular",
               color: kVerdePagos,
               fontWeight: FontWeight.bold,
               fontSize: 22,
@@ -96,7 +98,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
           Text(
             info,
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 21,
             ),
           ),
           SizedBox(height: 15),
@@ -173,22 +175,139 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  Widget _crearBotones(BuildContext context, Size size) {
+  Widget _crearBotones(BuildContext context, Size size, Pagoadmin pagoadmin) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Icon(Icons.add_circle_outline),
-            SizedBox(width: 3),
-            Text('Pago'),
-          ],
+        GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => _buildDialog(
+                  context,
+                  "Confirmación de pago",
+                  "¿Seguro que el profesional ya pagó?",
+                  pagoadmin),
+            );
+          },
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.add_circle_outline),
+              SizedBox(width: 3),
+              Text('Pagó'),
+            ],
+          ),
         ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.remove_circle_outline),
+              SizedBox(width: 3),
+              Text('No pagó'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDialog(
+      BuildContext context, String title, String content, Pagoadmin pagoadmin) {
+    return new AlertDialog(
+      title: Text(
+        title,
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        content,
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
         Row(
-          children: <Widget>[
-            Icon(Icons.remove_circle_outline),
-            SizedBox(width: 3),
-            Text('No pago'),
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                aceptarPago(pagoadmin).then((value) {
+                  if (value) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => adviceDialogLetter(
+                        context,
+                        "Confirmación",
+                        "Pago actualizado correctamente",
+                        true,
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => adviceDialogLetter(
+                        context,
+                        "Error",
+                        "Hubo un error actualizando el pago, inténtelo nuevamente",
+                        true,
+                      ),
+                    );
+                  }
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
           ],
         ),
       ],

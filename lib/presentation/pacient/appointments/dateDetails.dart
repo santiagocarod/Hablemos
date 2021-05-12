@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
@@ -54,10 +55,10 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
       cita.dateTime.year.toString();
   final price = NumberFormat('#,###');
   final String pay = '\$' + price.format(cita.costo);
-  final String count = profesional.banco.numCuenta;
+  final String count = profesional.banco.toString();
   final String place = cita.lugar;
   final String specialty = cita.especialidad;
-  final String type = cita.especialidad;
+  final String type = cita.tipo;
   final String contact = profesional.celular.toString();
 
   return Container(
@@ -86,13 +87,13 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
             secction(title: 'Hora:', text: hour),
             secction(title: 'Fecha:', text: date),
             secction(title: 'Costo', text: pay),
-            secction(title: 'Detalles de pago:', text: count),
+            secction(title: 'Detalles de pago:', text: count, banco: true),
             secction(title: 'Lugar:', text: place),
             secction(title: 'Especialidad:', text: specialty),
             secction(title: 'Tipo:', text: type),
             secction(title: 'Contacto:', text: contact),
             _state(context, cita),
-            _buttons(context),
+            _buttons(context, cita),
           ],
         ),
       ),
@@ -108,7 +109,7 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
     child: Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
           alignment: Alignment.center,
           child: Icon(Icons.location_on),
         ),
@@ -127,14 +128,37 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
-          child: Text(
-            'Cita con $text',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.black,
-              fontFamily: 'PoppinsRegular',
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Cita con ',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'professionalDetails',
+                      arguments: profesional);
+                },
+                child: Text(
+                  '$text',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color(0xFF205072),
+                    fontFamily: 'PoppinsRegular',
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.black,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -184,7 +208,14 @@ Widget _selectIcon(bool text) {
 }
 
 // Payment and cancel buttons
-Widget _buttons(BuildContext context) {
+Widget _buttons(BuildContext context, Cita cita) {
+  String text;
+  if (cita.pago == "") {
+    text = "ADJUNTAR PAGO";
+  } else {
+    text = "VER PAGO";
+  }
+
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
     width: 270.0,
@@ -197,7 +228,7 @@ Widget _buttons(BuildContext context) {
           height: 35,
           child: ElevatedButton(
             child: Text(
-              "ADJUNTAR PAGO",
+              text,
               style: TextStyle(
                 fontSize: 9.0,
                 color: Colors.black,
@@ -214,7 +245,7 @@ Widget _buttons(BuildContext context) {
               shadowColor: Colors.black,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, 'AdjuntarPago');
+              Navigator.pushNamed(context, 'AdjuntarPago', arguments: cita);
             },
           ),
         ),
@@ -247,7 +278,9 @@ Widget _buttons(BuildContext context) {
                         context,
                         "citasPaciente",
                         "Confirmación de Cancelación",
-                        "¿Estás seguro que deseas cancelar esta Cita?");
+                        "¿Estás seguro que deseas cancelar esta Cita?",
+                        cancelarCita,
+                        parametro: cita);
                   });
             },
           ),

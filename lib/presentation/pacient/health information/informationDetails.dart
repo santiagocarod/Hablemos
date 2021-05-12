@@ -15,7 +15,7 @@ class InformationDetails extends StatelessWidget {
         bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           extendBodyBehindAppBar: true,
           body: SingleChildScrollView(
             child: Column(
@@ -74,8 +74,6 @@ Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
 Widget _simpleSecction(String title, String content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
-    width: size.width,
-    height: size.height * 0.25,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -91,19 +89,13 @@ Widget _simpleSecction(String title, String content, Size size) {
             textAlign: TextAlign.left,
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Text(
-              content,
-              textAlign: TextAlign.justify,
-              style: TextStyle(
-                fontSize: 17.0,
-                color: kNegro,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
+        Text(
+          content,
+          textAlign: TextAlign.justify,
+          style: TextStyle(
+            fontSize: 17.0,
+            color: kNegro,
+            fontFamily: 'PoppinsRegular',
           ),
         ),
         Container(
@@ -120,8 +112,6 @@ Widget _simpleSecction(String title, String content, Size size) {
 Widget _listSecction(String title, List<String> content, Size size) {
   return Container(
     padding: EdgeInsets.only(right: 10.0, left: 10.0),
-    width: size.width,
-    height: size.height * 0.20,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -137,15 +127,9 @@ Widget _listSecction(String title, List<String> content, Size size) {
             textAlign: TextAlign.left,
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _list(content),
-            ),
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _list(content),
         ),
         Container(
           padding: EdgeInsets.only(top: 10.0),
@@ -161,7 +145,7 @@ Widget _listSecction(String title, List<String> content, Size size) {
 List<Widget> _list(List<String> content) {
   List<Widget> info = [];
   content.forEach((element) {
-    Text inf = Text(
+    Widget inf = SelectableText(
       element,
       textAlign: TextAlign.justify,
       style: TextStyle(
@@ -170,6 +154,7 @@ List<Widget> _list(List<String> content) {
         fontFamily: 'PoppinsRegular',
       ),
     );
+
     info.add(inf);
   });
 

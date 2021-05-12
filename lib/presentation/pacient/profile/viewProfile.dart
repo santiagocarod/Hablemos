@@ -1,7 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/services/auth.dart';
@@ -10,37 +11,67 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'editProfile.dart';
+
 class ViewProfile extends StatefulWidget {
   @override
   _ViewProfile createState() => _ViewProfile();
 }
 
 class _ViewProfile extends State<ViewProfile> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  String username;
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfil(paciente, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfil(paciente, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, paciente) {
+    if (paciente.foto != "falta foto") {
+      deleteImage(paciente.foto);
+    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -53,14 +84,14 @@ class _ViewProfile extends State<ViewProfile> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(paciente);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(paciente);
                     },
                   ),
                 ],
@@ -73,12 +104,14 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
 
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
+    Query pacientsCollection = FirebaseFirestore.instance
+        .collection("pacients")
+        .where("uid", isEqualTo: user.uid);
     return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
+        stream: pacientsCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('ALGO SALIO MAL');
@@ -87,22 +120,22 @@ class _ViewProfile extends State<ViewProfile> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
-          List<Paciente> pacientes = pacienteMapToList(snapshot);
 
-          Paciente paciente = pacientes[0];
+          Paciente paciente = pacienteMapToList(snapshot)[0];
+          _image = paciente.foto;
           return Container(
             color: kRosado,
             child: SafeArea(
               bottom: false,
               child: Scaffold(
                 // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
+                appBar: crearAppBar('', null, 0, null, context: context),
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[
-                    pacientHead(size, paciente),
+                    pacientHead(size, paciente, user),
                     Container(
-                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
+                      padding: EdgeInsets.only(top: (size.height / 2) + 70.0),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: _body(size, paciente),
@@ -117,7 +150,7 @@ class _ViewProfile extends State<ViewProfile> {
   }
 
   // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
+  Widget pacientHead(Size size, Paciente paciente, User user) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -125,7 +158,7 @@ class _ViewProfile extends State<ViewProfile> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: (size.height / 2) + 80.0,
             width: double.infinity,
             color: kRosado,
             child: Column(
@@ -141,16 +174,33 @@ class _ViewProfile extends State<ViewProfile> {
                           color: Colors.white,
                           width: 200.0,
                           height: 200.0,
-                          child: _image == null
+                          child: _image == "falta foto"
                               ? Icon(
                                   Icons.account_circle,
                                   color: Colors.indigo[100],
                                   size: 200.0,
                                 )
-                              : Image.file(
+                              : Image.network(
                                   _image,
                                   width: 200.0,
                                   height: 200.0,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes
+                                            : null,
+                                      ),
+                                    );
+                                  },
                                 ),
                         ),
                       ),
@@ -158,12 +208,12 @@ class _ViewProfile extends State<ViewProfile> {
                     // Draw camera icon
                     Container(
                       padding: EdgeInsets.only(
-                          top: (size.height / 2) * 0.55,
-                          left: (size.width / 2) * 0.5),
+                          top: (size.height / 2) * 0.45,
+                          left: (size.width / 2) * 0.55),
                       alignment: Alignment.topCenter,
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context);
+                          _showPicker(context, paciente);
                         },
                         child: ClipOval(
                           child: Container(
@@ -183,11 +233,12 @@ class _ViewProfile extends State<ViewProfile> {
                 ),
                 // Plus icon and edit text
                 Container(
-                  padding: EdgeInsets.only(top: 0),
+                  margin: EdgeInsets.only(top: 20.0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, 'editarPerfil',
-                          arguments: paciente);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfile(paciente: paciente)));
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,6 +277,34 @@ class _ViewProfile extends State<ViewProfile> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                //Button Delete Profile
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildDialog(context, paciente),
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 40.0,
+                      //width: 87.0,
+                      margin: EdgeInsets.only(top: 10.0, right: 5.0),
+                      //alignment: Alignment.topRight,
+                      child: Text(
+                        "Eliminar Cuenta",
+                        style: TextStyle(
+                            fontFamily: 'PoppinSemiBold', fontSize: 14.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -236,8 +315,6 @@ class _ViewProfile extends State<ViewProfile> {
 
   // Body of the screen
   Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
     return Container(
       width: size.width,
       child: Column(
@@ -245,8 +322,8 @@ class _ViewProfile extends State<ViewProfile> {
           _section('Correo', paciente.correo),
           _sectionButton(),
           _section('Ciudad', paciente.ciudad),
-          _section('Fecha de Nacimiento', fecha),
-          _section('Teléfono', paciente.telefono.toString()),
+          _section('Fecha de Nacimiento', paciente.fechaNacimiento),
+          _section('Teléfono', paciente.telefono),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -259,12 +336,9 @@ class _ViewProfile extends State<ViewProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _section(
-              'Nombre', paciente.nombreContactoEmergencia ?? "Dato Faltante"),
-          _section('Teléfono',
-              paciente.telefonoContactoEmergencia ?? "Dato Faltante"),
-          _section('Relación',
-              paciente.relacionContactoEmergencia ?? "Dato Faltante"),
+          _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),
+          _section('Teléfono', paciente.telefonoContactoEmergencia ?? "fatl "),
+          _section('Relación', paciente.relacionContactoEmergencia ?? "tal "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -371,8 +445,12 @@ class _ViewProfile extends State<ViewProfile> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
                     );
                   },
                 ),
@@ -411,6 +489,97 @@ class _ViewProfile extends State<ViewProfile> {
             shadowColor: Colors.black,
           ),
           child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
+
+  //Confirm PopUp Dialog
+  Widget _buildDialog(BuildContext context, Paciente paciente) {
+    return new AlertDialog(
+      title: Text(
+        'Confirmación de Eliminación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        '¿Está seguro que desea eliminar \npermanentemente \neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(37.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                AuthService authService = AuthService();
+                authService.logOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "start", (_) => false);
+                eliminarPaciente(paciente).then((value) {
+                  eliminarUsuario(paciente);
+                  if (value) {
+                  } else if (!value) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

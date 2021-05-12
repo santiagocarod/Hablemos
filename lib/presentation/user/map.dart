@@ -90,7 +90,8 @@ class _MapBoxClassState extends State<MapBoxClass> {
           SafeArea(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: crearAppBar('GoogleMaps', null, 0, null),
+              appBar:
+                  crearAppBar('GoogleMaps', null, 0, null, context: context),
               body: Stack(
                 children: [
                   Container(

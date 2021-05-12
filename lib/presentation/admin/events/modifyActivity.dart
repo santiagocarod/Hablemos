@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -25,26 +25,45 @@ class _ModifyActivity extends State<ModifyActivity> {
   TextEditingController _precioController = new TextEditingController();
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
+  TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        actividad.foto = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        actividad.foto = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -75,7 +94,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     }
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, actividad) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -88,7 +107,10 @@ class _ModifyActivity extends State<ModifyActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
+                        _imagenDesdeGaleria(actividad);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -96,7 +118,10 @@ class _ModifyActivity extends State<ModifyActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
+                      _imagenDesdeCamara(actividad);
                     },
                   ),
                 ],
@@ -107,9 +132,82 @@ class _ModifyActivity extends State<ModifyActivity> {
   }
 
   @override
+  void dispose() {
+    _inputFieldDateController.dispose();
+    _timeController.dispose();
+    _ubicacionController.dispose();
+    _bancoController.dispose();
+    _descripcionController.dispose();
+    _tituloController.dispose();
+    _tituloController.dispose();
+    _numCuentaController.dispose();
+    _precioController.dispose();
+    _sesionesController.dispose();
+    _tipoCuentaController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
+
+    if (actividad.banco == null) {
+      _ubicacionController = TextEditingController()
+        ..text = actividad.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _descripcionController = TextEditingController()
+        ..text = actividad.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = actividad.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = actividad.fecha;
+      _time = actividad.hora;
+      _precioController = TextEditingController()..text = actividad.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = actividad.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+    } else {
+      _ubicacionController = TextEditingController()
+        ..text = actividad.ubicacion;
+      _ubicacionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _ubicacionController.text.length));
+      _bancoController = TextEditingController()..text = actividad.banco.banco;
+      _bancoController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _bancoController.text.length));
+
+      _descripcionController = TextEditingController()
+        ..text = actividad.descripcion;
+      _descripcionController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _descripcionController.text.length));
+      _tituloController = TextEditingController()..text = actividad.titulo;
+      _tituloController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tituloController.text.length));
+      _date = actividad.fecha;
+      _time = actividad.hora;
+      _numCuentaController = TextEditingController()
+        ..text = actividad.banco.numCuenta.toString();
+      _numCuentaController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _numCuentaController.text.length));
+      _tipoCuentaController = TextEditingController()
+        ..text = actividad.banco.tipoCuenta.toString();
+      _tipoCuentaController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _tipoCuentaController.text.length));
+      _precioController = TextEditingController()..text = actividad.valor;
+      _precioController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _precioController.text.length));
+      _sesionesController = TextEditingController()
+        ..text = actividad.numeroSesiones.toString();
+      _sesionesController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _sesionesController.text.length));
+      _image = actividad.foto;
+    }
 
     return Container(
       color: kAmarilloClaro,
@@ -143,6 +241,11 @@ class _ModifyActivity extends State<ModifyActivity> {
                           fontSize: 27.0, fontWeight: FontWeight.w300),
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: actividad.titulo),
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          actividad.titulo = text;
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -156,7 +259,8 @@ class _ModifyActivity extends State<ModifyActivity> {
                               width: 315.0,
                               height: 137.0,
                               decoration: BoxDecoration(
-                                image: actividad.foto,
+                                image: DecorationImage(
+                                    image: NetworkImage(actividad.foto)),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30)),
                                 boxShadow: [
@@ -169,14 +273,34 @@ class _ModifyActivity extends State<ModifyActivity> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(40.0),
                                 child: (_image != null)
-                                    ? new Image.file(_image)
+                                    ? new Image.network(
+                                        _image,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                      )
                                     : Container(),
                               ),
                             ),
                           ),
                           GestureDetector(
                             onTap: () {
-                              _showPicker(context);
+                              _showPicker(context, actividad);
                             },
                             child: Align(
                               alignment: Alignment.topRight,
@@ -227,8 +351,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                                 ),
                               ),
                               TextField(
-                                controller: _ubicacionController
-                                  ..text = actividad.ubicacion,
+                                controller: _ubicacionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.ubicacion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: false,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
@@ -263,8 +391,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                                 ),
                               ),
                               TextField(
-                                controller: _descripcionController
-                                  ..text = actividad.descripcion,
+                                controller: _descripcionController,
+                                onChanged: (text) {
+                                  if (text.isNotEmpty) {
+                                    actividad.descripcion = text;
+                                  }
+                                },
                                 enableInteractiveSelection: true,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 3,
@@ -392,21 +524,27 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _sesionesController
-                                            ..text = actividad.numeroSesiones
-                                                .toString(),
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        controller: _sesionesController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.numeroSesiones =
+                                                int.parse(text);
+                                          }
+                                        },
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -429,20 +567,26 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
-                                          controller: _precioController
-                                            ..text = actividad.valor,
-                                          enableInteractiveSelection: false,
-                                          style: TextStyle(
+                                        controller: _precioController,
+                                        onChanged: (text) {
+                                          if (text.isNotEmpty) {
+                                            actividad.valor = text;
+                                          }
+                                        },
+                                        enableInteractiveSelection: false,
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsRegular",
+                                            color: kLetras,
+                                            fontSize: 15.0),
+                                        decoration: InputDecoration(
+                                          hintStyle: TextStyle(
                                               fontFamily: "PoppinsRegular",
-                                              color: kLetras,
-                                              fontSize: 15.0),
-                                          decoration: InputDecoration(
-                                              hintStyle: TextStyle(
-                                                  fontFamily: "PoppinsRegular",
-                                                  fontSize: 15.0,
-                                                  color: kLetras),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 5.0, bottom: 10.0))),
+                                              fontSize: 15.0,
+                                              color: kLetras),
+                                          contentPadding: EdgeInsets.only(
+                                              top: 5.0, bottom: 10.0),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -451,8 +595,13 @@ class _ModifyActivity extends State<ModifyActivity> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-                        _datosFinancieros(context, actividad, _bancoController,
-                            _numCuentaController),
+                        _datosFinancieros(
+                          context,
+                          actividad,
+                          _bancoController,
+                          _numCuentaController,
+                          _tipoCuentaController,
+                        ),
                         SizedBox(height: size.height * 0.04),
                         Container(
                           width: 330.5,
@@ -461,17 +610,6 @@ class _ModifyActivity extends State<ModifyActivity> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  /*Actividad nuevaActividad = new Actividad(
-                                    titulo: _tituloController.text,
-                                    valor: _precioController.text,
-                                    descripcion: _descripcionController.text,
-                                    ubicacion: _ubicacionController.text,
-                                    numeroSesiones:
-                                        int.parse(_sesionesController.text),
-                                    banco: _bancoController.text,
-                                    numeroCuenta: _numCuentaController.text,
-                                  );
-                                  actividades.add(nuevaActividad);*/
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -479,7 +617,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                                           context,
                                           "verActividadAdmin",
                                           "Confirmación de Modificación",
-                                          "¿Está seguro que desea modificar esta Actividad?",
+                                          "¿Está seguro que desea modificar esta actividad?",
                                           actividad);
                                     },
                                   );
@@ -521,51 +659,103 @@ class _ModifyActivity extends State<ModifyActivity> {
       BuildContext context,
       Actividad actividad,
       TextEditingController _bancoController,
-      TextEditingController _numCuentaController) {
+      TextEditingController _numCuentaController,
+      TextEditingController _tipoCuentaController) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              width: 133.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Banco",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _bancoController
-                          ..text = actividad.banco.banco,
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: 133.5,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Banco",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kLetras.withOpacity(0.7),
+                              fontSize: 18.0),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: TextField(
+                            controller: _bancoController,
+                            onChanged: (text) {
+                              if (text.isNotEmpty) {
+                                actividad.banco.banco = text;
+                              }
+                            },
+                            enableInteractiveSelection: false,
+                            style: TextStyle(
                                 fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                                color: kLetras,
+                                fontSize: 15.0),
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 15.0,
+                                    color: kLetras),
+                                contentPadding:
+                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  width: 183.5,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Tipo de Cuenta",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: "PoppinsRegular",
+                              color: kLetras.withOpacity(0.7),
+                              fontSize: 18.0),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: TextField(
+                            controller: _tipoCuentaController,
+                            onChanged: (text) {
+                              if (text.isNotEmpty) {
+                                actividad.banco.tipoCuenta = text;
+                              }
+                            },
+                            enableInteractiveSelection: false,
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kLetras,
+                                fontSize: 15.0),
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    fontFamily: "PoppinsRegular",
+                                    fontSize: 15.0,
+                                    color: kLetras),
+                                contentPadding:
+                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
             ),
             Container(
-              width: 183.5,
+              width: 330.5,
               child: Column(
                 children: <Widget>[
                   Align(
@@ -582,8 +772,12 @@ class _ModifyActivity extends State<ModifyActivity> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                        controller: _numCuentaController
-                          ..text = actividad.banco.numCuenta,
+                        controller: _numCuentaController,
+                        onChanged: (text) {
+                          if (text.isNotEmpty) {
+                            actividad.banco.numCuenta = text;
+                          }
+                        },
                         enableInteractiveSelection: false,
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
@@ -648,8 +842,58 @@ class _ModifyActivity extends State<ModifyActivity> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, rutaSi,
-                          arguments: actividad);
+                      if (_bancoController.text != "") {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _bancoController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _sesionesController.text == "" ||
+                            _numCuentaController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Error",
+                                      "Por favor ingresa todos los valores"));
+                        } else {
+                          if (actualizarActividad(actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(
+                                        context, "Exito!", "Actividad editada!",
+                                        ruta: "listarActividadesAdmin"));
+                          }
+                        }
+                      } else {
+                        if (_tituloController.text == "" ||
+                            _ubicacionController.text == "" ||
+                            _date == null ||
+                            _descripcionController.text == "" ||
+                            _time == null) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext contex) => _buildPopupDialog(
+                                context,
+                                "Error",
+                                "Por favor ingresa todos los valores"),
+                          );
+                        } else {
+                          if (actualizarActividad(actividad)) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(
+                                      context, "Exito!", "Actividad editada!",
+                                      ruta: "listarActividadesAdmin"),
+                            );
+                          }
+                        }
+                      }
+
+                      // Navigator.pushNamed(context, rutaSi,
+                      //     arguments: actividad);
                     },
                     child: Container(
                       height: 30,
@@ -701,4 +945,36 @@ class _ModifyActivity extends State<ModifyActivity> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

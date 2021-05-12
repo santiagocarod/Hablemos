@@ -14,6 +14,7 @@ import 'package:hablemos/presentation/admin/events/modifyGroup.dart';
 import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
 import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
 import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewParticipantsEvent.dart';
 import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
 import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
@@ -26,12 +27,14 @@ import 'package:hablemos/presentation/admin/professionals_management/editProfPro
 import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
 import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
 import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
+import 'package:hablemos/presentation/forgotPassword.dart';
 import 'package:hablemos/presentation/home.dart';
 import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
 import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
 import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
 import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
+import 'package:hablemos/presentation/pacient/appointments/professionalDetails.dart';
 import 'package:hablemos/presentation/pacient/health%20information/information.dart';
 import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
 import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
@@ -43,6 +46,7 @@ import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
 import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
 import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
 import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
+import 'package:hablemos/presentation/professional/appointments/pacientDetails.dart';
 import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
 import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
 import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
@@ -53,6 +57,7 @@ import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
 import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
+import 'package:hablemos/presentation/signInMinor.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentActivity.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentGroup.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentWorkShop.dart';
@@ -79,6 +84,7 @@ import 'package:hablemos/presentation/user/medialCenters/filterMedicalCenter.dar
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 import 'package:hablemos/presentation/user/networks.dart';
+import 'package:hablemos/presentation/verifyEmail.dart';
 import 'package:hablemos/start.dart';
 
 import '../presentation/login.dart';
@@ -91,6 +97,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'start': (context) => StartFireBase(),
     'login': (context) => LoginPage(),
     'registro': (context) => SignInPage(),
+    'registroMenorEdad': (context) => SingInMinor(),
     'inicio': (context) => PantallaInicioPacinete(),
     'inicioProfesional': (context) => PantallaInicioProfesional(),
     'inicioAdministrador': (context) => PantallaInicioAdmin(),
@@ -173,5 +180,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
     "filterMedicalCenters": (context) => FilterMedicalCenter(),
+    'professionalDetails': (context) => ProfessionalDetails(),
+    'pacientDetails': (context) => PacientDetails(),
+    "verListaDeInscritos": (context) => ParticipantsEvent(),
+    "verifyEmail": (context) => VerifyEmail(),
+    "olvideConstrasena": (context) => ForgotPassword(),
   };
 }

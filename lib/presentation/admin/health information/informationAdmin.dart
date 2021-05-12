@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
-import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
 class InformationAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final diagnostico diagnostico = ModalRoute.of(context).settings.arguments;
+    final Diagnostico diagnostico = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
     CollectionReference diagnosticosCollecion =
@@ -26,11 +25,6 @@ class InformationAdmin extends StatelessWidget {
           return loadingScreen();
         }
 
-        List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
-
-        //TODO: Por qué solo 1?
-        Diagnostico diagnostico = diagnosticos[0];
-
         return Container(
           color: kMoradoClarito,
           child: SafeArea(
@@ -38,7 +32,7 @@ class InformationAdmin extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              appBar: crearAppBar('', null, 0, null),
+              appBar: crearAppBar('', null, 0, null, context: context),
               body: Stack(
                 children: <Widget>[
                   _background(size),

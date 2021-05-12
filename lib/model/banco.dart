@@ -21,4 +21,8 @@ class Banco {
 
     return b;
   }
+
+  String toString() {
+    return banco + " " + tipoCuenta + " " + numCuenta;
+  }
 }

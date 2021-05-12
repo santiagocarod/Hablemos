@@ -1,20 +1,23 @@
-import 'dart:io';
-
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/pacient/negocioPaciente.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class EditProfile extends StatefulWidget {
   @override
   _EditProfile createState() => _EditProfile();
+  final Paciente paciente;
+  const EditProfile({this.paciente});
 }
 
 class _EditProfile extends State<EditProfile> {
@@ -26,32 +29,80 @@ class _EditProfile extends State<EditProfile> {
   TextEditingController _phoneEController = new TextEditingController();
   TextEditingController _relationController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
-  String _date = '';
-  File _image;
+  TextEditingController _lastnameController = new TextEditingController();
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  @override
+  void initState() {
+    super.initState();
+    _dateController = TextEditingController()
+      ..text = widget.paciente.fechaNacimiento;
+
+    _mailController = TextEditingController()..text = widget.paciente.correo;
+    _cityController = TextEditingController()..text = widget.paciente.ciudad;
+    _phoneController = TextEditingController()..text = widget.paciente.telefono;
+    _nameEController = TextEditingController()
+      ..text = widget.paciente.nombreContactoEmergencia;
+    _phoneEController = TextEditingController()
+      ..text = widget.paciente.telefonoContactoEmergencia;
+    _relationController = TextEditingController()
+      ..text = widget.paciente.relacionContactoEmergencia;
+    _nameController = TextEditingController()..text = widget.paciente.nombre;
+    _lastnameController = TextEditingController()
+      ..text = widget.paciente.apellido;
+    _image = widget.paciente.foto;
+  }
+
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
-      _image = File(image.path);
+      uploadImage(image.path, PROFILE_FOLDER).then((value) {
+        if (value != null) {
+          actualizarPerfil(paciente, value).then((val) {
+            if (val) {
+              _image = value;
+              Navigator.pop(context);
+              setState(() {});
+            } else {
+              showAlertDialog(context,
+                  "Hubo un error subiendo la foto, inténtelo nuevamente");
+            }
+          });
+        }
+      });
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfil(paciente, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, paciente) {
+    deleteImage(paciente.foto);
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -64,14 +115,14 @@ class _EditProfile extends State<EditProfile> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(paciente);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(paciente);
                     },
                   ),
                 ],
@@ -84,53 +135,39 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final User user = auth.currentUser;
 
-    CollectionReference pacientCollection = FirebaseFirestore.instance
-        .collection(
-            "pacients"); //TODO: APlicar filtro where uidPaciente = current user.
-    return StreamBuilder<QuerySnapshot>(
-        stream: pacientCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          List<Paciente> pacientes = pacienteMapToList(snapshot);
-
-          Paciente paciente =
-              pacientes[0]; //ModalRoute.of(context).settings.arguments;
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              bottom: false,
-              child: Scaffold(
-                extendBodyBehindAppBar: true,
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                body: Stack(
-                  children: <Widget>[
-                    pacientHead(size, paciente),
-                    Container(
-                      padding: EdgeInsets.only(top: (size.height / 2) + 120.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size, paciente),
-                      ),
-                    ),
-                  ],
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null, context: context),
+          body: Stack(
+            children: <Widget>[
+              pacientHead(size, _nameController, _lastnameController, user,
+                  widget.paciente),
+              Container(
+                padding: EdgeInsets.only(top: (size.height / 2) + 70.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size, widget.paciente),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Draw app bar Style
-  Widget pacientHead(Size size, Paciente paciente) {
-    _nameController.text = paciente.nombre + " " + paciente.apellido;
+  Widget pacientHead(Size size, TextEditingController textNombre,
+      TextEditingController textApellido, User user, Paciente paciente) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -138,7 +175,7 @@ class _EditProfile extends State<EditProfile> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2) + 120.0,
+            height: (size.height / 2) + 80.0,
             width: double.infinity,
             color: kRosado,
           ),
@@ -152,16 +189,28 @@ class _EditProfile extends State<EditProfile> {
               color: Colors.white,
               width: 200.0,
               height: 200.0,
-              child: _image == null
+              child: _image == "falta foto"
                   ? Icon(
                       Icons.account_circle,
                       color: Colors.indigo[100],
                       size: 200.0,
                     )
-                  : Image.file(
+                  : Image.network(
                       _image,
                       width: 200.0,
                       height: 200.0,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      },
                     ),
             ),
           ),
@@ -173,7 +222,7 @@ class _EditProfile extends State<EditProfile> {
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
-              _showPicker(context);
+              _showPicker(context, paciente);
             },
             child: ClipOval(
               child: Container(
@@ -191,13 +240,13 @@ class _EditProfile extends State<EditProfile> {
         ),
         // Check icon and save text
         Container(
-          padding: EdgeInsets.only(top: 253),
+          margin: EdgeInsets.only(top: 253.0),
           child: GestureDetector(
             onTap: () {
-              // TODO: Save values in pacient
               showDialog(
                 context: context,
-                builder: (BuildContext context) => _buildDialog(context),
+                builder: (BuildContext context) =>
+                    _buildDialog(context, widget.paciente, user),
               );
             },
             child: Row(
@@ -222,19 +271,53 @@ class _EditProfile extends State<EditProfile> {
           ),
         ),
         // Display text name
-        Container(
-          padding: EdgeInsets.only(top: 283),
-          alignment: Alignment.topCenter,
-          child: AutoSizeTextField(
-            controller: _nameController,
-            textAlign: TextAlign.center,
-            fullwidth: false,
-            style: TextStyle(
-              color: kNegro,
-              fontSize: (size.height / 2) * 0.1,
-              fontFamily: 'PoppinsRegular',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: textNombre,
+                textAlign: TextAlign.center,
+                enableInteractiveSelection: false,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.06,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {
+                  textNombre.text = text;
+                  textNombre.selection = TextSelection.fromPosition(
+                      TextPosition(offset: textNombre.text.length));
+                  widget.paciente.nombre = textNombre.text;
+                },
+              ),
             ),
-          ),
+            SizedBox(width: 10.0),
+            Container(
+              padding: EdgeInsets.only(top: 283),
+              alignment: Alignment.topCenter,
+              child: AutoSizeTextField(
+                controller: textApellido,
+                textAlign: TextAlign.center,
+                enableInteractiveSelection: false,
+                fullwidth: false,
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: (size.height / 2) * 0.06,
+                  fontFamily: 'PoppinsRegular',
+                ),
+                onChanged: (text) {
+                  textApellido.text = text;
+                  textApellido.selection = TextSelection.fromPosition(
+                      TextPosition(offset: textApellido.text.length));
+                  widget.paciente.apellido = textApellido.text;
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -242,18 +325,15 @@ class _EditProfile extends State<EditProfile> {
 
   //Body of the screen
   Widget _body(Size size, Paciente paciente) {
-    String fecha =
-        '${paciente.fechaNacimiento.day}/${paciente.fechaNacimiento.month}/${paciente.fechaNacimiento.year}';
     return Container(
       width: size.width,
       child: Column(
         children: <Widget>[
-          _editSection('Correo', paciente.correo, _mailController),
+          _nonEditSection('Correo', _mailController.text),
           _sectionButton(),
-          _editSection('Ciudad', paciente.ciudad, _cityController),
-          _editSection('Fecha de Nacimiento', fecha, _dateController),
-          _editSection(
-              'Teléfono', paciente.telefono.toString(), _phoneController),
+          _editSection('Ciudad', _cityController, 1),
+          _nonEditSection('Fecha de Nacimiento', _dateController.text),
+          _editSection('Teléfono', _phoneController, 2),
           Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
@@ -266,14 +346,45 @@ class _EditProfile extends State<EditProfile> {
               textAlign: TextAlign.center,
             ),
           ),
-          _editSection(
-              'Nombre', paciente.nombreContactoEmergencia, _nameEController),
-          _editSection(
-              'Teléfono',
-              paciente.telefonoContactoEmergencia.toString(),
-              _phoneEController),
-          _editSection('Relación', paciente.relacionContactoEmergencia,
-              _relationController),
+          _editSection('Nombre', _nameEController, 3),
+          _editSection('Teléfono', _phoneEController, 4),
+          _editSection('Relación', _relationController, 5),
+        ],
+      ),
+    );
+  }
+
+  //Section non editable
+  Widget _nonEditSection(String title, String content) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            content == null ? "Falta información" : content,
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: kNegro,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
         ],
       ),
     );
@@ -281,16 +392,7 @@ class _EditProfile extends State<EditProfile> {
 
   // Section: title and text field
   Widget _editSection(
-      String text, String hint, TextEditingController controller) {
-    Text info = Text(
-      hint,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: kNegro,
-        fontFamily: 'PoppinsRegular',
-      ),
-    );
-    controller.text = info.data;
+      String text, TextEditingController controller, int categoria) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -306,40 +408,63 @@ class _EditProfile extends State<EditProfile> {
             textAlign: TextAlign.left,
           ),
           TextField(
+            onChanged: (text) {
+              controller.text = text;
+              controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length));
+              if (categoria == 1) {
+                widget.paciente.ciudad = controller.text;
+              }
+              if (categoria == 2) {
+                widget.paciente.telefono = controller.text;
+              }
+              if (categoria == 3) {
+                widget.paciente.nombreContactoEmergencia = controller.text;
+              }
+              if (categoria == 4) {
+                widget.paciente.telefonoContactoEmergencia = controller.text;
+              }
+              if (categoria == 5) {
+                widget.paciente.relacionContactoEmergencia = controller.text;
+              }
+            },
             controller: controller,
             enableInteractiveSelection: false,
             textAlign: TextAlign.justify,
-            onTap: () {
-              if (text == 'Fecha de Nacimiento') {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                _selectDate(context);
-              }
-            },
           ),
         ],
       ),
     );
   }
 
-  // Picker Date
-  _selectDate(BuildContext context) async {
-    DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(1945),
-      lastDate: new DateTime(2025),
-    );
-    var myFormat = DateFormat('d/MM/yyyy');
-    if (picked != null) {
-      setState(() {
-        _date = myFormat.format(picked).toString();
-        _dateController.text = _date;
-      });
-    }
+  // Confirm popup dialog
+  Widget _buildDialog(BuildContext context, Paciente paciente, User user) {
+    Query reference = FirebaseFirestore.instance
+        .collection("appoinments")
+        .where('pacient.uid', isEqualTo: user.uid);
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: reference.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('ALGO SALIO MAL');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          }
+          List<Cita> citas = citaMapToList(snapshot);
+          if (citas.length == 0) {
+            return modificacionDialogs(paciente, paciente.uid);
+          } else {
+            return modificacionDialogsCita(paciente, paciente.uid, citas);
+          }
+        });
   }
 
-  // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
+  Widget modificacionDialogs(Paciente paciente, String user) {
+    String title2 = "";
+    String content2 = "";
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
@@ -368,10 +493,26 @@ class _EditProfile extends State<EditProfile> {
           children: [
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => _adviceDialog(context),
-                );
+                editarPaciente(paciente).then((value) {
+                  actualizarUsuario(paciente);
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -419,38 +560,103 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Confirm popup dialog
-  Widget _adviceDialog(BuildContext context) {
+  Widget modificacionDialogsCita(
+      Paciente paciente, String user, List<Cita> citas) {
+    String title2 = "";
+    String content2 = "";
     return new AlertDialog(
-      title: Text('Perfil Actualizado'),
+      title: Text(
+        'Confirmación de Modificación',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 15.0,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        '¿Está seguro que desea modificar\neste perfil?',
+        style: TextStyle(
+          color: kNegro,
+          fontSize: 14.0,
+          fontFamily: 'PoppinsRegular',
+        ),
+      ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(37.0),
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(378.0),
-                side: BorderSide(color: kNegro),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                citas.forEach((element) {
+                  actualizarPacienteCita(paciente, element);
+                });
+                editarPaciente(paciente).then((value) {
+                  actualizarUsuario(paciente);
+                  bool state;
+                  if (value) {
+                    title2 = 'Perfil modificada';
+                    content2 = "Su perfil fue modificado exitosamente";
+                    state = true;
+                  } else {
+                    title2 = 'Error de edición';
+                    content2 =
+                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                    state = false;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        adviceDialogPacient(context, title2, content2, state),
+                  );
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
               ),
-              shadowColor: Colors.black,
-            ),
-            child: const Text(
-              'Cerrar',
-              style: TextStyle(
-                color: kNegro,
-                fontSize: 14.0,
-                fontFamily: 'PoppinsRegular',
+              child: const Text(
+                'Si',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
               ),
             ),
-          ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                minimumSize: Size(99.0, 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22.0),
+                  side: BorderSide(color: kNegro),
+                ),
+                shadowColor: Colors.black,
+              ),
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: kNegro,
+                  fontSize: 14.0,
+                  fontFamily: 'PoppinsRegular',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -508,8 +714,12 @@ class _EditProfile extends State<EditProfile> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
                     );
                   },
                 ),
@@ -548,6 +758,51 @@ class _EditProfile extends State<EditProfile> {
             shadowColor: Colors.black,
           ),
           child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
+
+  // Confirm popup dialog
+  Widget adviceDialogPacient(
+      BuildContext context, String text, String content, bool state) {
+    return new AlertDialog(
+      title: Text(text),
+      content: Text(content),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              } else if (!state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+                side: BorderSide(color: kNegro),
+              ),
+              shadowColor: Colors.black,
+            ),
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 14.0,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
         ),
       ],
     );

@@ -1,9 +1,14 @@
 import 'dart:io';
 
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioPagos.dart';
+import 'package:hablemos/business/admin/negocioProfesionales.dart';
+import 'package:hablemos/model/banco.dart';
+import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -12,62 +17,66 @@ class CreateProfileProfessionalAdmin extends StatefulWidget {
   @override
   _CreateProfileProfessionalAdmin createState() =>
       _CreateProfileProfessionalAdmin();
+  final Profesional profesional;
+  const CreateProfileProfessionalAdmin({this.profesional});
 }
 
 class _CreateProfileProfessionalAdmin
     extends State<CreateProfileProfessionalAdmin> {
   TextEditingController _dateController = new TextEditingController();
-  // TextEditingController _nameController = new TextEditingController();
-  // TextEditingController _mailController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _lastNameController = new TextEditingController();
+  TextEditingController _mailController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
   TextEditingController _convenioController = new TextEditingController();
   TextEditingController _especialidadController = new TextEditingController();
   TextEditingController _proyectosController = new TextEditingController();
   TextEditingController _experienciaController = new TextEditingController();
   TextEditingController _descripcionController = new TextEditingController();
-  TextEditingController _redesController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _bankNameController = new TextEditingController();
+  TextEditingController _accountNumberController = new TextEditingController();
+  TextEditingController _accountTypeController = new TextEditingController();
+  TextEditingController _telephoneController = new TextEditingController();
 
   String _date = '';
   File _image;
 
   @override
+  void initState() {
+    super.initState();
+
+    _nameController = TextEditingController(text: "Nombre");
+    _lastNameController = TextEditingController()..text = "Apellido";
+    _passwordController = TextEditingController()..text = "123456";
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference centroMedicoCollection =
-        FirebaseFirestore.instance.collection("professional");
-    return StreamBuilder<QuerySnapshot>(
-        stream: centroMedicoCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('ALGO SALIO MAL');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loadingScreen();
-          }
-          return Container(
-            color: kRosado,
-            child: SafeArea(
-              child: Scaffold(
-                extendBodyBehindAppBar: true,
-                // Create an empty appBar, display the arrow back
-                appBar: crearAppBar('', null, 0, null),
-                body: Stack(
-                  children: <Widget>[
-                    cabeceraPerfilProfesional(size),
-                    Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: _body(size),
-                      ),
-                    ),
-                  ],
+    return Container(
+      color: kRosado,
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          // Create an empty appBar, display the arrow back
+          appBar: crearAppBar('', null, 0, null, context: context),
+          body: Stack(
+            children: <Widget>[
+              cabeceraPerfilProfesional(size),
+              Container(
+                padding: EdgeInsets.only(top: size.height * 0.45),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: _body(size),
                 ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget cabeceraPerfilProfesional(Size size) {
@@ -78,7 +87,7 @@ class _CreateProfileProfessionalAdmin
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.48,
             width: double.infinity,
             color: kRosado,
             child: Column(
@@ -113,12 +122,49 @@ class _CreateProfileProfessionalAdmin
                 Container(
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: Save values in profesional
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            _buildDialog(context),
-                      );
+                      if (_nameController.text != "Nombre" &&
+                          _lastNameController.text != "Apellido" &&
+                          _mailController.text.isNotEmpty &&
+                          _cityController.text.isNotEmpty) {
+                        Banco banco = new Banco(
+                            banco: _bankNameController.text,
+                            numCuenta: _accountNumberController.text,
+                            tipoCuenta: _accountTypeController.text);
+                        Profesional prof = new Profesional(
+                            nombre: _nameController.text,
+                            apellido: _lastNameController.text,
+                            fechaNacimiento: _dateController.text,
+                            especialidad: _especialidadController.text,
+                            correo: _mailController.text,
+                            ciudad: _cityController.text,
+                            experiencia: _experienciaController.text,
+                            descripcion: _descripcionController.text,
+                            celular: _telephoneController.text,
+                            banco: banco,
+                            proyectos: _proyectosController.text
+                                .replaceAll("\n", "")
+                                .split(";"),
+                            convenios: _convenioController.text
+                                .replaceAll("\n", "")
+                                .split(";"));
+
+                        String password =
+                            _nameController.text + _passwordController.text;
+
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildDialog(context, prof, password),
+                        );
+                      } else {
+                        // print(_nameController.text);
+                        // print(_lastNameController.text);
+                        // print(_mailController.text);
+                        // print(_cityController.text);
+                        // print("nose pudo");
+                        showAlertDialog(
+                            context, "Por Favor complete la información");
+                      }
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,19 +188,63 @@ class _CreateProfileProfessionalAdmin
                   ),
                 ),
                 // Display text name
-                Center(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      'Nombre y Apellido',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kNegro,
-                        fontSize: (size.height / 2) * 0.08,
-                        fontFamily: 'PoppinsRegular',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: AutoSizeTextField(
+                          controller: _nameController,
+                          textAlign: TextAlign.center,
+                          enableInteractiveSelection: false,
+                          fullwidth: false,
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: (size.height / 2) * 0.06,
+                            fontFamily: 'PoppinsRegular',
+                          ),
+                          onTap: () {
+                            if (_nameController.text == "Nombre") {
+                              _nameController.text = "";
+                            }
+                          }
+
+                          // onChanged: (text) {
+                          //   _nameController.text = text;
+                          //   _nameController.selection = TextSelection.fromPosition(
+                          //       TextPosition(offset: _nameController.text.length));
+                          // },
+                          ),
+                    ),
+                    SizedBox(width: 10.0),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: AutoSizeTextField(
+                        controller: _lastNameController,
+                        textAlign: TextAlign.center,
+                        enableInteractiveSelection: false,
+                        fullwidth: false,
+                        style: TextStyle(
+                          color: kNegro,
+                          fontSize: (size.height / 2) * 0.06,
+                          fontFamily: 'PoppinsRegular',
+                        ),
+                        onTap: () {
+                          if (_lastNameController.text == "Apellido") {
+                            _lastNameController.text = "";
+                          }
+                        },
+                        // onChanged: (text) {
+                        //   _lastNameController.text = text;
+                        //   _lastNameController.selection = TextSelection.fromPosition(
+                        //       TextPosition(offset: _lastNameController.text.length));
+                        // },
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5.0,
                 ),
                 Center(
                   child: Container(
@@ -183,32 +273,81 @@ class _CreateProfileProfessionalAdmin
       width: size.width,
       child: Column(
         children: <Widget>[
-          _sectionButton(),
-          // _editSection('Correo', profesional.correo, _mailController),
-          _editSection('Ciudad', '', _cityController),
-          _editSection('Convenio', '', _convenioController),
-          _editSection('Especialidad', '', _especialidadController),
-          _editSection('Proyectos', '', _proyectosController),
-          _editSection('Experiencia', '', _experienciaController),
-          _editSection('Descripción', '', _descripcionController),
-          _editSection('Redes Sociales', '', _redesController),
+          _nonEditSection('Contraseña', _nameController, _passwordController),
+          _editSection('Correo', _mailController),
+          _editSection('Ciudad', _cityController),
+          _editSection('Teléfono', _telephoneController ?? ''),
+          _editSection(
+              'Convenios (Separelos con ";")', _convenioController ?? ['']),
+          _editSection('Especialidad', _especialidadController ?? ''),
+          _editSection(
+              'Proyectos (Separelo con ";")', _proyectosController ?? ['']),
+          _editSection('Experiencia', _experienciaController ?? ''),
+          _editSection('Descripción', _descripcionController ?? ''),
+          _editSection('Fecha de Nacimiento', _dateController ?? ''),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _editSection('Banco', _bankNameController ?? ''),
+          _editSection('Número de Cuenta', _accountNumberController ?? ''),
+          _editSection('Tipo de Cuenta', _accountTypeController ?? ''),
+          SizedBox(
+            height: 30.0,
+          ),
         ],
       ),
     );
   }
 
-  // Section: title and text field
-  Widget _editSection(
-      String text, String hint, TextEditingController controller) {
-    Text info = Text(
-      hint,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: kNegro,
-        fontFamily: 'PoppinsRegular',
+  //Section non editable
+  Widget _nonEditSection(String title, TextEditingController _nameController,
+      TextEditingController _passwordController) {
+    return Container(
+      padding: EdgeInsets.only(right: 15.0, left: 15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: kRojoOscuro,
+              fontFamily: 'PoppinsRegular',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            "La contraseña de este profesional sera su nombre más 123456, Ej: Diana123456",
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: kNegro,
+              fontFamily: 'PoppinsRegular',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5.0),
+            child: Divider(
+              color: Colors.black.withOpacity(0.40),
+            ),
+          ),
+        ],
       ),
     );
-    controller.text = info.data;
+  }
+
+  // Section: Password
+  Widget _editSection(String text, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
       child: Column(
@@ -225,6 +364,8 @@ class _CreateProfileProfessionalAdmin
           ),
           TextField(
             controller: controller,
+            maxLines: 10,
+            minLines: 1,
             enableInteractiveSelection: false,
             textAlign: TextAlign.justify,
             onTap: () {
@@ -257,10 +398,14 @@ class _CreateProfileProfessionalAdmin
   }
 
   // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
+  Widget _buildDialog(
+      BuildContext context, Profesional profesional, String password) {
+    String title = "";
+    String content = "";
     return new AlertDialog(
       title: Text(
-        'Confirmación de Modificación',
+        'Confirmación de Creación',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -269,7 +414,8 @@ class _CreateProfileProfessionalAdmin
         ),
       ),
       content: Text(
-        '¿Está seguro que desea modificar\neste perfil?',
+        '¿Estás seguro que deseas crear\neste nuevo profesional?',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -282,14 +428,64 @@ class _CreateProfileProfessionalAdmin
       ),
       actions: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => _adviceDialog(context),
-                );
+                String nombre = profesional.nombre;
+                final CollectionReference usersRef =
+                    FirebaseFirestore.instance.collection("users");
+                FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+                Future<UserCredential> user =
+                    firebaseAuth.createUserWithEmailAndPassword(
+                        email: profesional.correo, password: password);
+                // authService.signUp(profesional.correo,
+                //     password, '$nombre ${profesional.apellido}');
+
+                user.then((valor) {
+                  valor.user.updateProfile(
+                      displayName: '$nombre ${profesional.apellido}');
+                  String value = valor.user.uid;
+
+                  profesional.uid = value;
+                  usersRef
+                      .doc(value)
+                      .set({
+                        'role': 'professional',
+                        'name': nombre,
+                      })
+                      .then((value) => Navigator.pushNamed(
+                          context, 'adminManageProffessional'))
+                      .catchError((value) => showAlertDialog(context,
+                          "Hubo un error\nPor Favor intentalo mas tarde"));
+
+                  crearPago(profesional);
+
+                  agregarProfesional(profesional, value).then((value) {
+                    bool state;
+                    if (value) {
+                      title = 'Profesional Creado ';
+                      content = "Su profesional ha sido creado exitosamente.";
+                      state = true;
+                    } else {
+                      title = 'Error de Creación';
+                      content =
+                          "Hubo un error creando el profesional, inténtelo nuevamente";
+                      state = false;
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => _adviceDialog(
+                              context,
+                              title,
+                              content,
+                              state,
+                            ));
+                  });
+                }).catchError(showAlertDialog(
+                    context, "Hubo un error\nCorreo ya registrado"));
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -309,6 +505,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -331,15 +528,18 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
           ],
         ),
       ],
     );
   }
 
-  Widget _adviceDialog(BuildContext context) {
+  Widget _adviceDialog(
+      BuildContext context, String text, String content, bool state) {
     return new AlertDialog(
-      title: Text('Perfil Actualizado'),
+      title: Text(text),
+      content: Text(content),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
         side: BorderSide(color: kNegro, width: 2.0),
@@ -348,8 +548,12 @@ class _CreateProfileProfessionalAdmin
         Center(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              if (state) {
+                Navigator.of(context).pop();
+              } else if (!state) {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.white,
@@ -368,103 +572,6 @@ class _CreateProfileProfessionalAdmin
               ),
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  // Password section and button
-  Widget _sectionButton() {
-    return Container(
-      padding: EdgeInsets.only(right: 15.0, left: 15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Contraseña',
-            style: TextStyle(
-              fontSize: 20.0,
-              color: kRojoOscuro,
-              fontFamily: 'PoppinsRegular',
-            ),
-            textAlign: TextAlign.left,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '*******',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: kNegro,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-              Container(
-                width: 109.0,
-                height: 29.0,
-                child: ElevatedButton(
-                  child: Text(
-                    'Cambiar',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.white,
-                      fontFamily: 'PoppinsRegular',
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kRojoOscuro,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(378.0),
-                    ),
-                    shadowColor: Colors.black,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 5.0),
-            child: Divider(
-              color: Colors.black.withOpacity(0.40),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Change password popup dialog
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Cambio de Contraseña'),
-      content: Text(
-        'Hemos enviado las instrucciones de restablecimiento de contraseña a tu correo electrónico.',
-        textAlign: TextAlign.justify,
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            primary: kRojoOscuro,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(378.0),
-            ),
-            shadowColor: Colors.black,
-          ),
-          child: const Text('Cerrar'),
         ),
       ],
     );

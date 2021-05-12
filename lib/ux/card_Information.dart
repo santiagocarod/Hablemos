@@ -3,6 +3,7 @@ import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hablemos/model/diagnostico.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 
 const listaColoresAdmin = [
   kMorado,
@@ -21,16 +22,18 @@ class CardInformation extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.55,
+      height: size.height * 0.5,
       child: Swiper(
-        autoplay: true,
+        autoplay: false,
         layout: SwiperLayout.STACK,
         itemWidth: size.width * 0.8,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'information',
-                  arguments: list[index]);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NewInformation(
+                        trastorno: list[index],
+                      )));
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -59,21 +62,31 @@ class CardInformation extends StatelessWidget {
                     Text(
                       list[index].nombre,
                       style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 29.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'PoppinsBold',
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Text(
-                        list[index].definicion,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'PoppinsRegular',
+                    Center(
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                        child: Flexible(
+                          flex: 1,
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            maxLines: 12,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: list[index].definicion,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'PoppinsRegular',
+                              ),
+                            ),
+                          ),
                         ),
-                        textAlign: TextAlign.justify,
                       ),
                     ),
                   ],

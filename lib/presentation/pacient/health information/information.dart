@@ -43,7 +43,7 @@ class Information extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               backgroundColor: Colors.white,
-              appBar: crearAppBar('', null, 0, null),
+              appBar: crearAppBar('', null, 0, null, context: context),
               extendBodyBehindAppBar: true,
               body: SingleChildScrollView(
                 child: Column(

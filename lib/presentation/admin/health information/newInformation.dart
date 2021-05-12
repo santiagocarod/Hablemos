@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioDiagnosticos.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class NewInformation extends StatefulWidget {
+  final Diagnostico trastorno;
+  NewInformation({this.trastorno});
+
   @override
   _NewInformation createState() => _NewInformation();
 }
@@ -16,20 +20,21 @@ class _NewInformation extends State<NewInformation> {
   TextEditingController _sourceController = new TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.trastorno != null) {
+      _nameController.text = widget.trastorno.nombre;
+      _definitionController.text = widget.trastorno.definicion;
+      _symptomController.text = _convert(widget.trastorno.sintomas);
+      _helpController.text = widget.trastorno.autoayuda;
+      _sourceController.text = _convert(widget.trastorno.fuentes);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Diagnostico trastorno = ModalRoute.of(context).settings.arguments;
-
-    // Validates if it is update or creation
-    if (trastorno != null) {
-      _nameController.text = trastorno.nombre;
-      _definitionController.text = trastorno.definicion;
-      _symptomController.text = _convert(trastorno.sintomas);
-      _helpController.text = trastorno.autoayuda;
-      _sourceController.text = _convert(trastorno.fuentes);
-    } else if (trastorno == null) {
-      _nameController.text = "NOMBRE TRASTORNO";
-    }
 
     return Container(
       color: kMoradoClarito,
@@ -38,7 +43,7 @@ class _NewInformation extends State<NewInformation> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
               _background(size),
@@ -47,7 +52,10 @@ class _NewInformation extends State<NewInformation> {
                 child: Column(
                   children: [
                     _appBar(size),
-                    _detail(context, size, trastorno),
+                    _detail(context, size, widget.trastorno),
+                    SizedBox(
+                      height: 35.0,
+                    ),
                   ],
                 ),
               ),
@@ -75,7 +83,7 @@ class _NewInformation extends State<NewInformation> {
         child: Column(
           children: <Widget>[
             Text(
-              'Foros',
+              'Diagnosticos',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'PoppinsRegular',
@@ -99,30 +107,41 @@ class _NewInformation extends State<NewInformation> {
             width: size.width,
             height: 51.13,
             color: kPurpura,
-            child: Center(
-              child: TextField(
-                controller: _nameController,
-                enableInteractiveSelection: false,
-                keyboardType: TextInputType.multiline,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: kNegro,
-                  fontFamily: 'PoppinsRegular',
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2.0,
-                ),
-              ),
-            ),
+            child: _nameSection(_nameController),
           ),
           _secction('Definición', _definitionController, size),
-          _secction('Síntomas', _symptomController,
+          _secction('Síntomas (Separados por ";")', _symptomController,
               size), // Modelo separar por enter y agregar en una lista
           _secction('Autoayuda y Afrontamiento', _helpController, size),
-          _secction('Fuente Información', _sourceController,
+          _secction('Fuente Información (Separados por ";")', _sourceController,
               size), // Modelo separar por enter y agregar en una lista
-          _button(size, trastorno),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              trastorno != null ? _buttonEliminar(size, trastorno) : Text(""),
+              _button(size, trastorno),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _nameSection(TextEditingController controller) {
+    return Center(
+      child: TextField(
+        controller: controller,
+        enableInteractiveSelection: false,
+        keyboardType: TextInputType.multiline,
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(hintText: "Nombre del Diagnostico"),
+        style: TextStyle(
+          fontSize: 20.0,
+          color: kNegro,
+          fontFamily: 'PoppinsRegular',
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2.0,
+        ),
       ),
     );
   }
@@ -167,7 +186,7 @@ class _NewInformation extends State<NewInformation> {
   String _convert(List<String> content) {
     String aux = "";
     content.forEach((element) {
-      aux += element + "\n";
+      aux += element + ";\n ";
     });
 
     return aux;
@@ -185,17 +204,83 @@ class _NewInformation extends State<NewInformation> {
       padding: EdgeInsets.only(top: 30.0, right: 20.0),
       child: GestureDetector(
         onTap: () {
-          // TODO: Save information
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => _adviceDialog(context, text),
-          );
+          Diagnostico diagnostico = Diagnostico(
+              definicion: _definitionController.text,
+              nombre: _nameController.text,
+              autoayuda: _helpController.text,
+              fuentes: _sourceController.text != ""
+                  ? _sourceController.text.replaceAll("\n", "").split(";")
+                  : [],
+              sintomas: _symptomController.text != ""
+                  ? _symptomController.text.replaceAll("\n", "").split(";")
+                  : []);
+          if (_definitionController.text == "" || _nameController.text == "") {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => _errorDialog(context,
+                  "Por favor ingrese información de\nNombre y Descripción"),
+            );
+          } else {
+            if (trastorno == null) {
+              if (!agregarDiagnostico(diagnostico)) {
+                text = 'Ocurrió un Error intentelo mas tarde';
+              }
+            } else {
+              diagnostico.id = trastorno.id;
+              if (!actualizarDiagnostico(diagnostico)) {
+                text = 'Ocurrió un Error intentelo mas tarde';
+              }
+            }
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => _adviceDialog(context, text),
+            );
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Icon(
               Icons.save,
+              size: 25.0,
+            ),
+            Text(
+              button,
+              style: TextStyle(
+                fontFamily: 'PoppinsRegular',
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buttonEliminar(Size size, Diagnostico trastorno) {
+    String button = 'Eliminar';
+
+    return Container(
+      padding: EdgeInsets.only(top: 30.0, left: 20.0),
+      child: GestureDetector(
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return dialogoConfirmacion(
+                    context,
+                    "mainInformation",
+                    "Confirmacion Eliminación",
+                    "¿Esta seguro que quiere eliminar este diagnostico? ",
+                    eliminarDiagnostico,
+                    parametro: trastorno);
+              });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.delete,
               size: 25.0,
             ),
             Text(
@@ -227,6 +312,44 @@ class _NewInformation extends State<NewInformation> {
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(378.0),
+                side: BorderSide(color: kNegro),
+              ),
+              shadowColor: Colors.black,
+            ),
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: kNegro,
+                fontSize: 14.0,
+                fontFamily: 'PoppinsRegular',
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _errorDialog(BuildContext context, String text) {
+    return AlertDialog(
+      title: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: kNegro, width: 2.0),
+      ),
+      actions: <Widget>[
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
               Navigator.of(context).pop();
             },
             style: ElevatedButton.styleFrom(

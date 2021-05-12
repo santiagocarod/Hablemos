@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'banco.dart';
 
 class Profesional {
@@ -7,13 +5,14 @@ class Profesional {
   String uid;
   String nombre;
   String apellido;
-  DateTime fechaNacimiento;
+  String fechaNacimiento;
   String especialidad;
   String experiencia;
+  String ciudad;
   List<String> convenios;
   List<String> proyectos;
   String descripcion;
-  Image foto;
+  String foto;
   Banco banco;
   String celular;
   String correo;
@@ -30,40 +29,69 @@ class Profesional {
       this.proyectos,
       this.banco,
       this.celular,
-      this.correo}) {
-    this.foto = null;
-    this.descripcion = 'Aqui va la descripción';
-  }
+      this.ciudad,
+      this.descripcion,
+      this.correo,
+      this.foto});
 
   toMap() {
     return {
+      "uid": this.uid,
       "name": this.nombre,
       "lastName": this.apellido,
-      "birthDay": this.fechaNacimiento,
-      "specialty": this.especialidad,
+      "birthDate": this.fechaNacimiento,
+      "speciality": this.especialidad,
       "experience": this.experiencia,
       "contracts": this.convenios,
       "projects": this.proyectos,
       "bank": this.banco.toMap(),
       "phone": this.celular,
-      "email": this.correo
+      "email": this.correo,
+      "city": this.ciudad,
+      "description": this.descripcion,
+      "picture": this.foto,
     };
   }
 
-  static Profesional fromMap(data, uid) {
+  toMapPago() {
+    return {
+      "uid": this.uid,
+      "name": this.nombre,
+      "lastName": this.apellido,
+    };
+  }
+
+  static Profesional fromMap(data) {
     Profesional p = Profesional(
-        uid: uid,
+        uid: data["uid"],
         nombre: data["name"],
         apellido: data["lastName"],
-        banco: Banco.fromMap(data["bank"]),
+        banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
         fechaNacimiento: data["birthDay"],
-        especialidad: data["specialty"],
+        especialidad: data["speciality"],
         experiencia: data["experience"],
-        convenios: List<String>.from(data["contracts"]),
-        proyectos: List<String>.from(["projects"]),
+        convenios: data["contracts"] == null
+            ? null
+            : List<String>.from(data["contracts"]),
+        proyectos: data["projects"] == null
+            ? null
+            : List<String>.from(data["projects"]),
         celular: data["phone"],
-        correo: data["email"]);
+        ciudad: data["city"],
+        descripcion: data["description"],
+        correo: data["email"],
+        foto: data["picture"]);
 
     return p;
   }
+
+  String nombreCompleto() {
+    return this.nombre + " " + this.apellido;
+  }
+
+  bool operator ==(other) {
+    return (other is Profesional) && other.uid == uid;
+  }
+
+  int get hashCode => uid.hashCode;
 }

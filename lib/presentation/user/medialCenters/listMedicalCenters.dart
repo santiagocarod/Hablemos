@@ -4,7 +4,6 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 class ListMedicalCenter extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
   Position _currentPosition;
   double dirLatitud;
   double dirLongitud;
-  LatLng center = LatLng(4.6097100, -74.0817500);
   List<CentroAtencion> listaCercanosReal;
 
   @override
@@ -40,7 +38,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar('', null, 0, null),
+            appBar: crearAppBar('', null, 0, null, context: context),
             body: Column(
               children: <Widget>[
                 EncabezadoMedical(size: size, text1: "Canales de Ayuda"),

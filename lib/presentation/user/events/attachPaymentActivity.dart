@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class AttachPaymentActivity extends StatefulWidget {
@@ -11,28 +13,46 @@ class AttachPaymentActivity extends StatefulWidget {
 }
 
 class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_PAYMENT).then((value) {
+      if (value != null) {
+        _image = value;
+        participante.pago = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Participante participante) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_PAYMENT).then((value) {
+      if (value != null) {
+        _image = value;
+        participante.pago = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, participante) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -45,7 +65,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(participante);
                         //Navigator.of(context).pop();
                       }),
                   new ListTile(
@@ -53,7 +73,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(participante);
                     },
                   ),
                 ],
@@ -65,7 +85,9 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
 
   @override
   Widget build(BuildContext context) {
-    final Actividad actividad = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> aux = ModalRoute.of(context).settings.arguments;
+    final Actividad actividad = aux["actividad"];
+    final Participante participante = aux["participante"];
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -83,7 +105,8 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBar("Adjuntar Pago", null, 0, null),
+            appBar:
+                crearAppBar("Adjuntar Pago", null, 0, null, context: context),
             body: Stack(children: [
               SingleChildScrollView(
                 child: Column(
@@ -98,7 +121,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          _showPicker(context);
+                          _showPicker(context, participante);
                         },
                         child: Container(
                             height: 46,
@@ -139,15 +162,45 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                           )
                         : Padding(
                             padding: const EdgeInsets.all(20),
-                            child: Image.file(
+                            child: Image.network(
                               _image,
                               height: size.height / 2,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                           ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "actividadSubscripto",
-                            arguments: actividad);
+                        if (participante.pago != null) {
+                          if (agregarParticipanteActividad(
+                              participante, actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", actividad,
+                                        ruta: "actividadSubscripto"));
+                          }
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext contex) =>
+                                  _buildPopupDialog(context, "Fallo!",
+                                      "Agregue la foto del pago", actividad));
+                        }
                       },
                       child: Container(
                         height: 55,
@@ -182,4 +235,37 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
       ],
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Actividad actividad,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: actividad);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

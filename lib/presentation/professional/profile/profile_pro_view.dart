@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/professional/negocioProfesional.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileProView extends StatefulWidget {
   @override
@@ -15,31 +18,56 @@ class ProfileProView extends StatefulWidget {
 }
 
 class _ProfileProViewState extends State<ProfileProView> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
+  final String id = FirebaseAuth.instance.currentUser.uid;
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, profesional) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -52,14 +80,14 @@ class _ProfileProViewState extends State<ProfileProView> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(profesional);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(profesional);
                     },
                   ),
                 ],
@@ -72,8 +100,13 @@ class _ProfileProViewState extends State<ProfileProView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CollectionReference professionalCollection =
-        FirebaseFirestore.instance.collection("professionals");
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User user = auth.currentUser;
+
+    Query professionalCollection = FirebaseFirestore.instance
+        .collection("professionals")
+        .where("uid", isEqualTo: user.uid);
+    print(user.uid);
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -84,13 +117,15 @@ class _ProfileProViewState extends State<ProfileProView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return loadingScreen();
           }
+
           Profesional profesional = profesionalMapToList(snapshot)[0];
+          _image = profesional.foto;
           return Container(
             color: kRosado,
             child: SafeArea(
               bottom: false,
               child: Scaffold(
-                appBar: crearAppBar('', null, 0, null),
+                appBar: crearAppBar('', null, 0, null, context: context),
                 extendBodyBehindAppBar: true,
                 body: Stack(
                   children: <Widget>[
@@ -138,22 +173,36 @@ class _ProfileProViewState extends State<ProfileProView> {
                       color: Colors.indigo[100],
                       size: 200,
                     )
-                  : Image.file(
+                  : Image.network(
                       _image,
                       width: 200,
                       height: 200,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      },
                     ),
             ),
           ),
         ),
         // Draw camera icon
         Container(
-          padding:
-              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
+          padding: EdgeInsets.only(
+            top: (size.height / 2) * 0.45,
+            left: (size.width / 2) * 0.55,
+          ),
           alignment: Alignment.topCenter,
           child: GestureDetector(
             onTap: () {
-              _showPicker(context);
+              _showPicker(context, profesional);
             },
             child: ClipOval(
               child: Container(
@@ -174,8 +223,9 @@ class _ProfileProViewState extends State<ProfileProView> {
           padding: EdgeInsets.only(top: size.height * 0.33),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'editarPerfilProfesional',
-                  arguments: profesional);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfileProfesional(profesional: profesional)));
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -240,12 +290,28 @@ class _ProfileProViewState extends State<ProfileProView> {
         children: <Widget>[
           _sectionButton(),
           _section('Correo', profesional.correo),
-          _section('Ciudad', 'Bogota D.C'),
-          _sectionList('Convenio', profesional.convenios, size),
-          _section('Especialidad', profesional.especialidad),
-          _sectionList('Proyectos', profesional.proyectos, size),
-          _section('Experiencia', profesional.experiencia),
-          _section('Descripcion', profesional.descripcion),
+          _section('Ciudad', profesional.ciudad ?? ''),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
+          _section('Especialidad', profesional.especialidad ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _section('Descripcion', profesional.descripcion ?? ''),
+          Container(
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Información Bancaria",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: kRojoOscuro,
+                fontFamily: 'PoppinsRegular',
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          _section('Banco', profesional.banco.banco ?? " "),
+          _section('Número de Cuenta', profesional.banco.numCuenta ?? " "),
+          _section('Tipo de Cuenta', profesional.banco.tipoCuenta ?? " "),
           SizedBox(height: 20),
           Center(
               child: iconButtonSmall(
@@ -281,7 +347,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             textAlign: TextAlign.left,
           ),
           Text(
-            content == null ? "Falta información" : content,
+            content == null ? " " : content,
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15.0,
@@ -352,8 +418,12 @@ class _ProfileProViewState extends State<ProfileProView> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
                     );
                   },
                 ),
@@ -417,8 +487,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                content != null ? _list(content) : [Text("Falta Información")],
+            children: content != null ? _list(content) : [Text(" ")],
           ),
           Container(
             padding: EdgeInsets.only(top: 10.0),

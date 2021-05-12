@@ -1,19 +1,44 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/admin/negocioCentrosAtencion.dart';
+import 'package:hablemos/model/centro_atencion.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/DptosyCiudades.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
-class NewMedicalAdmin extends StatelessWidget {
+class NewMedicalAdmin extends StatefulWidget {
+  @override
+  _NewMedicalAdminState createState() => _NewMedicalAdminState();
+}
+
+class _NewMedicalAdminState extends State<NewMedicalAdmin> {
+  TextEditingController nombre;
+  TextEditingController telefono;
+  String ciudad;
+  TextEditingController horario;
+  TextEditingController correo;
+  TextEditingController direccion;
+  bool gratuito;
+  List<dynamic> locaciones;
+  Map departamento;
+  List<dynamic> ciudades = [];
+
+  @override
+  void initState() {
+    super.initState();
+    nombre = TextEditingController();
+    telefono = TextEditingController();
+    horario = TextEditingController();
+    correo = TextEditingController();
+    direccion = TextEditingController();
+    gratuito = false;
+    locaciones = json.decode(locacionesString);
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController nombre = TextEditingController();
-    TextEditingController telefono = TextEditingController();
-    TextEditingController ciudad = TextEditingController();
-    TextEditingController departamento = TextEditingController();
-    TextEditingController horario = TextEditingController();
-    TextEditingController correo = TextEditingController();
-    TextEditingController direccion = TextEditingController();
-
     TextStyle estiloTitulo = TextStyle(
         color: kAzulLetras,
         fontSize: 19,
@@ -26,7 +51,8 @@ class NewMedicalAdmin extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar("Nuevo Centro de Atención", null, 0, null),
+          appBar: crearAppBar("Nuevo Centro de Atención", null, 0, null,
+              context: context),
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -39,7 +65,7 @@ class NewMedicalAdmin extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 150,
+                    height: 110,
                   ),
                   Expanded(
                     child: SingleChildScrollView(
@@ -52,19 +78,59 @@ class NewMedicalAdmin extends StatelessWidget {
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
-                              child: Text("Numero: ", style: estiloTitulo)),
+                              child: Text("Telefono (Separado por '-'): ",
+                                  style: estiloTitulo)),
                           TextField(controller: telefono),
-                          SizedBox(height: 20),
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Ciudad: ", style: estiloTitulo)),
-                          TextField(controller: ciudad),
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
                               child:
                                   Text("Departamento: ", style: estiloTitulo)),
-                          TextField(controller: departamento),
+                          DropdownButton(
+                              isExpanded: true,
+                              value: departamento,
+                              items: locaciones.map((dpto) {
+                                return DropdownMenuItem<Map>(
+                                  child:
+                                      Center(child: Text(dpto["departamento"])),
+                                  value: dpto,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                ciudad = null;
+                                setState(() {
+                                  departamento = value;
+                                  ciudades = value["ciudades"];
+                                });
+                              },
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontFamily: 'PoppinRegular',
+                              )),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Ciudad: ", style: estiloTitulo)),
+                          DropdownButton(
+                              isExpanded: true,
+                              value: ciudad,
+                              items: ciudades.map((ciu) {
+                                return DropdownMenuItem<String>(
+                                  child: Center(child: Text(ciu)),
+                                  value: ciu,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  ciudad = value;
+                                });
+                                print(value["ciudades"]);
+                              },
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontFamily: 'PoppinRegular',
+                              )),
                           SizedBox(height: 20),
                           Align(
                               alignment: Alignment.centerLeft,
@@ -84,11 +150,52 @@ class NewMedicalAdmin extends StatelessWidget {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Text("Gratuito: ", style: estiloTitulo)),
-                          TextField(controller: telefono),
+                          Switch(
+                              value: gratuito,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  gratuito = value;
+                                });
+                              }),
                           SizedBox(height: 20),
                           iconButtonSmall(
                               color: kAzulLetras,
-                              function: () {},
+                              function: () {
+                                if (nombre.text == "" ||
+                                    ciudad == null ||
+                                    departamento == null ||
+                                    horario.text == "" ||
+                                    correo.text == "" ||
+                                    direccion.text == "") {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext contex) =>
+                                          _buildPopupDialog(context, "Error",
+                                              "Por favor ingresa todos los valores"));
+                                } else {
+                                  CentroAtencion centroAtencion =
+                                      CentroAtencion(
+                                          ciudad: ciudad,
+                                          correo: correo.text,
+                                          departamento:
+                                              departamento["departamento"],
+                                          gratuito: gratuito,
+                                          horaAtencion: horario.text,
+                                          nombre: nombre.text,
+                                          telefono: telefono.text,
+                                          ubicacion: direccion.text);
+                                  if (agregarCentroAtencion(centroAtencion)) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext contex) =>
+                                            _buildPopupDialog(context, "Exito!",
+                                                "Centro de Atención Agregado!",
+                                                ruta:
+                                                    "listCentrosMedicosAdmin"));
+                                  }
+                                }
+                                print(ciudad);
+                              },
                               iconData: Icons.save,
                               text: "Guardar"),
                           SizedBox(height: 20)
@@ -102,6 +209,38 @@ class NewMedicalAdmin extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+      {String ruta}) {
+    return new AlertDialog(
+      title: Text(tittle),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(content),
+        ],
+      ),
+      actions: <Widget>[
+        new ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            if (ruta != null) {
+              Navigator.pushNamed(context, ruta);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            primary: kRojoOscuro,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(378.0),
+            ),
+            shadowColor: Colors.black,
+          ),
+          child: const Text('Cerrar'),
+        ),
+      ],
     );
   }
 }

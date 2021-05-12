@@ -1,19 +1,119 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/grupo.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
-class ShowSupportGroup extends StatelessWidget {
+class ShowSupportGroup extends StatefulWidget {
+  @override
+  _ShowSupportGroupState createState() => _ShowSupportGroupState();
+}
+
+class _ShowSupportGroupState extends State<ShowSupportGroup> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   final TextEditingController searchController = TextEditingController();
+
+  String rol = "pacient";
+
+  Participante participante;
+
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (auth.currentUser != null) {
+      User user = auth.currentUser;
+
+      uid = user.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            print(documentSnapshot.get("role"));
+            rol = documentSnapshot.get("role");
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Grupo grupoApoyo = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      if (rol == "pacient") {
+        FirebaseFirestore.instance
+            .collection("pacients")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
+
+      if (rol == "professional") {
+        FirebaseFirestore.instance
+            .collection("professionals")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
+    }
+
+    FirebaseFirestore.instance
+        .collection("workshops")
+        .doc(grupoApoyo.id)
+        .get()
+        .then((value) {
+      Map<String, dynamic> map = value.data();
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      if (firebaseAuth.currentUser != null) {
+        if (map != null) {
+          if (map["participants"] != null) {
+            List<dynamic> list = map["participants"];
+            list.forEach((element) {
+              Map<String, dynamic> map2 = element;
+              if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+                Navigator.pushReplacementNamed(context, 'grupoSubscripto',
+                    arguments: grupoApoyo);
+              }
+            });
+          }
+        }
+      }
+    });
+
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -34,7 +134,8 @@ class ShowSupportGroup extends StatelessWidget {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: grupoApoyo.foto,
+                      image:
+                          DecorationImage(image: NetworkImage(grupoApoyo.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -155,6 +256,8 @@ class ShowSupportGroup extends StatelessWidget {
                     SizedBox(height: 10),
                     _sectionCosto(context, grupoApoyo),
                     SizedBox(height: 10),
+                    _seccionUbicacion(context, grupoApoyo),
+                    SizedBox(height: 10),
                     _sectionAccountNum(context, grupoApoyo),
                     SizedBox(height: size.height * 0.03),
                     _inscripcion(context, grupoApoyo),
@@ -174,7 +277,7 @@ class ShowSupportGroup extends StatelessWidget {
   Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
     if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -215,7 +318,7 @@ class ShowSupportGroup extends StatelessWidget {
       );
     } else {
       return Container(
-        width: 133.5,
+        width: 330.5,
         child: Column(
           children: <Widget>[
             Align(
@@ -229,21 +332,31 @@ class ShowSupportGroup extends StatelessWidget {
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "${grupoApoyo.ubicacion}",
-                    style: TextStyle(
-                        fontFamily: "PoppinsRegular",
-                        color: kLetras,
-                        fontSize: 17.0),
+            GestureDetector(
+              onTap: () {
+                if (kIsWeb) {
+                  Navigator.pushNamed(context, 'Mapa');
+                } else {
+                  MapsLauncher.launchQuery(grupoApoyo.ubicacion);
+                  Navigator.pushNamed(context, 'Mapa');
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${grupoApoyo.ubicacion}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
                   ),
-                ),
-                Icon(Icons.location_on, size: 26.0)
-              ],
+                  Icon(Icons.location_on, size: 26.0)
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -298,8 +411,14 @@ class ShowSupportGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "grupoSubscripto",
-                              arguments: grupo);
+                          if (agregarParticipanteGrupo(participante, grupo)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", grupo,
+                                        ruta: "grupoSubscripto"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -390,8 +509,11 @@ class ShowSupportGroup extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          Map<String, dynamic> aux =
+                              ({"grupo": grupo, "participante": participante});
+
                           Navigator.pushNamed(context, "adjuntarPagoGrupo",
-                              arguments: grupo);
+                              arguments: aux);
                         },
                         child: Container(
                           height: 30,
@@ -443,10 +565,13 @@ class ShowSupportGroup extends StatelessWidget {
   }
 
   Widget _sectionAccountNum(BuildContext context, Grupo grupo) {
-    if (grupo.valor.toLowerCase() == "sin costo") {
-      return Container(
-        width: 330.5,
-        child: _seccionUbicacion(context, grupo),
+    if (grupo.valor.toLowerCase() == "sin costo" ||
+        grupo.valor.toLowerCase() == "gratis" ||
+        grupo.valor.toLowerCase() == "gratuito" ||
+        grupo.valor.toLowerCase() == "0" ||
+        grupo.valor.toLowerCase() == "") {
+      return SizedBox(
+        height: 5.0,
       );
     } else {
       return Column(
@@ -459,7 +584,7 @@ class ShowSupportGroup extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: FittedBox(
                     child: Text(
-                      "Banco",
+                      "Información de Pago",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
@@ -472,7 +597,7 @@ class ShowSupportGroup extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: FittedBox(
                     child: Text(
-                      "${grupo.banco}",
+                      "${grupo.banco.toString()}",
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
                           color: kLetras,
@@ -490,61 +615,17 @@ class ShowSupportGroup extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: 330.5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _seccionUbicacion(context, grupo),
-                Container(
-                  width: 183.0,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "Número de Cuenta",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "${grupo.numCuenta}",
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       );
     }
   }
 
   Widget _sectionCosto(BuildContext context, Grupo grupo) {
-    if (grupo.valor.toLowerCase() == "sin costo") {
+    if (grupo.valor.toLowerCase() == "sin costo" ||
+        grupo.valor.toLowerCase() == "gratis" ||
+        grupo.valor.toLowerCase() == "gratuito" ||
+        grupo.valor.toLowerCase() == "0" ||
+        grupo.valor.toLowerCase() == "") {
       return Container(
         width: 330.5,
         child: Row(
@@ -712,7 +793,11 @@ class ShowSupportGroup extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (grupoApoyo.valor.toLowerCase() == "sin costo") {
+                if (grupoApoyo.valor.toLowerCase() == "sin costo" ||
+                    grupoApoyo.valor.toLowerCase() == "gratis" ||
+                    grupoApoyo.valor.toLowerCase() == "gratuito" ||
+                    grupoApoyo.valor.toLowerCase() == "0" ||
+                    grupoApoyo.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     grupoApoyo,
@@ -788,4 +873,37 @@ class ShowSupportGroup extends StatelessWidget {
       );
     }
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Grupo grupo,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: grupo);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

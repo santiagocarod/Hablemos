@@ -18,7 +18,8 @@ class MainInformation extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: crearAppBar('', null, 0, null),
+          appBar: crearAppBar('', null, 0, null,
+              atras: "inicioAdministrador", context: context),
           body: Stack(
             children: <Widget>[
               _background(size),
