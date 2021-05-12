@@ -157,11 +157,13 @@ class _CreateProfileProfessionalAdmin
                               _buildDialog(context, prof, password),
                         );
                       } else {
-                        print(_nameController.text);
-                        print(_lastNameController.text);
-                        print(_mailController.text);
-                        print(_cityController.text);
-                        print("nose pudo");
+                        // print(_nameController.text);
+                        // print(_lastNameController.text);
+                        // print(_mailController.text);
+                        // print(_cityController.text);
+                        // print("nose pudo");
+                        showAlertDialog(
+                            context, "Por Favor complete la información");
                       }
                     },
                     child: Row(
@@ -426,7 +428,8 @@ class _CreateProfileProfessionalAdmin
       ),
       actions: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
               onPressed: () {
@@ -502,6 +505,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -524,6 +528,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
           ],
         ),
       ],
