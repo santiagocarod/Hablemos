@@ -46,7 +46,7 @@ class _CreateProfileProfessionalAdmin
   void initState() {
     super.initState();
 
-    _nameController = TextEditingController()..text = "Nombre";
+    _nameController = TextEditingController(text: "Nombre");
     _lastNameController = TextEditingController()..text = "Apellido";
     _passwordController = TextEditingController()..text = "123456";
   }
@@ -64,10 +64,9 @@ class _CreateProfileProfessionalAdmin
           appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(
-                  size, _nameController, _lastNameController),
+              cabeceraPerfilProfesional(size),
               Container(
-                padding: EdgeInsets.only(top: size.height * 0.53),
+                padding: EdgeInsets.only(top: size.height * 0.45),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: _body(size),
@@ -80,8 +79,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  Widget cabeceraPerfilProfesional(Size size, TextEditingController textNombre,
-      TextEditingController textApellido) {
+  Widget cabeceraPerfilProfesional(Size size) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -89,7 +87,7 @@ class _CreateProfileProfessionalAdmin
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.48,
             width: double.infinity,
             color: kRosado,
             child: Column(
@@ -194,27 +192,33 @@ class _CreateProfileProfessionalAdmin
                     Container(
                       alignment: Alignment.topCenter,
                       child: AutoSizeTextField(
-                        controller: textNombre,
-                        textAlign: TextAlign.center,
-                        enableInteractiveSelection: false,
-                        fullwidth: false,
-                        style: TextStyle(
-                          color: kNegro,
-                          fontSize: (size.height / 2) * 0.06,
-                          fontFamily: 'PoppinsRegular',
-                        ),
-                        onChanged: (text) {
-                          textNombre.text = text;
-                          textNombre.selection = TextSelection.fromPosition(
-                              TextPosition(offset: textNombre.text.length));
-                        },
-                      ),
+                          controller: _nameController,
+                          textAlign: TextAlign.center,
+                          enableInteractiveSelection: false,
+                          fullwidth: false,
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: (size.height / 2) * 0.06,
+                            fontFamily: 'PoppinsRegular',
+                          ),
+                          onTap: () {
+                            if (_nameController.text == "Nombre") {
+                              _nameController.text = "";
+                            }
+                          }
+
+                          // onChanged: (text) {
+                          //   _nameController.text = text;
+                          //   _nameController.selection = TextSelection.fromPosition(
+                          //       TextPosition(offset: _nameController.text.length));
+                          // },
+                          ),
                     ),
                     SizedBox(width: 10.0),
                     Container(
                       alignment: Alignment.topCenter,
                       child: AutoSizeTextField(
-                        controller: textApellido,
+                        controller: _lastNameController,
                         textAlign: TextAlign.center,
                         enableInteractiveSelection: false,
                         fullwidth: false,
@@ -223,11 +227,16 @@ class _CreateProfileProfessionalAdmin
                           fontSize: (size.height / 2) * 0.06,
                           fontFamily: 'PoppinsRegular',
                         ),
-                        onChanged: (text) {
-                          textApellido.text = text;
-                          textApellido.selection = TextSelection.fromPosition(
-                              TextPosition(offset: textApellido.text.length));
+                        onTap: () {
+                          if (_lastNameController.text == "Apellido") {
+                            _lastNameController.text = "";
+                          }
                         },
+                        // onChanged: (text) {
+                        //   _lastNameController.text = text;
+                        //   _lastNameController.selection = TextSelection.fromPosition(
+                        //       TextPosition(offset: _lastNameController.text.length));
+                        // },
                       ),
                     ),
                   ],
