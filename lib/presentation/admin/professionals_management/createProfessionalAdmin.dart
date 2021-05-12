@@ -440,7 +440,10 @@ class _CreateProfileProfessionalAdmin
                         email: profesional.correo, password: password);
                 // authService.signUp(profesional.correo,
                 //     password, '$nombre ${profesional.apellido}');
+
                 user.then((valor) {
+                  valor.user.updateProfile(
+                      displayName: '$nombre ${profesional.apellido}');
                   String value = valor.user.uid;
 
                   profesional.uid = value;
