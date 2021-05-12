@@ -56,37 +56,39 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     final Grupo grupoApoyo = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
 
-    if (rol == "pacient") {
-      FirebaseFirestore.instance
-          .collection("pacients")
-          .doc(uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        participante = Participante(
-          nombre: documentSnapshot.get("name"),
-          apellido: documentSnapshot.get("lastName"),
-          correo: documentSnapshot.get("email"),
-          telefono: documentSnapshot.get("phone"),
-          uid: documentSnapshot.get("uid"),
-        );
-      });
-    }
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      if (rol == "pacient") {
+        FirebaseFirestore.instance
+            .collection("pacients")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
 
-    if (rol == "professional") {
-      print("ENTRAAAAAAAAAA");
-      FirebaseFirestore.instance
-          .collection("professionals")
-          .doc(uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        participante = Participante(
-          nombre: documentSnapshot.get("name"),
-          apellido: documentSnapshot.get("lastName"),
-          correo: documentSnapshot.get("email"),
-          telefono: documentSnapshot.get("phone"),
-          uid: documentSnapshot.get("uid"),
-        );
-      });
+      if (rol == "professional") {
+        FirebaseFirestore.instance
+            .collection("professionals")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
     }
 
     FirebaseFirestore.instance
@@ -95,16 +97,20 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
         .get()
         .then((value) {
       Map<String, dynamic> map = value.data();
-
-      if (map["participants"] != null) {
-        List<dynamic> list = map["participants"];
-        list.forEach((element) {
-          Map<String, dynamic> map2 = element;
-          if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
-            Navigator.pushReplacementNamed(context, 'grupoSubscripto',
-                arguments: grupoApoyo);
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      if (firebaseAuth.currentUser != null) {
+        if (map != null) {
+          if (map["participants"] != null) {
+            List<dynamic> list = map["participants"];
+            list.forEach((element) {
+              Map<String, dynamic> map2 = element;
+              if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+                Navigator.pushReplacementNamed(context, 'grupoSubscripto',
+                    arguments: grupoApoyo);
+              }
+            });
           }
-        });
+        }
       }
     });
 
