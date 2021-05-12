@@ -8,7 +8,6 @@ import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
