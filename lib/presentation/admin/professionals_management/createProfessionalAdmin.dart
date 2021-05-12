@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -157,11 +157,13 @@ class _CreateProfileProfessionalAdmin
                               _buildDialog(context, prof, password),
                         );
                       } else {
-                        print(_nameController.text);
-                        print(_lastNameController.text);
-                        print(_mailController.text);
-                        print(_cityController.text);
-                        print("nose pudo");
+                        // print(_nameController.text);
+                        // print(_lastNameController.text);
+                        // print(_mailController.text);
+                        // print(_cityController.text);
+                        // print("nose pudo");
+                        showAlertDialog(
+                            context, "Por Favor complete la información");
                       }
                     },
                     child: Row(
@@ -426,58 +428,64 @@ class _CreateProfileProfessionalAdmin
       ),
       actions: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
               onPressed: () {
                 String nombre = profesional.nombre;
                 final CollectionReference usersRef =
                     FirebaseFirestore.instance.collection("users");
-                AuthService authService = new AuthService();
-                Future<String> user = authService.signUp(profesional.correo,
-                    password, '$nombre ${profesional.apellido}');
-                user.then((value) {
-                  if (value[0] == "[") {
-                    showAlertDialog(
-                        context, "Hubo un error\nCorreo ya registrado");
-                  } else {
-                    profesional.uid = value;
-                    usersRef
-                        .doc(value)
-                        .set({
-                          'role': 'professional',
-                          'name': nombre,
-                        })
-                        .then((value) => Navigator.pushNamed(
-                            context, 'adminManageProffessional'))
-                        .catchError((value) => showAlertDialog(context,
-                            "Hubo un error\nPor Favor intentalo mas tarde"));
+                FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-                    crearPago(profesional);
+                Future<UserCredential> user =
+                    firebaseAuth.createUserWithEmailAndPassword(
+                        email: profesional.correo, password: password);
+                // authService.signUp(profesional.correo,
+                //     password, '$nombre ${profesional.apellido}');
 
-                    agregarProfesional(profesional, value).then((value) {
-                      bool state;
-                      if (value) {
-                        title = 'Profesional Creado ';
-                        content = "Su profesional ha sido creado exitosamente.";
-                        state = true;
-                      } else {
-                        title = 'Error de Creación';
-                        content =
-                            "Hubo un error creando el profesional, inténtelo nuevamente";
-                        state = false;
-                      }
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => _adviceDialog(
-                                context,
-                                title,
-                                content,
-                                state,
-                              ));
-                    });
-                  }
-                });
+                user.then((valor) {
+                  valor.user.updateProfile(
+                      displayName: '$nombre ${profesional.apellido}');
+                  String value = valor.user.uid;
+
+                  profesional.uid = value;
+                  usersRef
+                      .doc(value)
+                      .set({
+                        'role': 'professional',
+                        'name': nombre,
+                      })
+                      .then((value) => Navigator.pushNamed(
+                          context, 'adminManageProffessional'))
+                      .catchError((value) => showAlertDialog(context,
+                          "Hubo un error\nPor Favor intentalo mas tarde"));
+
+                  crearPago(profesional);
+
+                  agregarProfesional(profesional, value).then((value) {
+                    bool state;
+                    if (value) {
+                      title = 'Profesional Creado ';
+                      content = "Su profesional ha sido creado exitosamente.";
+                      state = true;
+                    } else {
+                      title = 'Error de Creación';
+                      content =
+                          "Hubo un error creando el profesional, inténtelo nuevamente";
+                      state = false;
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => _adviceDialog(
+                              context,
+                              title,
+                              content,
+                              state,
+                            ));
+                  });
+                }).catchError(showAlertDialog(
+                    context, "Hubo un error\nCorreo ya registrado"));
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -497,6 +505,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -519,6 +528,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
           ],
         ),
       ],
