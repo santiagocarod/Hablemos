@@ -328,7 +328,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
                   _lastNameController.text = text;
                   _lastNameController.selection = TextSelection.fromPosition(
                       TextPosition(offset: _lastNameController.text.length));
-                  widget.profesional.nombre = _lastNameController.text;
+                  widget.profesional.apellido = _lastNameController.text;
                 },
               ),
             ),
