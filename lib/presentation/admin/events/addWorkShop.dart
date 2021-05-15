@@ -45,14 +45,14 @@ class _AddWorkShop extends State<AddWorkShop> {
     );
     tipoCuentaTextField = TextField(
       enabled: false,
-      controller: _bancoController,
+      controller: _tipoCuentaController,
       enableInteractiveSelection: false,
       style: TextStyle(
           fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
     );
     numeroCuentaTextField = TextField(
       enabled: false,
-      controller: _bancoController,
+      controller: _numCuentaController,
       enableInteractiveSelection: false,
       style: TextStyle(
           fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
