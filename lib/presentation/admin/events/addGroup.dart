@@ -29,6 +29,35 @@ class _AddGroup extends State<AddGroup> {
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
+
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
@@ -370,6 +399,82 @@ class _AddGroup extends State<AddGroup> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value != "" && value != "0") {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          } else if (bancoTextField.enabled) {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          }
+                                        },
                                         controller: _precioController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
@@ -410,14 +515,7 @@ class _AddGroup extends State<AddGroup> {
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _bancoController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
+                                          child: bancoTextField,
                                         ),
                                       ],
                                     ),
@@ -439,14 +537,7 @@ class _AddGroup extends State<AddGroup> {
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _tipoCuentaController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
+                                          child: tipoCuentaTextField,
                                         ),
                                       ],
                                     ),
@@ -472,16 +563,8 @@ class _AddGroup extends State<AddGroup> {
                                       ),
                                     ),
                                     Align(
-                                      alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _numCuentaController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
-                                    ),
+                                        alignment: Alignment.topLeft,
+                                        child: numeroCuentaTextField),
                                   ],
                                 ),
                               ),
@@ -604,7 +687,7 @@ class _AddGroup extends State<AddGroup> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  if (_bancoController.text != "") {
+                                  if (bancoTextField.enabled) {
                                     if (_tituloController.text == "" ||
                                         _ubicacionController.text == "" ||
                                         _bancoController.text == "" ||
@@ -688,18 +771,6 @@ class _AddGroup extends State<AddGroup> {
                                       }
                                     }
                                   }
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (BuildContext context) {
-                                  //     return dialogoConfirmacion(
-                                  //         context,
-                                  //         "listarGruposAdmin",
-                                  //         "Confirmación de Creación",
-                                  //         "¿Está seguro que desea crear un nuevo Grupo?",
-                                  //         () {});
-                                  //   },
-                                  // );
                                 },
                                 child: Container(
                                   child: Row(

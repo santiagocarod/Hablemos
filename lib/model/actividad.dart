@@ -51,7 +51,7 @@ class Actividad {
       descripcion: data["description"],
       foto: data["photo"],
       ubicacion: data["location"],
-      banco: Banco.fromMap(data["bank"]),
+      banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
       fecha: data["date"],
       hora: data["hour"],
       participantes:
