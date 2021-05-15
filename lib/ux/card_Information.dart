@@ -72,18 +72,15 @@ class CardInformation extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                        child: Flexible(
-                          flex: 1,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            maxLines: 12,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              text: list[index].definicion,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'PoppinsRegular',
-                              ),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          maxLines: 12,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            text: list[index].definicion,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'PoppinsRegular',
                             ),
                           ),
                         ),
