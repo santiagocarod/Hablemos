@@ -722,8 +722,7 @@ class _ShowActivityState extends State<ShowActivity> {
                     "¿Estás seguro que deseas inscribirte en esta Actividad?",
                     kMoradoClarito,
                   );
-                } else if (actividad.ubicacion == "virtual" ||
-                    actividad.ubicacion == "Virtual") {
+                } else if (actividad.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     actividad,
