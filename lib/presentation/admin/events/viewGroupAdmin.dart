@@ -459,7 +459,7 @@ class ViewGroupAdmin extends StatelessWidget {
   }
 
   Widget _datosFinancieros(BuildContext context, Grupo grupo) {
-    if (grupo.ubicacion.toLowerCase() != "virtual") {
+    if (grupo.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(
