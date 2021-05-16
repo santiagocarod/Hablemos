@@ -105,12 +105,13 @@ class _PacientDetails extends State<PacientDetails> {
                   child: Container(
                     padding: EdgeInsets.only(top: 10),
                     alignment: Alignment.topCenter,
-                    child: Text(
+                    child: AutoSizeText(
                       paciente.nombre + " " + paciente.apellido,
+                      maxFontSize: 60.0,
+                      minFontSize: 20.0,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kNegro,
-                        fontSize: (size.width / 2) * 0.08,
                         fontFamily: 'PoppinsRegular',
                       ),
                     ),
