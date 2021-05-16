@@ -78,6 +78,7 @@ class SubscribedActivity extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${actividad.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,

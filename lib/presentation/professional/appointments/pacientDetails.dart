@@ -28,7 +28,7 @@ class _PacientDetails extends State<PacientDetails> {
             children: <Widget>[
               pacientHead(size, widget.paciente),
               Container(
-                padding: EdgeInsets.only(top: (size.height / 2)),
+                padding: EdgeInsets.only(top: size.height * 0.45),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: _body(size, widget.paciente),
@@ -50,7 +50,7 @@ class _PacientDetails extends State<PacientDetails> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: (size.height / 2),
+            height: size.height * 0.48,
             width: double.infinity,
             color: kRosado,
             child: Column(
@@ -109,14 +109,11 @@ class _PacientDetails extends State<PacientDetails> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kNegro,
-                        fontSize: (size.height / 2) * 0.09,
+                        fontSize: 33.0,
                         fontFamily: 'PoppinsRegular',
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 5.0,
                 ),
               ],
             ),

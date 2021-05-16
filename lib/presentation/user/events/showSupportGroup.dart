@@ -170,6 +170,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${grupoApoyo.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,

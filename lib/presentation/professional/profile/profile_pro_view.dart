@@ -131,7 +131,7 @@ class _ProfileProViewState extends State<ProfileProView> {
                   children: <Widget>[
                     cabeceraPerfilProfesional(size, profesional),
                     Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      padding: EdgeInsets.only(top: size.height * 0.51),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: cuerpoPerfilProfesional(size, profesional),
@@ -153,14 +153,14 @@ class _ProfileProViewState extends State<ProfileProView> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.54,
             width: double.infinity,
             color: kRosado,
           ),
         ),
         // Draw profile picture
         Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
+          padding: EdgeInsets.only(top: size.height * 0.04),
           alignment: Alignment.topCenter,
           child: ClipOval(
             child: Container(
@@ -220,7 +220,7 @@ class _ProfileProViewState extends State<ProfileProView> {
         ),
         // Plus icon and edit text
         Container(
-          padding: EdgeInsets.only(top: size.height * 0.33),
+          padding: EdgeInsets.only(top: size.height * 0.31),
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -258,22 +258,7 @@ class _ProfileProViewState extends State<ProfileProView> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.40),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
+                fontSize: 30,
                 fontFamily: 'PoppinsRegular',
               ),
             ),
@@ -291,11 +276,11 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionButton(),
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           Container(
             padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,

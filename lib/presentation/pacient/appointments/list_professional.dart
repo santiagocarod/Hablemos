@@ -78,6 +78,8 @@ class ListProfessional extends StatelessWidget {
                 ),
                 subtitle: Text(
                   '${element.experiencia}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: 'PoppinsBold',
@@ -97,11 +99,12 @@ class ListProfessional extends StatelessWidget {
                     ? Icon(
                         Icons.account_circle,
                         color: Colors.indigo[100],
-                        size: 200.0,
+                        size: 190.0,
                       )
                     : Image.network(
                         '${element.foto}', //Foto del profesional
-                        height: 250,
+                        height: 190,
+                        width: 150,
                         fit: BoxFit.fill,
                       ),
               ),
@@ -109,6 +112,8 @@ class ListProfessional extends StatelessWidget {
               ListTile(
                 title: Text(
                   '${element.especialidad}',
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: 'PoppinsRegular',

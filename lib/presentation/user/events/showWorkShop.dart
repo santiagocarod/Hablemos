@@ -165,6 +165,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${taller.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
