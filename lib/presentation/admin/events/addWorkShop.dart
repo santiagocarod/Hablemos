@@ -456,7 +456,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                               );
                                               tipoCuentaTextField = TextField(
                                                 enabled: false,
-                                                controller: _bancoController,
+                                                controller:
+                                                    _tipoCuentaController,
                                                 enableInteractiveSelection:
                                                     false,
                                                 style: TextStyle(
@@ -467,7 +468,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                               );
                                               numeroCuentaTextField = TextField(
                                                 enabled: false,
-                                                controller: _bancoController,
+                                                controller:
+                                                    _numCuentaController,
                                                 enableInteractiveSelection:
                                                     false,
                                                 style: TextStyle(

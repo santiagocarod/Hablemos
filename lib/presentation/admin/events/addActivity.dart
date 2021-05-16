@@ -454,7 +454,8 @@ class _AddActivity extends State<AddActivity> {
                                               );
                                               tipoCuentaTextField = TextField(
                                                 enabled: false,
-                                                controller: _bancoController,
+                                                controller:
+                                                    _tipoCuentaController,
                                                 enableInteractiveSelection:
                                                     false,
                                                 style: TextStyle(
@@ -465,7 +466,8 @@ class _AddActivity extends State<AddActivity> {
                                               );
                                               numeroCuentaTextField = TextField(
                                                 enabled: false,
-                                                controller: _bancoController,
+                                                controller:
+                                                    _numCuentaController,
                                                 enableInteractiveSelection:
                                                     false,
                                                 style: TextStyle(
