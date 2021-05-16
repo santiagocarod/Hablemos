@@ -468,21 +468,16 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   );
 }
 
-Widget searchBar(
-    BuildContext context,
-    Size size,
-    TextEditingController searchController,
-    List<String> names,
-    List<dynamic> elements,
-    String ruta) {
+Widget searchBar(BuildContext context, Size size, String text,
+    List<String> names, List<dynamic> elements, String ruta) {
   return Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: size.height * 0.15),
-          height: 66.0,
-          width: 317.5,
+          height: 53.33,
+          width: size.width - 187.0, //317.5,
           decoration: BoxDecoration(
             color: kBlanco,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -503,6 +498,7 @@ Widget searchBar(
                     delegate: DataSearch(
                       names: names,
                       elements: elements,
+                      route: ruta,
                     ),
                   );
                 },
@@ -514,24 +510,25 @@ Widget searchBar(
               ),
               Container(
                 width: 200,
-                child: TextField(
-                  controller: searchController,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  style: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    color: kAzulOscuro,
+                child: GestureDetector(
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: DataSearch(
+                        names: names,
+                        elements: elements,
+                        route: ruta,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: kAzulOscuro,
+                        fontFamily: 'PoppinsSemiBold'),
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  searchController.clear();
-                },
-                child: Icon(
-                  Icons.cancel_outlined,
-                  color: kMoradoClarito,
-                  size: 25.0,
                 ),
               ),
             ],
@@ -571,6 +568,7 @@ class DataSearch extends SearchDelegate<String> {
           progress: transitionAnimation,
         ),
         onPressed: () {
+          names = null;
           close(context, null);
         });
   }
@@ -596,7 +594,7 @@ class DataSearch extends SearchDelegate<String> {
               arguments: elements.firstWhere(
                   (element) => element.nombre == suggestionList[index]),
             );
-          } else if (route == 'DetalleForo') {
+          } else {
             Navigator.pushNamed(
               context,
               route,

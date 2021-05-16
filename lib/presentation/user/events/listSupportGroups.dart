@@ -53,7 +53,7 @@ class ListSupportGroups extends StatelessWidget {
                     context, "Grupos de Apoyo", "eventosPrincipal"),
                 body: Stack(
                   children: <Widget>[
-                    searchBar(context, size, searchController, names, grupos,
+                    searchBar(context, size, 'Buscar Grupos', names, grupos,
                         "verGrupoApoyo"),
                     Material(
                       type: MaterialType.transparency,
