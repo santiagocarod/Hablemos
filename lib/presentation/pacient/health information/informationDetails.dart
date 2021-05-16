@@ -237,7 +237,7 @@ List<Widget> _listUrl(List<String> content) {
 }
 
 Future<void> _launchInBrowser(String url) async {
-  url = url.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
+  url = url.replaceAll(new RegExp(r"\s+"), "");
   if (await canLaunch(url)) {
     await launch(url);
   } else {
