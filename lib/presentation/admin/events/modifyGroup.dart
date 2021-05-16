@@ -736,7 +736,7 @@ class _ModifyGroup extends State<ModifyGroup> {
       TextEditingController _bancoController,
       TextEditingController _numCuentaController,
       TextEditingController _tipoCuentaController) {
-    if (grupo.ubicacion.toLowerCase() == "virtual") {
+    
       return Container(
         width: 330.5,
         child: Column(
@@ -818,9 +818,7 @@ class _ModifyGroup extends State<ModifyGroup> {
           ],
         ),
       );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+    
   }
 
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,

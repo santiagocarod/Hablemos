@@ -742,91 +742,87 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
       TextEditingController _bancoController,
       TextEditingController _numCuentaController,
       TextEditingController _tipoCuentaController) {
-    if (taller.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: bancoTextField,
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: tipoCuentaTextField,
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: numeroCuentaTextField,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
