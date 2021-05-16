@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
@@ -109,7 +110,7 @@ class _PacientDetails extends State<PacientDetails> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kNegro,
-                        fontSize: 33.0,
+                        fontSize: (size.width / 2) * 0.08,
                         fontFamily: 'PoppinsRegular',
                       ),
                     ),
@@ -134,15 +135,19 @@ class _PacientDetails extends State<PacientDetails> {
           _section('Fecha de Nacimiento', paciente.fechaNacimiento),
           _section('Teléfono', paciente.telefono),
           Container(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: Text(
+            padding: EdgeInsets.only(
+                top: 10.0, bottom: 10.0, right: 15.0, left: 15.0),
+            child: AutoSizeText(
               'Información Contacto de Emergencia',
+              maxLines: 1,
+              maxFontSize: 20.0,
+              minFontSize: 10.0,
               style: TextStyle(
                 fontSize: 20.0,
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),

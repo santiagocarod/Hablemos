@@ -71,23 +71,16 @@ class ListProfessional extends StatelessWidget {
               ListTile(
                 title: Text(
                   '${element.nombre + " " + element.apellido}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'PoppinsBold',
                   ),
                 ),
-                subtitle: Text(
-                  '${element.experiencia}',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontFamily: 'PoppinsBold',
-                  ),
-                ),
-                contentPadding: const EdgeInsets.all(10.0),
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
                 leading: Icon(Icons.account_circle_rounded,
-                    color: Colors.cyan, size: 50.0),
+                    color: Colors.cyan, size: 30.0),
               ),
               // Central Picture
               ClipRRect(
@@ -104,21 +97,22 @@ class ListProfessional extends StatelessWidget {
                     : Image.network(
                         '${element.foto}', //Foto del profesional
                         height: 190,
-                        width: 150,
-                        fit: BoxFit.fill,
+                        width: 180,
+                        fit: BoxFit.contain,
                       ),
               ),
               // Especialty below the picture
               ListTile(
                 title: Text(
                   '${element.especialidad}',
-                  maxLines: 4,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: 'PoppinsRegular',
                   ),
                 ),
+                contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
               ),
             ],
           ),

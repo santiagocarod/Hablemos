@@ -135,6 +135,7 @@ class DetailsMedicalCenter extends StatelessWidget {
   Widget medicalCenterDetailsEmail(String info) {
     if (info.toLowerCase() == "sin correo" ||
         info.toLowerCase() == "no aplica" ||
+        info.toLowerCase() == "no aplica " ||
         info.toLowerCase() == "n/a" ||
         info.toLowerCase() == " " ||
         info.toLowerCase() == "sin correo") {

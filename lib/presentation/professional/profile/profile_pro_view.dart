@@ -158,112 +158,125 @@ class _ProfileProViewState extends State<ProfileProView> {
             color: kRosado,
           ),
         ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.04),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.network(
-                      _image,
+        Column(
+          children: <Widget>[
+            Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.04),
+                  alignment: Alignment.topCenter,
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white,
                       width: 200,
                       height: 200,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
+                      child: _image == null
+                          ? Icon(
+                              Icons.account_circle,
+                              color: Colors.indigo[100],
+                              size: 200,
+                            )
+                          : Image.network(
+                              _image,
+                              width: 200,
+                              height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                     ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding: EdgeInsets.only(
-            top: (size.height / 2) * 0.45,
-            left: (size.width / 2) * 0.55,
-          ),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context, profesional);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        // Plus icon and edit text
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.31),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      EditProfileProfesional(profesional: profesional)));
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
-                  color: kNegro,
-                ),
-                Text(
-                  ' Modificar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                // Draw camera icon
+                Container(
+                  padding: EdgeInsets.only(
+                    top: (size.height / 2) * 0.45,
+                    left: (size.width / 2) * 0.55,
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context, profesional);
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.white,
+                        width: 43.0,
+                        height: 43.0,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: 30,
-                fontFamily: 'PoppinsRegular',
+            // Plus icon and edit text
+            Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfileProfesional(profesional: profesional)));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.add_circle_outline,
+                      size: 20.0,
+                      color: kNegro,
+                    ),
+                    Text(
+                      ' Modificar',
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                width: size.width * 0.8,
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2.5) * 0.08,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        // Draw profile picture
       ],
     );
   }
@@ -282,16 +295,16 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
           _sectionList('Convenio', profesional.convenios, size ?? ['']),
           Container(
-            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             child: Text(
               "Información Bancaria",
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 23.0,
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Banco', profesional.banco.banco ?? " "),
