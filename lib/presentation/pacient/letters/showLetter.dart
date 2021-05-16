@@ -40,10 +40,15 @@ class ShowLetter extends StatelessWidget {
                             height: 15,
                           ),
                           Center(
-                            child: Text(
-                              carta.titulo,
-                              style: TextStyle(
-                                  fontFamily: "PoppinSemiBold", fontSize: 24),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                              child: Text(
+                                carta.titulo,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                    fontFamily: "PoppinSemiBold", fontSize: 24),
+                              ),
                             ),
                           ),
                           Padding(

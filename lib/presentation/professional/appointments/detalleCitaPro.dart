@@ -60,7 +60,7 @@ class DetalleCitaPro extends StatelessWidget {
                             alignment: Alignment.center,
                             //margin: EdgeInsets.all(20),
                             width: 359.0,
-                            height: 610.0,
+                            height: 630.0,
                             decoration: BoxDecoration(
                               color: kBlanco,
                               boxShadow: [
@@ -94,6 +94,9 @@ class DetalleCitaPro extends StatelessWidget {
                                 secction(title: 'Contacto:', text: contact),
                                 SizedBox(height: 3.0),
                                 _dateState(context, cita),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
                                 _buttons(context, cita),
                               ],
                             ),
@@ -179,23 +182,27 @@ Widget _headerDate(BuildContext context, Cita cita) {
           },
           child: Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: 15.0,
-              ),
-              child: Icon(Icons.edit, size: 47)),
+              margin: EdgeInsets.only(top: 10.0, right: 15.0, bottom: 5.0),
+              child: Icon(Icons.edit, size: 37)),
         ),
         Container(
+          width: 359.0,
           alignment: Alignment.center,
           margin: EdgeInsets.only(
-            top: 40.0,
-            bottom: 30.0,
+            top: 50.0,
+            bottom: 15.0,
+            right: 15.0,
+            left: 15.0,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Cita con ",
-                style: GoogleFonts.roboto(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
                     fontStyle: FontStyle.normal,
                     fontSize: 18,
                     color: kNegro,
@@ -207,16 +214,22 @@ Widget _headerDate(BuildContext context, Cita cita) {
                       builder: (context) =>
                           PacientDetails(paciente: cita.paciente)));
                 },
-                child: Text(
-                  "$pacientName",
-                  style: GoogleFonts.roboto(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20,
-                    color: kAzulOscuro,
-                    decoration: TextDecoration.underline,
-                    decorationColor: kNegro,
-                    decorationStyle: TextDecorationStyle.solid,
+                child: RichText(
+                  text: TextSpan(
+                    text: "$pacientName",
+                    style: TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 18,
+                      color: kAzulOscuro,
+                      decoration: TextDecoration.underline,
+                      decorationColor: kNegro,
+                      decorationStyle: TextDecorationStyle.solid,
+                    ),
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

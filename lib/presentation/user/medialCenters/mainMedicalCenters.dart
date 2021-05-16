@@ -148,11 +148,13 @@ class ButtonMedicalCenters extends StatelessWidget {
       height: heighButton,
       child: ElevatedButton(
         onPressed: () => _function(),
-        child: Text(
-          _text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: kLetras, fontSize: 20.3, fontFamily: 'PoppinsRegular'),
+        child: FittedBox(
+          child: Text(
+            _text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: kLetras, fontSize: 20.3, fontFamily: 'PoppinsRegular'),
+          ),
         ),
         style: ElevatedButton.styleFrom(
             primary: kBlanco,

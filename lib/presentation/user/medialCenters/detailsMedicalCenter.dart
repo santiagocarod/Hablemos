@@ -23,110 +23,101 @@ class DetailsMedicalCenter extends StatelessWidget {
             extendBodyBehindAppBar: true,
             appBar: crearAppBar("", null, 0, null, context: context),
             body: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    EncabezadoMedical(
-                      size: size,
-                      text1: _centroAtencion.nombre,
-                      fontSize: 22,
-                    ),
-                    Espacio(size: size),
-                    MedicalCenterDetailsTitle("Ubicación"),
-                    GestureDetector(
-                      onTap: () {
-                        if (kIsWeb) {
-                          Navigator.pushNamed(context, 'Mapa');
-                        } else {
-                          MapsLauncher.launchQuery(_centroAtencion.ubicacion);
-                          Navigator.pushNamed(context, 'Mapa');
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          medicalCenterDetailsMap(_centroAtencion.ubicacion),
-                          Icon(Icons.pin_drop)
+              child: Container(
+                width: 330.5,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      EncabezadoMedical(
+                        size: size,
+                        text1: _centroAtencion.nombre,
+                        fontSize: 22,
+                      ),
+                      Espacio(size: size),
+                      MedicalCenterDetailsTitle("Ubicación"),
+                      medicalCenterLocation(context, _centroAtencion),
+                      //Espacio(size: size),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: _horizontalPadding),
+                        child: Container(
+                          height: 1.0,
+                          color: kGrisN,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child:
+                                  MedicalCenterDetailsTitleDep("Departamento")),
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child: MedicalCenterDetailsTitle("Ciudad")),
                         ],
                       ),
-                    ),
-                    //Espacio(size: size),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: _horizontalPadding),
-                      child: Container(
-                        height: 1.0,
-                        color: kGrisN,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child: MedicalCenterDetailsInfo(
+                                  _centroAtencion.departamento)),
+                          Container(
+                              width: (size.width / 2) - 20,
+                              child: Row(
+                                children: [
+                                  MedicalCenterDetailsInfo(
+                                      _centroAtencion.ciudad),
+                                ],
+                              )),
+                        ],
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: MedicalCenterDetailsTitle("Departamento")),
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: MedicalCenterDetailsTitle("Ciudad")),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: MedicalCenterDetailsInfo(
-                                _centroAtencion.departamento)),
-                        Container(
-                            width: (size.width / 2) - 20,
-                            child: Row(
-                              children: [
-                                MedicalCenterDetailsInfo(
-                                    _centroAtencion.ciudad),
-                              ],
-                            )),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: _horizontalPadding),
-                      child: Container(
-                        height: 1.0,
-                        color: kGrisN,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: _horizontalPadding),
+                        child: Container(
+                          height: 1.0,
+                          color: kGrisN,
+                        ),
                       ),
-                    ),
 
-                    Espacio(size: size),
-                    MedicalCenterDetailsTitle("Horario de Atención"),
-                    MedicalCenterDetailsInfo(_centroAtencion.horaAtencion),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: _horizontalPadding),
-                      child: Container(
-                        height: 1.0,
-                        color: kGrisN,
+                      Espacio(size: size),
+                      MedicalCenterDetailsTitle("Horario de Atención"),
+                      MedicalCenterDetailsInfo(_centroAtencion.horaAtencion),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: _horizontalPadding),
+                        child: Container(
+                          height: 1.0,
+                          color: kGrisN,
+                        ),
                       ),
-                    ),
-                    Espacio(size: size),
-                    MedicalCenterDetailsTitle("Correo"),
-                    medicalCenterDetailsEmail(_centroAtencion.correo),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: _horizontalPadding),
-                      child: Container(
-                        height: 1.0,
-                        color: kGrisN,
+                      Espacio(size: size),
+                      MedicalCenterDetailsTitle("Correo"),
+                      medicalCenterDetailsEmail(_centroAtencion.correo),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: _horizontalPadding),
+                        child: Container(
+                          height: 1.0,
+                          color: kGrisN,
+                        ),
                       ),
-                    ),
-                    Espacio(size: size),
-                    MedicalCenterDetailsTitle("Telefonos"),
-                    medicalCenterDetailsTel(_centroAtencion.telefono),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: _horizontalPadding),
-                      child: Container(
-                        height: 1.0,
-                        color: kGrisN,
+                      Espacio(size: size),
+                      MedicalCenterDetailsTitle("Telefonos"),
+                      medicalCenterDetailsTel(_centroAtencion.telefono),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: _horizontalPadding),
+                        child: Container(
+                          height: 1.0,
+                          color: kGrisN,
+                        ),
                       ),
-                    ),
-                  ]),
+                    ]),
+              ),
             )),
       ),
     );
@@ -160,17 +151,52 @@ class DetailsMedicalCenter extends StatelessWidget {
     );
   }
 
+  Widget medicalCenterLocation(
+      BuildContext context, CentroAtencion _centroAtencion) {
+    if (_centroAtencion.ubicacion.toLowerCase() == "sin direccion" ||
+        _centroAtencion.ubicacion.toLowerCase() == "sin dirección" ||
+        _centroAtencion.ubicacion.toLowerCase() == "no aplica" ||
+        _centroAtencion.ubicacion.toLowerCase() == "n/a") {
+      return Container(
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Text(_centroAtencion.ubicacion,
+            style: TextStyle(
+              decoration: TextDecoration.none,
+              color: kLetras,
+              fontSize: 17,
+              fontFamily: 'PoppinsRegular',
+            )),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          if (kIsWeb) {
+            Navigator.pushNamed(context, 'Mapa');
+          } else {
+            MapsLauncher.launchQuery(_centroAtencion.ubicacion);
+            Navigator.pushNamed(context, 'Mapa');
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.only(right: _horizontalPadding),
+          child: medicalCenterDetailsMap(_centroAtencion.ubicacion),
+        ),
+      );
+    }
+  }
+
   Widget medicalCenterDetailsMap(String info) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Text(info,
-          style: TextStyle(
-            decoration: TextDecoration.underline,
-            color: kAzulOscuro,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            fontFamily: 'PoppinsRegular',
-          )),
+      child: FittedBox(
+        child: Text(info,
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              color: kAzulOscuro,
+              fontSize: 18,
+              fontFamily: 'PoppinsRegular',
+            )),
+      ),
     );
   }
 
@@ -195,6 +221,24 @@ class DetailsMedicalCenter extends StatelessWidget {
   }
 }
 
+class MedicalCenterDetailsTitleDep extends StatelessWidget {
+  MedicalCenterDetailsTitleDep(this._title);
+  final String _title;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: FittedBox(
+        child: Text(
+          this._title,
+          style: TextStyle(
+              color: kAguaMarina, fontSize: 20.0, fontFamily: 'PoppinsRegular'),
+        ),
+      ),
+    );
+  }
+}
+
 class MedicalCenterDetailsTitle extends StatelessWidget {
   MedicalCenterDetailsTitle(this._title);
   final String _title;
@@ -205,7 +249,7 @@ class MedicalCenterDetailsTitle extends StatelessWidget {
       child: Text(
         this._title,
         style: TextStyle(
-            color: kAguaMarina, fontSize: 22, fontFamily: 'PoppinsBold'),
+            color: kAguaMarina, fontSize: 20.0, fontFamily: 'PoppinsRegular'),
       ),
     );
   }
@@ -218,12 +262,14 @@ class MedicalCenterDetailsInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Text(this._info,
-          style: TextStyle(
-            color: kLetras,
-            fontSize: 18,
-            fontFamily: 'PoppinsRegular',
-          )),
+      child: RichText(
+          text: TextSpan(
+              text: this._info,
+              style: TextStyle(
+                color: kLetras,
+                fontSize: 17,
+                fontFamily: 'PoppinsRegular',
+              ))),
     );
   }
 }

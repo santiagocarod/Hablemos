@@ -72,7 +72,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     _medicalCenters.forEach((element) {
       Card card = Card(
         child: Container(
-            height: 60,
+            height: 80,
             child: Center(
                 child: Text(
               element.nombre,
@@ -80,7 +80,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
                   color: kLetras, fontSize: 22, fontFamily: "PoppinsRegular"),
             ))),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: 7,
+        elevation: 5,
       );
 
       InkWell inkWell = InkWell(
