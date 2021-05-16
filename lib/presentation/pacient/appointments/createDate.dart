@@ -10,7 +10,6 @@ import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
-import '../../../constants.dart';
 
 class CreateDate extends StatefulWidget {
   @override
@@ -54,8 +53,8 @@ class _CreateDate extends State<CreateDate> {
     }
     Size size = MediaQuery.of(context).size;
 
-    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
-        "professionals"); //TODO: APlicar filtro where uidPaciente = current user.
+    CollectionReference citasCollection =
+        FirebaseFirestore.instance.collection("professionals");
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
