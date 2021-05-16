@@ -477,7 +477,7 @@ Widget searchBar(BuildContext context, Size size, String text,
         Container(
           margin: EdgeInsets.only(top: size.height * 0.15),
           height: 53.33,
-          width: size.width - 187.0, //317.5,
+          width: size.width - 187.0,
           decoration: BoxDecoration(
             color: kBlanco,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -569,6 +569,7 @@ class DataSearch extends SearchDelegate<String> {
         ),
         onPressed: () {
           names = null;
+          query = null;
           close(context, null);
         });
   }
@@ -605,7 +606,7 @@ class DataSearch extends SearchDelegate<String> {
         },
         title: RichText(
           text: TextSpan(
-              text: suggestionList[index].substring(0, query.length),
+              //text: suggestionList[index].substring(0, query.length),
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               children: [
