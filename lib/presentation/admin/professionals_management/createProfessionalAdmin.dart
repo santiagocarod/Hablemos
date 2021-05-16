@@ -441,9 +441,6 @@ class _CreateProfileProfessionalAdmin
                 Future<UserCredential> user =
                     firebaseAuth.createUserWithEmailAndPassword(
                         email: profesional.correo, password: password);
-                // authService.signUp(profesional.correo,
-                //     password, '$nombre ${profesional.apellido}');
-
                 user.then((valor) {
                   valor.user.updateProfile(
                       displayName: '$nombre ${profesional.apellido}');
