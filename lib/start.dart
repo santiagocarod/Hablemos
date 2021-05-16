@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/user/exercises/animated_box.dart';
 
 import 'constants.dart';
 
@@ -159,7 +160,17 @@ Widget _startButton(BuildContext context, Size size) {
               authService.signUp("santiago@gmail.com", "123456");
               print(
               "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
-                Navigator.pushNamed(context, 'start');
+                //Navigator.pushNamed(context, 'start');
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AnimatedBox(
+                      seconds: [20, 5, 20, 5],
+                      steps: ["Paso 1", "Paso 2", "Paso 3", "Paso 4"],
+                    ),
+                  ),
+                );
               },
             ),
           ),
