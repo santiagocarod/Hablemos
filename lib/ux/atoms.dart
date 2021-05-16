@@ -58,6 +58,21 @@ Widget iconButtonSmall(
   );
 }
 
+Widget iconButtonXs(
+    {String text, Function function, IconData iconData, Color color}) {
+  return ElevatedButton.icon(
+    onPressed: function,
+    label: Text(text, style: TextStyle(fontSize: 16)),
+    icon: Padding(
+        padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+        child: Icon(iconData)),
+    style: ElevatedButton.styleFrom(
+        primary: color,
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+  );
+}
+
 Widget iconButtonSmallBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(

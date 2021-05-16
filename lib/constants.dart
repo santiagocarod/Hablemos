@@ -63,3 +63,6 @@ const WORKSHOP_FOLDER = "workshop_pictures";
 const ACTIVITY_PAYMENT = "paymentsActivities";
 const GROUP_PAYMENT = "paymentsGroups";
 const WORKSHOP_PAYMENT = "paymentsWorkshops";
+
+const PORCENTAJE_PAGO = 15000;
+const COSTO_CITA = 75000;
