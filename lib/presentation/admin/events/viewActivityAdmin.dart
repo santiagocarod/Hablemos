@@ -458,7 +458,7 @@ class ViewActivityAdmin extends StatelessWidget {
   }
 
   Widget _datosFinancieros(BuildContext context, Actividad actividad) {
-    if (actividad.ubicacion.toLowerCase() != "virtual") {
+    if (actividad.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(

@@ -721,8 +721,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                     "¿Estás seguro que deseas inscribirte en este taller?",
                     kMoradoClarito,
                   );
-                } else if (taller.ubicacion == "virtual" ||
-                    taller.ubicacion == "Virtual") {
+                } else if (taller.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     taller,

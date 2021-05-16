@@ -805,8 +805,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                     "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
                     kMoradoClarito,
                   );
-                } else if (grupoApoyo.ubicacion == "virtual" ||
-                    grupoApoyo.ubicacion == "Virtual") {
+                } else if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     grupoApoyo,

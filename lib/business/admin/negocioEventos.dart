@@ -72,6 +72,7 @@ bool actualizarTaller(Taller taller) {
           'hour': taller.hora,
           "participants": taller.participantes,
           'photo': taller.foto,
+          "bank": null,
         });
   return !error;
 }
@@ -183,6 +184,7 @@ bool actualizarActividad(Actividad actividad) {
           'hour': actividad.hora,
           "participants": actividad.participantes,
           'photo': actividad.foto,
+          "bank": null,
         });
   return !error;
 }
@@ -294,6 +296,7 @@ bool actualizarGrupo(Grupo grupo) {
           'hour': grupo.hora,
           "participants": grupo.participantes,
           'photo': grupo.foto,
+          "bank": null,
         });
   return !error;
 }

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
@@ -27,6 +28,9 @@ class _ModifyActivity extends State<ModifyActivity> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
@@ -208,6 +212,52 @@ class _ModifyActivity extends State<ModifyActivity> {
           TextPosition(offset: _sesionesController.text.length));
       _image = actividad.foto;
     }
+
+    bancoTextField = TextField(
+        controller: _bancoController,
+        enabled: actividad.banco == null ? false : true,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.banco = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    tipoCuentaTextField = TextField(
+        enabled: actividad.banco == null ? false : true,
+        controller: _tipoCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.tipoCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    numeroCuentaTextField = TextField(
+        enabled: actividad.banco == null ? false : true,
+        controller: _numCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.numCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
 
     return Container(
       color: kAmarilloClaro,
@@ -567,10 +617,21 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
                                         controller: _precioController,
                                         onChanged: (text) {
                                           if (text.isNotEmpty) {
                                             actividad.valor = text;
+                                            setState(() {
+                                              if (text != "" && text != "0") {
+                                                actividad.banco = Banco(
+                                                    banco: "",
+                                                    numCuenta: "",
+                                                    tipoCuenta: "");
+                                              } else {
+                                                actividad.banco = null;
+                                              }
+                                            });
                                           }
                                         },
                                         enableInteractiveSelection: false,
@@ -595,13 +656,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-                        _datosFinancieros(
-                          context,
-                          actividad,
-                          _bancoController,
-                          _numCuentaController,
-                          _tipoCuentaController,
-                        ),
+                        _datosFinancieros(context, actividad),
                         SizedBox(height: size.height * 0.04),
                         Container(
                           width: 330.5,
@@ -655,151 +710,88 @@ class _ModifyActivity extends State<ModifyActivity> {
     );
   }
 
-  Widget _datosFinancieros(
-      BuildContext context,
-      Actividad actividad,
-      TextEditingController _bancoController,
-      TextEditingController _numCuentaController,
-      TextEditingController _tipoCuentaController) {
-    if (actividad.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _datosFinancieros(BuildContext context, Actividad actividad) {
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _bancoController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                actividad.banco.banco = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _tipoCuentaController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                actividad.banco.tipoCuenta = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _numCuentaController,
-                        onChanged: (text) {
-                          if (text.isNotEmpty) {
-                            actividad.banco.numCuenta = text;
-                          }
-                        },
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
@@ -842,7 +834,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      if (_bancoController.text != "") {
+                      if (bancoTextField.enabled) {
                         if (_tituloController.text == "" ||
                             _ubicacionController.text == "" ||
                             _bancoController.text == "" ||
@@ -880,6 +872,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                                 "Por favor ingresa todos los valores"),
                           );
                         } else {
+                          actividad.banco = null;
                           if (actualizarActividad(actividad)) {
                             showDialog(
                               context: context,

@@ -459,7 +459,7 @@ class ViewWorkShopAdmin extends StatelessWidget {
   }
 
   Widget _datosFinancieros(BuildContext context, Taller taller) {
-    if (taller.ubicacion.toLowerCase() != "virtual") {
+    if (taller.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(

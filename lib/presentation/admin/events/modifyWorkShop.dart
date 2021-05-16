@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -27,6 +28,34 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
@@ -195,7 +224,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
       _tipoCuentaController = TextEditingController()
         ..text = taller.banco.tipoCuenta.toString();
       _tipoCuentaController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _numCuentaController.text.length));
+          TextPosition(offset: _tipoCuentaController.text.length));
       _precioController = TextEditingController()..text = taller.valor;
       _precioController.selection = TextSelection.fromPosition(
           TextPosition(offset: _precioController.text.length));
@@ -205,6 +234,52 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
           TextPosition(offset: _sesionesController.text.length));
       _image = taller.foto;
     }
+
+    bancoTextField = TextField(
+        controller: _bancoController,
+        enabled: taller.banco == null ? false : true,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.banco = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    tipoCuentaTextField = TextField(
+        enabled: taller.banco == null ? false : true,
+        controller: _tipoCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.tipoCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    numeroCuentaTextField = TextField(
+        enabled: taller.banco == null ? false : true,
+        controller: _numCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.numCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
 
     return Container(
       color: kAmarilloClaro,
@@ -567,9 +642,20 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
                                         onChanged: (text2) {
                                           if (text2.isNotEmpty) {
                                             taller.valor = text2;
+                                            setState(() {
+                                              if (text2 != "" && text2 != "0") {
+                                                taller.banco = Banco(
+                                                    banco: "",
+                                                    numCuenta: "",
+                                                    tipoCuenta: "");
+                                              } else {
+                                                taller.banco = null;
+                                              }
+                                            });
                                           }
                                         },
                                         controller: _precioController,
@@ -656,145 +742,87 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
       TextEditingController _bancoController,
       TextEditingController _numCuentaController,
       TextEditingController _tipoCuentaController) {
-    if (taller.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _bancoController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                taller.banco.banco = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _tipoCuentaController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                taller.banco.tipoCuenta = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _numCuentaController,
-                        onChanged: (text) {
-                          if (text.isNotEmpty) {
-                            taller.banco.numCuenta = text;
-                          }
-                        },
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
@@ -874,6 +902,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                       "Por favor ingresa todos los valores"));
                         } else {
                           if (actualizarTaller(taller)) {
+                            taller.banco = null;
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
