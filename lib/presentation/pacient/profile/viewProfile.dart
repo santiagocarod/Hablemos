@@ -325,7 +325,8 @@ class _ViewProfile extends State<ViewProfile> {
           _section('Fecha de Nacimiento', paciente.fechaNacimiento),
           _section('Teléfono', paciente.telefono),
           Container(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            padding: EdgeInsets.only(
+                top: 10.0, bottom: 10.0, right: 15.0, left: 15.0),
             child: Text(
               'Información Contacto de Emergencia',
               style: TextStyle(
@@ -333,7 +334,7 @@ class _ViewProfile extends State<ViewProfile> {
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),

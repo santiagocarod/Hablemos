@@ -133,6 +133,7 @@ Widget inputTextBox(String hText, String lText, IconData icon,
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
     child: TextField(
+      maxLength: 50,
       decoration: InputDecoration(
         icon: Icon(
           icon,
@@ -826,8 +827,14 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
               SizedBox(
                 height: 5,
               ),
-              Text("${element.titulo}",
-                  style: TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                child: Text(
+                    "${element.titulo[0].toUpperCase()}${element.titulo.substring(1)}",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontFamily: "PoppinSemiBold")),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -837,6 +844,7 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
                     (element.cuerpo.length <= 250)
                         ? element.cuerpo
                         : "${element.cuerpo.substring(0, 250)} ...",
+                    textAlign: TextAlign.justify,
                     style:
                         TextStyle(fontFamily: "PoppinsRegular", fontSize: 14)),
               )

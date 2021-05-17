@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
@@ -148,11 +149,15 @@ class ButtonMedicalCenters extends StatelessWidget {
       height: heighButton,
       child: ElevatedButton(
         onPressed: () => _function(),
-        child: Text(
-          _text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: kLetras, fontSize: 20.3, fontFamily: 'PoppinsRegular'),
+        child: FittedBox(
+          child: AutoSizeText(
+            _text,
+            maxFontSize: 20.0,
+            minFontSize: 17.0,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: kLetras, fontSize: 20.0, fontFamily: 'PoppinsRegular'),
+          ),
         ),
         style: ElevatedButton.styleFrom(
             primary: kBlanco,
