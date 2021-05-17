@@ -62,7 +62,7 @@ class _AddLetter extends State<AddLetter> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      _buildDialog(context),
+                                      _buildDialog(context, size),
                                 );
                               },
                               child: Container(
@@ -110,13 +110,14 @@ class _AddLetter extends State<AddLetter> {
     );
   }
 
-  // Confirm popup dialog
-  Widget _buildDialog(BuildContext context) {
+  // Dialogo Confirmación de Envío de Carta
+  Widget _buildDialog(BuildContext context, Size size) {
     String title = "";
     String content = "";
     return new AlertDialog(
       title: Text(
         'Confirmación Envío de Carta',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -126,6 +127,7 @@ class _AddLetter extends State<AddLetter> {
       ),
       content: Text(
         '¿Estás seguro que desea enviar esta carta?',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -137,84 +139,90 @@ class _AddLetter extends State<AddLetter> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                if (_titleController.text.isNotEmpty &&
-                    _bodyController.text.isNotEmpty) {
-                  Carta carta = new Carta(
-                    titulo: _titleController.text,
-                    cuerpo: _bodyController.text,
-                    aprobado: false,
-                  );
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (_titleController.text.isNotEmpty &&
+                      _bodyController.text.isNotEmpty) {
+                    Carta carta = new Carta(
+                      titulo: _titleController.text,
+                      cuerpo: _bodyController.text,
+                      aprobado: false,
+                    );
 
-                  agregarCarta(carta).then((value) {
-                    bool state;
-                    if (value) {
-                      title = 'Carta enviada';
-                      content =
-                          "Su carta fue enviada exitosamente, espere la aprobación de nuestro equipo para su publicación";
-                      state = true;
-                    } else {
-                      title = 'Error de envío';
-                      content =
-                          "Hubo un error enviando la carta, inténtelo nuevamente";
-                      state = false;
-                    }
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => adviceDialogLetter(
-                              context,
-                              title,
-                              content,
-                              state,
-                            ));
-                  });
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+                    agregarCarta(carta).then((value) {
+                      bool state;
+                      if (value) {
+                        title = 'Carta enviada';
+                        content =
+                            "Tu carta fue enviada exitosamente, si esta es aprobación sera publicación.";
+                        state = true;
+                      } else {
+                        title = 'Error de envío';
+                        content =
+                            "Hubo un error enviando la carta, inténtalo nuevamente.";
+                        state = false;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => adviceDialogLetter(
+                                context,
+                                title,
+                                content,
+                                state,
+                              ));
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

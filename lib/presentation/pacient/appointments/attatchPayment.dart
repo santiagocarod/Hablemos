@@ -28,7 +28,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error enviando la foto, inténtelo nuevamente");
+                "Hubo un error enviando la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -48,7 +48,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error enviando la foto, inténtelo nuevamente");
+                "Hubo un error enviando la foto, inténtalo nuevamente.");
           }
         });
       }

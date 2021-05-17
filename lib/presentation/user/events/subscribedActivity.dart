@@ -434,8 +434,8 @@ class SubscribedActivity extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción cancelada!", actividad,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Cancelada!", actividad,
                                         ruta: "verActividad"));
                           }
                         },
@@ -543,8 +543,8 @@ class SubscribedActivity extends StatelessWidget {
                         context: context,
                         builder: (BuildContext contex) => _buildPopupDialog(
                             context,
-                            "Exito!",
-                            "Inscripción correcta!",
+                            "¡Exito!",
+                            "¡Inscripción Correcta!",
                             actividad,
                             ruta: "verActividad"));
                   }

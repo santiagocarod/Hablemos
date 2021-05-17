@@ -424,8 +424,8 @@ class SubscribedGroup extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción cancelada!", grupo,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Cancelada!", grupo,
                                         ruta: "verGrupoApoyo"));
                           }
                         },
@@ -526,7 +526,7 @@ class SubscribedGroup extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (BuildContext contex) => _buildPopupDialog(
-                            context, "Exito!", "Inscripción correcta!", grupo,
+                            context, "¡Exito!", "¡Inscripción Correcta!", grupo,
                             ruta: "verGrupo"));
                   }
                 },

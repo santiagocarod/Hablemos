@@ -69,7 +69,7 @@ class _EditProfile extends State<EditProfile> {
               setState(() {});
             } else {
               showAlertDialog(context,
-                  "Hubo un error subiendo la foto, inténtelo nuevamente");
+                  "Hubo un error subiendo la foto, inténtalo nuevamente.");
             }
           });
         }
@@ -93,7 +93,7 @@ class _EditProfile extends State<EditProfile> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -246,7 +246,7 @@ class _EditProfile extends State<EditProfile> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    _buildDialog(context, widget.paciente, user),
+                    _buildDialog(context, widget.paciente, user, size),
               );
             },
             child: Row(
@@ -437,8 +437,9 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Confirm popup dialog
-  Widget _buildDialog(BuildContext context, Paciente paciente, User user) {
+  // Verificación Asociación de Paciente con Citas
+  Widget _buildDialog(
+      BuildContext context, Paciente paciente, User user, Size size) {
     Query reference = FirebaseFirestore.instance
         .collection("appoinments")
         .where('pacient.uid', isEqualTo: user.uid);
@@ -455,14 +456,15 @@ class _EditProfile extends State<EditProfile> {
           }
           List<Cita> citas = citaMapToList(snapshot);
           if (citas.length == 0) {
-            return modificacionDialogs(paciente, paciente.uid);
+            return modificacionDialogs(paciente, paciente.uid, size);
           } else {
-            return modificacionDialogsCita(paciente, paciente.uid, citas);
+            return modificacionDialogsCita(paciente, paciente.uid, citas, size);
           }
         });
   }
 
-  Widget modificacionDialogs(Paciente paciente, String user) {
+  // Dialogo Confirmación de Modificación de Paciente sin Citas asociadas.
+  Widget modificacionDialogs(Paciente paciente, String user, Size size) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
@@ -560,13 +562,16 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
+  // Dialogo Confirmación de Modificación de Paciente con Citas asociadas.
+  // Modificación del paciente en la información de las Citas asociadas.
   Widget modificacionDialogsCita(
-      Paciente paciente, String user, List<Cita> citas) {
+      Paciente paciente, String user, List<Cita> citas, size) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -576,6 +581,7 @@ class _EditProfile extends State<EditProfile> {
       ),
       content: Text(
         '¿Está seguro que desea modificar\neste perfil?',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -587,76 +593,82 @@ class _EditProfile extends State<EditProfile> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                citas.forEach((element) {
-                  actualizarPacienteCita(paciente, element);
-                });
-                editarPaciente(paciente).then((value) {
-                  actualizarUsuario(paciente);
-                  bool state;
-                  if (value) {
-                    title2 = 'Perfil modificada';
-                    content2 = "Su perfil fue modificado exitosamente";
-                    state = true;
-                  } else {
-                    title2 = 'Error de edición';
-                    content2 =
-                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
-                    state = false;
-                  }
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  citas.forEach((element) {
+                    actualizarPacienteCita(paciente, element);
+                  });
+                  editarPaciente(paciente).then((value) {
+                    actualizarUsuario(paciente);
+                    bool state;
+                    if (value) {
+                      title2 = '¡Perfil modificada!';
+                      content2 = "¡Tu perfil fue modificado exitosamente!";
+                      state = true;
+                    } else {
+                      title2 = 'Error de edición';
+                      content2 =
+                          "Hubo un error guardando los cambios de tu perfil, inténtalo nuevamente.";
+                      state = false;
+                    }
 
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        adviceDialogPacient(context, title2, content2, state),
-                  );
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          adviceDialogPacient(context, title2, content2, state),
+                    );
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

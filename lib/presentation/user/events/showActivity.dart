@@ -412,8 +412,8 @@ class _ShowActivityState extends State<ShowActivity> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", actividad,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", actividad,
                                         ruta: "actividadSubscripto"));
                           }
                         },

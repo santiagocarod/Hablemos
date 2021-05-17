@@ -38,7 +38,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                       height: size.height * 0.1,
                     ),
                     Text(
-                      'No te preocupes!',
+                      '¡No te preocupes!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 30),
                     ),
@@ -46,7 +46,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                       height: 10,
                     ),
                     Text(
-                      'Actualmente no esta implementada esta pantalla para ver el mapa automaticamente!',
+                      '¡Actualmente no esta implementada esta pantalla para ver el mapa automaticamente!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 17),
                     ),
@@ -117,7 +117,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                             height: size.height * 0.1,
                           ),
                           Text(
-                            'No te preocupes!',
+                            '¡No te preocupes!',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 30),
                           ),

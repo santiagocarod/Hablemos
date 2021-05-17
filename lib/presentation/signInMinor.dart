@@ -305,7 +305,7 @@ class _SingInMinorState extends State<SingInMinor> {
               authService.signUp(correo, contrasena, "nombre apellido");
           user.then((value) {
             if (value[0] == "[") {
-              showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+              showAlertDialog(context, "Hubo un Error\nCorreo ya registrado.");
             } else {
               usersRef
                   .doc(value)
@@ -314,8 +314,8 @@ class _SingInMinorState extends State<SingInMinor> {
                     'name': nombre,
                   })
                   .then((value) => Navigator.pushNamed(context, 'inicio'))
-                  .catchError((value) => showAlertDialog(
-                      context, "Hubo un error\nPor Favor intentalo mas tarde"));
+                  .catchError((value) => showAlertDialog(context,
+                      "Hubo un Error\nPor favor inténtalo más tarde."));
 
               pacienteRef.doc(value).set({
                 'name': nombre,
@@ -330,7 +330,7 @@ class _SingInMinorState extends State<SingInMinor> {
                 'emergencyContactPhone': telefonoContacto,
                 'emergencyContactRelationship': relacionContacto,
               }).catchError((value) => showAlertDialog(
-                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
+                  context, "Hubo un Error\nPor favor inténtalo más tarde."));
             }
           });
         },

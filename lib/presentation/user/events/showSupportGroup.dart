@@ -415,8 +415,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", grupo,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", grupo,
                                         ruta: "grupoSubscripto"));
                           }
                         },

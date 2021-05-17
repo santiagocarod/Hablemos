@@ -37,7 +37,7 @@ class _ViewProfile extends State<ViewProfile> {
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -60,7 +60,7 @@ class _ViewProfile extends State<ViewProfile> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -286,7 +286,7 @@ class _ViewProfile extends State<ViewProfile> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          _buildDialog(context, paciente),
+                          _buildDialog(context, paciente, size),
                     );
                   },
                   child: Align(
@@ -494,8 +494,8 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  //Confirm PopUp Dialog
-  Widget _buildDialog(BuildContext context, Paciente paciente) {
+  // Dialogo Confirmación de Eliminación de Cuenta de Paciente.
+  Widget _buildDialog(BuildContext context, Paciente paciente, Size size) {
     return new AlertDialog(
       title: Text(
         'Confirmación de Eliminación',
@@ -521,65 +521,71 @@ class _ViewProfile extends State<ViewProfile> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                AuthService authService = AuthService();
-                authService.logOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "start", (_) => false);
-                eliminarPaciente(paciente).then((value) {
-                  eliminarUsuario(paciente);
-                  if (value) {
-                  } else if (!value) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  AuthService authService = AuthService();
+                  authService.logOut();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "start", (_) => false);
+                  eliminarPaciente(paciente).then((value) {
+                    eliminarUsuario(paciente);
+                    if (value) {
+                    } else if (!value) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

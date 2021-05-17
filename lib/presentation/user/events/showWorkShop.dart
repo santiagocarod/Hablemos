@@ -552,8 +552,8 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", taller,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", taller,
                                         ruta: "tallerSubscripto"));
                           }
                         },

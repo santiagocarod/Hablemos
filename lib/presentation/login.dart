@@ -60,6 +60,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
+//Cons
 Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
   return Expanded(
@@ -94,7 +95,7 @@ loginLogic(dynamic bloc, BuildContext context) {
   user.then((value) {
     if (value == null) {
       showAlertDialog(
-          context, "Hubo un error😔\nRevisa tu Usuario y Contraseña");
+          context, "Hubo un Error 😔\nRevisa tu usuario y contraseña.");
     } else {
       FirebaseFirestore.instance
           .collection('users')
@@ -114,8 +115,7 @@ loginLogic(dynamic bloc, BuildContext context) {
           } else if (documentSnapshot.get('role') == 'administrator') {
             Navigator.pushNamed(context, 'inicioAdministrador');
           } else {
-            Navigator.pushNamed(
-                context, 'inicio'); //TODO: CAmbiar a panatalla de admin
+            Navigator.pushNamed(context, 'inicio');
           }
         }
       });

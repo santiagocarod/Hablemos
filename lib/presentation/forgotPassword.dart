@@ -76,16 +76,15 @@ class ForgotPassword extends StatelessWidget {
               olvideMiContrasena(email).then((value) {
                 if (value) {
                   showAlertDialog(context,
-                      "Revisa tu correo, te mandamos un link para recuperar tu contraseña 🎉",
+                      "Revisa tu correo, te mandamos un link para recuperar tu contraseña 🎉.",
                       ruta: "login", titulo: "Exito");
                 } else {
                   showAlertDialog(context,
-                      "No hemos encontrado tu correo😔\nPor facor verifica que este correcto");
+                      "No hemos encontrado tu correo😔\nPor favor verifica que este sea correcto.");
                 }
-                //Navigator.pushNamed(context, "login");
               });
             } else {
-              showAlertDialog(context, "Por favor, Ingresa un correo valido");
+              showAlertDialog(context, "Por favor, ingresa un correo valido.");
             }
           }, Icons.mark_email_unread, Colors.yellow[700])
         ],

@@ -108,7 +108,7 @@ class _BreatheClassState extends State<BreatheClass> {
   Widget _textoPantalla() {
     if (contador == 60) {
       return Text(
-        '¡ Felicitaciones ! \n Terminaste el ejercicio',
+        '¡Felicitaciones ! \n Terminaste el ejercicio',
         style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );

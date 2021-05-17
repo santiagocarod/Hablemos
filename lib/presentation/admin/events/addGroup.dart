@@ -72,7 +72,7 @@ class _AddGroup extends State<AddGroup> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -90,7 +90,7 @@ class _AddGroup extends State<AddGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -708,7 +708,7 @@ class _AddGroup extends State<AddGroup> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Grupo grupo = Grupo(
                                         banco: Banco(
@@ -732,8 +732,10 @@ class _AddGroup extends State<AddGroup> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext contex) =>
-                                                _buildPopupDialog(context,
-                                                    "Exito!", "Grupo Agregado!",
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "¡Exito!",
+                                                    "¡Grupo Agregado!",
                                                     ruta: "listarGruposAdmin"));
                                       }
                                     }
@@ -750,7 +752,7 @@ class _AddGroup extends State<AddGroup> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Grupo grupo = Grupo(
                                         descripcion:
@@ -769,8 +771,10 @@ class _AddGroup extends State<AddGroup> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext contex) =>
-                                                _buildPopupDialog(context,
-                                                    "Exito!", "Grupo Agregado!",
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "¡Exito!",
+                                                    "¡Grupo Agregado!",
                                                     ruta: "listarGruposAdmin"));
                                       }
                                     }

@@ -72,7 +72,7 @@ class _ModifyGroup extends State<ModifyGroup> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -91,7 +91,7 @@ class _ModifyGroup extends State<ModifyGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -819,6 +819,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     );
   }
 
+  // Dialogo que Confirmación la Modificación del contenido de un Grupo.
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Grupo grupo) {
     return AlertDialog(
@@ -872,14 +873,14 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "!Exito!", "!Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }
@@ -893,7 +894,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
                             grupo.banco = null;
@@ -901,7 +902,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "¡Exito!", "¡Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }
