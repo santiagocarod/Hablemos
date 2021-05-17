@@ -22,7 +22,7 @@ class CardInformation extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.55,
+      height: size.height * 0.5,
       child: Swiper(
         autoplay: false,
         layout: SwiperLayout.STACK,
@@ -62,22 +62,24 @@ class CardInformation extends StatelessWidget {
                     Text(
                       list[index].nombre,
                       style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 29.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'PoppinsBold',
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Flexible(
+                    Center(
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 30.0, right: 30.0),
                         child: RichText(
+                          textAlign: TextAlign.center,
                           maxLines: 12,
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(
                             text: list[index].definicion,
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 15.0,
                               fontFamily: 'PoppinsRegular',
                             ),
                           ),

@@ -1,19 +1,116 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
-class ShowWorkShop extends StatelessWidget {
+class ShowWorkShop extends StatefulWidget {
+  @override
+  _ShowWorkShopState createState() => _ShowWorkShopState();
+}
+
+class _ShowWorkShopState extends State<ShowWorkShop> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   final TextEditingController searchController = TextEditingController();
+
+  String rol = "pacient";
+
+  Participante participante;
+
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (auth.currentUser != null) {
+      User user = auth.currentUser;
+
+      uid = user.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          setState(() {
+            print("OJOOOOOOOOOOOOOOO");
+            print(uid);
+            print(documentSnapshot.get("role"));
+            rol = documentSnapshot.get("role");
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Taller taller = ModalRoute.of(context).settings.arguments;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      if (rol == "pacient") {
+        FirebaseFirestore.instance
+            .collection("pacients")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
+
+      if (rol == "professional") {
+        FirebaseFirestore.instance
+            .collection("professionals")
+            .doc(uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          participante = Participante(
+            nombre: documentSnapshot.get("name"),
+            apellido: documentSnapshot.get("lastName"),
+            correo: documentSnapshot.get("email"),
+            telefono: documentSnapshot.get("phone"),
+            uid: documentSnapshot.get("uid"),
+          );
+        });
+      }
+    }
+
+    FirebaseFirestore.instance
+        .collection("workshops")
+        .doc(taller.id)
+        .get()
+        .then((value) {
+      Map<String, dynamic> map = value.data();
+
+      if (map["participants"] != null) {
+        List<dynamic> list = map["participants"];
+        list.forEach((element) {
+          Map<String, dynamic> map2 = element;
+          if (map2["uid"] != null && map2["uid"] == auth.currentUser.uid) {
+            Navigator.pushReplacementNamed(context, 'tallerSubscripto',
+                arguments: taller);
+          }
+        });
+      }
+    });
+
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -33,7 +130,7 @@ class ShowWorkShop extends StatelessWidget {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: taller.foto,
+                      image: DecorationImage(image: NetworkImage(taller.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -68,6 +165,7 @@ class ShowWorkShop extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${taller.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -152,13 +250,14 @@ class ShowWorkShop extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
+                    _seccionUbicacion(context, taller),
                     Container(
                       width: 330.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            width: 133.5,
+                            width: 150.5,
                             child: Column(
                               children: <Widget>[
                                 Align(
@@ -193,7 +292,7 @@ class ShowWorkShop extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 133.5,
+                            width: 150.5,
                             child: Column(
                               children: <Widget>[
                                 Align(
@@ -231,7 +330,7 @@ class ShowWorkShop extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(context, taller),
+                    _seccionFinanciera(context, taller),
                     SizedBox(height: size.height * 0.03),
                     _inscripcion(context, taller, size),
                     SizedBox(
@@ -245,6 +344,68 @@ class ShowWorkShop extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _seccionFinanciera(BuildContext context, Taller taller) {
+    if (taller.valor.toLowerCase() == "sin costo" ||
+        taller.valor.toLowerCase() == "gratis" ||
+        taller.valor.toLowerCase() == "gratuito" ||
+        taller.valor.toLowerCase() == "0" ||
+        taller.valor.toLowerCase() == "") {
+      return SizedBox(height: 5.0);
+    } else {
+      return Container(
+        width: 330.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 330.5,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Información de Pago",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kMoradoOscuro,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            "${taller.banco.toString()}",
+                            style: TextStyle(
+                                fontFamily: "PoppinsRegular",
+                                color: kLetras,
+                                fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      height: 1.0,
+                      color: kGrisN,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _seccionUbicacion(BuildContext context, Taller taller) {
@@ -291,101 +452,6 @@ class ShowWorkShop extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: 330.5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kMoradoOscuro,
-                              fontSize: 20.0),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                "${taller.banco}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FittedBox(
-                          child: Text(
-                            "Número de Cuenta",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kMoradoOscuro,
-                                fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: FittedBox(
-                              child: Text(
-                                "${taller.banco.numCuenta}",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    color: kLetras,
-                                    fontSize: 17.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          color: kGrisN,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       );
     } else {
@@ -404,21 +470,31 @@ class ShowWorkShop extends StatelessWidget {
                     fontSize: 20.0),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "${taller.ubicacion}",
-                    style: TextStyle(
-                        fontFamily: "PoppinsRegular",
-                        color: kLetras,
-                        fontSize: 17.0),
+            GestureDetector(
+              onTap: () {
+                if (kIsWeb) {
+                  Navigator.pushNamed(context, 'Mapa');
+                } else {
+                  MapsLauncher.launchQuery(taller.ubicacion);
+                  Navigator.pushNamed(context, 'Mapa');
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "${taller.ubicacion}",
+                      style: TextStyle(
+                          fontFamily: "PoppinsRegular",
+                          color: kLetras,
+                          fontSize: 17.0),
+                    ),
                   ),
-                ),
-                Icon(Icons.location_on, size: 26.0)
-              ],
+                  Icon(Icons.location_on, size: 26.0)
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -473,8 +549,14 @@ class ShowWorkShop extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'tallerSubscripto',
-                              arguments: taller);
+                          if (agregarParticipante(participante, taller)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción correcta!", taller,
+                                        ruta: "tallerSubscripto"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -563,8 +645,11 @@ class ShowWorkShop extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
+                      Map<String, dynamic> aux =
+                          ({"taller": taller, "participante": participante});
+
                       Navigator.pushNamed(context, "adjuntarPagoTaller",
-                          arguments: taller);
+                          arguments: aux);
                     },
                     child: Container(
                       height: 30,
@@ -624,7 +709,11 @@ class ShowWorkShop extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (taller.valor.toLowerCase() == "sin costo") {
+                if (taller.valor.toLowerCase() == "sin costo" ||
+                    taller.valor.toLowerCase() == "gratis" ||
+                    taller.valor.toLowerCase() == "gratuito" ||
+                    taller.valor.toLowerCase() == "0" ||
+                    taller.valor.toLowerCase() == "") {
                   return dialogoConfirmacion(
                     context,
                     size,
@@ -633,8 +722,7 @@ class ShowWorkShop extends StatelessWidget {
                     "¿Estás seguro que deseas inscribirte en este taller?",
                     kMoradoClarito,
                   );
-                } else if (taller.ubicacion == "virtual" ||
-                    taller.ubicacion == "Virtual") {
+                } else if (taller.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     taller,
@@ -682,24 +770,62 @@ class ShowWorkShop extends StatelessWidget {
         ),
       );
     } else
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        padding: EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(228, 88, 101, 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        height: 80.0,
-        child: Center(
-          child: Text(
-            "Para Inscribirse a este Taller debe Registarse",
-            style: TextStyle(
-              color: kLetras,
-              fontSize: 17.0,
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, 'registro');
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          padding: EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(228, 88, 101, 0.5),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          height: 80.0,
+          child: Center(
+            child: Text(
+              "Para Inscribirse a este Taller debe Registarse",
+              style: TextStyle(
+                color: kLetras,
+                fontSize: 17.0,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Taller taller,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: taller);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

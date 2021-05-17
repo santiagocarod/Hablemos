@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'banco.dart';
 
 class Profesional {
@@ -14,7 +12,7 @@ class Profesional {
   List<String> convenios;
   List<String> proyectos;
   String descripcion;
-  Image foto;
+  String foto;
   Banco banco;
   String celular;
   String correo;
@@ -33,9 +31,8 @@ class Profesional {
       this.celular,
       this.ciudad,
       this.descripcion,
-      this.correo}) {
-    this.foto = null;
-  }
+      this.correo,
+      this.foto});
 
   toMap() {
     return {
@@ -52,6 +49,7 @@ class Profesional {
       "email": this.correo,
       "city": this.ciudad,
       "description": this.descripcion,
+      "picture": this.foto,
     };
   }
 
@@ -81,7 +79,8 @@ class Profesional {
         celular: data["phone"],
         ciudad: data["city"],
         descripcion: data["description"],
-        correo: data["email"]);
+        correo: data["email"],
+        foto: data["picture"]);
 
     return p;
   }

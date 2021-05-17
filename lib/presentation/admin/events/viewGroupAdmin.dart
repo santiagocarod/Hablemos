@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../../constants.dart';
 
 class ViewGroupAdmin extends StatelessWidget {
@@ -39,7 +42,8 @@ class ViewGroupAdmin extends StatelessWidget {
                         width: 315.0,
                         height: 137.0,
                         decoration: BoxDecoration(
-                          image: grupo.foto,
+                          image:
+                              DecorationImage(image: NetworkImage(grupo.foto)),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           boxShadow: [
                             BoxShadow(
@@ -74,18 +78,25 @@ class ViewGroupAdmin extends StatelessWidget {
                                           fontSize: 18.0),
                                     ),
                                   ),
-                                  Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(Icons.assignment_ind),
-                                        SizedBox(width: 10.0),
-                                        Text(
-                                          "Ver Inscritos",
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 15.0,
-                                          ),
-                                        )
-                                      ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, "verListaDeInscritos",
+                                          arguments: grupo);
+                                    },
+                                    child: Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.assignment_ind),
+                                          SizedBox(width: 10.0),
+                                          Text(
+                                            "Ver Inscritos",
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 15.0,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -113,42 +124,7 @@ class ViewGroupAdmin extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                          width: 330.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Ubicación",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kMostazaOscuro,
-                                      fontSize: 18.0),
-                                ),
-                              ),
-                              SizedBox(height: 7.0),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "${grupo.ubicacion}",
-                                  style: TextStyle(
-                                      fontFamily: "PoppinsRegular",
-                                      color: kLetras,
-                                      fontSize: 17.0),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: kGrisN,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        _ubicacion(context, grupo),
                         SizedBox(height: 10),
                         Container(
                           width: 330.5,
@@ -345,10 +321,11 @@ class ViewGroupAdmin extends StatelessWidget {
                                     builder: (BuildContext context) {
                                       return dialogoConfirmacion(
                                           context,
-                                          "",
-                                          "Confirmación de Eliminación",
-                                          "¿Está seguro que desea eliminar este Grupo de Apoyo?",
-                                          () {});
+                                          "listarGruposAdmin",
+                                          "Confirmacion Eliminación",
+                                          "¿Esta seguro que quiere eliminar este grupo? ",
+                                          eliminarGrupo,
+                                          parametro: grupo);
                                     },
                                   );
                                 },
@@ -385,8 +362,104 @@ class ViewGroupAdmin extends StatelessWidget {
     );
   }
 
+  Widget _ubicacion(BuildContext context, Grupo grupo) {
+    if (grupo.ubicacion.toLowerCase() == "virtual") {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "${grupo.ubicacion}",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kLetras,
+                    fontSize: 17.0),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: 330.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Ubicación",
+                style: TextStyle(
+                    fontFamily: "PoppinsRegular",
+                    color: kMostazaOscuro,
+                    fontSize: 18.0),
+              ),
+            ),
+            SizedBox(height: 7.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${grupo.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (kIsWeb) {
+                      Navigator.pushNamed(context, 'Mapa');
+                    } else {
+                      MapsLauncher.launchQuery(grupo.ubicacion);
+                      Navigator.pushNamed(context, 'Mapa');
+                    }
+                  },
+                  child: Icon(
+                    Icons.location_on,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                height: 1.0,
+                color: kGrisN,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   Widget _datosFinancieros(BuildContext context, Grupo grupo) {
-    if (grupo.ubicacion.toLowerCase() != "virtual") {
+    if (grupo.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(
@@ -395,14 +468,14 @@ class ViewGroupAdmin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              width: 133.5,
+              width: 330.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Banco",
+                      "Información Bancaria",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: "PoppinsRegular",
@@ -414,47 +487,12 @@ class ViewGroupAdmin extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "${grupo.banco.banco}",
+                        "${grupo.banco.toString()}",
                         style: TextStyle(
                             fontFamily: "PoppinsRegular",
                             color: kLetras,
                             fontSize: 17.0),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      height: 1.0,
-                      color: kGrisN,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 183.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kMostazaOscuro,
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      "${grupo.numCuenta}",
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras,
-                          fontSize: 17.0),
                     ),
                   ),
                   Padding(

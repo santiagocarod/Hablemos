@@ -58,6 +58,21 @@ Widget iconButtonSmall(
   );
 }
 
+Widget iconButtonXs(
+    {String text, Function function, IconData iconData, Color color}) {
+  return ElevatedButton.icon(
+    onPressed: function,
+    label: Text(text, style: TextStyle(fontSize: 16)),
+    icon: Padding(
+        padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+        child: Icon(iconData)),
+    style: ElevatedButton.styleFrom(
+        primary: color,
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+  );
+}
+
 Widget iconButtonSmallBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(
@@ -118,7 +133,7 @@ Widget passwordTextBox(InputsBloc bloc) {
               color: Colors.yellow[700],
             ),
             labelText: "Contraseña",
-            counterText: snapshot.data,
+            // counterText: snapshot.data,
             errorText: snapshot.error,
           ),
           onChanged: bloc.changePassword,
@@ -133,6 +148,7 @@ Widget inputTextBox(String hText, String lText, IconData icon,
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
     child: TextField(
+      maxLength: 50,
       decoration: InputDecoration(
         icon: Icon(
           icon,
@@ -233,6 +249,7 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
       icon: new Icon(Icons.arrow_back_ios, color: kNegro),
       onPressed: () {
         Navigator.pop(context);
+        // Navigator.maybePop(context);
         if (context != null && atras != null) {
           Navigator.pushNamed(context, atras);
         }
@@ -467,21 +484,16 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   );
 }
 
-Widget searchBar(
-    BuildContext context,
-    Size size,
-    TextEditingController searchController,
-    List<String> names,
-    List<dynamic> elements,
-    String ruta) {
+Widget searchBar(BuildContext context, Size size, String text,
+    List<String> names, List<dynamic> elements, String ruta) {
   return Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: size.height * 0.15),
-          height: 66.0,
-          width: 317.5,
+          height: 53.33,
+          width: size.width - 120.0,
           decoration: BoxDecoration(
             color: kBlanco,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -502,6 +514,7 @@ Widget searchBar(
                     delegate: DataSearch(
                       names: names,
                       elements: elements,
+                      route: ruta,
                     ),
                   );
                 },
@@ -513,24 +526,25 @@ Widget searchBar(
               ),
               Container(
                 width: 200,
-                child: TextField(
-                  controller: searchController,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  style: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    color: kAzulOscuro,
+                child: GestureDetector(
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: DataSearch(
+                        names: names,
+                        elements: elements,
+                        route: ruta,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: kAzulOscuro,
+                        fontFamily: 'PoppinsSemiBold'),
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  searchController.clear();
-                },
-                child: Icon(
-                  Icons.cancel_outlined,
-                  color: kMoradoClarito,
-                  size: 25.0,
                 ),
               ),
             ],
@@ -570,6 +584,8 @@ class DataSearch extends SearchDelegate<String> {
           progress: transitionAnimation,
         ),
         onPressed: () {
+          names = null;
+          query = null;
           close(context, null);
         });
   }
@@ -595,7 +611,7 @@ class DataSearch extends SearchDelegate<String> {
               arguments: elements.firstWhere(
                   (element) => element.nombre == suggestionList[index]),
             );
-          } else if (route == 'DetalleForo') {
+          } else {
             Navigator.pushNamed(
               context,
               route,
@@ -691,24 +707,27 @@ AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
       height: 170.0,
       width: 302.0,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text(
-            "$titulo",
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+          Center(
+            child: Text(
+              "$titulo",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.bold, fontSize: 16, color: kNegro),
+            ),
           ),
           SizedBox(
             height: 25.0,
           ),
-          Container(
-            width: 259.0,
-            height: 55.0,
-            child: Text(
-              "$mensaje",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                  color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+          Center(
+            child: Container(
+              width: 259.0,
+              height: 55.0,
+              child: Text(
+                "$mensaje",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    color: kNegro, fontSize: 15, fontWeight: FontWeight.w300),
+              ),
             ),
           ),
           SizedBox(
@@ -822,8 +841,14 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
               SizedBox(
                 height: 5,
               ),
-              Text("${element.titulo}",
-                  style: TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                child: Text(
+                    "${element.titulo[0].toUpperCase()}${element.titulo.substring(1)}",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontFamily: "PoppinSemiBold")),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -833,6 +858,7 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
                     (element.cuerpo.length <= 250)
                         ? element.cuerpo
                         : "${element.cuerpo.substring(0, 250)} ...",
+                    textAlign: TextAlign.justify,
                     style:
                         TextStyle(fontFamily: "PoppinsRegular", fontSize: 14)),
               )

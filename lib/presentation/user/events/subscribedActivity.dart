@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/actividad.dart';
 import 'package:hablemos/ux/atoms.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
@@ -10,10 +14,14 @@ class SubscribedActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Actividad actividad = ModalRoute.of(context).settings.arguments;
-    return eventoSubcripto(context, size, actividad);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User user = auth.currentUser;
+
+    return eventoSubcripto(context, size, actividad, user);
   }
 
-  Widget eventoSubcripto(BuildContext context, Size size, Actividad actividad) {
+  Widget eventoSubcripto(
+      BuildContext context, Size size, Actividad actividad, User user) {
     return Container(
       color: kBlanco,
       child: SafeArea(
@@ -34,7 +42,8 @@ class SubscribedActivity extends StatelessWidget {
                     width: 272.0,
                     height: 196.0,
                     decoration: BoxDecoration(
-                      image: actividad.foto,
+                      image:
+                          DecorationImage(image: NetworkImage(actividad.foto)),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -69,6 +78,7 @@ class SubscribedActivity extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${actividad.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -189,7 +199,7 @@ class SubscribedActivity extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _seccionUbicacion(actividad),
+                    _seccionUbicacion(context, actividad),
                     SizedBox(height: size.height * 0.03),
                     GestureDetector(
                       onTap: () {
@@ -197,7 +207,11 @@ class SubscribedActivity extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               if (actividad.valor.toLowerCase() ==
-                                  "sin costo") {
+                                      "sin costo" ||
+                                  actividad.valor.toLowerCase() == "gratis" ||
+                                  actividad.valor.toLowerCase() == "gratuito" ||
+                                  actividad.valor.toLowerCase() == "0" ||
+                                  actividad.valor.toLowerCase() == "") {
                                 return dialogoConfirmacion(
                                   context,
                                   size,
@@ -205,6 +219,7 @@ class SubscribedActivity extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               } else if (actividad.ubicacion.toLowerCase() ==
                                   "virtual") {
@@ -215,6 +230,7 @@ class SubscribedActivity extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¡Recuerda que debes comunicarte con La Papaya para la devolución de tu dinero si ya realizaste el pago!",
                                   kMoradoClarito,
+                                  user,
                                 );
                               } else {
                                 return dialogoConfirmacion(
@@ -224,6 +240,7 @@ class SubscribedActivity extends StatelessWidget {
                                   "Confirmación de Cancelación",
                                   "¿Estás seguro que deseas cancelar la inscripción a esta Actividad?",
                                   kMoradoClarito,
+                                  user,
                                 );
                               }
                             });
@@ -268,7 +285,7 @@ class SubscribedActivity extends StatelessWidget {
     );
   }
 
-  Widget _seccionUbicacion(Actividad actividad) {
+  Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
         width: 330.5,
@@ -321,21 +338,31 @@ class SubscribedActivity extends StatelessWidget {
                   fontSize: 20.0),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "${actividad.ubicacion}",
-                  style: TextStyle(
-                      fontFamily: "PoppinsRegular",
-                      color: kLetras,
-                      fontSize: 17.0),
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, 'Mapa');
+              } else {
+                MapsLauncher.launchQuery(actividad.ubicacion);
+                Navigator.pushNamed(context, 'Mapa');
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "${actividad.ubicacion}",
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras,
+                        fontSize: 17.0),
+                  ),
                 ),
-              ),
-              Icon(Icons.location_on, size: 26.0)
-            ],
+                Icon(Icons.location_on, size: 26.0)
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -349,8 +376,14 @@ class SubscribedActivity extends StatelessWidget {
     );
   }
 
-  AlertDialog dialogoConfirmacion(BuildContext context, Size size,
-      Actividad actividad, String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacion(
+      BuildContext context,
+      Size size,
+      Actividad actividad,
+      String titulo,
+      String pregunta,
+      Color color,
+      User user) {
     return AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -389,8 +422,23 @@ class SubscribedActivity extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'verActividad',
-                              arguments: actividad);
+                          actividad.participantes.removeWhere((participante) {
+                            Map<String, dynamic> map = participante;
+                            if (map["uid"] == user.uid) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          });
+
+                          if (actualizarActividad(actividad)) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext contex) =>
+                                    _buildPopupDialog(context, "Exito!",
+                                        "Inscripción cancelada!", actividad,
+                                        ruta: "verActividad"));
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -441,8 +489,14 @@ class SubscribedActivity extends StatelessWidget {
             )));
   }
 
-  AlertDialog dialogoConfirmacionConPago(BuildContext context, Size size,
-      Actividad actividad, String titulo, String pregunta, Color color) {
+  AlertDialog dialogoConfirmacionConPago(
+      BuildContext context,
+      Size size,
+      Actividad actividad,
+      String titulo,
+      String pregunta,
+      Color color,
+      User user) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(37.0))),
@@ -476,8 +530,25 @@ class SubscribedActivity extends StatelessWidget {
             Container(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'verActividad',
-                      arguments: actividad);
+                  actividad.participantes.removeWhere((participante) {
+                    Map<String, dynamic> map = participante;
+                    if (map["uid"] == user.uid) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+
+                  if (actualizarActividad(actividad)) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext contex) => _buildPopupDialog(
+                            context,
+                            "Exito!",
+                            "Inscripción correcta!",
+                            actividad,
+                            ruta: "verActividad"));
+                  }
                 },
                 child: Container(
                   height: 30,
@@ -504,4 +575,37 @@ class SubscribedActivity extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(
+    BuildContext context, String tittle, String content, Actividad actividad,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta, arguments: actividad);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

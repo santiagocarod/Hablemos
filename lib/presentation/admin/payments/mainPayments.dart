@@ -111,7 +111,7 @@ class MainPaymentsPage extends StatelessWidget {
               Text(
                 "$nombreProfesional",
                 style: GoogleFonts.montserrat(
-                    fontSize: 17.0, fontWeight: FontWeight.w300),
+                    fontSize: 16.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
             Navigator.pushNamed(context, "detayledPaymentAdmin",
@@ -121,7 +121,7 @@ class MainPaymentsPage extends StatelessWidget {
               Text(
                 "$valor",
                 style: GoogleFonts.montserrat(
-                    fontSize: 17.0, fontWeight: FontWeight.w300),
+                    fontSize: 16.0, fontWeight: FontWeight.w300),
                 overflow: TextOverflow.ellipsis,
               ), onTap: () {
             Navigator.pushNamed(context, "detayledPaymentAdmin",

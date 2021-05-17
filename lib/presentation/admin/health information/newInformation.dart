@@ -53,6 +53,9 @@ class _NewInformation extends State<NewInformation> {
                   children: [
                     _appBar(size),
                     _detail(context, size, widget.trastorno),
+                    SizedBox(
+                      height: 35.0,
+                    ),
                   ],
                 ),
               ),

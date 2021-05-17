@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 
@@ -43,6 +44,9 @@ Future<bool> eliminarPaciente(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("pacients");
 
+  if (paciente.foto != "falta foto") {
+    deleteImage(paciente.foto);
+  }
   return reference
       .doc(paciente.uid)
       .delete()
@@ -55,4 +59,17 @@ void eliminarUsuario(Paciente paciente) {
       FirebaseFirestore.instance.collection("users");
 
   reference.doc(paciente.uid).delete();
+}
+
+Future<bool> actualizarPerfil(Paciente paciente, String imagePath) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("pacients");
+
+  return reference
+      .doc(paciente.uid)
+      .update({
+        "picture": imagePath,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
 }

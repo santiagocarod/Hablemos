@@ -1,60 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
-import 'package:hablemos/presentation/admin/MedicalCenter/listMedicalAdmin.dart';
-import 'package:hablemos/presentation/admin/MedicalCenter/newMedicalCenter.dart';
-import 'package:hablemos/presentation/admin/events/addActivity.dart';
-import 'package:hablemos/presentation/admin/events/addGroup.dart';
-import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
-import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
-import 'package:hablemos/presentation/admin/events/listActivitiesAdmin.dart';
-import 'package:hablemos/presentation/admin/events/listGroupsAdmin.dart';
-import 'package:hablemos/presentation/admin/events/listWorkShopsAdmin.dart';
-import 'package:hablemos/presentation/admin/events/modifyActivity.dart';
-import 'package:hablemos/presentation/admin/events/modifyGroup.dart';
-import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
-import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
-import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
-import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
-import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
-import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
-import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
-import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
-import 'package:hablemos/presentation/admin/payments/detailedPayment.dart';
-import 'package:hablemos/presentation/admin/payments/mainPayments.dart';
-import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
-import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
-import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
-import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
-import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
-import 'package:hablemos/presentation/forgotPassword.dart';
-import 'package:hablemos/presentation/home.dart';
-import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
-import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
-import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
-import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
-import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
-import 'package:hablemos/presentation/pacient/health%20information/information.dart';
-import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
-import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
-import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
-import 'package:hablemos/presentation/pacient/letters/showLetter.dart';
-import 'package:hablemos/presentation/pacient/profile/editProfile.dart';
-import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
-import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
-import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
-import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
-import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
-import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
-import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
-import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
-import 'package:hablemos/presentation/professional/letters/editLetterPro.dart';
-import 'package:hablemos/presentation/professional/letters/listAprovedLettersPro.dart';
-import 'package:hablemos/presentation/professional/letters/listToEvaluateLettersPro.dart';
-import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
-import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
-import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
-import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
-import 'package:hablemos/presentation/signInMinor.dart';
+//IMPORT USUARIOS
 import 'package:hablemos/presentation/user/events/attachPaymentActivity.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentGroup.dart';
 import 'package:hablemos/presentation/user/events/attachPaymentWorkShop.dart';
@@ -81,37 +25,132 @@ import 'package:hablemos/presentation/user/medialCenters/filterMedicalCenter.dar
 import 'package:hablemos/presentation/user/medialCenters/listMedicalCenters.dart';
 import 'package:hablemos/presentation/user/medialCenters/mainMedicalCenters.dart';
 import 'package:hablemos/presentation/user/networks.dart';
+
+//IMPORT PACIENTE
+import 'package:hablemos/presentation/pacient/appointments/attatchPayment.dart';
+import 'package:hablemos/presentation/pacient/appointments/createDate.dart';
+import 'package:hablemos/presentation/pacient/appointments/dateDetails.dart';
+import 'package:hablemos/presentation/pacient/appointments/list_citas.dart';
+import 'package:hablemos/presentation/pacient/appointments/list_professional.dart';
+import 'package:hablemos/presentation/pacient/appointments/professionalDetails.dart';
+import 'package:hablemos/presentation/pacient/health%20information/information.dart';
+import 'package:hablemos/presentation/pacient/health%20information/informationDetails.dart';
+import 'package:hablemos/presentation/pacient/letters/addLetter.dart';
+import 'package:hablemos/presentation/pacient/letters/listLetters.dart';
+import 'package:hablemos/presentation/pacient/letters/showLetter.dart';
+import 'package:hablemos/presentation/pacient/profile/editProfile.dart';
+import 'package:hablemos/presentation/pacient/profile/viewProfile.dart';
+
+//IMPORT PROFESIONALES
+import 'package:hablemos/presentation/professional/appointments/detalleCitaPro.dart';
+import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
+import 'package:hablemos/presentation/professional/appointments/list_citas_pro.dart';
+import 'package:hablemos/presentation/professional/appointments/pacientDetails.dart';
+import 'package:hablemos/presentation/professional/appointments/verPagoPro.dart';
+import 'package:hablemos/presentation/professional/letters/addLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/assesLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/editLetterPro.dart';
+import 'package:hablemos/presentation/professional/letters/listAprovedLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/listToEvaluateLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/mainLettersPro.dart';
+import 'package:hablemos/presentation/professional/letters/showLetterPro.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
+import 'package:hablemos/presentation/professional/profile/profile_pro_view.dart';
+
+//IMPORT ADMINISTRADOR
+import 'package:hablemos/presentation/admin/MedicalCenter/detailMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/listMedicalAdmin.dart';
+import 'package:hablemos/presentation/admin/MedicalCenter/newMedicalCenter.dart';
+import 'package:hablemos/presentation/admin/events/addActivity.dart';
+import 'package:hablemos/presentation/admin/events/addGroup.dart';
+import 'package:hablemos/presentation/admin/events/addWorkShop.dart';
+import 'package:hablemos/presentation/admin/events/eventsAdminMain.dart';
+import 'package:hablemos/presentation/admin/events/listActivitiesAdmin.dart';
+import 'package:hablemos/presentation/admin/events/listGroupsAdmin.dart';
+import 'package:hablemos/presentation/admin/events/listWorkShopsAdmin.dart';
+import 'package:hablemos/presentation/admin/events/modifyActivity.dart';
+import 'package:hablemos/presentation/admin/events/modifyGroup.dart';
+import 'package:hablemos/presentation/admin/events/modifyWorkShop.dart';
+import 'package:hablemos/presentation/admin/events/viewActivityAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewGroupAdmin.dart';
+import 'package:hablemos/presentation/admin/events/viewParticipantsEvent.dart';
+import 'package:hablemos/presentation/admin/events/viewWorkShopAdmin.dart';
+import 'package:hablemos/presentation/admin/health%20information/informationAdmin.dart';
+import 'package:hablemos/presentation/admin/health%20information/mainInformation.dart';
+import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
+import 'package:hablemos/presentation/admin/pantallaInicioAdmin.dart';
+import 'package:hablemos/presentation/admin/payments/detailedPayment.dart';
+import 'package:hablemos/presentation/admin/payments/mainPayments.dart';
+import 'package:hablemos/presentation/admin/professionals_management/createProfessionalAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/editProfProfileAdmin.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfProfile.dart';
+import 'package:hablemos/presentation/admin/professionals_management/viewProfessionalsHome.dart';
+import 'package:hablemos/presentation/admin/profile/viewAdminProfile.dart';
+
+//IMPORT ADICIONALES
+import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/forgotPassword.dart';
+import 'package:hablemos/presentation/home.dart';
+import 'package:hablemos/presentation/pantallaInicioProfesional.dart';
+import 'package:hablemos/presentation/signInMinor.dart';
 import 'package:hablemos/presentation/verifyEmail.dart';
 import 'package:hablemos/start.dart';
-
 import '../presentation/login.dart';
 import '../presentation/pantallaInicioPaciente.dart';
 import '../presentation/signin.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (context) => Home(),
-    'start': (context) => StartFireBase(),
-    'login': (context) => LoginPage(),
-    'registro': (context) => SignInPage(),
-    'registroMenorEdad': (context) => SingInMinor(),
-    'inicio': (context) => PantallaInicioPacinete(),
-    'inicioProfesional': (context) => PantallaInicioProfesional(),
-    'inicioAdministrador': (context) => PantallaInicioAdmin(),
-    'citasPaciente': (context) => ListCitas(),
-    'detalleProfesional': (context) => ListProfessional(),
-    'detalleCitasProfesional': (context) => DetalleCitaPro(),
-    'editarCitaProfesional': (context) => EditCitaPro(),
-    'citasProfesional': (context) => ListCitasPro(),
-    'CrearCita': (context) => CreateDate(),
-    'VerPagoPro': (context) => VerPagoPro(),
-    'AdjuntarPago': (context) => AttatchPayment(),
+    //RUTA USUARIOS
     'OpcionesEjercicios': (context) => OptionsExercises(),
     'opcionesRespirar': (context) => OptionsBreathe(),
     'respirar': (context) => BreatheClass(),
     'meditar': (context) => MeditationClass(),
     'mindfulness': (context) => MindfulnessClass(),
     'infoEjercicio': (context) => InfoClass(),
+    'eventosPrincipal': (context) => EventsMain(),
+    'eventosPrincipalUsuario': (context) => EventsMainSigned(),
+    'listarActividades': (context) => ListActivities(),
+    'listarGruposApoyo': (context) => ListSupportGroups(),
+    'listarTalleres': (context) => ListWorkShops(),
+    'verActividad': (context) => ShowActivity(),
+    'verTaller': (context) => ShowWorkShop(),
+    'verGrupoApoyo': (context) => ShowSupportGroup(),
+    'redes': (context) => Networks(),
+    'Informacion': (context) => Information(),
+    'DetalleInformacion': (context) => InformationDetails(),
+    'Mapa': (context) => MapBoxClass(),
+    'principalCentrosMedicos': (context) => MainMedicalCenter(),
+    'listCentrosMedicos': (context) => ListMedicalCenter(),
+    'detailCentroMedico': (context) => DetailsMedicalCenter(),
+    'adjuntarPagoTaller': (context) => AttachPaymentWorkShop(),
+    'adjuntarPagoActividad': (context) => AttachPaymentActivity(),
+    'adjuntarPagoGrupo': (context) => AttachPaymentGroup(),
+    'tallerSubscripto': (context) => SubscribedWorkShop(),
+    'actividadSubscripto': (context) => SubscribedActivity(),
+    'grupoSubscripto': (context) => SubscribedGroup(),
+    "filterMedicalCenters": (context) => FilterMedicalCenter(),
+
+    //RUTA PACIENTE
+    'inicio': (context) => PantallaInicioPacinete(),
+    'citasPaciente': (context) => ListCitas(),
+    'CrearCita': (context) => CreateDate(),
+    'AdjuntarPago': (context) => AttatchPayment(),
+    'listaCartasPaciente': (context) => ListLetters(),
+    'DetalleCita': (context) => DateDetails(),
+    'agregarCarta': (context) => AddLetter(),
+    'verCarta': (context) => ShowLetter(),
+    'verPerfil': (context) => ViewProfile(),
+    'editarPerfil': (context) => EditProfile(),
+    'professionalDetails': (context) => ProfessionalDetails(),
+
+    //RUTA PROFESIONALES
+    'inicioProfesional': (context) => PantallaInicioProfesional(),
+    'detalleProfesional': (context) => ListProfessional(),
+    'detalleCitasProfesional': (context) => DetalleCitaPro(),
+    'editarCitaProfesional': (context) => EditCitaPro(),
+    'citasProfesional': (context) => ListCitasPro(),
+    'VerPagoPro': (context) => VerPagoPro(),
     'cartasPrincipalProfesional': (context) => MainLettersPro(),
     'listarCartasPro': (context) => ListAprovedLettersPro(),
     'valorarCartaPro': (context) => AssesLetterPro(),
@@ -119,35 +158,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'escribirCartaPro': (context) => AddLetterPro(),
     'listaCartasEvaluar': (context) => ListToEvaluateLettersPro(),
     'editarCartaPro': (context) => EditLetterPro(),
-    'listaCartasPaciente': (context) => ListLetters(),
-    'agregarCarta': (context) => AddLetter(),
-    'verCarta': (context) => ShowLetter(),
-    'eventosPrincipal': (context) => EventsMain(),
-    'eventosPrincipalUsuario': (context) => EventsMainSigned(),
-    'listarActividades': (context) => ListActivities(),
-    'listarTalleres': (context) => ListWorkShops(),
-    'listarGruposApoyo': (context) => ListSupportGroups(),
-    'verActividad': (context) => ShowActivity(),
-    'verTaller': (context) => ShowWorkShop(),
-    'verGrupoApoyo': (context) => ShowSupportGroup(),
-    'redes': (context) => Networks(),
-    'DetalleCita': (context) => DateDetails(),
-    'Informacion': (context) => Information(),
-    'DetalleInformacion': (context) => InformationDetails(),
-    'Mapa': (context) => MapBoxClass(),
+    'pacientDetails': (context) => PacientDetails(),
+
+    //RUTA ADMINISTRADOR
+    'inicioAdministrador': (context) => PantallaInicioAdmin(),
     'verPerfilProfesional': (context) => ProfileProView(),
     'editarPerfilProfesional': (context) => EditProfileProfesional(),
-    'principalCentrosMedicos': (context) => MainMedicalCenter(),
-    'listCentrosMedicos': (context) => ListMedicalCenter(),
-    'detailCentroMedico': (context) => DetailsMedicalCenter(),
-    'verPerfil': (context) => ViewProfile(),
-    'editarPerfil': (context) => EditProfile(),
-    'adjuntarPagoTaller': (context) => AttachPaymentWorkShop(),
-    'adjuntarPagoActividad': (context) => AttachPaymentActivity(),
-    'adjuntarPagoGrupo': (context) => AttachPaymentGroup(),
-    'tallerSubscripto': (context) => SubscribedWorkShop(),
-    'actividadSubscripto': (context) => SubscribedActivity(),
-    'grupoSubscripto': (context) => SubscribedGroup(),
     'adminViewProfile': (context) => ViewAdminProfile(),
     'adminManageProffessional': (context) => HomeProfessionalsManagement(),
     'verPerfilProfManage': (context) => ViewProfProfileManagement(),
@@ -176,7 +192,14 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     "newCentrosMedicosAdmin": (context) => NewMedicalAdmin(),
     "principalPagoAdmin": (context) => MainPaymentsPage(),
     "detayledPaymentAdmin": (context) => DetailedPaymentAdmin(),
-    "filterMedicalCenters": (context) => FilterMedicalCenter(),
+    "verListaDeInscritos": (context) => ParticipantsEvent(),
+
+    //RUTA ADICIONALES
+    '/': (context) => Home(),
+    'start': (context) => StartFireBase(),
+    'login': (context) => LoginPage(),
+    'registro': (context) => SignInPage(),
+    'registroMenorEdad': (context) => SingInMinor(),
     "verifyEmail": (context) => VerifyEmail(),
     "olvideConstrasena": (context) => ForgotPassword(),
   };

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +38,7 @@ class _EditProfileProfessionalAdminState
   TextEditingController _accountTypeController = new TextEditingController();
 
   String _date = '';
-  File _image;
+  String _image;
 
   @override
   void initState() {
@@ -72,6 +70,7 @@ class _EditProfileProfessionalAdminState
       ..text = widget.profesional.banco.numCuenta;
     _accountTypeController = TextEditingController()
       ..text = widget.profesional.banco.tipoCuenta;
+    _image = widget.profesional.foto;
   }
 
   @override
@@ -133,10 +132,25 @@ class _EditProfileProfessionalAdminState
                               color: Colors.indigo[100],
                               size: 200,
                             )
-                          : Image.file(
+                          : Image.network(
                               _image,
                               width: 200,
                               height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                     ),
                   ),

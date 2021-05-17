@@ -80,7 +80,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 150,
+                    height: 120,
                   ),
                   Expanded(
                     child: SingleChildScrollView(
@@ -175,7 +175,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               iconButtonSmall(
-                                  color: Colors.red,
+                                  color: kRojo,
                                   function: () {
                                     showDialog(
                                       context: context,
@@ -183,7 +183,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                         return dialogoConfirmacion(
                                             context,
                                             "listCentrosMedicosAdmin",
-                                            "Confirmación de Creación",
+                                            "Confirmación de Eliminación",
                                             "¿Está seguro que desea Eliminar el centro de Ayuda?",
                                             eliminarCentroAtencion,
                                             parametro: widget.centroAtencion);

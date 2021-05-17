@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/profesional.dart';
@@ -15,14 +13,15 @@ class ViewProfProfileManagement extends StatefulWidget {
 }
 
 class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
-  File _image;
+  String _image;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     Profesional profesional = ModalRoute.of(context).settings.arguments;
-
+    _image = profesional.foto;
+    print(profesional.uid);
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -76,10 +75,25 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                               color: Colors.indigo[100],
                               size: 200,
                             )
-                          : Image.file(
+                          : Image.network(
                               _image,
                               width: 200,
                               height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                     ),
                   ),

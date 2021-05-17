@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/presentation/professional/appointments/editarCita.dart';
+import 'package:hablemos/presentation/professional/appointments/pacientDetails.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -40,67 +42,76 @@ class DetalleCitaPro extends StatelessWidget {
           ),
         ),
         SafeArea(
+          bottom: false,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Stack(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    top: size.height * 0.025,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      _pageHeader(context, size, "Detalle Cita Profesional"),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.center,
-                            //margin: EdgeInsets.all(20),
-                            width: 359.0,
-                            height: 599.0,
-                            decoration: BoxDecoration(
-                              color: kBlanco,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(0, 0),
-                                    blurRadius: 5.0,
-                                    color: Colors.grey.withOpacity(0.5)),
-                              ],
+                Center(
+                  child: Container(
+                    width: size.width * 0.9,
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.025,
+                      bottom: 30.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _pageHeader(context, size, "Detalle Cita Profesional"),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              //margin: EdgeInsets.all(20),
+                              width: 359.0,
+                              height: 630.0,
+                              decoration: BoxDecoration(
+                                color: kBlanco,
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 5.0,
+                                      color: Colors.grey.withOpacity(0.5)),
+                                ],
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  _headerDate(context, cita),
+                                  secction(title: 'Hora:', text: hour),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Fecha:', text: date),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Costo:', text: priceDate),
+                                  SizedBox(height: 3.0),
+                                  secction(
+                                      title: 'Detalles de Pago:',
+                                      text: paymentDetails,
+                                      banco: true),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Lugar:', text: place),
+                                  SizedBox(height: 3.0),
+                                  secction(
+                                      title: 'Especialidad:', text: specialty),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Tipo:', text: type),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Contacto:', text: contact),
+                                  SizedBox(height: 3.0),
+                                  _dateState(context, cita),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  _buttons(context, cita),
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                _headerDate(context, cita),
-                                secction(title: 'Hora:', text: hour),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Fecha:', text: date),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Costo:', text: priceDate),
-                                SizedBox(height: 3.0),
-                                secction(
-                                    title: 'Detalles de Pago:',
-                                    text: paymentDetails,
-                                    banco: true),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Lugar:', text: place),
-                                SizedBox(height: 3.0),
-                                secction(
-                                    title: 'Especialidad:', text: specialty),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Tipo:', text: type),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Contacto:', text: contact),
-                                SizedBox(height: 3.0),
-                                _dateState(context, cita),
-                                _buttons(context, cita),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -177,23 +188,41 @@ Widget _headerDate(BuildContext context, Cita cita) {
           },
           child: Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: 15.0,
-              ),
-              child: Icon(Icons.edit, size: 47)),
+              margin: EdgeInsets.only(top: 10.0, right: 15.0, bottom: 5.0),
+              child: Icon(Icons.edit, size: 37)),
         ),
         Container(
+          width: 359.0,
           alignment: Alignment.center,
           margin: EdgeInsets.only(
-            top: 40.0,
+            top: 50.0,
+            bottom: 15.0,
+            right: 15.0,
+            left: 15.0,
           ),
-          child: Text(
-            "Cita con $pacientName",
-            style: GoogleFonts.roboto(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      PacientDetails(paciente: cita.paciente)));
+            },
+            child: AutoSizeText(
+              "Cita con $pacientName",
+              maxFontSize: 18.0,
+              minFontSize: 15.0,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'PoppinsRegular',
                 fontStyle: FontStyle.normal,
-                fontSize: 16,
-                color: kNegro,
-                decoration: TextDecoration.none),
+                fontSize: 18,
+                color: kAzulOscuro,
+                decoration: TextDecoration.underline,
+                decorationColor: kNegro,
+                decorationStyle: TextDecorationStyle.solid,
+              ),
+            ),
           ),
         ),
       ],

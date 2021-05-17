@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/professional/negocioProfesional.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/presentation/professional/profile/profile_pro_edit.dart';
@@ -9,7 +11,6 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileProView extends StatefulWidget {
   @override
@@ -17,32 +18,56 @@ class ProfileProView extends StatefulWidget {
 }
 
 class _ProfileProViewState extends State<ProfileProView> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
   final String id = FirebaseAuth.instance.currentUser.uid;
 
   // Set the image form camera
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Set the image form gallery
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PROFILE_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPerfilPro(profesional, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {
+              build(context);
+            });
+          } else {
+            showAlertDialog(context,
+                "Hubo un error subiendo la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
   // Display options (Camera or Gallery)
-  void _showPicker(context) {
+  void _showPicker(context, profesional) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -55,14 +80,14 @@ class _ProfileProViewState extends State<ProfileProView> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
+                        _imagenDesdeGaleria(profesional);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(profesional);
                     },
                   ),
                 ],
@@ -94,7 +119,7 @@ class _ProfileProViewState extends State<ProfileProView> {
           }
 
           Profesional profesional = profesionalMapToList(snapshot)[0];
-
+          _image = profesional.foto;
           return Container(
             color: kRosado,
             child: SafeArea(
@@ -106,7 +131,7 @@ class _ProfileProViewState extends State<ProfileProView> {
                   children: <Widget>[
                     cabeceraPerfilProfesional(size, profesional),
                     Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      padding: EdgeInsets.only(top: size.height * 0.51),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: cuerpoPerfilProfesional(size, profesional),
@@ -128,118 +153,130 @@ class _ProfileProViewState extends State<ProfileProView> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.54,
             width: double.infinity,
             color: kRosado,
           ),
         ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.file(
-                      _image,
+        Column(
+          children: <Widget>[
+            Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.04),
+                  alignment: Alignment.topCenter,
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white,
                       width: 200,
                       height: 200,
+                      child: _image == null
+                          ? Icon(
+                              Icons.account_circle,
+                              color: Colors.indigo[100],
+                              size: 200,
+                            )
+                          : Image.network(
+                              _image,
+                              width: 200,
+                              height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                     ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding:
-              EdgeInsets.only(top: size.height * 0.25, left: size.width * 0.4),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        // Plus icon and edit text
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.33),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      EditProfileProfesional(profesional: profesional)));
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
-                  color: kNegro,
-                ),
-                Text(
-                  ' Modificar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                // Draw camera icon
+                Container(
+                  padding: EdgeInsets.only(
+                    top: (size.height / 2) * 0.45,
+                    left: (size.width / 2) * 0.55,
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context, profesional);
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.white,
+                        width: 43.0,
+                        height: 43.0,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
+            // Plus icon and edit text
+            Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfileProfesional(profesional: profesional)));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.add_circle_outline,
+                      size: 20.0,
+                      color: kNegro,
+                    ),
+                    Text(
+                      ' Modificar',
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.40),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
-                fontFamily: 'PoppinsRegular',
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                width: size.width * 0.8,
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2.5) * 0.08,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
+        // Draw profile picture
       ],
     );
   }
@@ -252,22 +289,22 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionButton(),
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           Container(
-            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             child: Text(
               "Información Bancaria",
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 23.0,
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Banco', profesional.banco.banco ?? " "),
@@ -379,8 +416,12 @@ class _ProfileProViewState extends State<ProfileProView> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
+                      builder: (BuildContext context) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                        firebaseAuth.sendPasswordResetEmail(
+                            email: firebaseAuth.currentUser.email);
+                        return _buildPopupDialog(context);
+                      },
                     );
                   },
                 ),

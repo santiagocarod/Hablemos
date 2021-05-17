@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/admin/negocioPagos.dart';
 import 'package:hablemos/business/admin/negocioProfesionales.dart';
 import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/profesional.dart';
-import 'package:hablemos/services/auth.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +46,7 @@ class _CreateProfileProfessionalAdmin
   void initState() {
     super.initState();
 
-    _nameController = TextEditingController()..text = "Nombre";
+    _nameController = TextEditingController(text: "Nombre");
     _lastNameController = TextEditingController()..text = "Apellido";
     _passwordController = TextEditingController()..text = "123456";
   }
@@ -64,10 +64,9 @@ class _CreateProfileProfessionalAdmin
           appBar: crearAppBar('', null, 0, null, context: context),
           body: Stack(
             children: <Widget>[
-              cabeceraPerfilProfesional(
-                  size, _nameController, _lastNameController),
+              cabeceraPerfilProfesional(size),
               Container(
-                padding: EdgeInsets.only(top: size.height * 0.53),
+                padding: EdgeInsets.only(top: size.height * 0.45),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: _body(size),
@@ -80,8 +79,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  Widget cabeceraPerfilProfesional(Size size, TextEditingController textNombre,
-      TextEditingController textApellido) {
+  Widget cabeceraPerfilProfesional(Size size) {
     return Stack(
       children: <Widget>[
         // Draw oval Shape
@@ -89,7 +87,7 @@ class _CreateProfileProfessionalAdmin
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.48,
             width: double.infinity,
             color: kRosado,
             child: Column(
@@ -158,6 +156,9 @@ class _CreateProfileProfessionalAdmin
                           builder: (BuildContext context) =>
                               _buildDialog(context, prof, password),
                         );
+                      } else {
+                        showAlertDialog(
+                            context, "Por Favor complete la información");
                       }
                     },
                     child: Row(
@@ -188,27 +189,33 @@ class _CreateProfileProfessionalAdmin
                     Container(
                       alignment: Alignment.topCenter,
                       child: AutoSizeTextField(
-                        controller: textNombre,
-                        textAlign: TextAlign.center,
-                        enableInteractiveSelection: false,
-                        fullwidth: false,
-                        style: TextStyle(
-                          color: kNegro,
-                          fontSize: (size.height / 2) * 0.06,
-                          fontFamily: 'PoppinsRegular',
-                        ),
-                        onChanged: (text) {
-                          textNombre.text = text;
-                          textNombre.selection = TextSelection.fromPosition(
-                              TextPosition(offset: textNombre.text.length));
-                        },
-                      ),
+                          controller: _nameController,
+                          textAlign: TextAlign.center,
+                          enableInteractiveSelection: false,
+                          fullwidth: false,
+                          style: TextStyle(
+                            color: kNegro,
+                            fontSize: (size.height / 2) * 0.06,
+                            fontFamily: 'PoppinsRegular',
+                          ),
+                          onTap: () {
+                            if (_nameController.text == "Nombre") {
+                              _nameController.text = "";
+                            }
+                          }
+
+                          // onChanged: (text) {
+                          //   _nameController.text = text;
+                          //   _nameController.selection = TextSelection.fromPosition(
+                          //       TextPosition(offset: _nameController.text.length));
+                          // },
+                          ),
                     ),
                     SizedBox(width: 10.0),
                     Container(
                       alignment: Alignment.topCenter,
                       child: AutoSizeTextField(
-                        controller: textApellido,
+                        controller: _lastNameController,
                         textAlign: TextAlign.center,
                         enableInteractiveSelection: false,
                         fullwidth: false,
@@ -217,11 +224,16 @@ class _CreateProfileProfessionalAdmin
                           fontSize: (size.height / 2) * 0.06,
                           fontFamily: 'PoppinsRegular',
                         ),
-                        onChanged: (text) {
-                          textApellido.text = text;
-                          textApellido.selection = TextSelection.fromPosition(
-                              TextPosition(offset: textApellido.text.length));
+                        onTap: () {
+                          if (_lastNameController.text == "Apellido") {
+                            _lastNameController.text = "";
+                          }
                         },
+                        // onChanged: (text) {
+                        //   _lastNameController.text = text;
+                        //   _lastNameController.selection = TextSelection.fromPosition(
+                        //       TextPosition(offset: _lastNameController.text.length));
+                        // },
                       ),
                     ),
                   ],
@@ -411,57 +423,61 @@ class _CreateProfileProfessionalAdmin
       ),
       actions: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
               onPressed: () {
                 String nombre = profesional.nombre;
                 final CollectionReference usersRef =
                     FirebaseFirestore.instance.collection("users");
-                AuthService authService = new AuthService();
-                Future<String> user = authService.signUp(profesional.correo,
-                    password, '$nombre ${profesional.apellido}');
-                user.then((value) {
-                  if (value[0] == "[") {
-                    showAlertDialog(
-                        context, "Hubo un error\nCorreo ya registrado");
-                  } else {
-                    usersRef
-                        .doc(value)
-                        .set({
-                          'role': 'professional',
-                          'name': nombre,
-                        })
-                        .then((value) => Navigator.pushNamed(
-                            context, 'adminManageProffessional'))
-                        .catchError((value) => showAlertDialog(context,
-                            "Hubo un error\nPor Favor intentalo mas tarde"));
+                FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-                    crearPago(profesional);
+                Future<UserCredential> user =
+                    firebaseAuth.createUserWithEmailAndPassword(
+                        email: profesional.correo, password: password);
+                user.then((valor) {
+                  valor.user.updateProfile(
+                      displayName: '$nombre ${profesional.apellido}');
+                  String value = valor.user.uid;
 
-                    agregarProfesional(profesional, value).then((value) {
-                      bool state;
-                      if (value) {
-                        title = 'Profesional Creado ';
-                        content = "Su profesional ha sido creado exitosamente.";
-                        state = true;
-                      } else {
-                        title = 'Error de Creación';
-                        content =
-                            "Hubo un error creando el profesional, inténtelo nuevamente";
-                        state = false;
-                      }
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => _adviceDialog(
-                                context,
-                                title,
-                                content,
-                                state,
-                              ));
-                    });
-                  }
-                });
+                  profesional.uid = value;
+                  usersRef
+                      .doc(value)
+                      .set({
+                        'role': 'professional',
+                        'name': nombre,
+                      })
+                      .then((value) => Navigator.pushNamed(
+                          context, 'adminManageProffessional'))
+                      .catchError((value) => showAlertDialog(context,
+                          "Hubo un error\nPor Favor intentalo mas tarde"));
+
+                  crearPago(profesional);
+
+                  agregarProfesional(profesional, value).then((value) {
+                    bool state;
+                    if (value) {
+                      title = 'Profesional Creado ';
+                      content = "Su profesional ha sido creado exitosamente.";
+                      state = true;
+                    } else {
+                      title = 'Error de Creación';
+                      content =
+                          "Hubo un error creando el profesional, inténtelo nuevamente";
+                      state = false;
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => _adviceDialog(
+                              context,
+                              title,
+                              content,
+                              state,
+                            ));
+                  });
+                }).catchError(showAlertDialog(
+                    context, "Hubo un error\nCorreo ya registrado"));
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -481,6 +497,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -503,6 +520,7 @@ class _CreateProfileProfessionalAdmin
                 ),
               ),
             ),
+            SizedBox(width: 20),
           ],
         ),
       ],

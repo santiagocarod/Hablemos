@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 
@@ -22,6 +23,7 @@ Future<bool> agregarProfesional(Profesional profesional, String value) {
         'city': profesional.ciudad,
         'description': profesional.descripcion,
         'uid': value,
+        'picture': profesional.foto,
       })
       .then((value) => true)
       .catchError((error) => false);
@@ -31,6 +33,9 @@ Future<bool> eliminarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
 
+  if (profesional.foto != null) {
+    deleteImage(profesional.foto);
+  }
   return reference
       .doc(profesional.uid)
       .delete()
@@ -73,6 +78,7 @@ Future<bool> editarProfesional(Profesional profesional) {
         'bank': profesional.banco.toMap(),
         'city': profesional.ciudad,
         'description': profesional.descripcion,
+        'picture': profesional.foto,
       })
       .then((value) => true)
       .catchError((error) => false);
@@ -82,4 +88,17 @@ void actualizarProfesionalCita(Profesional profesional, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
   reference.doc(cita.id).update({"professional": profesional.toMap()});
+}
+
+Future<bool> actualizarPerfilPro(Profesional profesional, String imagePath) {
+  CollectionReference reference =
+      FirebaseFirestore.instance.collection("professionals");
+
+  return reference
+      .doc(profesional.uid)
+      .update({
+        "picture": imagePath,
+      })
+      .then((value) => true)
+      .catchError((error) => false);
 }

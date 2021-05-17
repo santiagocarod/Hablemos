@@ -114,8 +114,7 @@ loginLogic(dynamic bloc, BuildContext context) {
           } else if (documentSnapshot.get('role') == 'administrator') {
             Navigator.pushNamed(context, 'inicioAdministrador');
           } else {
-            Navigator.pushNamed(
-                context, 'inicio'); //TODO: CAmbiar a panatalla de admin
+            Navigator.pushNamed(context, 'inicio');
           }
         }
       });

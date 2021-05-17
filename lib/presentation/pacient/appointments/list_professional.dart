@@ -71,21 +71,16 @@ class ListProfessional extends StatelessWidget {
               ListTile(
                 title: Text(
                   '${element.nombre + " " + element.apellido}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'PoppinsBold',
                   ),
                 ),
-                subtitle: Text(
-                  '${element.experiencia}',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontFamily: 'PoppinsBold',
-                  ),
-                ),
-                contentPadding: const EdgeInsets.all(10.0),
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
                 leading: Icon(Icons.account_circle_rounded,
-                    color: Colors.cyan, size: 50.0),
+                    color: Colors.cyan, size: 30.0),
               ),
               // Central Picture
               ClipRRect(
@@ -93,21 +88,31 @@ class ListProfessional extends StatelessWidget {
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                 ),
-                child: Image.network(
-                  'https://picsum.photos/250?image=9', //Foto del profesional
-                  height: 250,
-                  fit: BoxFit.fill,
-                ),
+                child: '${element.foto}' == "null"
+                    ? Icon(
+                        Icons.account_circle,
+                        color: Colors.indigo[100],
+                        size: 190.0,
+                      )
+                    : Image.network(
+                        '${element.foto}', //Foto del profesional
+                        height: 190,
+                        width: 180,
+                        fit: BoxFit.contain,
+                      ),
               ),
               // Especialty below the picture
               ListTile(
                 title: Text(
                   '${element.especialidad}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: 'PoppinsRegular',
                   ),
                 ),
+                contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
               ),
             ],
           ),
@@ -116,7 +121,8 @@ class ListProfessional extends StatelessWidget {
       InkWell inkWell = InkWell(
         splashColor: kAmarillo,
         onTap: () {
-          //Colocar Detalles Profesional
+          Navigator.pushNamed(context, 'professionalDetails',
+              arguments: element);
         },
         child: card,
       );

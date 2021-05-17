@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/model/cita.dart';
@@ -68,7 +69,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.all(20),
-        height: 599,
+        height: 620,
         width: 359,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -109,35 +110,53 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
     child: Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
           alignment: Alignment.center,
           child: Icon(Icons.location_on),
         ),
-        // Edit Button
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, 'CrearCita', arguments: cita);
-          },
-          child: Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: 15.0,
-              ),
-              child: Icon(Icons.edit, size: 47)),
-        ),
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
-          child: Text(
-            'Cita con $text',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.black,
-              fontFamily: 'PoppinsRegular',
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, 'CrearCita', arguments: cita);
+              },
+              child: Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(top: 15.0, right: 15.0),
+                  child: Icon(Icons.edit, size: 40)),
             ),
-          ),
+            Container(
+              width: 320.0,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                bottom: 20.0,
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'professionalDetails',
+                      arguments: profesional);
+                },
+                child: AutoSizeText(
+                  'Cita $text',
+                  maxFontSize: 18.0,
+                  minFontSize: 15.0,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color(0xFF205072),
+                    fontFamily: 'PoppinsRegular',
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.black,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        // Edit Button
       ],
     ),
   );
@@ -186,6 +205,13 @@ Widget _selectIcon(bool text) {
 
 // Payment and cancel buttons
 Widget _buttons(BuildContext context, Cita cita) {
+  String text;
+  if (cita.pago == "") {
+    text = "ADJUNTAR PAGO";
+  } else {
+    text = "VER PAGO";
+  }
+
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
     width: 270.0,
@@ -198,7 +224,7 @@ Widget _buttons(BuildContext context, Cita cita) {
           height: 35,
           child: ElevatedButton(
             child: Text(
-              "ADJUNTAR PAGO",
+              text,
               style: TextStyle(
                 fontSize: 9.0,
                 color: Colors.black,
@@ -215,7 +241,7 @@ Widget _buttons(BuildContext context, Cita cita) {
               shadowColor: Colors.black,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, 'AdjuntarPago');
+              Navigator.pushNamed(context, 'AdjuntarPago', arguments: cita);
             },
           ),
         ),

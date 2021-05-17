@@ -1,6 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/business/pacient/negocioCitas.dart';
+import 'package:hablemos/constants.dart';
+import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -10,28 +12,50 @@ class AttatchPayment extends StatefulWidget {
 }
 
 class _AttatchPaymentState extends State<AttatchPayment> {
-  File _image;
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
-  _imagenDesdeCamara() async {
+  _imagenDesdeCamara(Cita cita) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PAY_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPago(cita, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error enviando la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
-  _imagenDesdeGaleria() async {
+  _imagenDesdeGaleria(Cita cita) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, PAY_FOLDER).then((value) {
+      if (value != null) {
+        actualizarPago(cita, value).then((val) {
+          if (val) {
+            _image = value;
+            Navigator.pop(context);
+            setState(() {});
+          } else {
+            showAlertDialog(context,
+                "Hubo un error enviando la foto, inténtelo nuevamente");
+          }
+        });
+      }
     });
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, cita) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -44,15 +68,14 @@ class _AttatchPaymentState extends State<AttatchPayment> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        _imagenDesdeGaleria();
-                        //Navigator.of(context).pop();
+                        _imagenDesdeGaleria(cita);
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      _imagenDesdeCamara();
+                      _imagenDesdeCamara(cita);
                     },
                   ),
                 ],
@@ -64,6 +87,10 @@ class _AttatchPaymentState extends State<AttatchPayment> {
 
   @override
   Widget build(BuildContext context) {
+    final Cita cita = ModalRoute.of(context).settings.arguments;
+    if (cita.pago != null && cita.pago != "") {
+      _image = cita.pago;
+    }
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -85,22 +112,43 @@ class _AttatchPaymentState extends State<AttatchPayment> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(
-                    child: iconButtonBig("Subir prueba de pago", () {
-                      _showPicker(context);
-                    }, Icons.cloud_upload, Colors.yellow[700]),
-                  ),
                   _image == null
                       ? SizedBox(
                           height: 10,
                         )
-                      : Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Image.file(
-                            _image,
-                            height: size.height / 2,
+                      : Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Image.network(
+                              _image,
+                              height: size.height / 1.5,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
+                        ),
+                  _image == null
+                      ? Center(
+                          child: iconButtonBig("Subir prueba de pago", () {
+                            _showPicker(context, cita);
+                          }, Icons.cloud_upload, Colors.yellow[700]),
                         )
+                      : SizedBox(
+                          height: 10,
+                        ),
                 ],
               ),
             ]),

@@ -1,7 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hablemos/business/admin/negocioEventos.dart';
+import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
@@ -24,17 +26,53 @@ class _AddActivity extends State<AddActivity> {
   TextEditingController _precioController = new TextEditingController();
   TextEditingController _bancoController = new TextEditingController();
   TextEditingController _numCuentaController = new TextEditingController();
+  TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
 
-  File _image;
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _tipoCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _numCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
+
+  String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -42,8 +80,17 @@ class _AddActivity extends State<AddActivity> {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
-      _image = File(image.path);
+    uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (value != null) {
+        _image = value;
+        Navigator.pop(context);
+        setState(() {
+          build(context);
+        });
+      } else {
+        showAlertDialog(
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+      }
     });
   }
 
@@ -87,6 +134,9 @@ class _AddActivity extends State<AddActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
+                        if (_image != null) {
+                          deleteImage(_image);
+                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -95,6 +145,9 @@ class _AddActivity extends State<AddActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
+                      if (_image != null) {
+                        deleteImage(_image);
+                      }
                       _imagenDesdeCamara();
                     },
                   ),
@@ -346,6 +399,86 @@ class _AddActivity extends State<AddActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value != "" && value != "0") {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          } else if (bancoTextField.enabled) {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          }
+                                        },
                                         controller: _precioController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
@@ -363,40 +496,62 @@ class _AddActivity extends State<AddActivity> {
                         SizedBox(height: 20.0),
                         Container(
                           width: 330.5,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width: 133.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        "Banco",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras.withOpacity(0.7),
-                                            fontSize: 18.0),
-                                      ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    width: 133.5,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Banco",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras.withOpacity(0.7),
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                        Align(
+                                            alignment: Alignment.topLeft,
+                                            child: bancoTextField),
+                                      ],
                                     ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _bancoController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
+                                  ),
+                                  Container(
+                                    width: 183.5,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Tipo de Cuenta",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontFamily: "PoppinsRegular",
+                                                color: kLetras.withOpacity(0.7),
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: tipoCuentaTextField,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.0,
                               ),
                               Container(
-                                width: 183.5,
+                                width: 330.5,
                                 child: Column(
                                   children: <Widget>[
                                     Align(
@@ -412,14 +567,7 @@ class _AddActivity extends State<AddActivity> {
                                     ),
                                     Align(
                                       alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _numCuentaController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
+                                      child: numeroCuentaTextField,
                                     ),
                                   ],
                                 ),
@@ -471,7 +619,30 @@ class _AddActivity extends State<AddActivity> {
                                         borderRadius:
                                             BorderRadius.circular(40.0),
                                         child: (_image != null)
-                                            ? new Image.file(_image)
+                                            ? new Image.network(
+                                                _image,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                              )
                                             : Container(),
                                       ),
                                     ),
@@ -520,28 +691,96 @@ class _AddActivity extends State<AddActivity> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  /*Actividad nuevaActividad = new Actividad(
-                                    titulo: _tituloController.text,
-                                    valor: _precioController.text,
-                                    descripcion: _descripcionController.text,
-                                    ubicacion: _ubicacionController.text,
-                                    numeroSesiones:
-                                        int.parse(_sesionesController.text),
-                                    banco: _bancoController.text,
-                                    numeroCuenta: _numCuentaController.text,
-                                  );
-                                  actividades.add(nuevaActividad);*/
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return dialogoConfirmacion(
-                                          context,
-                                          "listarActividadesAdmin",
-                                          "Confirmación de Creación",
-                                          "¿Está seguro que desea crear una nueva Actividad?",
-                                          () {});
-                                    },
-                                  );
+                                  if (bancoTextField.enabled) {
+                                    if (_tituloController.text == "" ||
+                                        _ubicacionController.text == "" ||
+                                        _bancoController.text == "" ||
+                                        _date == null ||
+                                        _descripcionController.text == "" ||
+                                        _sesionesController.text == "" ||
+                                        _numCuentaController.text == "" ||
+                                        _tipoCuentaController.text == "" ||
+                                        _time == null ||
+                                        _image == null) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Error",
+                                                  "Por favor ingresa todos los valores"));
+                                    } else {
+                                      Actividad actividad = Actividad(
+                                        banco: Banco(
+                                          banco: _bancoController.text,
+                                          numCuenta: _numCuentaController.text,
+                                          tipoCuenta:
+                                              _tipoCuentaController.text,
+                                        ),
+                                        descripcion:
+                                            _descripcionController.text,
+                                        fecha: _date.toString(),
+                                        hora: _time.toString(),
+                                        numeroSesiones:
+                                            int.parse(_sesionesController.text),
+                                        titulo: _tituloController.text,
+                                        ubicacion: _ubicacionController.text,
+                                        valor: _precioController.text,
+                                        foto: _image,
+                                      );
+                                      if (agregarActividades(actividad)) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext contex) =>
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "Exito!",
+                                                    "Actividad Agregada!",
+                                                    ruta:
+                                                        "listarActividadesAdmin"));
+                                      }
+                                    }
+                                  } else {
+                                    if (_tituloController.text == "" ||
+                                        _ubicacionController.text == "" ||
+                                        _date == null ||
+                                        _descripcionController.text == "" ||
+                                        _time == null ||
+                                        _image == null) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext contex) =>
+                                              _buildPopupDialog(
+                                                  context,
+                                                  "Error",
+                                                  "Por favor ingresa todos los valores"));
+                                    } else {
+                                      Actividad actividad = Actividad(
+                                        descripcion:
+                                            _descripcionController.text,
+                                        fecha: _date.toString(),
+                                        hora: _time.toString(),
+                                        numeroSesiones:
+                                            int.parse(_sesionesController.text),
+                                        titulo: _tituloController.text,
+                                        ubicacion: _ubicacionController.text,
+                                        valor: _precioController.text,
+                                        foto: _image,
+                                      );
+
+                                      if (agregarActividades(actividad)) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext contex) =>
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "Exito!",
+                                                    "Actividad Agregada!",
+                                                    ruta:
+                                                        "listarActividadesAdmin"));
+                                      }
+                                    }
+                                  }
                                 },
                                 child: Container(
                                   child: Row(
@@ -575,4 +814,36 @@ class _AddActivity extends State<AddActivity> {
       ),
     );
   }
+}
+
+Widget _buildPopupDialog(BuildContext context, String tittle, String content,
+    {String ruta}) {
+  return new AlertDialog(
+    title: Text(tittle),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(content),
+      ],
+    ),
+    actions: <Widget>[
+      new ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          if (ruta != null) {
+            Navigator.pushNamed(context, ruta);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kRojoOscuro,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(378.0),
+          ),
+          shadowColor: Colors.black,
+        ),
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }

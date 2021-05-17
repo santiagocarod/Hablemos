@@ -51,3 +51,18 @@ const listColoresForo = [
 ];
 
 const grisSuave = Color(0xFFEAECFF);
+
+const API_KEY = "975698479996151";
+const API_SECRET = "wtgtBmSssA1UixdejKpU53XTLTk";
+const CLOUD_NAME = "hablemos";
+const PAY_FOLDER = "payment_pictures";
+const PROFILE_FOLDER = "profile_pictures";
+const ACTIVITY_FOLDER = "activity_pictures";
+const GROUP_FOLDER = "group_pictures";
+const WORKSHOP_FOLDER = "workshop_pictures";
+const ACTIVITY_PAYMENT = "paymentsActivities";
+const GROUP_PAYMENT = "paymentsGroups";
+const WORKSHOP_PAYMENT = "paymentsWorkshops";
+
+const PORCENTAJE_PAGO = 15000;
+const COSTO_CITA = 75000;

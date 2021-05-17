@@ -46,70 +46,93 @@ class VerPagoPro extends StatelessWidget {
                               margin: EdgeInsets.only(top: size.height * 0.15),
                               height: 270.0,
                               width: 370.0,
-                              child: Image.asset(
-                                  'assets/images/ejemploPago.png',
-                                  height: 270.0,
-                                  width: 370.0,
-                                  fit: BoxFit.cover),
+                              child: Image.network(
+                                cita.pago,
+                                height: 270.0,
+                                width: 370.0,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress
+                                                  .expectedTotalBytes !=
+                                              null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, 'citasProfesional');
                             },
-                            child: Container(
-                              margin: EdgeInsets.only(top: 80),
-                              alignment: Alignment.center,
-                              width: 159,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                color: kAzulOscuro,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0, 0),
-                                      blurRadius: 5,
-                                      color: Colors.grey.withOpacity(0.5)),
-                                ],
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return dialogoConfirmacion(
-                                            context,
-                                            'citasProfesional',
-                                            "Confirmación Aceptación de Pago",
-                                            "¿Estás seguro que deseas aceptar y aprobar esta cita?",
-                                            actualizarEstado,
-                                            parametro: cita);
-                                      });
-                                },
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        Icons.control_point,
-                                        color: kBlanco,
-                                        size: 20.0,
+                            child: cita.estado == false
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 80),
+                                    alignment: Alignment.center,
+                                    width: 159,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                      color: kAzulOscuro,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(30)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(0, 0),
+                                            blurRadius: 5,
+                                            color:
+                                                Colors.grey.withOpacity(0.5)),
+                                      ],
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return dialogoConfirmacion(
+                                                  context,
+                                                  'citasProfesional',
+                                                  "Confirmación Aceptación de Pago",
+                                                  "¿Estás seguro que deseas aceptar y aprobar esta cita?",
+                                                  actualizarEstado,
+                                                  parametro: cita);
+                                            });
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.control_point,
+                                              color: kBlanco,
+                                              size: 20.0,
+                                            ),
+                                            Text(
+                                              'Aceptar Pago',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 15,
+                                                  color: kBlanco,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        'Aceptar Pago',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 15,
-                                            color: kBlanco,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ],
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                              ),
-                            ),
                           ),
                         ],
                       )
