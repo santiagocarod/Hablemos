@@ -9,6 +9,10 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
+import '../../../constants.dart';
+import '../../../constants.dart';
+import '../../../constants.dart';
+
 class CreateDate extends StatefulWidget {
   @override
   _CreateDate createState() => _CreateDate();
@@ -27,6 +31,7 @@ class _CreateDate extends State<CreateDate> {
 
   String textDate, textHour, textProf, textType;
   String _date = '', _hour = '';
+  List<dynamic> horarios = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +48,16 @@ class _CreateDate extends State<CreateDate> {
       textHour = format.format(cita.dateTime);
       textProf = cita.profesional.nombreCompleto();
       textType = cita.tipo;
+      if (_hour == '') {
+        _updateHours(
+            cita.profesional.uid,
+            cita.dateTime.day.toString() +
+                "/" +
+                cita.dateTime.month.toString() +
+                "/" +
+                cita.dateTime.year.toString(),
+            cita);
+      }
     } else if (cita == null) {
       textDate = "Fecha";
       textHour = "Hora";
@@ -97,8 +112,9 @@ class _CreateDate extends State<CreateDate> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                _dateInfo(context, size),
-                                _professionalInfo(context, size, professionals),
+                                _dateInfo(context, size, cita),
+                                _professionalInfo(
+                                    context, size, professionals, cita),
                                 _dateType(context, size),
                                 _create(context, cita),
                               ],
@@ -116,7 +132,7 @@ class _CreateDate extends State<CreateDate> {
   }
 
 // Date and Time text Fields
-  Widget _dateInfo(BuildContext context, Size size) {
+  Widget _dateInfo(BuildContext context, Size size, Cita cita) {
     return Container(
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
       child: Row(
@@ -145,44 +161,44 @@ class _CreateDate extends State<CreateDate> {
               ),
               onTap: () {
                 FocusScope.of(context).requestFocus(new FocusNode());
-                _selectDate(context);
+                _selectDate(context, cita);
               },
             ),
           ),
           // Time Text Field
           Container(
-            width: (size.width / 2) - 48,
-            height: 65,
-            child: TextField(
-              controller: _timeController,
-              enableInteractiveSelection: false,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.access_time,
-                  color: Colors.black,
-                  size: 48,
-                ),
-                hintText: textHour,
-                hintStyle: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.black,
-                  fontFamily: 'PoppinRegular',
-                ),
-              ),
-              onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                _selectTime(context);
-              },
-            ),
-          ),
+              width: (size.width / 2) - 48,
+              height: 65,
+              child: DropdownButton(
+                  icon: Icon(Icons.access_time),
+                  iconDisabledColor: kGris,
+                  iconEnabledColor: Colors.black,
+                  iconSize: 32,
+                  isExpanded: true,
+                  value: _hour,
+                  items: horarios.map((hora) {
+                    return DropdownMenuItem<String>(
+                      child: Center(child: Text(hora)),
+                      value: hora,
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _hour = value;
+                    });
+                  },
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    fontFamily: 'PoppinRegular',
+                  ))),
         ],
       ),
     );
   }
 
 // Picker Date
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, Cita cita) async {
     DateTime picked = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),
@@ -191,29 +207,19 @@ class _CreateDate extends State<CreateDate> {
     );
     var myFormat = DateFormat('d/MM/yyyy');
     if (picked != null) {
+      _date = myFormat.format(picked).toString();
+      if (_profController != null) {
+        _updateHours(_profController.uid, _date, cita);
+      }
       setState(() {
-        _date = myFormat.format(picked).toString();
         _inputFieldDateController.text = _date;
       });
     }
   }
 
-// Picker Time
-  _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: new TimeOfDay.now(),
-    );
-    if (picked != null)
-      setState(() {
-        _hour = picked.toString().substring(10, 15);
-        _timeController.text = _hour;
-      });
-  }
-
 // Professional Text Field and Button
-  Widget _professionalInfo(
-      BuildContext context, Size size, List<Profesional> professionals) {
+  Widget _professionalInfo(BuildContext context, Size size,
+      List<Profesional> professionals, Cita cita) {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       child: Column(
@@ -254,6 +260,11 @@ class _CreateDate extends State<CreateDate> {
                     );
                   }).toList(),
                   onChanged: (value) {
+                    if (textDate != "") {
+                      _updateHours(value.uid, textDate, cita);
+                    } else {
+                      print("VACIOOOO");
+                    }
                     setState(() {
                       _profController = value;
                     });
@@ -300,6 +311,61 @@ class _CreateDate extends State<CreateDate> {
         ],
       ),
     );
+  }
+
+  void _updateHours(String profUid, String date, Cita cita) {
+    //TODO CUANDO LA CITA EXISTE Y SE CAMBIA SOLO EL PROFESIONAL NO ESTA ACTUALIZANDO BIEN LA LISTA DE HORARIOS
+    List<String> horas = [];
+    for (int i = 7; i < 19; i++) {
+      horas.add("$i:00");
+    }
+    DateTime dia = DateFormat('d/M/yyyy hh:mm').parse(date + ' 00:00');
+    DateTime despues = DateTime(dia.year, dia.month, dia.day + 1);
+    FirebaseFirestore.instance
+        .collection("appoinments")
+        .where("professional.uid", isEqualTo: profUid)
+        .where("dateTime", isGreaterThanOrEqualTo: dia)
+        .where("dateTime", isLessThan: despues)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        Timestamp timestamp = element.data()["dateTime"];
+        DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(
+            timestamp.microsecondsSinceEpoch);
+        dateTime = DateTime(
+            dateTime.year, dateTime.month, dateTime.day, dateTime.hour);
+        print("DATAAAA :  $dateTime");
+        print(timestamp);
+        String horaUsada = dateTime.hour.toString() + ":00";
+
+        horas.remove(horaUsada);
+      });
+      String horaApartada = "";
+      if (cita != null) {
+        horaApartada = cita.dateTime.hour.toString() +
+            ":" +
+            (cita.dateTime.minute.toString().length == 1
+                ? "0" + cita.dateTime.minute.toString()
+                : cita.dateTime.minute.toString());
+      }
+      if (_hour == "" && cita != null) {
+        _hour = horaApartada;
+      } else {
+        _hour = horas[0];
+      }
+      setState(() {
+        if (cita != null &&
+            profUid == cita.profesional.uid &&
+            (cita.dateTime.day == dia.day &&
+                cita.dateTime.month == dia.month &&
+                cita.dateTime.year == dia.year)) {
+          horas.add(horaApartada);
+          horas.sort((a, b) =>
+              int.parse(a.split(":")[0]).compareTo(int.parse(b.split(":")[0])));
+        }
+        horarios = horas;
+      });
+    });
   }
 
 // Type Text Field

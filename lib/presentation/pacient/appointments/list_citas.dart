@@ -21,7 +21,8 @@ class ListCitas extends StatelessWidget {
 
     Query citasCollection = FirebaseFirestore.instance
         .collection("appoinments")
-        .where("pacient.uid", isEqualTo: user.uid);
+        .where("pacient.uid", isEqualTo: user.uid)
+        .orderBy("dateTime", descending: true);
 
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
