@@ -65,6 +65,9 @@ class _ModifyGroup extends State<ModifyGroup> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -82,6 +85,9 @@ class _ModifyGroup extends State<ModifyGroup> {
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -137,9 +143,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(grupo);
                         //Navigator.of(context).pop();
                       }),
@@ -148,9 +151,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(grupo);
                     },
                   ),

@@ -65,6 +65,9 @@ class _AddActivity extends State<AddActivity> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
@@ -82,6 +85,9 @@ class _AddActivity extends State<AddActivity> {
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
       if (value != null) {
+        if (_image != null) {
+          deleteImage(_image);
+        }
         _image = value;
         Navigator.pop(context);
         setState(() {
@@ -134,9 +140,6 @@ class _AddActivity extends State<AddActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -145,9 +148,6 @@ class _AddActivity extends State<AddActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara();
                     },
                   ),

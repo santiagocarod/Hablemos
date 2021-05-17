@@ -65,6 +65,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (taller.foto != null) {
+        deleteImage(taller.foto);
+      }
       if (value != null) {
         _image = value;
         taller.foto = value;
@@ -82,6 +85,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (taller.foto != null) {
+        deleteImage(taller.foto);
+      }
       if (value != null) {
         _image = value;
         taller.foto = value;
@@ -136,9 +142,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(taller);
                         //Navigator.of(context).pop();
                       }),
@@ -147,9 +150,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(taller);
                     },
                   ),
