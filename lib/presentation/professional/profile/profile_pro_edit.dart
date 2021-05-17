@@ -78,6 +78,9 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       uploadImage(image.path, PROFILE_FOLDER).then((value) {
         if (value != null) {
           actualizarPerfilPro(profesional, value).then((val) {
+            if (profesional.foto != null) {
+              deleteImage(profesional.foto);
+            }
             if (val) {
               _image = value;
               Navigator.pop(context);
@@ -100,6 +103,9 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfilPro(profesional, value).then((val) {
+          if (profesional.foto != null) {
+            deleteImage(profesional.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
