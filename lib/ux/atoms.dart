@@ -477,7 +477,7 @@ Widget searchBar(BuildContext context, Size size, String text,
         Container(
           margin: EdgeInsets.only(top: size.height * 0.15),
           height: 53.33,
-          width: size.width - 187.0,
+          width: size.width - 120.0,
           decoration: BoxDecoration(
             color: kBlanco,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -581,11 +581,9 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? names
-        : names
-            .where((p) => p.toLowerCase().startsWith(query.toLowerCase()))
-            .toList();
+    final suggestionList = names
+        .where((p) => p.toLowerCase().startsWith(query.toLowerCase()))
+        .toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
@@ -608,7 +606,7 @@ class DataSearch extends SearchDelegate<String> {
         },
         title: RichText(
           text: TextSpan(
-              //text: suggestionList[index].substring(0, query.length),
+              text: suggestionList[index].substring(0, query.length),
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               children: [
