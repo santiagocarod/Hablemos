@@ -3,9 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants.dart';
 import '../../model/cita.dart';
 import '../../model/pagoadmin.dart';
+import '../cloudinary.dart';
 
 void terminarCita(Cita cita) {
   String uid = cita.profesional.uid;
+  if (cita.pago != null && cita.pago != "") {
+    deleteImage(cita.pago);
+  }
   FirebaseFirestore.instance
       .collection("payments")
       .doc(uid)
