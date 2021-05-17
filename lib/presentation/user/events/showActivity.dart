@@ -42,7 +42,6 @@ class _ShowActivityState extends State<ShowActivity> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }

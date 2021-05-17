@@ -21,7 +21,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
 
     Profesional profesional = ModalRoute.of(context).settings.arguments;
     _image = profesional.foto;
-    print(profesional.uid);
+
     return Container(
       color: kRosado,
       child: SafeArea(

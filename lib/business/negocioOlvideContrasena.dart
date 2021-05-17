@@ -6,9 +6,7 @@ Future<bool> olvideMiContrasena(String email) async {
   try {
     await firebaseAuth.sendPasswordResetEmail(email: email);
   } catch (e) {
-    print(e);
     error = true;
   }
-  print(error);
   return !error;
 }
