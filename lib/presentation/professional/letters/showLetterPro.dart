@@ -44,7 +44,8 @@ class ShowLetterPro extends StatelessWidget {
                       child: Material(
                         type: MaterialType.transparency,
                         child: Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                          padding: EdgeInsets.only(
+                              top: 10.0, left: 10.0, right: 10.0),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: Column(
@@ -52,7 +53,8 @@ class ShowLetterPro extends StatelessWidget {
                               children: [
                                 Center(
                                   child: Text(
-                                    carta.titulo,
+                                    "${carta.titulo[0].toUpperCase()}${carta.titulo.substring(1)}",
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: "PoppinSemiBold",
                                         fontSize: 18),
@@ -60,9 +62,10 @@ class ShowLetterPro extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(20, 25, 20, 20),
+                                      const EdgeInsets.fromLTRB(10, 25, 25, 10),
                                   child: Text(
                                     carta.cuerpo,
+                                    textAlign: TextAlign.justify,
                                     style: TextStyle(
                                         fontFamily: "PoppinsRegular",
                                         fontSize: 14,

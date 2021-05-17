@@ -33,7 +33,9 @@ class Information extends StatelessWidget {
         List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
 
         diagnosticos.forEach((element) {
-          names.add(element.nombre);
+          if (!names.contains(element.nombre)) {
+            names.add(element.nombre);
+          }
         });
 
         return Container(

@@ -77,6 +77,7 @@ class SubscribedWorkShop extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${taller.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,

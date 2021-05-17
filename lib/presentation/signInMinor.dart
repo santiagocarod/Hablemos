@@ -236,7 +236,7 @@ class _SingInMinorState extends State<SingInMinor> {
         onTap: () {
           AuthService authService = new AuthService();
           Future<String> user =
-              authService.signUp(correo, contrasena, "nombre apellido");
+              authService.signUp(correo, contrasena, nombre + " " + apellido);
           user.then((value) {
             if (value[0] == "[") {
               showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
@@ -302,7 +302,7 @@ class _SingInMinorState extends State<SingInMinor> {
         onTap: () {
           AuthService authService = new AuthService();
           Future<String> user =
-              authService.signUp(correo, contrasena, "nombre apellido");
+              authService.signUp(correo, contrasena, nombre + " " + apellido);
           user.then((value) {
             if (value[0] == "[") {
               showAlertDialog(context, "Hubo un Error\nCorreo ya registrado.");

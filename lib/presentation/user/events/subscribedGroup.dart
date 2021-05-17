@@ -75,6 +75,7 @@ class SubscribedGroup extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${grupo.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,

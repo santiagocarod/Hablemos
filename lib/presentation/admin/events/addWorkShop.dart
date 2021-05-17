@@ -552,7 +552,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                               ),
                               SizedBox(height: 20.0),
                               Container(
-                                width: 183.5,
+                                width: 330.5,
                                 child: Column(
                                   children: <Widget>[
                                     Align(

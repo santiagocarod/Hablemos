@@ -7,6 +7,7 @@ import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
+import 'package:hablemos/business/professional/negocioCitasPro.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
@@ -14,7 +15,7 @@ import '../../../constants.dart';
 class ListCitasPro extends StatelessWidget {
   List<Widget> citasProfesionalToCard(context, List<Cita> citas) {
     final DateFormat format = DateFormat('hh:mm a');
-
+    DateTime ahora = DateTime.now();
     List<Widget> cards = [];
     citas.forEach((element) {
       Card card = Card(
@@ -35,7 +36,29 @@ class ListCitasPro extends StatelessWidget {
                   text:
                       '${element.dateTime.day}/${element.dateTime.month}/${element.dateTime.year}'),
               secction(title: 'Costo', text: '\$${element.costo}'),
-              SizedBox(height: 20)
+              SizedBox(height: 30),
+              element.dateTime.isBefore(ahora)
+                  ? Center(
+                      child: iconButtonXs(
+                          color: Colors.yellow[700],
+                          function: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return dialogoConfirmacion(
+                                    context,
+                                    "citasProfesional",
+                                    "Confirmación Terminación",
+                                    "¿Esta seguro que quiere Terminar esta Cita? ",
+                                    terminarCita,
+                                    parametro: element);
+                              },
+                            );
+                          },
+                          iconData: Icons.done_all_sharp,
+                          text: "Terminar Cita"))
+                  : SizedBox(),
+              SizedBox(height: 20),
             ],
           ),
         ),
