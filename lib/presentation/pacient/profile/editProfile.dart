@@ -63,6 +63,9 @@ class _EditProfile extends State<EditProfile> {
       uploadImage(image.path, PROFILE_FOLDER).then((value) {
         if (value != null) {
           actualizarPerfil(paciente, value).then((val) {
+            if (paciente.foto != "falta foto") {
+              deleteImage(paciente.foto);
+            }
             if (val) {
               _image = value;
               Navigator.pop(context);
@@ -85,6 +88,9 @@ class _EditProfile extends State<EditProfile> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfil(paciente, value).then((val) {
+          if (paciente.foto != "falta foto") {
+            deleteImage(paciente.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
@@ -102,7 +108,6 @@ class _EditProfile extends State<EditProfile> {
 
   // Display options (Camera or Gallery)
   void _showPicker(context, paciente) {
-    deleteImage(paciente.foto);
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
