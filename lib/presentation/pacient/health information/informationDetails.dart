@@ -200,7 +200,7 @@ List<Widget> _listUrl(List<String> content) {
   List<Widget> info = [];
   content.forEach((element) {
     Widget inf;
-    if (element.contains(new RegExp(r'https', caseSensitive: false))) {
+    if (element.contains(new RegExp(r'http', caseSensitive: false))) {
       inf = GestureDetector(
         onTap: () {
           print("taptaptpatpatpa");
