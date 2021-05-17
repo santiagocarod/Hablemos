@@ -37,6 +37,9 @@ class _AddGroup extends State<AddGroup> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
@@ -53,6 +56,9 @@ class _AddGroup extends State<AddGroup> {
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);

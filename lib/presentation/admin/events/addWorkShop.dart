@@ -39,6 +39,9 @@ class _AddWorkShop extends State<AddWorkShop> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
@@ -55,6 +58,9 @@ class _AddWorkShop extends State<AddWorkShop> {
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
