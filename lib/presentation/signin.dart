@@ -242,28 +242,28 @@ class _SignInPageState extends State<SignInPage> {
 
     if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
       if (_name == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
       } else if (_lastName == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
       } else if (_city == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad.");
       } else if (_inputFieldDateController.text == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento.");
       } else if (_telephone == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono.");
       } else if (_telephoneContact == '') {
         showAlertDialog(context,
-            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia.");
       } else if (_nameContact == '') {
         showAlertDialog(context,
-            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia.");
       } else {
         AuthService authService = new AuthService();
         Future<String> user =
             authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
         user.then((value) {
           if (value[0] == "[") {
-            showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+            showAlertDialog(context, "Hubo un error\n Correo ya registrado.");
           } else {
             usersRef
                 .doc(value)
@@ -289,27 +289,27 @@ class _SignInPageState extends State<SignInPage> {
               'emergencyContactRelationship': _relationContact,
               'uid': value,
             }).catchError((value) => showAlertDialog(
-                context, "Hubo un error\nPor Favor intentalo mas tarde"));
+                context, "Hubo un Error\nPor Favor intentalo mas tarde"));
           }
         });
       }
     } else {
       if (_name == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
       } else if (_lastName == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Nombre");
+        showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
       } else if (_city == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Ciudad");
+        showAlertDialog(context, "Por Favor Ingresa tu Ciudad.");
       } else if (_inputFieldDateController.text == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento");
+        showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento.");
       } else if (_telephone == '') {
-        showAlertDialog(context, "Por Favor Ingresa tu Teléfono");
+        showAlertDialog(context, "Por Favor Ingresa tu Teléfono.");
       } else if (_telephoneContact == '') {
         showAlertDialog(context,
-            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia");
+            "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia.");
       } else if (_nameContact == '') {
         showAlertDialog(context,
-            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia");
+            "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia.");
       } else {
         List<String> usuario = [];
         usuario.add(_name);

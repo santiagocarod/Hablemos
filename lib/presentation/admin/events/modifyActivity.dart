@@ -47,7 +47,7 @@ class _ModifyActivity extends State<ModifyActivity> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -66,7 +66,7 @@ class _ModifyActivity extends State<ModifyActivity> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -794,6 +794,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     );
   }
 
+  // Dialogo de Confirmación de Guardar los cambios realizados al Grupo.
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Actividad actividad) {
     return AlertDialog(
@@ -847,14 +848,14 @@ class _ModifyActivity extends State<ModifyActivity> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarActividad(actividad)) {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(
-                                        context, "Exito!", "Actividad editada!",
+                                    _buildPopupDialog(context, "!Exito!",
+                                        "¡Actividad Editada!",
                                         ruta: "listarActividadesAdmin"));
                           }
                         }
@@ -869,7 +870,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                             builder: (BuildContext contex) => _buildPopupDialog(
                                 context,
                                 "Error",
-                                "Por favor ingresa todos los valores"),
+                                "Por favor ingresa todos los valores."),
                           );
                         } else {
                           actividad.banco = null;
@@ -878,7 +879,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(
-                                      context, "Exito!", "Actividad editada!",
+                                      context, "!Exito!", "!Actividad Editada!",
                                       ruta: "listarActividadesAdmin"),
                             );
                           }

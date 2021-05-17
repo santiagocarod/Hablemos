@@ -102,7 +102,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
   );
 }
 
-// Name of the professional and edit button
+// Nombre del Profesional y boton de edición de Cita.
 Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   final String text = profesional.nombre + " " + profesional.apellido;
   return Container(
@@ -162,7 +162,7 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   );
 }
 
-// State of the date (aproved or canceled)
+// Sección Representante del estado de una cita
 Widget _state(BuildContext context, Cita cita) {
   final bool text = cita.estado;
   return Container(
@@ -186,7 +186,9 @@ Widget _state(BuildContext context, Cita cita) {
   );
 }
 
-//Select the type of icon (aproved: green check, cancel: red cancel)
+// Selección del icono representativo del estado de la cita.
+// Aceptada: Simbolo Visto de color verde.
+// Rechazada: Simbolo de X de color rojo.
 Widget _selectIcon(bool text) {
   if (text == false) {
     return Icon(
@@ -203,7 +205,7 @@ Widget _selectIcon(bool text) {
   }
 }
 
-// Payment and cancel buttons
+// Creación de Botones de Adjuntar Pago y Cancelación de Cita
 Widget _buttons(BuildContext context, Cita cita) {
   String text;
   if (cita.pago == "") {

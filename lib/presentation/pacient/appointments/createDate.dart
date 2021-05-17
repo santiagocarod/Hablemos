@@ -444,13 +444,10 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Create Button
+// Crea el botón encargado de crear una cita.
   Widget _create(BuildContext context, Cita cita) {
-    /*String username = "Paciente";
-    String title = "";
-    String content = "";*/
     String button = "CREAR";
-    // Chage the text of button if it is an update
+    // Cambiar el texto del boton, si es una modificacion de cita
     if (cita != null) button = "ACTUALIZAR";
     return Container(
       padding:
@@ -480,9 +477,9 @@ class _CreateDate extends State<CreateDate> {
             String title = "";
             String content = "";
 
-            // Validate if it is a create
+            // Validate si es la creación de una cita
             if (cita == null) {
-              // Validate if any text field is empty
+              // Validar la existencia de campos no vacios
               if (_inputFieldDateController.text.isNotEmpty &&
                   _hour != "" &&
                   _profController != null &&
@@ -491,7 +488,6 @@ class _CreateDate extends State<CreateDate> {
                     .parse(_inputFieldDateController.text + ' ' + _hour);
 
                 cita = new Cita(
-                  // paciente: username,
                   profesional: _profController,
                   dateTime: date,
                   tipo: _typeController,
@@ -501,11 +497,11 @@ class _CreateDate extends State<CreateDate> {
                   if (value) {
                     title = 'Cita Creada';
                     content =
-                        "Su cita fue creada exitosamente, espere a la aprobación del profesional";
+                        "Tu cita fue creada exitosamente, espera a la aprobación del profesional.";
                   } else {
                     title = 'Error en la creación';
                     content =
-                        "Por favor verifique los campos.\nRecuerde que la cita tiene que ser para dentro de mas de 3 dias.";
+                        "Por favor verifica los campos.\nRecuerda que la cita tiene que ser para dentro de más de 3 días.";
                   }
                   showDialog(
                     context: context,
@@ -514,20 +510,20 @@ class _CreateDate extends State<CreateDate> {
                   );
                 });
 
-                // If it is empty it shows a dialog box
+                // Si los campos obligatorios de una cita estan vacios
               } else {
                 title = 'No se pudo crear la cita';
                 content =
-                    "Ha habido un error, asegurese de llenar todos los campos";
+                    "Ha habido un error, asegurate de llenar todos los campos.";
                 showDialog(
                   context: context,
                   builder: (BuildContext contex) =>
                       _buildPopupDialog(context, title, content),
                 );
               }
-              // Validate if it is an update
+              // Validate si es la modificación o actualización de una cita.
             } else {
-              // Populate the controllers whith existing information if it hasn't changed
+              // Asignar valores de los controladores con los valores existentes, si estos no han cambiado.
               if (_inputFieldDateController.text.isEmpty)
                 _inputFieldDateController.text = textDate;
               if (_timeController.text.isEmpty) _timeController.text = textHour;
@@ -540,11 +536,11 @@ class _CreateDate extends State<CreateDate> {
                   cita, _profController, date, _typeController)) {
                 title = 'Cita Actualizada';
                 content =
-                    "Su cita fue actualizada exitosamente, espere a la aprobación del profesional";
+                    "Tu cita fue actualizada exitosamente, espere a la aprobación del profesional";
               } else {
                 title = 'Error';
                 content =
-                    "No puede actualizar su cita con menos de 3 dias de anticipación.";
+                    "No puede actualizar tu cita con menos de 3 dias de anticipación.";
               }
               showDialog(
                 context: context,
@@ -558,7 +554,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Show de dialog box
+// Construcción de Dialogo de confirmación de cita.
   Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(

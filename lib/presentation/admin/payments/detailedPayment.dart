@@ -187,7 +187,8 @@ class DetailedPaymentAdmin extends StatelessWidget {
                   context,
                   "Confirmación de pago",
                   "¿Seguro que el profesional ya pagó?",
-                  pagoadmin),
+                  pagoadmin,
+                  size),
             );
           },
           child: Row(
@@ -214,11 +215,13 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildDialog(
-      BuildContext context, String title, String content, Pagoadmin pagoadmin) {
+  // Dialogo Confirmación de Pago del Profesional
+  Widget _buildDialog(BuildContext context, String title, String content,
+      Pagoadmin pagoadmin, Size size) {
     return new AlertDialog(
       title: Text(
         title,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -228,6 +231,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
       ),
       content: Text(
         content,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -239,76 +243,82 @@ class DetailedPaymentAdmin extends StatelessWidget {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                aceptarPago(pagoadmin).then((value) {
-                  if (value) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => adviceDialogLetter(
-                        context,
-                        "Confirmación",
-                        "Pago actualizado correctamente",
-                        true,
-                      ),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => adviceDialogLetter(
-                        context,
-                        "Error",
-                        "Hubo un error actualizando el pago, inténtelo nuevamente",
-                        true,
-                      ),
-                    );
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  aceptarPago(pagoadmin).then((value) {
+                    if (value) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => adviceDialogLetter(
+                          context,
+                          "¡Confirmación!",
+                          "¡Pago actualizado correctamente!",
+                          true,
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => adviceDialogLetter(
+                          context,
+                          "Error",
+                          "Hubo un error actualizando el pago, inténtalo nuevamente.",
+                          true,
+                        ),
+                      );
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

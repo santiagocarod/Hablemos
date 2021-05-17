@@ -84,7 +84,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
               setState(() {});
             } else {
               showAlertDialog(context,
-                  "Hubo un error subiendo la foto, inténtelo nuevamente");
+                  "Hubo un error subiendo la foto, inténtalo nuevamente.");
             }
           });
         }
@@ -108,7 +108,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -260,7 +260,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) => _buildDialog(
-                    context, widget.profesional, widget.profesional.uid),
+                    context, widget.profesional, widget.profesional.uid, size),
               );
             },
             child: Row(
@@ -548,9 +548,9 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Confirm popup dialog
-  Widget _buildDialog(
-      BuildContext context, Profesional profesional, String usuario) {
+  // Verificación Asociación del Profesional con Citas
+  Widget _buildDialog(BuildContext context, Profesional profesional,
+      String usuario, Size size) {
     Query citasCollection = FirebaseFirestore.instance
         .collection("appoinments")
         .where("professional.uid", isEqualTo: usuario);
@@ -567,14 +567,16 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
           }
           List<Cita> citas = citaMapToList(snapshot);
           if (citas.length == 0) {
-            return modificacionDialogs(context, profesional);
+            return modificacionDialogs(context, profesional, size);
           } else {
-            return modificacionDialogsCita(context, profesional, citas);
+            return modificacionDialogsCita(context, profesional, citas, size);
           }
         });
   }
 
-  Widget modificacionDialogs(BuildContext context, Profesional profesional) {
+  // Dialogo Confirmación de Modificación de Profesional sin Citas asociadas.
+  Widget modificacionDialogs(
+      BuildContext context, Profesional profesional, Size size) {
     String title2 = "";
     String content2 = "";
     print("confirmar");
@@ -582,6 +584,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -591,6 +594,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       ),
       content: Text(
         '¿Está seguro que desea modificar\neste perfil?',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -602,86 +606,96 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                editarProfesional(profesional).then((value) {
-                  actualizarUsuario(profesional);
-                  actualizarProfesional(profesional);
-                  bool state;
-                  if (value) {
-                    title2 = 'Perfil Modificado';
-                    content2 = "Su perfil fue modificado exitosamente";
-                    state = true;
-                  } else {
-                    title2 = 'Error de edición';
-                    content2 =
-                        "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
-                    state = false;
-                  }
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  editarProfesional(profesional).then((value) {
+                    actualizarUsuario(profesional);
+                    actualizarProfesional(profesional);
+                    bool state;
+                    if (value) {
+                      title2 = 'Perfil Modificado';
+                      content2 = "Su perfil fue modificado exitosamente";
+                      state = true;
+                    } else {
+                      title2 = 'Error de edición';
+                      content2 =
+                          "Hubo un error guardando los cambios de su perfil, inténtelo nuevamente";
+                      state = false;
+                    }
 
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => adviceDialogProfesional(
-                        context, title2, content2, state),
-                  );
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          adviceDialogProfesional(
+                              context, title2, content2, state),
+                    );
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget modificacionDialogsCita(
-      BuildContext context, Profesional profesional, List<Cita> citas) {
+  // Dialogo Confirmación de Modificación de Profesional con Citas asociadas.
+  // Modificación del profesional en la información de las Citas asociadas.
+  Widget modificacionDialogsCita(BuildContext context, Profesional profesional,
+      List<Cita> citas, Size size) {
     String title2 = "";
     String content2 = "";
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -691,6 +705,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       ),
       content: Text(
         '¿Está seguro que desea modificar\neste perfil?',
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -702,83 +717,90 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                citas.forEach((element) {
-                  actualizarProfesionalCita(profesional, element);
-                });
-                editarProfesional(profesional).then((value) {
-                  actualizarProfesional(profesional);
-                  actualizarUsuario(profesional);
-                  bool state;
-                  if (value) {
-                    title2 = 'Perfil Modificado';
-                    content2 = "Este perfil fue modificado exitosamente";
-                    state = true;
-                  } else {
-                    title2 = 'Error de edición';
-                    content2 =
-                        "Hubo un error guardando los cambios de este perfil, inténtelo nuevamente";
-                    state = false;
-                  }
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  citas.forEach((element) {
+                    actualizarProfesionalCita(profesional, element);
+                  });
+                  editarProfesional(profesional).then((value) {
+                    actualizarProfesional(profesional);
+                    actualizarUsuario(profesional);
+                    bool state;
+                    if (value) {
+                      title2 = 'Perfil Modificado';
+                      content2 = "Este perfil fue modificado exitosamente";
+                      state = true;
+                    } else {
+                      title2 = 'Error de edición';
+                      content2 =
+                          "Hubo un error guardando los cambios de este perfil, inténtelo nuevamente";
+                      state = false;
+                    }
 
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => adviceDialogProfesional(
-                        context, title2, content2, state),
-                  );
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          adviceDialogProfesional(
+                              context, title2, content2, state),
+                    );
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  // Change password popup dialog
+  // Dialogo de instrucciones de cambio de contraseña.
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -804,7 +826,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Confirm popup dialog
+  // Dialogo de Confirmación de operacion realizada
   Widget adviceDialogProfesional(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(

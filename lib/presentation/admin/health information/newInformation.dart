@@ -218,17 +218,17 @@ class _NewInformation extends State<NewInformation> {
             showDialog(
               context: context,
               builder: (BuildContext context) => _errorDialog(context,
-                  "Por favor ingrese información de\nNombre y Descripción"),
+                  "Por favor ingrese información de\n nombre y descripción."),
             );
           } else {
             if (trastorno == null) {
               if (!agregarDiagnostico(diagnostico)) {
-                text = 'Ocurrió un Error intentelo mas tarde';
+                text = 'Ocurrió un Error inténtalo más tarde';
               }
             } else {
               diagnostico.id = trastorno.id;
               if (!actualizarDiagnostico(diagnostico)) {
-                text = 'Ocurrió un Error intentelo mas tarde';
+                text = 'Ocurrió un Error inténtelo más tarde.';
               }
             }
             showDialog(

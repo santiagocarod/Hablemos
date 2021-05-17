@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
-// Initial screen, shows only the start button (COMENZAR) ======================
+// Pantalla Inicial, muestra unicamente el boton de "Comenzar" ======================
 
 class Home extends StatelessWidget {
   @override

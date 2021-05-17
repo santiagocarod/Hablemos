@@ -28,7 +28,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtálo nuevamente.");
       }
     });
   }
@@ -47,7 +47,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtálo nuevamente.");
       }
     });
   }
@@ -190,16 +190,16 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", actividad,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", actividad,
                                         ruta: "actividadSubscripto"));
                           }
                         } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Fallo!",
-                                      "Agregue la foto del pago", actividad));
+                                  _buildPopupDialog(context, "¡Fallo!",
+                                      "Agregue la foto del pago.", actividad));
                         }
                       },
                       child: Container(

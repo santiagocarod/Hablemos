@@ -171,7 +171,7 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
                                       context: context,
                                       builder: (BuildContext contex) =>
                                           _buildPopupDialog(context, "Error",
-                                              "Por favor ingresa todos los valores"));
+                                              "Por favor ingresa todos los valores."));
                                 } else {
                                   CentroAtencion centroAtencion =
                                       CentroAtencion(
@@ -188,8 +188,10 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext contex) =>
-                                            _buildPopupDialog(context, "Exito!",
-                                                "Centro de Atención Agregado!",
+                                            _buildPopupDialog(
+                                                context,
+                                                "¡Exito!",
+                                                "¡Centro de Atención Agregado!",
                                                 ruta:
                                                     "listCentrosMedicosAdmin"));
                                   }

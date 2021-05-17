@@ -71,7 +71,7 @@ class _AddActivity extends State<AddActivity> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -89,7 +89,7 @@ class _AddActivity extends State<AddActivity> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -708,7 +708,7 @@ class _AddActivity extends State<AddActivity> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Actividad actividad = Actividad(
                                         banco: Banco(
@@ -734,8 +734,8 @@ class _AddActivity extends State<AddActivity> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Actividad Agregada!",
+                                                    "¡Exito!",
+                                                    "¡Actividad Agregada!",
                                                     ruta:
                                                         "listarActividadesAdmin"));
                                       }
@@ -753,7 +753,7 @@ class _AddActivity extends State<AddActivity> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Actividad actividad = Actividad(
                                         descripcion:
@@ -774,8 +774,8 @@ class _AddActivity extends State<AddActivity> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Actividad Agregada!",
+                                                    "¡Exito!",
+                                                    "¡Actividad Agregada!",
                                                     ruta:
                                                         "listarActividadesAdmin"));
                                       }
@@ -819,7 +819,10 @@ class _AddActivity extends State<AddActivity> {
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(
-    title: Text(tittle),
+    title: Text(
+      tittle,
+      textAlign: TextAlign.center,
+    ),
     content: new Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

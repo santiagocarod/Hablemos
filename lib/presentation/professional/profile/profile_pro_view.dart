@@ -36,7 +36,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -59,7 +59,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -439,7 +439,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Change password popup dialog
+  // Dialogo de instrucciones de cambio de contraseña.
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),

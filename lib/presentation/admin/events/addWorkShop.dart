@@ -73,7 +73,7 @@ class _AddWorkShop extends State<AddWorkShop> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -91,7 +91,7 @@ class _AddWorkShop extends State<AddWorkShop> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -709,7 +709,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Taller taller = Taller(
                                         banco: Banco(
@@ -735,8 +735,8 @@ class _AddWorkShop extends State<AddWorkShop> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Taller Agregado!",
+                                                    "¡Exito!",
+                                                    "¡Taller Agregado!",
                                                     ruta:
                                                         "listarTalleresAdmin"));
                                       }
@@ -754,7 +754,7 @@ class _AddWorkShop extends State<AddWorkShop> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Taller taller = Taller(
                                         descripcion:
@@ -775,25 +775,13 @@ class _AddWorkShop extends State<AddWorkShop> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Taller Agregado!",
+                                                    "¡Exito!",
+                                                    "¡Taller Agregado!",
                                                     ruta:
                                                         "listarTalleresAdmin"));
                                       }
                                     }
                                   }
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (BuildContext context) {
-                                  //     return dialogoConfirmacion(
-                                  //         context,
-                                  //         "listarTalleresAdmin",
-                                  //         "Confirmación de Creación",
-                                  //         "¿Está seguro que desea crear un nuevo Taller?",
-                                  //         () {});
-                                  //   },
-                                  // );
                                 },
                                 child: Container(
                                   child: Row(

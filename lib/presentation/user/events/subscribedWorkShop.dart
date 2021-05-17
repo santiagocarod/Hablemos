@@ -426,8 +426,8 @@ class SubscribedWorkShop extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción cancelada!", taller,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Cancelada!", taller,
                                         ruta: "verTaller"));
                           }
                         },
@@ -528,7 +528,10 @@ class SubscribedWorkShop extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (BuildContext contex) => _buildPopupDialog(
-                            context, "Exito!", "Inscripción correcta!", taller,
+                            context,
+                            "¡Exito!",
+                            "¡Inscripción Correcta!",
+                            taller,
                             ruta: "verTaller"));
                   }
                 },
