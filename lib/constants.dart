@@ -63,3 +63,6 @@ const WORKSHOP_FOLDER = "workshop_pictures";
 const ACTIVITY_PAYMENT = "paymentsActivities";
 const GROUP_PAYMENT = "paymentsGroups";
 const WORKSHOP_PAYMENT = "paymentsWorkshops";
+
+const HORA_INICIO_CONSULTAS = 7;
+const HORA_FIN_CONSULTAS = 18;

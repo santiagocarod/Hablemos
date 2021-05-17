@@ -10,8 +10,6 @@ import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
-import '../../../constants.dart';
-import '../../../constants.dart';
 
 class CreateDate extends StatefulWidget {
   @override
@@ -260,10 +258,13 @@ class _CreateDate extends State<CreateDate> {
                     );
                   }).toList(),
                   onChanged: (value) {
-                    if (textDate != "") {
+                    if (cita != null) {
                       _updateHours(value.uid, textDate, cita);
                     } else {
-                      print("VACIOOOO");
+                      if (_inputFieldDateController.text != "") {
+                        _updateHours(
+                            value.uid, _inputFieldDateController.text, cita);
+                      }
                     }
                     setState(() {
                       _profController = value;
@@ -314,11 +315,11 @@ class _CreateDate extends State<CreateDate> {
   }
 
   void _updateHours(String profUid, String date, Cita cita) {
-    //TODO CUANDO LA CITA EXISTE Y SE CAMBIA SOLO EL PROFESIONAL NO ESTA ACTUALIZANDO BIEN LA LISTA DE HORARIOS
     List<String> horas = [];
-    for (int i = 7; i < 19; i++) {
+    for (int i = HORA_INICIO_CONSULTAS; i <= HORA_FIN_CONSULTAS; i++) {
       horas.add("$i:00");
     }
+
     DateTime dia = DateFormat('d/M/yyyy hh:mm').parse(date + ' 00:00');
     DateTime despues = DateTime(dia.year, dia.month, dia.day + 1);
     FirebaseFirestore.instance
@@ -334,8 +335,7 @@ class _CreateDate extends State<CreateDate> {
             timestamp.microsecondsSinceEpoch);
         dateTime = DateTime(
             dateTime.year, dateTime.month, dateTime.day, dateTime.hour);
-        print("DATAAAA :  $dateTime");
-        print(timestamp);
+
         String horaUsada = dateTime.hour.toString() + ":00";
 
         horas.remove(horaUsada);
@@ -351,7 +351,7 @@ class _CreateDate extends State<CreateDate> {
       if (_hour == "" && cita != null) {
         _hour = horaApartada;
       } else {
-        _hour = horas[0];
+        _hour = horas.length > 0 ? horas[0] : null;
       }
       setState(() {
         if (cita != null &&
@@ -463,13 +463,11 @@ class _CreateDate extends State<CreateDate> {
             if (cita == null) {
               // Validate if any text field is empty
               if (_inputFieldDateController.text.isNotEmpty &&
-                  _timeController.text.isNotEmpty &&
+                  _hour != "" &&
                   _profController != null &&
                   _typeController.isNotEmpty) {
-                DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
-                    _inputFieldDateController.text +
-                        ' ' +
-                        _timeController.text);
+                DateTime date = DateFormat('d/M/yyyy hh:mm')
+                    .parse(_inputFieldDateController.text + ' ' + _hour);
 
                 cita = new Cita(
                   // paciente: username,
@@ -514,8 +512,8 @@ class _CreateDate extends State<CreateDate> {
               if (_timeController.text.isEmpty) _timeController.text = textHour;
               if (_profController == null) _profController = cita.profesional;
               if (_typeController == null) _typeController = textType;
-              DateTime date = DateFormat('d/M/yyyy hh:mm').parse(
-                  _inputFieldDateController.text + ' ' + _timeController.text);
+              DateTime date = DateFormat('d/M/yyyy hh:mm')
+                  .parse(_inputFieldDateController.text + ' ' + _hour);
 
               if (actualizarCitaPaciente(
                   cita, _profController, date, _typeController)) {
