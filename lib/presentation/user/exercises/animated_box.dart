@@ -75,12 +75,14 @@ class _AnimatedBoxState extends State<AnimatedBox> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Container(
-                              child: primera
-                                  ? Text(
-                                      widget.instrucciones[widget.numeroPaso])
-                                  : Text(
-                                      "Cuando lo consideres correcto ve al siguiente paso...."),
+                            child: Center(
+                              child: Container(
+                                child: primera
+                                    ? Text(
+                                        widget.instrucciones[widget.numeroPaso])
+                                    : Text(
+                                        "Cuando lo consideres correcto ve al siguiente paso..."),
+                              ),
                             ),
                           ),
                           SizedBox(height: 20, width: double.infinity),
