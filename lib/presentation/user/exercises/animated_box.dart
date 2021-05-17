@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hablemos/ux/atoms.dart';
 
 class AnimatedBox extends StatefulWidget {
   final int numeroPaso;
@@ -32,6 +33,7 @@ class _AnimatedBoxState extends State<AnimatedBox> {
         ),
         SafeArea(
           child: Scaffold(
+            appBar: crearAppBar('', null, 0, null, context: context),
             backgroundColor: Colors.transparent,
             body: Padding(
               padding: EdgeInsets.all(20),
