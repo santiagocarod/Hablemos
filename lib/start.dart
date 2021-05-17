@@ -155,10 +155,6 @@ Widget _startButton(BuildContext context, Size size) {
                 ),
               ),
               onPressed: () {
-                /*AuthService authService = new AuthService();
-              authService.signUp("santiago@gmail.com", "123456");
-              print(
-              "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
                 Navigator.pushNamed(context, 'start');
               },
             ),
