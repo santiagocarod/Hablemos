@@ -32,11 +32,11 @@ class Information extends StatelessWidget {
 
         List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
 
-        if (names.isEmpty) {
-          diagnosticos.forEach((element) {
+        diagnosticos.forEach((element) {
+          if (!names.contains(element.nombre)) {
             names.add(element.nombre);
-          });
-        }
+          }
+        });
 
         return Container(
           color: kAmarillo,

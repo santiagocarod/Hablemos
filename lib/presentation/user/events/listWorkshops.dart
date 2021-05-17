@@ -27,11 +27,11 @@ class ListWorkShops extends StatelessWidget {
           }
           List<Taller> talleres = tallerMapToList(snapshot);
 
-          if (names.isEmpty) {
-            talleres.forEach((element) {
+          talleres.forEach((element) {
+            if (!names.contains(element.titulo)) {
               names.add(element.titulo);
-            });
-          }
+            }
+          });
 
           return Stack(
             children: [

@@ -29,11 +29,11 @@ class ListSupportGroups extends StatelessWidget {
 
         List<Grupo> grupos = grupoMapToList(snapshot);
 
-        if (names.isEmpty) {
-          grupos.forEach((element) {
+        grupos.forEach((element) {
+          if (!names.contains(element.titulo)) {
             names.add(element.titulo);
-          });
-        }
+          }
+        });
 
         return Stack(
           children: [

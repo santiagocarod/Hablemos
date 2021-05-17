@@ -29,11 +29,11 @@ class ListActivities extends StatelessWidget {
 
         List<Actividad> actividades = actividadMapToList(snapshot);
 
-        if (names.isEmpty) {
-          actividades.forEach((element) {
+        actividades.forEach((element) {
+          if (!names.contains(element.titulo)) {
             names.add(element.titulo);
-          });
-        }
+          }
+        });
 
         return Stack(
           children: [
