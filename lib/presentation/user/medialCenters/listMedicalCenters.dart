@@ -13,7 +13,7 @@ class ListMedicalCenter extends StatefulWidget {
 class _ListMedicalCenterState extends State<ListMedicalCenter> {
   //final _medicalCenters = CentroAtencionProvider.getCentros();
 
-  Position _currentPosition;
+  // Position _currentPosition;
   double dirLatitud;
   double dirLongitud;
   List<CentroAtencion> listaCercanosReal;
@@ -21,7 +21,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    // _getCurrentLocation();
   }
 
   @override
@@ -103,22 +103,22 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     return widgets;
   }
 
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then(
-      (Position position) {
-        setState(
-          () {
-            _currentPosition = position;
-          },
-        );
-      },
-    ).catchError(
-      (e) {
-        print(e);
-      },
-    );
-  }
+  // _getCurrentLocation() {
+  //   Geolocator.getCurrentPosition(
+  //           desiredAccuracy: LocationAccuracy.best,
+  //           forceAndroidLocationManager: true)
+  //       .then(
+  //     (Position position) {
+  //       setState(
+  //         () {
+  //           _currentPosition = position;
+  //         },
+  //       );
+  //     },
+  //   ).catchError(
+  //     (e) {
+  //       print(e);
+  //     },
+  //   );
+  // }
 }
