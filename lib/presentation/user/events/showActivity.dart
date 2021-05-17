@@ -164,6 +164,7 @@ class _ShowActivityState extends State<ShowActivity> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${actividad.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -769,22 +770,27 @@ class _ShowActivityState extends State<ShowActivity> {
         ),
       );
     } else {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        padding: EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(228, 88, 101, 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        height: 80.0,
-        child: Center(
-          child: Text(
-            "Para Inscribirse a esta Actividad debe Registarse",
-            style: TextStyle(
-              color: kLetras,
-              fontSize: 17.0,
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, 'registro');
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          padding: EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(228, 88, 101, 0.5),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          height: 80.0,
+          child: Center(
+            child: Text(
+              "Para Inscribirse a esta Actividad debe Registarse",
+              style: TextStyle(
+                color: kLetras,
+                fontSize: 17.0,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );

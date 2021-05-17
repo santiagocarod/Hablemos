@@ -30,7 +30,9 @@ class ListSupportGroups extends StatelessWidget {
         List<Grupo> grupos = grupoMapToList(snapshot);
 
         grupos.forEach((element) {
-          names.add(element.titulo);
+          if (!names.contains(element.titulo)) {
+            names.add(element.titulo);
+          }
         });
 
         return Stack(
@@ -53,7 +55,7 @@ class ListSupportGroups extends StatelessWidget {
                     context, "Grupos de Apoyo", "eventosPrincipal"),
                 body: Stack(
                   children: <Widget>[
-                    searchBar(context, size, searchController, names, grupos,
+                    searchBar(context, size, 'Buscar Grupos', names, grupos,
                         "verGrupoApoyo"),
                     Material(
                       type: MaterialType.transparency,

@@ -58,19 +58,25 @@ class AssesLetterPro extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Center(
-                                          child: Text(
-                                            carta.titulo,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinSemiBold",
-                                                fontSize: 18),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10.0, right: 10.0),
+                                          child: Center(
+                                            child: Text(
+                                              "${carta.titulo[0].toUpperCase()}${carta.titulo.substring(1)}",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: "PoppinSemiBold",
+                                                  fontSize: 18),
+                                            ),
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              20, 25, 20, 20),
+                                              10, 25, 10, 20),
                                           child: Text(
                                             carta.cuerpo,
+                                            textAlign: TextAlign.justify,
                                             style: TextStyle(
                                                 fontFamily: "PoppinsRegular",
                                                 fontSize: 14,

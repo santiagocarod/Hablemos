@@ -20,7 +20,7 @@ class _CreateDate extends State<CreateDate> {
   // Provisional list of professionals
   List<Profesional> professionals = [];
   // Provisional List of types
-  List<String> types = ['Tipo 1', 'Tipo 2', 'Tipo 3', 'Tipo 4', 'Tipo 5'];
+  List<String> types = ['Proceso', 'Cita Unica'];
   // Text Controllers
   TextEditingController _inputFieldDateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();
@@ -64,8 +64,8 @@ class _CreateDate extends State<CreateDate> {
     }
     Size size = MediaQuery.of(context).size;
 
-    CollectionReference citasCollection = FirebaseFirestore.instance.collection(
-        "professionals"); //TODO: APlicar filtro where uidPaciente = current user.
+    CollectionReference citasCollection =
+        FirebaseFirestore.instance.collection("professionals");
     return StreamBuilder<QuerySnapshot>(
         stream: citasCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -110,10 +110,18 @@ class _CreateDate extends State<CreateDate> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
+                                _informationSection(
+                                    "La cita tiene un costo de: \$$COSTO_CITA"),
                                 _dateInfo(context, size, cita),
                                 _professionalInfo(
                                     context, size, professionals, cita),
                                 _dateType(context, size),
+                                SizedBox(height: 40),
+                                _informationSection(
+                                    "Recuerde que no somos un servicio de Urgencias.\nSi necesita atención inmediata dirigase a la sección de\n''Necesito Ayuda''"),
+                                SizedBox(height: 20),
+                                _informationSection(
+                                    "Por esto tu cita tiene que ser con minimo:\n3 dias de Anticipación"),
                                 _create(context, cita),
                               ],
                             ),
@@ -127,6 +135,19 @@ class _CreateDate extends State<CreateDate> {
             ],
           );
         });
+  }
+
+  Widget _informationSection(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Center(
+          child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontFamily: 'PoppinsRegular', fontSize: 15, color: kLetras),
+      )),
+    );
   }
 
 // Date and Time text Fields

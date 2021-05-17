@@ -6,9 +6,8 @@ import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:intl/intl.dart';
 
+import '../../constants.dart';
 import '../cloudinary.dart';
-
-//TODO: Agregar registro en la parte de pago y eliminarlo
 
 Future<bool> agregarCita(Cita cita) async {
   final now = DateTime.now();
@@ -22,7 +21,7 @@ Future<bool> agregarCita(Cita cita) async {
     error = true;
   }
   cita.estado = false;
-  cita.costo = 20000; //TODO:Definir precios
+  cita.costo = COSTO_CITA;
   cita.pago = "";
   AuthService authService = AuthService();
 
@@ -58,9 +57,6 @@ void cancelarCita(Cita cita) {
         FirebaseFirestore.instance.collection('appoinments');
     reference.doc(cita.id).delete();
   }
-  // else {
-  //   throw new Exception("No se puede cancelar");
-  // }
 }
 
 void actualizarEstado(Cita cita) {
@@ -101,7 +97,6 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
     error = true;
   }
   int precio = int.parse(data["precio"].text);
-  // String detalles = data["detalles"].text;
   String lugar = data["lugar"].text;
   String especialidad = data["especialidad"].text;
   String tipo = data["tipo"].text;

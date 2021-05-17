@@ -66,3 +66,5 @@ const WORKSHOP_PAYMENT = "paymentsWorkshops";
 
 const HORA_INICIO_CONSULTAS = 7;
 const HORA_FIN_CONSULTAS = 18;
+const PORCENTAJE_PAGO = 15000;
+const COSTO_CITA = 75000;
