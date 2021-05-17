@@ -162,15 +162,7 @@ Widget _startButton(BuildContext context, Size size) {
               "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
                 //Navigator.pushNamed(context, 'start');
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => AnimatedBox(
-                      seconds: [20, 5, 20, 5],
-                      steps: ["Paso 1", "Paso 2", "Paso 3", "Paso 4"],
-                    ),
-                  ),
-                );
+                Navigator.pushNamed(context, 'OpcionesEjercicios');
               },
             ),
           ),
