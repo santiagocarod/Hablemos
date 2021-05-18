@@ -13,15 +13,18 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   TextEditingController _inputFieldDateController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _lastNameController = new TextEditingController();
+  TextEditingController _telephoneController = new TextEditingController();
+  TextEditingController _cityController = new TextEditingController();
+  TextEditingController _nameContactController = new TextEditingController();
+  TextEditingController _telephoneContactController =
+      new TextEditingController();
+  TextEditingController _relationContactController =
+      new TextEditingController();
+
   String _date = '';
-  String _name = '';
-  String _lastName = '';
-  String _telephone = '';
-  String _city = '';
   DateTime _fecha;
-  String _nameContact = '';
-  String _telephoneContact = '';
-  String _relationContact = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,48 +57,6 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  void _updateName(String name) {
-    setState(() {
-      _name = name;
-    });
-  }
-
-  void _updateLastName(String lastName) {
-    setState(() {
-      _lastName = lastName;
-    });
-  }
-
-  void _updateTelephone(String telephone) {
-    setState(() {
-      _telephone = telephone;
-    });
-  }
-
-  void _updateCity(String city) {
-    setState(() {
-      _city = city;
-    });
-  }
-
-  void _updateContactName(String nameC) {
-    setState(() {
-      _nameContact = nameC;
-    });
-  }
-
-  void _updateContactTelephone(String telephoneC) {
-    setState(() {
-      _telephoneContact = telephoneC;
-    });
-  }
-
-  void _updateContactRelation(String relationC) {
-    setState(() {
-      _relationContact = relationC;
-    });
-  }
-
   Widget _signinForm(BuildContext context, Size size) {
     final bloc = InhWidget.of(context);
     return Padding(
@@ -112,60 +73,116 @@ class _SignInPageState extends State<SignInPage> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(height: 50.0),
-                        InputTextBoxWController(
-                            'Escriba su nombre',
-                            'Nombre',
-                            Icons.person,
-                            _updateName,
-                            _name), //Input para el nombre
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Escriba su nombre',
+                              labelText: 'Nombre',
+                            ),
+                          ),
+                        ), //Input para el nombre
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Escriba sus apellidos',
-                            'Apellidos',
-                            Icons.person,
-                            _updateLastName,
-                            _lastName), //Input para el apellido
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _lastNameController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Escriba sus apellidos',
+                              labelText: 'Apellidos',
+                            ),
+                          ),
+                        ), //Input para el apellido
                         SizedBox(height: 20.0),
                         emailTextBox(bloc), //Input para el email
                         SizedBox(height: 20.0),
                         passwordTextBox(bloc), //Input para el contraseña
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Escriba su teléfono',
-                            'Teléfono ',
-                            Icons.call,
-                            _updateTelephone,
-                            _telephone),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _telephoneController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.call,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Escriba su teléfono',
+                              labelText: 'Teléfono',
+                            ),
+                          ),
+                        ), //Input para el telefono
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Escriba su ciudad',
-                            'Ciudad residencia',
-                            Icons.location_on,
-                            _updateCity,
-                            _city), //Input para el ciudad
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _cityController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.location_on,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Escriba su Ciudad',
+                              labelText: 'Ciudad de residencia',
+                            ),
+                          ),
+                        ), //Input para el ciudad
                         SizedBox(height: 20.0),
                         _crearEdad(context),
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Nombre contacto emergencia',
-                            'Nombre Contacto ',
-                            Icons.person,
-                            _updateContactName,
-                            _nameContact), //Datos Adicionales
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _nameContactController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Nombre de contacto de emergencia',
+                              labelText: 'Nombre Contacto',
+                            ),
+                          ),
+                        ), //Datos Adicionales
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Teléfono contacto emergencia',
-                            'Teléfono Contacto',
-                            Icons.call,
-                            _updateContactTelephone,
-                            _telephoneContact), //Datos Adicionales
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _telephoneContactController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.call,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Teléfono contacto emergencia',
+                              labelText: 'Teléfono de contacto',
+                            ),
+                          ),
+                        ), //Datos Adicionales
                         SizedBox(height: 20.0),
-                        InputTextBoxWController(
-                            'Parentesco contacto emergencia',
-                            'Parentesco Contacto ',
-                            Icons.supervised_user_circle_outlined,
-                            _updateContactRelation,
-                            _relationContact), //Datos Adicionales
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: TextField(
+                            controller: _relationContactController,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.yellow[700],
+                              ),
+                              hintText: 'Parentesco contacto emergencia',
+                              labelText: 'Parentesco Contacto',
+                            ),
+                          ),
+                        ), //Datos Adicionales
                         SizedBox(height: 30.0),
                         iconButtonBigBloc("Crear Cuenta", () {
                           signInLogic(bloc, context);
@@ -241,26 +258,26 @@ class _SignInPageState extends State<SignInPage> {
     int dayDiff = today.day - birthDate.day;
 
     if (yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0) {
-      if (_name == '') {
+      if (_nameController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
-      } else if (_lastName == '') {
+      } else if (_lastNameController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
-      } else if (_city == '') {
+      } else if (_cityController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Ciudad.");
       } else if (_inputFieldDateController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento.");
-      } else if (_telephone == '') {
+      } else if (_telephoneController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Teléfono.");
-      } else if (_telephoneContact == '') {
+      } else if (_telephoneContactController.text == '') {
         showAlertDialog(context,
             "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia.");
-      } else if (_nameContact == '') {
+      } else if (_nameContactController.text == '') {
         showAlertDialog(context,
             "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia.");
       } else {
         AuthService authService = new AuthService();
-        Future<String> user =
-            authService.signUp(bloc.email, bloc.password, '$_name $_lastName');
+        Future<String> user = authService.signUp(bloc.email, bloc.password,
+            '${_nameController.text} ${_lastNameController.text}');
         user.then((value) {
           if (value[0] == "[") {
             showAlertDialog(context, "Hubo un error\n Correo ya registrado.");
@@ -269,7 +286,7 @@ class _SignInPageState extends State<SignInPage> {
                 .doc(value)
                 .set({
                   'role': 'pacient',
-                  'name': _name,
+                  'name': _nameController.text,
                 })
                 .then((value) => Navigator.pushNamed(context, 'verifyEmail',
                     arguments: bloc.email))
@@ -277,16 +294,16 @@ class _SignInPageState extends State<SignInPage> {
                     context, "Hubo un error\nPor Favor intentalo mas tarde"));
 
             pacienteRef.doc(value).set({
-              'name': _name,
-              'lastName': _lastName,
-              'city': _city,
+              'name': _nameController.text,
+              'lastName': _lastNameController.text,
+              'city': _cityController.text,
               'email': bloc.email,
               'birthDate': _inputFieldDateController.text,
               'picture': 'falta foto',
-              'phone': _telephone,
-              'emergencyContactName': _nameContact,
-              'emergencyContactPhone': _telephoneContact,
-              'emergencyContactRelationship': _relationContact,
+              'phone': _telephoneController.text,
+              'emergencyContactName': _nameContactController.text,
+              'emergencyContactPhone': _telephoneContactController.text,
+              'emergencyContactRelationship': _relationContactController.text,
               'uid': value,
             }).catchError((value) => showAlertDialog(
                 context, "Hubo un Error\nPor Favor intentalo mas tarde"));
@@ -294,34 +311,34 @@ class _SignInPageState extends State<SignInPage> {
         });
       }
     } else {
-      if (_name == '') {
+      if (_nameController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
-      } else if (_lastName == '') {
+      } else if (_lastNameController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Nombre.");
-      } else if (_city == '') {
+      } else if (_cityController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Ciudad.");
       } else if (_inputFieldDateController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu\nFecha de Nacimiento.");
-      } else if (_telephone == '') {
+      } else if (_telephoneController.text == '') {
         showAlertDialog(context, "Por Favor Ingresa tu Teléfono.");
-      } else if (_telephoneContact == '') {
+      } else if (_telephoneContactController.text == '') {
         showAlertDialog(context,
             "Por Favor Ingresa el Teléfono \nde tu Contacto de Emergencia.");
-      } else if (_nameContact == '') {
+      } else if (_nameContactController.text == '') {
         showAlertDialog(context,
             "Por Favor Ingresa el Nombre \nde tu Contacto de Emergencia.");
       } else {
         List<String> usuario = [];
-        usuario.add(_name);
-        usuario.add(_lastName);
-        usuario.add(_city);
+        usuario.add(_nameController.text);
+        usuario.add(_lastNameController.text);
+        usuario.add(_cityController.text);
         usuario.add(bloc.email);
         usuario.add(_inputFieldDateController.text);
         usuario.add(bloc.password);
-        usuario.add(_nameContact);
-        usuario.add(_telephoneContact);
-        usuario.add(_relationContact);
-        usuario.add(_telephone);
+        usuario.add(_nameContactController.text);
+        usuario.add(_telephoneContactController.text);
+        usuario.add(_relationContactController.text);
+        usuario.add(_telephoneController.text);
 
         Navigator.pushNamed(context, 'registroMenorEdad', arguments: usuario);
       }
