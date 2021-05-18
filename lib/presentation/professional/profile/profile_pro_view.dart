@@ -12,6 +12,8 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../inh_widget.dart';
+
 class ProfileProView extends StatefulWidget {
   @override
   _ProfileProViewState createState() => _ProfileProViewState();
@@ -321,6 +323,9 @@ class _ProfileProViewState extends State<ProfileProView> {
               child: iconButtonSmall(
                   color: kRojoOscuro,
                   function: () {
+                    final bloc = InhWidget.of(context);
+                    bloc.changeEmail("");
+                    bloc.changePassword("");
                     AuthService authService = AuthService();
                     authService.logOut();
                     Navigator.pushNamedAndRemoveUntil(
