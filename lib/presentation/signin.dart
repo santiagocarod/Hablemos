@@ -175,7 +175,7 @@ class _SignInPageState extends State<SignInPage> {
                             controller: _relationContactController,
                             decoration: InputDecoration(
                               icon: Icon(
-                                Icons.person,
+                                Icons.supervised_user_circle_outlined,
                                 color: Colors.yellow[700],
                               ),
                               hintText: 'Parentesco contacto emergencia',
