@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
@@ -13,7 +12,7 @@ class ListMedicalCenter extends StatefulWidget {
 class _ListMedicalCenterState extends State<ListMedicalCenter> {
   //final _medicalCenters = CentroAtencionProvider.getCentros();
 
-  Position _currentPosition;
+  // Position _currentPosition;
   double dirLatitud;
   double dirLongitud;
   List<CentroAtencion> listaCercanosReal;
@@ -21,12 +20,11 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    // _getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_currentPosition);
     Size size = MediaQuery.of(context).size;
 
     List<CentroAtencion> _medicalCenters =
@@ -104,22 +102,22 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     return widgets;
   }
 
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then(
-      (Position position) {
-        setState(
-          () {
-            _currentPosition = position;
-          },
-        );
-      },
-    ).catchError(
-      (e) {
-        print(e);
-      },
-    );
-  }
+  // _getCurrentLocation() {
+  //   Geolocator.getCurrentPosition(
+  //           desiredAccuracy: LocationAccuracy.best,
+  //           forceAndroidLocationManager: true)
+  //       .then(
+  //     (Position position) {
+  //       setState(
+  //         () {
+  //           _currentPosition = position;
+  //         },
+  //       );
+  //     },
+  //   ).catchError(
+  //     (e) {
+  //       print(e);
+  //     },
+  //   );
+  // }
 }

@@ -11,6 +11,7 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../inh_widget.dart';
 import 'editProfile.dart';
 
 class ViewProfile extends StatefulWidget {
@@ -348,6 +349,10 @@ class _ViewProfile extends State<ViewProfile> {
               child: iconButtonSmall(
                   color: kRojoOscuro,
                   function: () {
+                    final bloc = InhWidget.of(context);
+                    bloc.changeEmail("");
+                    bloc.changePassword("");
+
                     AuthService authService = AuthService();
                     authService.logOut();
                     Navigator.pushNamedAndRemoveUntil(
@@ -533,11 +538,13 @@ class _ViewProfile extends State<ViewProfile> {
               ElevatedButton(
                 onPressed: () {
                   AuthService authService = AuthService();
-                  authService.logOut();
+
                   Navigator.pushNamedAndRemoveUntil(
                       context, "start", (_) => false);
                   eliminarPaciente(paciente).then((value) {
                     eliminarUsuario(paciente);
+                    FirebaseAuth.instance.currentUser.delete();
+                    authService.logOut();
                     if (value) {
                     } else if (!value) {
                       Navigator.of(context).pop();

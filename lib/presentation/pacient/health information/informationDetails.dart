@@ -203,7 +203,6 @@ List<Widget> _listUrl(List<String> content) {
     if (element.contains(new RegExp(r'http', caseSensitive: false))) {
       inf = GestureDetector(
         onTap: () {
-          print("taptaptpatpatpa");
           _launchInBrowser(element);
         },
         child: Text(
