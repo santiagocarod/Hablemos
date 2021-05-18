@@ -3,6 +3,8 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../inh_widget.dart';
+
 class PantallaInicioAdmin extends StatefulWidget {
   @override
   _PantallaInicioAdminState createState() => _PantallaInicioAdminState();
@@ -85,6 +87,10 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                final bloc = InhWidget.of(context);
+                                bloc.changeEmail("");
+                                bloc.changePassword("");
+
                                 AuthService authService = AuthService();
                                 authService.logOut();
                                 Navigator.pushNamedAndRemoveUntil(
