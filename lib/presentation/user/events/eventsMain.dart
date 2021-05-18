@@ -22,7 +22,7 @@ class EventsMain extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'start'),
+            appBar: crearAppBarEventos(context, "¿Qué hay pa' hacer?", 'start'),
             body: Stack(
               children: <Widget>[
                 SingleChildScrollView(
