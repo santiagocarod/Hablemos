@@ -112,7 +112,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     Query professionalCollection = FirebaseFirestore.instance
         .collection("professionals")
         .where("uid", isEqualTo: user.uid);
-    print(user.uid);
+
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

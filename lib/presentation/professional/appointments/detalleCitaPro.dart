@@ -232,7 +232,6 @@ Widget _headerDate(BuildContext context, Cita cita) {
 
 @override
 Widget _buttons(BuildContext context, Cita cita) {
-  print(cita.pago);
   if (cita.pago == "" || cita.pago == null) {
     return Container(
       width: 359.0,

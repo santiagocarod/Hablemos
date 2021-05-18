@@ -47,7 +47,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
   Widget _crearBody(BuildContext context, Size size, Pagoadmin pagoAdmin) {
     String nombreCompleto =
         "${pagoAdmin.profesional.nombre}  ${pagoAdmin.profesional.apellido}";
-    print(nombreCompleto);
+
     return Container(
       child: Padding(
         padding: EdgeInsets.all(20),

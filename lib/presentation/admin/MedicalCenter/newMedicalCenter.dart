@@ -124,7 +124,6 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
                                 setState(() {
                                   ciudad = value;
                                 });
-                                print(value["ciudades"]);
                               },
                               style: TextStyle(
                                 fontSize: 18.0,
@@ -196,7 +195,6 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
                                                     "listCentrosMedicosAdmin"));
                                   }
                                 }
-                                print(ciudad);
                               },
                               iconData: Icons.save,
                               text: "Guardar"),
