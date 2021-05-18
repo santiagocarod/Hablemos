@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/business/pacient/negocioCitas.dart';
 import 'package:hablemos/model/cita.dart';
@@ -68,7 +69,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.all(20),
-        height: 599,
+        height: 620,
         width: 359,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -101,7 +102,7 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
   );
 }
 
-// Name of the professional and edit button
+// Nombre del Profesional y boton de edición de Cita.
 Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   final String text = profesional.nombre + " " + profesional.apellido;
   return Container(
@@ -113,41 +114,35 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
           alignment: Alignment.center,
           child: Icon(Icons.location_on),
         ),
-        // Edit Button
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, 'CrearCita', arguments: cita);
-          },
-          child: Container(
-              alignment: Alignment.centerRight,
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, 'CrearCita', arguments: cita);
+              },
+              child: Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(top: 15.0, right: 15.0),
+                  child: Icon(Icons.edit, size: 40)),
+            ),
+            Container(
+              width: 320.0,
+              alignment: Alignment.center,
               margin: EdgeInsets.only(
-                top: 15.0,
+                bottom: 20.0,
               ),
-              child: Icon(Icons.edit, size: 47)),
-        ),
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Cita con ',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.black,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-              GestureDetector(
+              child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, 'professionalDetails',
                       arguments: profesional);
                 },
-                child: Text(
-                  '$text',
-                  textAlign: TextAlign.start,
+                child: AutoSizeText(
+                  'Cita $text',
+                  maxFontSize: 18.0,
+                  minFontSize: 15.0,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Color(0xFF205072),
@@ -158,15 +153,16 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+        // Edit Button
       ],
     ),
   );
 }
 
-// State of the date (aproved or canceled)
+// Sección Representante del estado de una cita
 Widget _state(BuildContext context, Cita cita) {
   final bool text = cita.estado;
   return Container(
@@ -190,7 +186,9 @@ Widget _state(BuildContext context, Cita cita) {
   );
 }
 
-//Select the type of icon (aproved: green check, cancel: red cancel)
+// Selección del icono representativo del estado de la cita.
+// Aceptada: Simbolo Visto de color verde.
+// Rechazada: Simbolo de X de color rojo.
 Widget _selectIcon(bool text) {
   if (text == false) {
     return Icon(
@@ -207,7 +205,7 @@ Widget _selectIcon(bool text) {
   }
 }
 
-// Payment and cancel buttons
+// Creación de Botones de Adjuntar Pago y Cancelación de Cita
 Widget _buttons(BuildContext context, Cita cita) {
   String text;
   if (cita.pago == "") {

@@ -65,6 +65,9 @@ class _ModifyGroup extends State<ModifyGroup> {
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -72,7 +75,7 @@ class _ModifyGroup extends State<ModifyGroup> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -82,6 +85,9 @@ class _ModifyGroup extends State<ModifyGroup> {
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -91,7 +97,7 @@ class _ModifyGroup extends State<ModifyGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
@@ -137,9 +143,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(grupo);
                         //Navigator.of(context).pop();
                       }),
@@ -148,9 +151,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(grupo);
                     },
                   ),
@@ -819,6 +819,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     );
   }
 
+  // Dialogo que Confirmación la Modificación del contenido de un Grupo.
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Grupo grupo) {
     return AlertDialog(
@@ -872,14 +873,14 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "!Exito!", "!Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }
@@ -893,7 +894,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
                             grupo.banco = null;
@@ -901,7 +902,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "¡Exito!", "¡Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }

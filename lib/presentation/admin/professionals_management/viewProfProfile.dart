@@ -167,7 +167,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          _buildDialog(context, profesional),
+                          _buildDialog(context, profesional, size),
                     );
                   },
                   child: Center(
@@ -317,8 +317,9 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     return info;
   }
 
-  //Confirm PopUp Dialog
-  Widget _buildDialog(BuildContext context, Profesional profesional) {
+  // Dialogo Confirmación de Eliminación de Profesional
+  Widget _buildDialog(
+      BuildContext context, Profesional profesional, Size size) {
     return new AlertDialog(
       title: Text(
         'Confirmación de Eliminación',
@@ -344,62 +345,68 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                eliminarUsuario(profesional);
-                eliminarProfesional(profesional).then((value) {
-                  if (value) {
-                    Navigator.pushNamed(context, 'adminManageProffessional');
-                  } else if (!value) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  eliminarUsuario(profesional);
+                  eliminarProfesional(profesional).then((value) {
+                    if (value) {
+                      Navigator.pushNamed(context, 'adminManageProffessional');
+                    } else if (!value) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

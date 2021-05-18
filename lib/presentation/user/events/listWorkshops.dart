@@ -28,8 +28,11 @@ class ListWorkShops extends StatelessWidget {
           List<Taller> talleres = tallerMapToList(snapshot);
 
           talleres.forEach((element) {
-            names.add(element.titulo);
+            if (!names.contains(element.titulo)) {
+              names.add(element.titulo);
+            }
           });
+
           return Stack(
             children: [
               Container(
@@ -50,7 +53,7 @@ class ListWorkShops extends StatelessWidget {
                       context, "Talleres", "eventosPrincipal"),
                   body: Stack(
                     children: <Widget>[
-                      searchBar(context, size, searchController, names,
+                      searchBar(context, size, "Buscar Talleres", names,
                           talleres, "verTaller"),
                       Material(
                         type: MaterialType.transparency,

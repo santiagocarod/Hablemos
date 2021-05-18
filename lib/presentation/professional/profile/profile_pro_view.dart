@@ -30,13 +30,16 @@ class _ProfileProViewState extends State<ProfileProView> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfilPro(profesional, value).then((val) {
+          if (profesional.foto != null) {
+            deleteImage(profesional.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -51,6 +54,9 @@ class _ProfileProViewState extends State<ProfileProView> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfilPro(profesional, value).then((val) {
+          if (profesional.foto != null) {
+            deleteImage(profesional.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
@@ -59,7 +65,7 @@ class _ProfileProViewState extends State<ProfileProView> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
@@ -131,7 +137,7 @@ class _ProfileProViewState extends State<ProfileProView> {
                   children: <Widget>[
                     cabeceraPerfilProfesional(size, profesional),
                     Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      padding: EdgeInsets.only(top: size.height * 0.51),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: cuerpoPerfilProfesional(size, profesional),
@@ -153,132 +159,130 @@ class _ProfileProViewState extends State<ProfileProView> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.54,
             width: double.infinity,
             color: kRosado,
           ),
         ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.network(
-                      _image,
+        Column(
+          children: <Widget>[
+            Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.04),
+                  alignment: Alignment.topCenter,
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white,
                       width: 200,
                       height: 200,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
+                      child: _image == null
+                          ? Icon(
+                              Icons.account_circle,
+                              color: Colors.indigo[100],
+                              size: 200,
+                            )
+                          : Image.network(
+                              _image,
+                              width: 200,
+                              height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                     ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding: EdgeInsets.only(
-            top: (size.height / 2) * 0.45,
-            left: (size.width / 2) * 0.55,
-          ),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context, profesional);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        // Plus icon and edit text
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.33),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      EditProfileProfesional(profesional: profesional)));
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
-                  color: kNegro,
-                ),
-                Text(
-                  ' Modificar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                // Draw camera icon
+                Container(
+                  padding: EdgeInsets.only(
+                    top: (size.height / 2) * 0.45,
+                    left: (size.width / 2) * 0.55,
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context, profesional);
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.white,
+                        width: 43.0,
+                        height: 43.0,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
+            // Plus icon and edit text
+            Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfileProfesional(profesional: profesional)));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.add_circle_outline,
+                      size: 20.0,
+                      color: kNegro,
+                    ),
+                    Text(
+                      ' Modificar',
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.40),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
-                fontFamily: 'PoppinsRegular',
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                width: size.width * 0.8,
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2.5) * 0.08,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
+        // Draw profile picture
       ],
     );
   }
@@ -291,22 +295,22 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionButton(),
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           Container(
-            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             child: Text(
               "Información Bancaria",
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 23.0,
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Banco', profesional.banco.banco ?? " "),
@@ -441,7 +445,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Change password popup dialog
+  // Dialogo de instrucciones de cambio de contraseña.
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),

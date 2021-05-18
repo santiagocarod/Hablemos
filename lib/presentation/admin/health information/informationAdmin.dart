@@ -376,7 +376,7 @@ class InformationAdmin extends StatelessWidget {
   Widget _adviceDialog(BuildContext context) {
     return new AlertDialog(
       title: Text(
-        'Información Eliminada',
+        '¡Información Eliminada!',
         textAlign: TextAlign.center,
       ),
       shape: RoundedRectangleBorder(

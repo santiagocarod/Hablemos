@@ -41,77 +41,84 @@ class ProfessionalDetails extends StatelessWidget {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.50,
+            height: size.height * 0.55,
             width: double.infinity,
             color: kRosado,
           ),
         ),
+        Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.05),
+              alignment: Alignment.topCenter,
+              child: ClipOval(
+                child: Container(
+                  color: Colors.white,
+                  child: profesional.foto == null
+                      ? Icon(
+                          Icons.account_circle,
+                          color: Colors.indigo[100],
+                          size: 200,
+                        )
+                      : Image.network(
+                          profesional.foto,
+                          width: 200,
+                          height: 200,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes
+                                    : null,
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ),
+            ),
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 15.0,
+                    bottom: 5.0,
+                    right: size.width * 0.05,
+                    left: size.width * 0.05),
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2) * 0.05,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'Profesional',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kRojo,
+                    fontSize: 17,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: profesional.foto == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.network(
-                      profesional.foto,
-                      width: 200,
-                      height: 200,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.30),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -123,11 +130,11 @@ class ProfessionalDetails extends StatelessWidget {
         children: <Widget>[
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
         ],
       ),
     );

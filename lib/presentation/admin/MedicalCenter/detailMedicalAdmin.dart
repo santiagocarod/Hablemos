@@ -213,8 +213,8 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                           builder: (BuildContext contex) =>
                                               _buildPopupDialog(
                                                   context,
-                                                  "Exito",
-                                                  "El contenido fue actualizado"));
+                                                  "¡Exito!",
+                                                  "¡El contenido fue actualizado!"));
                                     } else {
                                       showDialog(
                                           context: context,
@@ -222,7 +222,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Ocurrio un error\nIntentelo de nuevo mas tarde"));
+                                                  "Ocurrio un error\n inténtalo de nuevo más tarde."));
                                     }
                                   },
                                   iconData: Icons.save,

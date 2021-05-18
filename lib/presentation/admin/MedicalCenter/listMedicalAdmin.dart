@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/centro_atencion.dart';
@@ -104,10 +105,35 @@ class ListMedicalAdmin extends StatelessWidget {
         child: Container(
           height: 100,
           child: Center(
-            child: Text(
-              element.nombre + "\n" + element.telefono,
-              style: TextStyle(
-                  color: kLetras, fontSize: 20, fontFamily: "PoppinsRegular"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AutoSizeText(
+                  element.nombre,
+                  maxLines: 1,
+                  maxFontSize: 20.0,
+                  minFontSize: 15.0,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kLetras,
+                      fontSize: 20,
+                      fontFamily: "PoppinsRegular"),
+                ),
+                SizedBox(height: 7.0),
+                AutoSizeText(
+                  element.telefono,
+                  maxLines: 1,
+                  maxFontSize: 20.0,
+                  minFontSize: 15.0,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kLetras,
+                      fontSize: 20,
+                      fontFamily: "PoppinsRegular"),
+                ),
+              ],
             ),
           ),
         ),

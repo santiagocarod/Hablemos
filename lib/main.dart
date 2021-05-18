@@ -9,14 +9,14 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-// Initial Function ============================================================
+// Funcion Inicial de la Aplicación Hablemos ============================================================
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return InhWidget(
       child: MaterialApp(
-        debugShowCheckedModeBanner: false, // Avoid the debug message
+        debugShowCheckedModeBanner: false, // Evitar Mensaje de Debug
         initialRoute: '/',
         routes: getApplicationRoutes(),
         onGenerateRoute: (RouteSettings settings) {

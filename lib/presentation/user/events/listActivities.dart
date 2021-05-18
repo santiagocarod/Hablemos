@@ -30,7 +30,9 @@ class ListActivities extends StatelessWidget {
         List<Actividad> actividades = actividadMapToList(snapshot);
 
         actividades.forEach((element) {
-          names.add(element.titulo);
+          if (!names.contains(element.titulo)) {
+            names.add(element.titulo);
+          }
         });
 
         return Stack(
@@ -53,7 +55,7 @@ class ListActivities extends StatelessWidget {
                     context, "Actividades", "eventosPrincipal"),
                 body: Stack(
                   children: <Widget>[
-                    searchBar(context, size, searchController, names,
+                    searchBar(context, size, 'Buscar Actividades', names,
                         actividades, "verActividad"),
                     Material(
                       type: MaterialType.transparency,
