@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
