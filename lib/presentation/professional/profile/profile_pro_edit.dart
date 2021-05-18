@@ -756,6 +756,9 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
           ),
           child: const Text('Cerrar'),
         ),
+        Container(
+          child: Text("cosas"),
+        ),
       ],
     );
   }
