@@ -585,8 +585,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
       BuildContext context, Profesional profesional, Size size) {
     String title2 = "";
     String content2 = "";
-    print("confirmar");
-    print(profesional.uid);
+
     return new AlertDialog(
       title: Text(
         'Confirmación de Modificación',

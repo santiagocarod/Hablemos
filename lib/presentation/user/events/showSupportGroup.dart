@@ -43,7 +43,6 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }

@@ -27,5 +27,4 @@ void terminarCita(Cita cita) {
   });
 
   FirebaseFirestore.instance.collection("appoinments").doc(cita.id).delete();
-  print(cita.id);
 }

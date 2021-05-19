@@ -43,9 +43,6 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            print("OJOOOOOOOOOOOOOOO");
-            print(uid);
-            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }
