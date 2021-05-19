@@ -1,6 +1,12 @@
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/model/profesional.dart';
 
+/// Una cita que relaciona tanto a [paciente] como a [profesional]
+///
+/// Tiene un costo especifico que esta difinido en [COSTO_CITA]
+/// El [paciente] solo puede cambiar la fecha y hora [dateTime] y el [profesional]
+/// El [paciente] es el responsable de enviar el pago
+/// El [profesional] puede cambiar el resto de atributos y además aceptar y terminar la cita
 class Cita {
   String id;
   Paciente paciente;

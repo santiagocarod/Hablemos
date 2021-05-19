@@ -1,3 +1,7 @@
+///Información de una carta
+///
+///No se guarda el remitente de la carta
+///Se crea con [aporbado]=`false`
 class Carta {
   String id;
   String titulo;

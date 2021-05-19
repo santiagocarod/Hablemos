@@ -1,3 +1,4 @@
+///Clase que contiene la información básica del administrador del sistema
 class Administrador {
   String uid;
   String correo;
