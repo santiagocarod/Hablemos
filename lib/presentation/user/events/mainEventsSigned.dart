@@ -24,7 +24,7 @@ class EventsMainSigned extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
             appBar:
-                crearAppBarEventos(context, "¿Qué hay p'a hacer?", rutaAtras),
+                crearAppBarEventos(context, "¿Qué hay pa' hacer?", rutaAtras),
             body: Stack(
               children: <Widget>[
                 SingleChildScrollView(
