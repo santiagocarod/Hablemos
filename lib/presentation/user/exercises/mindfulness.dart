@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
-import 'package:hablemos/services/providers/exercises_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_swiper.dart';
 

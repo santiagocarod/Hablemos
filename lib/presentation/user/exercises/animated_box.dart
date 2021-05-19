@@ -160,7 +160,7 @@ class _AnimatedBoxState extends State<AnimatedBox> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget volver = FlatButton(
+    Widget volver = ElevatedButton(
       child: Text("Volver"),
       onPressed: () {
         Navigator.pop(context);
@@ -168,7 +168,7 @@ class _AnimatedBoxState extends State<AnimatedBox> {
       },
     );
 
-    Widget repetir = FlatButton(
+    Widget repetir = ElevatedButton(
       child: Text("Repetir"),
       onPressed: () {
         Navigator.pop(context);

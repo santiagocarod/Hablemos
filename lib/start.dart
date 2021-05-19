@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hablemos/presentation/user/exercises/animated_box.dart';
+// import 'package:hablemos/presentation/user/exercises/animated_box.dart';
 
 import 'constants.dart';
 
@@ -155,8 +155,8 @@ Widget _startButton(BuildContext context, Size size) {
                 ),
               ),
               onPressed: () {
-                // Navigator.pushNamed(context, 'start');
-                Navigator.pushNamed(context, 'OpcionesEjercicios');
+                Navigator.pushNamed(context, 'start');
+                // Navigator.pushNamed(context, 'OpcionesEjercicios');
               },
             ),
           ),
