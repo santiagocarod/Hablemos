@@ -72,12 +72,12 @@ class OptionsExercises extends StatelessWidget {
               Navigator.pushNamed(context, 'opcionesRespirar');
             }, kVerdeMuyClaro, size * 0.9, 20.0),
             colorButton('Mindfulness', () {
-              showCustomDialog(
-                context,
-                title: "Muy pronto",
-                subTitle: "Esta sección se encuentra en desarrollo!",
-              );
-              // Navigator.pushNamed(context, 'mindfulness');
+              // showCustomDialog(
+              //   context,
+              //   title: "Muy pronto",
+              //   subTitle: "Esta sección se encuentra en desarrollo!",
+              // );
+              Navigator.pushNamed(context, 'mindfulness');
             }, kAmarilloMuyClaro, size * 0.9, 20.0),
             colorButton('Quiero meditar', () {
               showCustomDialog(

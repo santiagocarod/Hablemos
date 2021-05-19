@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/services/providers/exercises_provider.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_swiper.dart';
@@ -82,7 +83,8 @@ class MindfulnessClass extends StatelessWidget {
         width: size.width,
         height: size.height * 0.6,
         child: CardSwiper(
-          list: ExerciseProvider.getMindfulnes(),
+          list: listaDeMindfulness,
+          imagenes: mindfulnessAcom1,
           route: 'infoEjercicio',
         ),
       ),
