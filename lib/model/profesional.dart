@@ -2,9 +2,9 @@ import 'banco.dart';
 
 /// Clase encargada de guardar la información de los profesionales
 ///
-/// Tienen dos listas, [convenios] con EPS o otras empresas para que el paciente tenga esa información en cuenta
-/// [proyectos] principales en los que puede decir que ha trabajado
-/// [banco] referencia a su cuenta Bancaria para que el paciente pueda realizar el pago
+/// Tienen dos listas, [convenios] con EPS o otras empresas para que el paciente tenga esa información en cuenta.
+/// [proyectos] principales en los que puede decir que ha trabajado.
+/// [banco] referencia a su cuenta Bancaria para que el paciente pueda realizar el pago.
 class Profesional {
   String uid;
   String nombre;
