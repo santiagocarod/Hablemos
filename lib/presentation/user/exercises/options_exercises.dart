@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
+import 'helper/coming_soon.dart';
 
 class OptionsExercises extends StatelessWidget {
   @override
@@ -71,10 +72,21 @@ class OptionsExercises extends StatelessWidget {
               Navigator.pushNamed(context, 'opcionesRespirar');
             }, kVerdeMuyClaro, size * 0.9, 20.0),
             colorButton('Mindfulness', () {
-              Navigator.pushNamed(context, 'mindfulness');
+              showCustomDialog(
+                context,
+                title: "Muy pronto",
+                subTitle: "Esta sección se encuentra en desarrollo!",
+              );
+              // Navigator.pushNamed(context, 'mindfulness');
             }, kAmarilloMuyClaro, size * 0.9, 20.0),
             colorButton('Quiero meditar', () {
-              Navigator.pushNamed(context, 'meditar');
+              showCustomDialog(
+                context,
+                title: "Muy pronto",
+                subTitle: "Esta sección se encuentra en desarrollo!",
+              );
+
+              // Navigator.pushNamed(context, 'meditar');
             }, kRojoMuyClaro, size * 0.9, 20.0),
           ],
         ),

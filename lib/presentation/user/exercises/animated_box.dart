@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 class AnimatedBox extends StatefulWidget {
@@ -76,12 +77,23 @@ class _AnimatedBoxState extends State<AnimatedBox> {
                         children: <Widget>[
                           Expanded(
                             child: Center(
-                              child: Container(
-                                child: primera
-                                    ? Text(
-                                        widget.instrucciones[widget.numeroPaso])
-                                    : Text(
-                                        "Cuando lo consideres correcto ve al siguiente paso..."),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  child: primera
+                                      ? Text(
+                                          widget
+                                              .instrucciones[widget.numeroPaso],
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        )
+                                      : Text(
+                                          "Respira con calma y cuando lo consideres correcto ve al siguiente paso...",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                ),
                               ),
                             ),
                           ),
@@ -91,12 +103,22 @@ class _AnimatedBoxState extends State<AnimatedBox> {
                             child: Container(
                               child: primera
                                   ? ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.teal,
+                                        onPrimary: Colors.white,
+                                        onSurface: Colors.grey,
+                                      ),
                                       onPressed: () {
                                         startActividad();
                                       },
                                       child: Text("Empezar"),
                                     )
                                   : ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.teal,
+                                        onPrimary: Colors.white,
+                                        onSurface: Colors.grey,
+                                      ),
                                       onPressed: () {
                                         if (widget.numeroPaso <
                                             widget.instrucciones.length - 1) {
@@ -116,7 +138,7 @@ class _AnimatedBoxState extends State<AnimatedBox> {
                                             ),
                                           );
                                         } else {
-                                          print("Show pop de terminacion");
+                                          showAlertDialog(context);
                                         }
                                       },
                                       child: Text("Siguiente"),
@@ -133,6 +155,52 @@ class _AnimatedBoxState extends State<AnimatedBox> {
           ),
         ),
       ],
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget volver = FlatButton(
+      child: Text("Volver"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+    );
+
+    Widget repetir = FlatButton(
+      child: Text("Repetir"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AnimatedBox(
+              instrucciones: dormirMejorInstrucciones,
+              numeroPaso: 0,
+            ),
+          ),
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Felicidades!!!"),
+      content: Text("Terminaste tus ejercicios de respiración."),
+      actions: [
+        volver,
+        repetir,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

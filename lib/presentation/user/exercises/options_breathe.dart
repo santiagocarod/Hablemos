@@ -4,6 +4,7 @@ import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstatico
 import 'package:hablemos/ux/atoms.dart';
 
 import 'animated_box.dart';
+import 'helper/coming_soon.dart';
 
 class OptionsBreathe extends StatelessWidget {
   @override
@@ -94,10 +95,22 @@ class OptionsBreathe extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   colorButton('Conectar con el presente', () {
-                    Navigator.pushNamed(context, 'respirar');
+                    showCustomDialog(
+                      context,
+                      title: "Muy pronto",
+                      subTitle: "Esta sección se encuentra en desarrollo!",
+                    );
+
+                    // Navigator.pushNamed(context, 'respirar');
                   }, kAzul1, size * 0.75, 50.0),
                   colorButton('Siento ansiedad', () {
-                    Navigator.pushNamed(context, 'respirar');
+                    showCustomDialog(
+                      context,
+                      title: "Muy pronto",
+                      subTitle: "Esta sección se encuentra en desarrollo!",
+                    );
+
+                    // Navigator.pushNamed(context, 'respirar');
                   }, kAzul2, size * 0.75, 50.0),
                   colorButton('Dormir', () {
                     Navigator.push(
