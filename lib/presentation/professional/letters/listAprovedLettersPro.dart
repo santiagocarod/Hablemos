@@ -9,6 +9,9 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de mostrar las [Carta] que ya fueron aprobadas al profesional.
+///
+/// Asi mismo tiene un botón de [Carta] aleatoria
 class ListAprovedLettersPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
