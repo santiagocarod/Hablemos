@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Paleta de Colores utilizada dentro de la aplicación
 const kAzulPrincipal = Color(0xFF202830);
 const kAzulOscuro = Color(0xFF205072);
 const kLetras = Color(0xFF302B2B);
@@ -52,6 +53,7 @@ const listColoresForo = [
 
 const grisSuave = Color(0xFFEAECFF);
 
+/// Constantes de claves y carpetas para Cloudinary
 const API_KEY = "975698479996151";
 const API_SECRET = "wtgtBmSssA1UixdejKpU53XTLTk";
 const CLOUD_NAME = "hablemos";
@@ -64,6 +66,7 @@ const ACTIVITY_PAYMENT = "paymentsActivities";
 const GROUP_PAYMENT = "paymentsGroups";
 const WORKSHOP_PAYMENT = "paymentsWorkshops";
 
+///Constantes Lógicas para ejecución
 const HORA_INICIO_CONSULTAS = 7;
 const HORA_FIN_CONSULTAS = 18;
 const PORCENTAJE_PAGO = 15000;
