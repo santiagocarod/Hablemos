@@ -538,11 +538,13 @@ class _ViewProfile extends State<ViewProfile> {
               ElevatedButton(
                 onPressed: () {
                   AuthService authService = AuthService();
-                  authService.logOut();
+
                   Navigator.pushNamedAndRemoveUntil(
                       context, "start", (_) => false);
                   eliminarPaciente(paciente).then((value) {
                     eliminarUsuario(paciente);
+                    FirebaseAuth.instance.currentUser.delete();
+                    authService.logOut();
                     if (value) {
                     } else if (!value) {
                       Navigator.of(context).pop();
