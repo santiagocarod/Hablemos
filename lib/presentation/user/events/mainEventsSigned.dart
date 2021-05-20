@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
+/// Clase de la pagina principal de los eventos para cualquier usuario
+///
+/// Da la opción de ir a la lista de cada evento [Actividad], [Grupo] y [Taller]
 class EventsMainSigned extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

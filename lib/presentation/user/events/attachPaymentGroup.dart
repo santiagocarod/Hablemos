@@ -7,6 +7,9 @@ import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Clase que permite subir el comprobate de pago a un [Grupo]
+///
+/// Este pago es necesario cuando el Evento es virtual y Pago
 class AttachPaymentGroup extends StatefulWidget {
   @override
   _AttachPaymentGroupState createState() => _AttachPaymentGroupState();
@@ -239,6 +242,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
   }
 }
 
+/// Dialogo de confirmación de envio de pago
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Grupo grupo,
     {String ruta}) {
