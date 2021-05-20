@@ -9,6 +9,9 @@ import 'package:hablemos/presentation/professional/appointments/pacientDetails.d
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
+/// Clase encargada de mostrar la informacion de una [Cita] al profesional
+///
+/// Recibe una [Cita] como parámetro y muestra su información completa.
 class DetalleCitaPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,6 +124,10 @@ class DetalleCitaPro extends StatelessWidget {
   }
 }
 
+/// Widget que determina el icono según [Cita.estado]
+///
+/// En caso de estar aprobado pone un icono verde
+/// En caso contrario pone un icono rojo
 Widget _dateState(BuildContext context, Cita cita) {
   final bool state = cita.estado;
   return Container(
@@ -146,6 +153,7 @@ Widget _dateState(BuildContext context, Cita cita) {
   );
 }
 
+/// Método encargado de desplegar el icono de [_dateState()]
 Widget _stateIcon(bool state) {
   if (state == false) {
     return Container(
@@ -168,6 +176,11 @@ Widget _stateIcon(bool state) {
   }
 }
 
+/// Método encargado de mostrar la cabera de la cita
+///
+/// En la cabecera se va a poner el nombre del paciente con el cual se tiene la cita.
+/// Además se tiene el botón que redirige a [EditCitaPro()] para editar la cita.
+/// En el nombre del [Paciente] tiene un hipervinculo a su Perfil
 Widget _headerDate(BuildContext context, Cita cita) {
   String pacientName = cita.paciente.nombreCompleto();
   return Container(
@@ -183,8 +196,6 @@ Widget _headerDate(BuildContext context, Cita cita) {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => EditCitaPro(cita: cita)));
-            // Navigator.pushNamed(context, 'editarCitaProfesional',
-            //     arguments: cita);
           },
           child: Container(
               alignment: Alignment.centerRight,
@@ -230,6 +241,10 @@ Widget _headerDate(BuildContext context, Cita cita) {
   );
 }
 
+/// Método encargado de mostrar los botones de acciones con la [Cita]
+///
+/// Va a mostrar los botones de ver el pago y cancelar la cita.
+/// El botón de ver el pago solo se va a poder ver cuando la [Cita.pago] sea diferente a vacio `""` o `null`
 @override
 Widget _buttons(BuildContext context, Cita cita) {
   if (cita.pago == "" || cita.pago == null) {
@@ -359,6 +374,7 @@ Widget _buttons(BuildContext context, Cita cita) {
   }
 }
 
+/// Mostrar la cebecera de la pantalla total
 Widget _pageHeader(BuildContext context, Size size, String titulo) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),

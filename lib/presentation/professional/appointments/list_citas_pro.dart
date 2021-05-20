@@ -12,7 +12,11 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de hacer la petición de las citas especificas del [Profesional] que tiene la sesión
 class ListCitasPro extends StatelessWidget {
+  /// Método encargado de convertir cada [Cita] en un [Card] con su información
+  ///
+  /// Ademas el Evento si le hacen click redirigir al usuario a [DetalleCitaPro()] para mostrar los detalles.
   List<Widget> citasProfesionalToCard(context, List<Cita> citas) {
     final DateFormat format = DateFormat('hh:mm a');
     DateTime ahora = DateTime.now();
@@ -76,6 +80,7 @@ class ListCitasPro extends StatelessWidget {
     return cards;
   }
 
+  /// Aqui es donde se hace la petición a Firebase de las citas especificas del usuario
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
