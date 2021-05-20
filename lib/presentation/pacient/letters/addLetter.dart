@@ -5,6 +5,10 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clse encargada de recibir la información de una [Carta] nueva
+///
+/// Solo se guarda como información el titulo de la carta y el cuerpo.
+/// Se envia con estado de [Carta.aprobado] = `false` para ser revisada por un profesional.
 class AddLetter extends StatefulWidget {
   @override
   _AddLetter createState() => _AddLetter();
@@ -110,7 +114,9 @@ class _AddLetter extends State<AddLetter> {
     );
   }
 
-  // Dialogo Confirmación de Envío de Carta
+  /// Dialogo Confirmación de Envío de Carta
+  ///
+  /// Cuando se confirma que se quiere enviar la carta se llama a [agregarCarta()]
   Widget _buildDialog(BuildContext context, Size size) {
     String title = "";
     String content = "";

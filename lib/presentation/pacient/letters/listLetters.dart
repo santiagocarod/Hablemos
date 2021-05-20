@@ -11,6 +11,12 @@ import 'dart:math';
 
 import '../../../ux/atoms.dart';
 
+///Clase encargada de hacer la petición de [Carta] a firebase
+///
+///Solo va a desplegar las cartas que esten aprobadas [Carta.aprobado] == `true`
+///Cuando se hace click sobre una carta se muestra la carta completa en [ShowLetter()]
+///En la esquina superior derecha hay un botón de aleatorio.
+///Despliega una [Carta] aleatoria en [ShowLetter()]s
 class ListLetters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
