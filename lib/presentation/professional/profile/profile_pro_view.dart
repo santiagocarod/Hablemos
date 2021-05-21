@@ -14,6 +14,13 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../inh_widget.dart';
 
+///Clase encargada de hacer la petición del perfil [Profesional] a firebase
+///
+///Solo va a desplegar la información del usuario que esta con la sesión iniciada [auth.currentUser.uid] == [Profesional.uid]
+///En esta pantalla inicial no se puede editar nada sobre el perfil
+///Hay un boton de editar perfil que redirige a [EditProfile()]
+///Despliga la pantalla de editar perfil
+
 class ProfileProView extends StatefulWidget {
   @override
   _ProfileProViewState createState() => _ProfileProViewState();
@@ -24,7 +31,7 @@ class _ProfileProViewState extends State<ProfileProView> {
   final ImagePicker _imagePicker = new ImagePicker();
   final String id = FirebaseAuth.instance.currentUser.uid;
 
-  // Set the image form camera
+  /// Pone la imagen que viene desde camara
   _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -48,7 +55,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen que viene de la galeria
   _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -74,7 +81,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Display las opciones para subir foto (Galeria o Camara)
   void _showPicker(context, profesional) {
     showModalBottomSheet(
         context: context,
@@ -153,6 +160,7 @@ class _ProfileProViewState extends State<ProfileProView> {
         });
   }
 
+  /// Display la barra superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
@@ -289,6 +297,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
+  /// Display de toda la pantalla donde esta la informacion del usuario
   Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -339,7 +348,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Section, title, content and divider
+  /// Display la seccion que tiene un titulo y un texto
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -375,7 +384,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Password section and button
+  /// Display la sección que tiene un password
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -450,7 +459,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Dialogo de instrucciones de cambio de contraseña.
+  /// Display dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -476,6 +485,9 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
+  /// Display de la secciond de lista de profesionales
+  /// Los listados posibles
+  /// [Profesional.convenios] y [Profesional.proyectos]
   Widget _sectionList(String title, List<String> content, Size size) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -509,6 +521,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
+  /// Funcion que agrega a lista de [_sectionList()]
   List<Widget> _list(List<String> content) {
     List<Widget> info = [];
     content.forEach((element) {
