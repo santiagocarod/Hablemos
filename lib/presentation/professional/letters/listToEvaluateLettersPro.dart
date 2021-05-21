@@ -7,6 +7,9 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de mostrar las [Carta] que no han sido aprobadas al profesional.
+///
+/// En caso de hacer click sobre alguna de las cartas redirecciona a [AssesLetterPro()] para que el profesional pueda valorar la carta.
 class ListToEvaluateLettersPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

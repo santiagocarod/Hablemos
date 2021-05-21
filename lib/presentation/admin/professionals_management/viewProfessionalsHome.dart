@@ -7,6 +7,8 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase que tiene el diseño de la pantalla principal de los [Profeisonal]es
+/// Es desde la perspectiva de un admnistrador y va a ver un listado de estos.
 class HomeProfessionalsManagement extends StatefulWidget {
   @override
   _HomeProfessionalsManagementState createState() =>
@@ -15,7 +17,6 @@ class HomeProfessionalsManagement extends StatefulWidget {
 
 class _HomeProfessionalsManagementState
     extends State<HomeProfessionalsManagement> {
-  //Profesional profesional = ProfesionalesProvider.getProfesional();
   ScrollController scrollController = ScrollController(
     initialScrollOffset: 0,
     keepScrollOffset: true,
@@ -73,6 +74,7 @@ class _HomeProfessionalsManagementState
         });
   }
 
+  ///Diseño del body de la pantalla
   Widget _body(
       BuildContext context, Size size, List<Profesional> profesionales) {
     return SingleChildScrollView(
@@ -122,13 +124,14 @@ class _HomeProfessionalsManagementState
             ),
           ),
           SizedBox(height: 24),
-          Center(child: _talleresTable(context, size, profesionales)),
+          Center(child: _profesionalesTable(context, size, profesionales)),
         ],
       ),
     );
   }
 
-  Widget _talleresTable(
+  /// Diseño de la tabla de profesionales
+  Widget _profesionalesTable(
       BuildContext context, Size size, List<Profesional> profesionales) {
     List<DataRow> rows = [];
     profesionales.forEach((element) {

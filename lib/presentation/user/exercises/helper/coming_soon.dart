@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+///Clase que nos ayuda con el PopUp que sale si el ejercicio se encuentra en desarrollo
+
 void showCustomDialog(
   BuildContext context, {
   bool barrierDismissible = true,
   String title = "",
   String subTitle = "",
   String valueTotal = '',
-  String imagePath = "assets/adomi-icono.png",
+  String imagePath = "",
   Widget child,
   List<Widget> actions,
 }) {

@@ -12,6 +12,7 @@ import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/model/taller.dart';
 
+/// Funcion que nos ayuda a pasar el modelo [Carta] que tiene firebase a una lista
 List<Carta> cartaMapToList(
     AsyncSnapshot<QuerySnapshot> snapshot, bool condition) {
   List<Carta> cartas = [];
@@ -27,6 +28,7 @@ List<Carta> cartaMapToList(
   return cartas;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Centro_Atencion] que tiene firebase a una lista
 List<CentroAtencion> centrosMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<CentroAtencion> centros = [];
   snapshot.data.docs.forEach((element) {
@@ -38,6 +40,7 @@ List<CentroAtencion> centrosMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return centros;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Cita] que tiene firebase a una lista
 List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Cita> citas = [];
   snapshot.data.docs.forEach((element) {
@@ -49,6 +52,7 @@ List<Cita> citaMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return citas;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Taller] que tiene firebase a una lista
 List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Taller> talleres = [];
   snapshot.data.docs.forEach((element) {
@@ -60,6 +64,7 @@ List<Taller> tallerMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return talleres;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Profesional] que tiene firebase a una lista
 List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Profesional> profesionales = [];
   snapshot.data.docs.forEach((element) {
@@ -70,6 +75,7 @@ List<Profesional> profesionalMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return profesionales;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Paciente] que tiene firebase a una lista
 List<Paciente> pacienteMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Paciente> pacientes = [];
   snapshot.data.docs.forEach((element) {
@@ -80,6 +86,7 @@ List<Paciente> pacienteMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return pacientes;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Grupo] que tiene firebase a una lista
 List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Grupo> grupos = [];
   snapshot.data.docs.forEach((element) {
@@ -91,6 +98,7 @@ List<Grupo> grupoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return grupos;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Actividad] que tiene firebase a una lista
 List<Actividad> actividadMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Actividad> grupos = [];
   snapshot.data.docs.forEach((element) {
@@ -102,6 +110,7 @@ List<Actividad> actividadMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return grupos;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Diagnostico] que tiene firebase a una lista
 List<Diagnostico> diagnosticoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Diagnostico> diagnosticos = [];
   snapshot.data.docs.forEach((element) {
@@ -114,6 +123,7 @@ List<Diagnostico> diagnosticoMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return diagnosticos;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [Administrador] que tiene firebase a una lista
 List<Administrador> administradorMapToList(
     AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Administrador> administradores = [];
@@ -125,6 +135,7 @@ List<Administrador> administradorMapToList(
   return administradores;
 }
 
+/// Funcion que nos ayuda a pasar el modelo [PagoAdmin] que tiene firebase a una lista
 List<Pagoadmin> paymentMapToList(AsyncSnapshot<QuerySnapshot> snapshot) {
   List<Pagoadmin> pagos = [];
   snapshot.data.docs.forEach((element) {

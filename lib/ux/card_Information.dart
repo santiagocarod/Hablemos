@@ -5,6 +5,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 
+/// Clase que contiene el card con la informacion ya organizada, se usa en diferentes pantallas
+
 const listaColoresAdmin = [
   kMorado,
   kMoradoClarito,

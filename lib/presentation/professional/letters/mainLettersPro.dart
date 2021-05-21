@@ -3,6 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 
+/// Clase encargada dele menú principal de las Cartas para el profesional
+///
+/// Aqui el profesional puede escoger entre ver las cartas aceptadas o las cartas pendientes por aceptar.
 class MainLettersPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -56,6 +59,10 @@ class MainLettersPro extends StatelessWidget {
   }
 }
 
+/// Contenedor general para el botón de las cartas.
+///
+/// [titulo] Pone el titulo del botón
+/// [paginaRedireccion] indica hacia donde tiene que redireccionar el botón
 Widget _contenedor(
     BuildContext context, Size size, String titulo, String paginaRedireccion) {
   return GestureDetector(
@@ -90,6 +97,7 @@ Widget _contenedor(
   );
 }
 
+/// Cabecera principal de la pantalla
 Widget _pageHeaderAction(
     BuildContext context, Size size, String titulo, String ruta) {
   return Container(

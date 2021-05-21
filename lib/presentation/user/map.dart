@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:hablemos/ux/atoms.dart';
 
+///Clase principal de los mapas, la cual maneja todos los metodos y movimientos de camara
+///que necesite el mapa para que el usuario pueda trabajar correctamente
+
 class MapBoxClass extends StatefulWidget {
   @override
   _MapBoxClassState createState() => _MapBoxClassState();

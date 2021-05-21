@@ -6,6 +6,9 @@ import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Clase encargada de permitir al Paciente adjuntar la imagen del pago de una [Cita]
+///
+/// Este pago se guarda en la [Cita.pago] como la ruta en donde quedó guardado en cloudinary
 class AttatchPayment extends StatefulWidget {
   @override
   _AttatchPaymentState createState() => _AttatchPaymentState();
@@ -35,6 +38,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
     });
   }
 
+  /// En caso de que sea la imagen de la galeria.
   _imagenDesdeGaleria(Cita cita) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -55,6 +59,7 @@ class _AttatchPaymentState extends State<AttatchPayment> {
     });
   }
 
+  /// Mostrar las opciones de galeria de fotos o Cámara
   void _showPicker(context, cita) {
     showModalBottomSheet(
         context: context,

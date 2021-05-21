@@ -8,6 +8,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:url_launcher/url_launcher.dart';
 
+///Clase que muestra la informacion organizada de los centros medicos
+/// Muestra toda la informacion de un [Centro_Atencion]
 class DetailsMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,6 +123,7 @@ class DetailsMedicalCenter extends StatelessWidget {
     );
   }
 
+  /// Diseño que pasa el listado de telefonos a un diseño amigable
   Widget medicalCenterDetailsTel(String info) {
     List<String> phones = info.split("-");
     return Container(
@@ -132,6 +135,7 @@ class DetailsMedicalCenter extends StatelessWidget {
     );
   }
 
+  /// Diseño que ayuda al manejo del email del centro medico
   Widget medicalCenterDetailsEmail(String info) {
     if (info.toLowerCase() == "sin correo" ||
         info.toLowerCase() == "no aplica" ||
@@ -170,6 +174,7 @@ class DetailsMedicalCenter extends StatelessWidget {
     }
   }
 
+  /// Diseño que ayuda al manejo de la ubicacion del centro medico
   Widget medicalCenterLocation(BuildContext context,
       CentroAtencion _centroAtencion, double _horizontalPadding) {
     if (_centroAtencion.ubicacion.toLowerCase() == "sin direccion" ||
@@ -204,6 +209,7 @@ class DetailsMedicalCenter extends StatelessWidget {
     }
   }
 
+  /// Diseño que ayuda a abrir el mapa del centro medico
   Widget medicalCenterDetailsMap(String info) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -219,6 +225,7 @@ class DetailsMedicalCenter extends StatelessWidget {
     );
   }
 
+  /// Widget que ayuda a detectar taps segun el usuario quiera
   List<Widget> phonesToGesture(List<String> phones) {
     List<Widget> gestures = [];
     phones.forEach((element) {

@@ -10,6 +10,9 @@ import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
+/// Listado de todos los [CentroAtencion] para el administrador
+///
+/// Clase encargada de descargar todos los centros de antecion y desplegarlos en forma de lista
 class ListMedicalAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -97,6 +100,9 @@ class ListMedicalAdmin extends StatelessWidget {
         });
   }
 
+  /// Método encargado de convertir cada [CentroAtencion] en un elemento Card
+  ///
+  /// Esto para ser mostrado. Cada card puede ser clickeada y lleva a [DetailsMedicalAdmin()]
   List<Widget> centersToWidgetsMedical(
       BuildContext context, List<CentroAtencion> _medicalCenters) {
     List<Widget> widgets = [];
@@ -147,8 +153,6 @@ class ListMedicalAdmin extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   DetailsMedicalAdmin(centroAtencion: element)));
-          // Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
-          //     arguments: element);
         },
         child: card,
       );

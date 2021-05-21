@@ -1,5 +1,10 @@
 import 'package:hablemos/model/banco.dart';
 
+/// Evento especifico de la papaya.
+///
+/// Puede ser pago o gratis.
+/// Puede ser virtual o presencial.
+/// En el caso de que sea virtual y pago, en la lista de [participantes] se guarda tambien su pago.
 class Grupo {
   String id;
   String titulo;

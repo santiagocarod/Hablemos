@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 
+/// Clase que contiene el diseño de la pantalla de creacion de profesionales
+/// Esto es desde la perspeciva del administrador
 class CreateProfileProfessionalAdmin extends StatefulWidget {
   @override
   _CreateProfileProfessionalAdmin createState() =>
@@ -79,6 +81,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
+  /// Diseño superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size) {
     return Stack(
       children: <Widget>[
@@ -263,6 +266,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
+  /// Diseño inferior de la pantalla
   Widget _body(Size size) {
     return Container(
       width: size.width,
@@ -304,7 +308,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  //Section non editable
+  //seccion No Editable
   Widget _nonEditSection(String title, TextEditingController _nameController,
       TextEditingController _passwordController) {
     return Container(
@@ -341,7 +345,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  // Section: Password
+  // Seccion del password
   Widget _editSection(String text, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
@@ -375,7 +379,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  // Picker Date
+  // Modal de seleccion de fecha
   _selectDate(BuildContext context) async {
     DateTime picked = await showDatePicker(
       context: context,
@@ -392,7 +396,7 @@ class _CreateProfileProfessionalAdmin
     }
   }
 
-  // // Dialogo Confirmación de Creación de Profesional
+  /// Dialogo Confirmación de Creación de Profesional
   Widget _buildDialog(BuildContext context, Profesional profesional,
       String password, Size size) {
     String title = "";
@@ -531,6 +535,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
+  /// Dialogo de advertencia de creacion de un profesional
   Widget _adviceDialog(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(

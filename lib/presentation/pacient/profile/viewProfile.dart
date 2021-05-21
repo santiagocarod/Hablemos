@@ -14,6 +14,12 @@ import 'package:image_picker/image_picker.dart';
 import '../../../inh_widget.dart';
 import 'editProfile.dart';
 
+///Clase encargada de hacer la petición del perfil [Paciente] a firebase
+///
+///Solo va a desplegar la información del usuario que esta con la sesión iniciada [auth.currentUser.uid] == [Paciente.uid]
+///En esta pantalla inicial no se puede editar nada sobre el perfil
+///Hay un boton de editar perfil que redirige a [EditProfile()]
+///Despliga la pantalla de editar perfil
 class ViewProfile extends StatefulWidget {
   @override
   _ViewProfile createState() => _ViewProfile();
@@ -24,7 +30,7 @@ class _ViewProfile extends State<ViewProfile> {
   final ImagePicker _imagePicker = new ImagePicker();
   String username;
 
-  // Set the image form camera
+  /// Pone la imagen que viene desde camara
   _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -48,7 +54,7 @@ class _ViewProfile extends State<ViewProfile> {
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen que viene de la galeria
   _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -74,7 +80,7 @@ class _ViewProfile extends State<ViewProfile> {
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Display las opciones para subir foto (Galeria o Camara)
   void _showPicker(context, paciente) {
     showModalBottomSheet(
         context: context,
@@ -108,7 +114,7 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser;
 
     Query pacientsCollection = FirebaseFirestore.instance
@@ -153,7 +159,7 @@ class _ViewProfile extends State<ViewProfile> {
         });
   }
 
-  // Draw app bar Style
+  /// Display la barra superior de la pantalla
   Widget pacientHead(Size size, Paciente paciente, User user) {
     return Stack(
       children: <Widget>[
@@ -317,7 +323,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Body of the screen
+  /// Display de toda la pantalla donde esta la informacion del usuario
   Widget _body(Size size, Paciente paciente) {
     return Container(
       width: size.width,
@@ -366,7 +372,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Section, title, content and divider
+  /// Display la seccion que tiene un titulo y un texto
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -402,7 +408,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Password section and button
+  /// Display la sección que tiene un password
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -477,7 +483,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Change password popup Dialog
+  /// Display dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -503,7 +509,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Dialogo Confirmación de Eliminación de Cuenta de Paciente.
+  /// Dialogo Confirmación de Eliminación de Cuenta de Paciente.
   Widget _buildDialog(BuildContext context, Paciente paciente, Size size) {
     return new AlertDialog(
       title: Text(

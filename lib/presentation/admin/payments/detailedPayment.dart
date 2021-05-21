@@ -5,6 +5,12 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clse encargada de mostrar el detalle del pago que tiene que hacer un [Prfesional] al administrador
+///
+/// Se muestra una lista de citas por las cuales tiene que hacer el pago y ademas un costo final total
+/// En esta pantalla se puede ademas agrregar un cobro a ser necesario.
+/// También se pueden dejar las cuentas en `0` cuando el profesional haya pagado
+/// Esta informacion la despliega de un [Pagoadmin] que viene como argumento de la ruta.
 class DetailedPaymentAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  // Display Backgorund
+  /// Fondo de pantalla
   Widget _background(Size size) {
     return Image.asset(
       'assets/images/verdeAdminPagos.png',
@@ -44,6 +50,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Crea el cuerpo de la información que se quiere mostrar para el [Profesional] especifico
   Widget _crearBody(BuildContext context, Size size, Pagoadmin pagoAdmin) {
     String nombreCompleto =
         "${pagoAdmin.profesional.nombre}  ${pagoAdmin.profesional.apellido}";
@@ -77,6 +84,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Sección general con un [titulo] y una [info]
   Widget _createText(
       BuildContext context, Size size, String titulo, String info) {
     return Container(
@@ -111,6 +119,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Encargado de crear la tabla de citas en donde se da el detalle a pagar por cada una
   Widget _createTable(
       BuildContext context, Size size, List<Map<String, dynamic>> pagos) {
     List<DataRow> rows = [];
@@ -175,6 +184,10 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Encargado de los eventos del Administrador
+  ///
+  /// En caso de que el administrador quiera confirmar el pago del profesional
+  /// O añadir un pago adicional
   Widget _crearBotones(BuildContext context, Size size, Pagoadmin pagoadmin) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,7 +228,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  // Dialogo Confirmación de Pago del Profesional
+  /// Dialogo Confirmación de Pago del Profesional
   Widget _buildDialog(BuildContext context, String title, String content,
       Pagoadmin pagoadmin, Size size) {
     return new AlertDialog(

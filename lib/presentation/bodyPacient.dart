@@ -3,6 +3,9 @@ import '../ux/ColumnaDosPaciente.dart';
 import '../ux/ColumnasInicioPaciente.dart';
 import '../ux/Encabezado.dart';
 
+///Método que retnorna la página principal para el paciente
+///
+///Crea el saludo y llama métodos para crear los botones de cada sección
 class BodyPacient extends StatelessWidget {
   const BodyPacient({
     Key key,
@@ -61,6 +64,7 @@ class BodyPacient extends StatelessWidget {
   }
 }
 
+///Método que retorna un [Widget] para crear un espacio
 class Espacio extends StatelessWidget {
   const Espacio({
     Key key,

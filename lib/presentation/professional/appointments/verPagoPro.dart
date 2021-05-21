@@ -5,7 +5,10 @@ import 'package:hablemos/model/cita.dart';
 import '../../../constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 
-//Screen of attached payment
+/// Pantalla para ver el pago de una [Cita]
+///
+/// Para esto el [Cita.pago] tiene que ser diferente de `""` y `null`
+/// Con la ruta de la imagen, la trae y la despliega
 class VerPagoPro extends StatelessWidget {
   VerPagoPro({
     Key key,
@@ -148,6 +151,7 @@ class VerPagoPro extends StatelessWidget {
   }
 }
 
+/// Cabecera principal de la pantalla general
 Widget _pageHeader(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),

@@ -5,6 +5,9 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/paciente.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase encargada de Desplegar solo la información necesaria de un [Paciente] al profesional
+///
+/// Recibe la informacion del paciente como un parametro del constructor de la clase
 class PacientDetails extends StatefulWidget {
   final Paciente paciente;
   const PacientDetails({this.paciente});
@@ -22,7 +25,6 @@ class _PacientDetails extends State<PacientDetails> {
       child: SafeArea(
         bottom: false,
         child: Scaffold(
-          // Create an empty appBar, display the arrow back
           appBar: crearAppBar('', null, 0, null, context: context),
           extendBodyBehindAppBar: true,
           body: Stack(
@@ -42,11 +44,10 @@ class _PacientDetails extends State<PacientDetails> {
     );
   }
 
-  // Draw app bar Style
+  /// Mostrar el Appbar principal de la pantalla
   Widget pacientHead(Size size, Paciente paciente) {
     return Stack(
       children: <Widget>[
-        // Draw oval Shape
         ClipPath(
           clipper: MyClipper(),
           child: Container(
@@ -100,7 +101,6 @@ class _PacientDetails extends State<PacientDetails> {
                     ),
                   ],
                 ),
-                // Display text name
                 Center(
                   child: Container(
                     padding: EdgeInsets.only(top: 10),
@@ -125,7 +125,7 @@ class _PacientDetails extends State<PacientDetails> {
     );
   }
 
-  // Body of the screen
+  /// Cuerpo principal, en donde se despliega cada sección importante
   Widget _body(Size size, Paciente paciente) {
     return Container(
       width: size.width,
@@ -159,7 +159,7 @@ class _PacientDetails extends State<PacientDetails> {
     );
   }
 
-  // Section, title, content and divider
+  /// Sección general con un titulo [title] y contenido [content]
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),

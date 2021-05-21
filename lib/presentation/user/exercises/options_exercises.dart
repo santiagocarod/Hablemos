@@ -4,6 +4,13 @@ import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 import 'helper/coming_soon.dart';
 
+///Clase principal que contiene las diferentes opciones de ejercicios
+///Las opciones de ejercicios posibles (por el momento) son:
+///- `Quiero respirar`
+///- `Mindfulness`
+///- `Quiero meditar`
+///
+/// En caso de que el ejercicio se encuentre en desarrollo se muestra un cuadro explicandole al usuario
 class OptionsExercises extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Clase que usamos para pintar uno de las barras superiores de algúnas pantallas
 class CustomShapeBorder extends CustomPainter {
   final size;
   final color;

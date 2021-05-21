@@ -13,6 +13,11 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+///Clase encargada de organizar la informacion de [Paciente] para ser editada
+///
+///Hay un boton de guardar que hara la peticion a firebase y guardara la entidad [Paciente]
+///Hay un boton de eliminar el cual elimina en firebase la entidad [Paciente]
+
 class EditProfile extends StatefulWidget {
   @override
   _EditProfile createState() => _EditProfile();
@@ -54,7 +59,7 @@ class _EditProfile extends State<EditProfile> {
     _image = widget.paciente.foto;
   }
 
-  // Set the image form camera
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -80,7 +85,7 @@ class _EditProfile extends State<EditProfile> {
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen desde galeria
   _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -106,7 +111,7 @@ class _EditProfile extends State<EditProfile> {
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, paciente) {
     showModalBottomSheet(
         context: context,
@@ -170,7 +175,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Draw app bar Style
+  /// Despliega la interfaz del appbar de la pantalla
   Widget pacientHead(Size size, TextEditingController textNombre,
       TextEditingController textApellido, User user, Paciente paciente) {
     return Stack(
@@ -328,7 +333,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  //Body of the screen
+  /// Despliega la seccion de la pantalla con la información del usuario
   Widget _body(Size size, Paciente paciente) {
     return Container(
       width: size.width,
@@ -359,7 +364,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  //Section non editable
+  /// Despliega la seccion que no es editable
   Widget _nonEditSection(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -395,7 +400,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Section: title and text field
+  /// Despliega la seccion donde se puede editar
   Widget _editSection(
       String text, TextEditingController controller, int categoria) {
     return Container(
@@ -442,7 +447,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Verificación Asociación de Paciente con Citas
+  /// Verificación Asociación de [Paciente] con [Cita]
   Widget _buildDialog(
       BuildContext context, Paciente paciente, User user, Size size) {
     Query reference = FirebaseFirestore.instance
@@ -468,7 +473,7 @@ class _EditProfile extends State<EditProfile> {
         });
   }
 
-  // Dialogo Confirmación de Modificación de Paciente sin Citas asociadas.
+  /// Dialogo Confirmación de Modificación de [Paciente] sin [Cita] asociadas.
   Widget modificacionDialogs(Paciente paciente, String user, Size size) {
     String title2 = "";
     String content2 = "";
@@ -567,8 +572,8 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Dialogo Confirmación de Modificación de Paciente con Citas asociadas.
-  // Modificación del paciente en la información de las Citas asociadas.
+  /// Dialogo Confirmación de Modificación de [Paciente] con [Cita] asociadas.
+  /// Modificación del paciente en la información de las [Cita] asociadas.
   Widget modificacionDialogsCita(
       Paciente paciente, String user, List<Cita> citas, size) {
     String title2 = "";
@@ -679,7 +684,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Password section and button
+  /// Sección de password y boton
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -754,7 +759,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Change password popup dialog
+  /// Dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -780,7 +785,7 @@ class _EditProfile extends State<EditProfile> {
     );
   }
 
-  // Confirm popup dialog
+  /// Dialogo confirmacion de cambiar password
   Widget adviceDialogPacient(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(

@@ -5,6 +5,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:intl/intl.dart';
 
+/// Clase encargada de mostrar la información de una [Cita] y recibir los cambios
 class EditCitaPro extends StatefulWidget {
   final Cita cita;
   const EditCitaPro({this.cita});
@@ -45,6 +46,7 @@ class _EditCitaProState extends State<EditCitaPro> {
       ..text = widget.cita.profesional.celular.toString();
   }
 
+  /// Método que construye la estructura básica de la pantalla
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -140,6 +142,7 @@ class _EditCitaProState extends State<EditCitaPro> {
   }
 }
 
+/// Muestra el estado de la cita [Cita.estado]
 Widget _dateState(BuildContext context, Cita cita) {
   final bool state = cita.estado;
   return Container(
@@ -164,6 +167,7 @@ Widget _dateState(BuildContext context, Cita cita) {
   );
 }
 
+/// Icono del estado de la cita
 Widget _stateIcon(bool state) {
   if (state == false) {
     return Container(
@@ -186,6 +190,9 @@ Widget _stateIcon(bool state) {
   }
 }
 
+/// Sección general editable por parte del Profesional
+///
+/// Sirve para los campos de [Cita] que son `String`
 Widget secctionEdit(String title, TextEditingController textEditingController) {
   return Container(
     margin: EdgeInsets.only(bottom: 2.0),
@@ -231,9 +238,13 @@ Widget secctionEdit(String title, TextEditingController textEditingController) {
         ),
       ],
     ),
-  ); //Boton como los de ejercicios queiro respirar, mindfulness, quiero meditar
+  );
 }
 
+/// Mostrar la Cabecera de la cita
+///
+/// Se muestra el nombre del [Paciente] con quien es la cita
+/// En el nombre del [Paciente] tiene un hipervinculo a su Perfil
 Widget _headerDate(BuildContext context, Cita cita) {
   String pacientName = cita.paciente.nombreCompleto();
   return Container(
@@ -264,6 +275,10 @@ Widget _headerDate(BuildContext context, Cita cita) {
   );
 }
 
+/// Muestra el botón principal para guardar la información que ha sido modificada
+///
+/// Muestra un dialogo de confirmación por si el profesional se arrepiente
+/// [dialogoConfirmacionG()]
 @override
 Widget _buttons(BuildContext context, Cita cita, Map map) {
   return Container(
@@ -311,6 +326,7 @@ Widget _buttons(BuildContext context, Cita cita, Map map) {
   );
 }
 
+/// Cabecera general de la pantalla
 Widget _pageHeader(BuildContext context, Size size, String titulo, Cita cita) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),
@@ -349,6 +365,10 @@ Widget _pageHeader(BuildContext context, Size size, String titulo, Cita cita) {
   );
 }
 
+/// Dialogo de confirmación de la edición de la [Cita]
+///
+/// En caso de que que el Profesional acepte los cambios, estos se envian a [actualizarCitaProfesional()].
+/// En caso contrario no se realiza el cambio y el profesional puede seguir editando
 AlertDialog dialogoConfirmacionG(BuildContext context, String rutaSi,
     String titulo, String mensaje, Cita cita, Map map) {
   return AlertDialog(

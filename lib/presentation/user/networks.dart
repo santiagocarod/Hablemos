@@ -3,6 +3,10 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+///Clase que maneja las redes de la entidad La Papaya
+///Donde se hace tambien manejo de abrir urls o su respectiva aplicación
+///Solo si se encuentra instalada
+
 class Networks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,7 @@ class Networks extends StatelessWidget {
   }
 }
 
+///Imagen de atras de la pantalla
 Widget _background(Size size) {
   return Image.asset(
     'assets/images/exercisesBack.png',
@@ -49,6 +54,7 @@ Widget _background(Size size) {
   );
 }
 
+//Barra superior (AppBar) de la pantalla
 Widget _appBar(Size size) {
   return Center(
     child: Container(
@@ -77,6 +83,7 @@ Widget _appBar(Size size) {
   );
 }
 
+///Listado completo de las redes de la papaya
 Widget _list(Size size) {
   return Center(
     child: Container(
@@ -101,6 +108,7 @@ Widget _list(Size size) {
   );
 }
 
+///Esta funcion verifica si la aplicacion esta instalada y/o abre la url de la red de la papaya
 Future<void> _launchInBrowser(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
@@ -109,6 +117,7 @@ Future<void> _launchInBrowser(String url) async {
   }
 }
 
+///Se manejan los diferentes iconos ya que cada red tiene una foto diferente
 Widget _iconText(String title, String url, String type) {
   Color color;
   Icon aIcon;

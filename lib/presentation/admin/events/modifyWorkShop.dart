@@ -10,11 +10,15 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// El administrador tiene la capacidad de Modificar un [Taller]
+///
+/// Recibe un [Taller] como argumento de la ruta.
 class ModifyWorkShop extends StatefulWidget {
   @override
   _ModifyWorkShop createState() => _ModifyWorkShop();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _ModifyWorkShop extends State<ModifyWorkShop> {
   String _date = '';
   String _time = '';
@@ -32,6 +36,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   TextField tipoCuentaTextField;
   TextField numeroCuentaTextField;
 
+  /// Inicializa cada uno de los campos de texto [TextField]relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
   void initState() {
     super.initState();
     bancoTextField = TextField(
@@ -60,6 +67,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -80,6 +88,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -102,6 +111,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del taller
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -117,6 +129,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     }
   }
 
+  /// Despliega el  reloj con las opciones de horario para el taller
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -129,6 +144,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, taller) {
     showModalBottomSheet(
         context: context,
@@ -143,7 +159,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
                         _imagenDesdeGaleria(taller);
-                        //Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
@@ -160,6 +175,8 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
         });
   }
 
+  /// Descarta la información contenida adentro de los [TextEditinController]
+  /// Asegura descartar recursos utilizados por el controlador
   @override
   void dispose() {
     _inputFieldDateController.dispose();
@@ -176,6 +193,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     super.dispose();
   }
 
+  /// Pantalle de todos los campos disponibles para edición con la información especifica del [Taller] a modificar
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -736,6 +754,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     );
   }
 
+  /// Creación de la sección dedicada a los datos financieros del taller
   Widget _datosFinancieros(
       BuildContext context,
       Taller taller,
@@ -825,6 +844,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     );
   }
 
+  /// Dialogo que Confirmación la Modificación del contenido de un [Taller]
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Taller taller) {
     return AlertDialog(
@@ -912,8 +932,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                           }
                         }
                       }
-
-                      // Navigator.pushNamed(context, rutaSi, arguments: taller);
                     },
                     child: Container(
                       height: 30,
@@ -967,6 +985,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   }
 }
 
+/// Dialogo indicativo del exito o fracaso de modificación y guardado del taller.
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

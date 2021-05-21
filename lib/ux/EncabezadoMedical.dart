@@ -4,6 +4,8 @@ import 'package:hablemos/ux/atoms.dart';
 import '../constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// Clase que usamos para el diseño superior de los medical centeres
+/// De esta forma evitamos repetir codigo en pantallas donde esto no va a cambiar
 class EncabezadoMedical extends StatelessWidget {
   const EncabezadoMedical({
     Key key,

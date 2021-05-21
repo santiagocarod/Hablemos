@@ -6,7 +6,9 @@ import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
-//Screen of date details
+/// Clase encargada de mostrar los detalles especificos de una [Cita].
+///
+/// Ademas redirige a la pantalla para adjuntar pago y editar la información
 class DateDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class DateDetails extends StatelessWidget {
   }
 }
 
-// White Box wich contains all de information
+/// Caja blanca base en donde se va a pintar la información
 Widget _boxInfo(BuildContext context, Size size, Cita cita) {
   Profesional profesional = cita.profesional;
   final DateFormat houformat = DateFormat('hh:mm a');
@@ -102,7 +104,10 @@ Widget _boxInfo(BuildContext context, Size size, Cita cita) {
   );
 }
 
-// Nombre del Profesional y boton de edición de Cita.
+/// Nombre del Profesional y boton de edición de Cita.
+///
+/// En caso de que se haga click sobre el nombre el Paciente sera redirigido a la pantalla de [ProfessionalDetails()]
+/// para ver el perfil del profesional
 Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   final String text = profesional.nombre + " " + profesional.apellido;
   return Container(
@@ -162,7 +167,7 @@ Widget _name(BuildContext context, Profesional profesional, Cita cita) {
   );
 }
 
-// Sección Representante del estado de una cita
+/// Sección Representante del estado de una cita
 Widget _state(BuildContext context, Cita cita) {
   final bool text = cita.estado;
   return Container(
@@ -186,9 +191,10 @@ Widget _state(BuildContext context, Cita cita) {
   );
 }
 
-// Selección del icono representativo del estado de la cita.
-// Aceptada: Simbolo Visto de color verde.
-// Rechazada: Simbolo de X de color rojo.
+/// Selección del icono representativo del estado de la cita.
+///
+/// Aceptada: Simbolo Visto de color verde.
+/// Rechazada: Simbolo de X de color rojo.
 Widget _selectIcon(bool text) {
   if (text == false) {
     return Icon(
@@ -205,7 +211,10 @@ Widget _selectIcon(bool text) {
   }
 }
 
-// Creación de Botones de Adjuntar Pago y Cancelación de Cita
+/// Creación de Botones de Adjuntar Pago y Cancelación de [Cita]
+///
+/// Cuando se quiere adjuntar el pago se redirige a [AttatchPayment()]
+/// Cuando se cancela una cita se muestra un dialogo de confirmación y en caso de aceptar se envia la informacion a cancelar a  [cancelarCita()]
 Widget _buttons(BuildContext context, Cita cita) {
   String text;
   if (cita.pago == "") {

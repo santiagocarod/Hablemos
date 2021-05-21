@@ -4,16 +4,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
+/// Clase de la pagina principal de los eventos para cualquier el usuario [Administrador]
+///
+/// Da la opción de ir a la lista de cada tipo de evento: [Actividad], [Grupo] y [Taller]
 class EventsMainAdmin extends StatefulWidget {
   @override
   _EventsMainAdminState createState() => _EventsMainAdminState();
 }
 
+/// Define variable de tipo [int] para almacenar los tamaños de cada uno de los eventos
 class _EventsMainAdminState extends State<EventsMainAdmin> {
   int tamTalleres = 0;
   int tamActividad = 0;
   int tamGrupos = 0;
 
+  /// Adquiere los tamaños de la collection de Firebase y las asigna a cada variable respectiva
   @override
   void initState() {
     super.initState();
@@ -32,6 +37,7 @@ class _EventsMainAdminState extends State<EventsMainAdmin> {
     });
   }
 
+  /// Pantalle que dibuja los botones para cada tipo de evento
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -109,6 +115,7 @@ class _EventsMainAdminState extends State<EventsMainAdmin> {
     );
   }
 
+  /// App bar principal de la pantalla
   AppBar appBarEvento(
       String texto, IconData icono, int constante, Color color) {
     return AppBar(
@@ -133,6 +140,7 @@ class _EventsMainAdminState extends State<EventsMainAdmin> {
   }
 }
 
+/// Creación de cada una de las opciones para cada tipo de evento
 Widget _opciones(
   BuildContext context,
   Size size,

@@ -8,6 +8,9 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de desplegar las Actividades disponibles con su información básica: nombre y fecha de realización
+///
+/// Es encargada de ir a Firebase y traer todos los eventos de tipo [Actividad]
 class ListActivitiesAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,6 +124,9 @@ class ListActivitiesAdmin extends StatelessWidget {
     );
   }
 
+  /// Hace la transformación del la lista de objetos a una tabla, la cual puede ser vista de mejor manera
+  ///
+  /// Cada fila representa una [Actividad] individual e indica el nombre y la fecha de realización de este
   Widget _talleresTable(
       BuildContext context, Size size, List<Actividad> actividad) {
     List<DataRow> rows = [];

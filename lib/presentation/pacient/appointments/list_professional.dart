@@ -5,6 +5,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase encargada de mostrar la lista de todos los [Profesional]es de la organización para consulta de los pacientes
 class ListProfessional extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,9 @@ class ListProfessional extends StatelessWidget {
     );
   }
 
+  /// Metodo que convierte cada [Profesional] en una [Card] para ser mostrada al usuario con información básica
+  ///
+  /// Ademas si se hace Click sobre algun profesional se redirige a [ProfessionalDetails()] para ver la información del perfil ampliada
   List<Widget> profToCard(
       BuildContext context, List<Profesional> profesionales) {
     List<Widget> cards = [];

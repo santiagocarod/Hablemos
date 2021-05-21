@@ -6,6 +6,11 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase encargada de permitir al profesional evaluar una [Carta]
+///
+/// Puede aceptarla para que sea mostrada a todos los usuarios.
+/// Puede Editarla y aceptarla
+/// Puede rechazarla y eliminarla
 class AssesLetterPro extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -213,7 +218,9 @@ class AssesLetterPro extends StatelessWidget {
     );
   }
 
-  // Dialogo de Confirmación de Rechazo de Carta para su publicación.
+  /// Dialogo de Confirmación de Rechazo de [Carta] para su publicación.
+  ///
+  /// En caso de acpetar el dialgo, se eliminará la [Carta]
   Widget _buildDialogReject(BuildContext context, Carta carta, Size size) {
     String title2 = "";
     String content2 = "";
@@ -319,7 +326,9 @@ class AssesLetterPro extends StatelessWidget {
     );
   }
 
-  // Dialogo Aceptación de Carta para su publicación.
+  /// Dialogo Aceptación de Carta para su publicación.
+  ///
+  /// En caso de aceptarla la [Carta.estado] queda == `true`
   Widget _buildDialogAcept(BuildContext context, Carta carta, Size size) {
     String title2 = "";
     String content2 = "";

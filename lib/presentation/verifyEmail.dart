@@ -5,6 +5,9 @@ import 'package:timer_button/timer_button.dart';
 
 import '../constants.dart';
 
+///Pantalla encargada de informar al usuario que se le envió un correo de verificación
+///
+///En caso de que no haya recibido el correo puede solicitar despues de 60 Segs que se le reenvie el correo
 class VerifyEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,6 +61,10 @@ class VerifyEmail extends StatelessWidget {
     );
   }
 
+  ///Metodo encargado de recibir los eventos de los botones
+  ///
+  ///Cuando recibe el correo se redirecciona a la pantalla de login
+  ///En caso de solicitarlo se reenvia otra vez el correo.
   Widget _verifyEmail(BuildContext context, String correo) {
     return Expanded(
       child: Column(

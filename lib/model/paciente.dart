@@ -1,5 +1,7 @@
+///Clase que guarda toda la información importante de un paciente
+///
+///Cuando se crea su [foto] esta como no válida, una vez el usaurio la actualiza se reemplaza por la URL
 class Paciente {
-  //Unias del profesional
   String uid;
   String nombre;
   String apellido;
@@ -12,7 +14,6 @@ class Paciente {
   String telefonoContactoEmergencia;
   String relacionContactoEmergencia;
 
-  //
   Paciente(
       {this.uid,
       this.nombre,

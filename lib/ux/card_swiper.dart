@@ -3,6 +3,8 @@ import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+/// Clase que contiene la estructura de los swipers horizontales ya que esta es usada en diferentes pantallas
+
 const listaColoresEjercicios = [
   kVerdeMuyClaro,
   kRojoMuyClaro,

@@ -1,3 +1,8 @@
+///Información básica de un banco.
+///
+///[banco] -> El nombre del banco
+///[tipoCuenta] -> Tipo de cuenta, ahorros o corriente
+///[numCuenta] -> Numero de la cuenta del Banco
 class Banco {
   String banco;
   String tipoCuenta;

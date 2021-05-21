@@ -3,6 +3,9 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/model/carta.dart';
 
+/// Clase que muestra la información de una [Carta] en especifico.
+///
+/// Recibe una [Carta] cómo parámetro y despliega su información
 class ShowLetter extends StatelessWidget {
   final Carta carta = Carta();
   @override

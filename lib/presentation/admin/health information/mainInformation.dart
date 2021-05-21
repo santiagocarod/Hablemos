@@ -6,6 +6,9 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_Information.dart';
 
+/// Clase encargada de desplegar la lista de [Diagnostico]
+///
+/// Ademas a cada diagnosticos se puede ver su información especifica haciendo click en cada uno.
 class MainInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class MainInformation extends StatelessWidget {
   }
 }
 
-// Display background
+/// Display background
 Widget _background(Size size) {
   return Image.asset(
     'assets/images/purpleBackground.png',
@@ -52,7 +55,7 @@ Widget _background(Size size) {
   );
 }
 
-// Display AppBar
+/// Display AppBar
 Widget _appBar(Size size) {
   return Center(
     child: Container(
@@ -74,7 +77,9 @@ Widget _appBar(Size size) {
   );
 }
 
-// Display Cards
+/// Display Cards
+///
+/// Estas cards contienen información de cada diagnostico
 Widget _swiperCards(Size size) {
   CollectionReference diagnosticosCollection =
       FirebaseFirestore.instance.collection("diagnostics");
@@ -106,7 +111,9 @@ Widget _swiperCards(Size size) {
   );
 }
 
-// Display add button
+/// Botón de agregar un nuevo diagnostico
+///
+/// Redirige a [NewInformation]
 Widget _button(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 30.0),

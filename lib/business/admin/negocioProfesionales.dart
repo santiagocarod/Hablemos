@@ -3,6 +3,9 @@ import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 
+///Agregar un [profesional] a la coleccion de profesionales
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> agregarProfesional(Profesional profesional, String value) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -28,6 +31,9 @@ Future<bool> agregarProfesional(Profesional profesional, String value) {
       .catchError((error) => false);
 }
 
+///Elimina un [profesional] de la coleccion de firebase
+///
+///También llama a la funcion [deleteImage()] para eliminar la foto de perfil
 Future<bool> eliminarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -42,6 +48,7 @@ Future<bool> eliminarProfesional(Profesional profesional) {
       .catchError((error) => false);
 }
 
+///Elimina un [profesional] de la coleccion de usuario
 void eliminarUsuario(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -49,6 +56,7 @@ void eliminarUsuario(Profesional profesional) {
   reference.doc(profesional.uid).delete();
 }
 
+///Actualiza un [profesional] en la colección de usuario
 void actualizarUsuario(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -58,6 +66,9 @@ void actualizarUsuario(Profesional profesional) {
   });
 }
 
+///Actualizar [profesional] en la colección de profesionales
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> editarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -82,6 +93,7 @@ Future<bool> editarProfesional(Profesional profesional) {
       .catchError((error) => false);
 }
 
+///Cambiar el [profesional] de una [cita] especifica
 void actualizarProfesionalCita(Profesional profesional, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
