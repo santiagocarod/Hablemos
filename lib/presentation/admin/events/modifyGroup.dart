@@ -10,11 +10,15 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// El administrador tiene la capacidad de Modificar un [Grupo]
+///
+/// Recibe un [Grupo] como argumento de la ruta.
 class ModifyGroup extends StatefulWidget {
   @override
   _ModifyGroup createState() => _ModifyGroup();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _ModifyGroup extends State<ModifyGroup> {
   String _date = '';
   String _time = '';
@@ -32,6 +36,9 @@ class _ModifyGroup extends State<ModifyGroup> {
   TextField tipoCuentaTextField;
   TextField numeroCuentaTextField;
 
+  /// Inicializa cada uno de los campos de texto [TextField]relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
   void initState() {
     super.initState();
     bancoTextField = TextField(
@@ -60,6 +67,7 @@ class _ModifyGroup extends State<ModifyGroup> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -80,6 +88,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -102,6 +111,9 @@ class _ModifyGroup extends State<ModifyGroup> {
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del grupo de apoyo
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -117,6 +129,9 @@ class _ModifyGroup extends State<ModifyGroup> {
     }
   }
 
+  /// Despliega el  reloj con las opciones de horario para el grupo de apoyo
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -129,6 +144,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, grupo) {
     showModalBottomSheet(
         context: context,
@@ -161,6 +177,8 @@ class _ModifyGroup extends State<ModifyGroup> {
         });
   }
 
+  /// Descarta la información contenida adentro de los [TextEditinController]
+  /// Asegura descartar recursos utilizados por el controlador
   @override
   void dispose() {
     _inputFieldDateController.dispose();
@@ -177,6 +195,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     super.dispose();
   }
 
+  /// Pantalle de todos los campos disponibles para edición con la información especifica del [Grupo] a modificar
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -730,6 +749,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     );
   }
 
+  /// Creación de la sección dedicada a los datos financieros del grupo de apoyo
   Widget _datosFinancieros(
       BuildContext context,
       Grupo grupo,
@@ -819,7 +839,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     );
   }
 
-  // Dialogo que Confirmación la Modificación del contenido de un Grupo.
+  /// Dialogo que Confirmación la Modificación del contenido de un [Grupo].
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Grupo grupo) {
     return AlertDialog(
@@ -907,8 +927,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                           }
                         }
                       }
-
-                      // Navigator.pushNamed(context, rutaSi, arguments: grupo);
                     },
                     child: Container(
                       height: 30,
@@ -962,6 +980,7 @@ class _ModifyGroup extends State<ModifyGroup> {
   }
 }
 
+/// Dialogo indicativo del exito o fracaso de modificación y guardado del grupo de apoyo.
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

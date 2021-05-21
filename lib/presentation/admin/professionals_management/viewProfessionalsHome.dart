@@ -17,7 +17,6 @@ class HomeProfessionalsManagement extends StatefulWidget {
 
 class _HomeProfessionalsManagementState
     extends State<HomeProfessionalsManagement> {
-  //Profesional profesional = ProfesionalesProvider.getProfesional();
   ScrollController scrollController = ScrollController(
     initialScrollOffset: 0,
     keepScrollOffset: true,
