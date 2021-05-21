@@ -8,6 +8,12 @@ import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase que contiene el diseño de la pantalla de centros medicos
+/// Se brindan diferentes opciones tales como
+/// `Cercanos`
+/// `Gratuitos`
+/// `Pagos`
+/// `Por ciudad o departamento`
 class MainMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -136,6 +142,7 @@ class MainMedicalCenter extends StatelessWidget {
   }
 }
 
+/// Diseño del boton de medical centers
 class ButtonMedicalCenters extends StatelessWidget {
   final String _text;
   final Function _function;

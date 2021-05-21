@@ -4,6 +4,9 @@ import 'package:hablemos/model/centro_atencion.dart';
 import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase del listado de medical centers
+/// Se lista segun la opcion seleccionada en la pantalla principal `mainMedicalCenters`
+
 class ListMedicalCenter extends StatefulWidget {
   @override
   _ListMedicalCenterState createState() => _ListMedicalCenterState();
@@ -66,6 +69,7 @@ class _ListMedicalCenterState extends State<ListMedicalCenter> {
     );
   }
 
+  /// Diseño que ayuda a pasar los centros de atencion a widgets
   List<Widget> centersToWidgets(
       BuildContext context, List<CentroAtencion> _medicalCenters) {
     List<Widget> widgets = [];
