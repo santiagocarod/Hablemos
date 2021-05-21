@@ -4,6 +4,11 @@ import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstatico
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_swiper.dart';
 
+/// Clase principal que contiene las diferentes opciones de `Mindfulness`
+/// Las opciones de esta seccion seran dinamicas en un futuro
+///
+/// Solo existe un ejercicio por el momento
+
 class MindfulnessClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,14 @@ import 'package:hablemos/ux/atoms.dart';
 import 'animated_box.dart';
 import 'helper/coming_soon.dart';
 
+///Clase principal que contiene las diferentes opciones de `Quiero respirar`
+///Las opciones de ejercicios posibles (por el momento) son:
+/// - `Conectar con el presente`
+/// - `Siento ansiedad`
+/// - `Dormir`
+///
+/// En caso de que el ejercicio se encuentre en desarrollo se muestra un cuadro explicandole al usuario
+
 class OptionsBreathe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

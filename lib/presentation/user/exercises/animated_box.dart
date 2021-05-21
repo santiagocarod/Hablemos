@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+///Clase principal que tiene la interfaz de ejercicios para dormir mejor y respiracion
 class AnimatedBox extends StatefulWidget {
   final int numeroPaso;
   final List<String> instrucciones;

@@ -1,3 +1,6 @@
+/// Provider con los ejercicios planteados por la Papaya, se esta implementando
+/// una forma dinamica para que esto no este quemado.
+
 //CONECTAR CON EL PRESENTE
 import 'package:hablemos/model/ejercicio.dart';
 

@@ -5,6 +5,7 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase principal que contiene las informacion detallada de algun ejercicio en especifico
 class InfoClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
