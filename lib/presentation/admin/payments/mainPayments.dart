@@ -8,6 +8,10 @@ import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de hacer la consulta a Firebase para traer todos los pagos al admin de la coleccion "payments"
+///
+/// Pone todos los pagos en una lista de [Pagodmin]
+/// Una vez los ha traido los despliega en una lista por nombre del [Profesional] y el pago que tiene pendiente.
 class MainPaymentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class MainPaymentsPage extends StatelessWidget {
     );
   }
 
-  // Display Backgorund
+  /// Dibujar el fondo
   Widget _background(Size size) {
     return Image.asset(
       'assets/images/verdeAdminPagos.png',
@@ -64,6 +68,7 @@ class MainPaymentsPage extends StatelessWidget {
     );
   }
 
+  /// Crear el cuerpo principal de la pantalla.
   Widget _crearBody(BuildContext context, Size size, List<Pagoadmin> lista) {
     return Column(
       children: [
@@ -98,6 +103,9 @@ class MainPaymentsPage extends StatelessWidget {
     );
   }
 
+  /// Con todos los [Pagodmin] va creando un [DataRow] para mostrar su información y desplegar una lista.
+  ///
+  /// En cada [DataCell] va a tener el [Pagoadmin.profesional.nombre] y [Pagoadmin.pago]
   Widget _crearTabla(BuildContext context, Size size, List<Pagoadmin> lista) {
     List<DataRow> rows = [];
 
