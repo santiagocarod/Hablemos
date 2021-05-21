@@ -1,5 +1,7 @@
 import 'dart:async';
 
+/// Clase que nos ayuda a validar que el email y el password ingresados si sean validos
+/// De esta forma evitamos que se suban cosas no permitidas a firebase
 class Validator {
   final validarEmail = StreamTransformer<String, String>.fromHandlers(
     handleData: (email, sink) {

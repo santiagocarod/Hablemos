@@ -4,6 +4,9 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase encargada de mostrar la información disponible para el [Paciente] del perfil del  [Profesional]
+///
+/// Esto se hace para que el paciente puede consultar la experiencia y especialidad y saber si es el adecuado para su caso.
 class ProfessionalDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,6 +36,7 @@ class ProfessionalDetails extends StatelessWidget {
     );
   }
 
+  /// Cabecera principal de la pantalla
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
@@ -41,81 +45,89 @@ class ProfessionalDetails extends StatelessWidget {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.50,
+            height: size.height * 0.55,
             width: double.infinity,
             color: kRosado,
           ),
         ),
+        Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: size.height * 0.05),
+              alignment: Alignment.topCenter,
+              child: ClipOval(
+                child: Container(
+                  color: Colors.white,
+                  child: profesional.foto == null
+                      ? Icon(
+                          Icons.account_circle,
+                          color: Colors.indigo[100],
+                          size: 200,
+                        )
+                      : Image.network(
+                          profesional.foto,
+                          width: 200,
+                          height: 200,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes
+                                    : null,
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ),
+            ),
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 15.0,
+                    bottom: 5.0,
+                    right: size.width * 0.05,
+                    left: size.width * 0.05),
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2) * 0.05,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'Profesional',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kRojo,
+                    fontSize: 17,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: profesional.foto == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.network(
-                      profesional.foto,
-                      width: 200,
-                      height: 200,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.30),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
-                fontFamily: 'PoppinsRegular',
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
 
+  /// Estructura del cuerpo principal de la información a ser desplegada al paciente del [Profesional]
   Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -123,17 +135,19 @@ class ProfessionalDetails extends StatelessWidget {
         children: <Widget>[
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
         ],
       ),
     );
   }
 
-  // Section, title, content and divider
+  /// Sección general y reutilizada de los atributos que van a ser mostrados al paciente
+  ///
+  /// Se usa para atributos de tipo `String`
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -169,6 +183,9 @@ class ProfessionalDetails extends StatelessWidget {
     );
   }
 
+  /// Sección general y reutilizable para los atributos de lista del [Profesional]
+  ///
+  /// Esta sección se usa para atributos de tipo `List<String>`
   Widget _sectionList(String title, List<String> content, Size size) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -202,6 +219,7 @@ class ProfessionalDetails extends StatelessWidget {
     );
   }
 
+  /// Método que extrae la información necesaria de la lista en un Widget [Text()]
   List<Widget> _list(List<String> content) {
     List<Widget> info = [];
     content.forEach((element) {

@@ -10,11 +10,17 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Clase que permite la creación de una nueva [Actividad]
+///
+///Se alamacena la toda la información relacionada a una actividad.
+///La creacion de la actividad se hace desde la perspectiva del Administrador
+///Hay un botón de guardar que hara la peticion a firebase y guardara la entidad [Actividad]
 class AddActivity extends StatefulWidget {
   @override
   _AddActivity createState() => _AddActivity();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _AddActivity extends State<AddActivity> {
   String _date = '';
   String _time = '';
@@ -28,32 +34,71 @@ class _AddActivity extends State<AddActivity> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  /// Inicializa cada uno de los campos de texto [TextField]relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _tipoCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _numCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
       if (value != null) {
+        if (_image != null) {
+          deleteImage(_image);
+        }
         _image = value;
         Navigator.pop(context);
         setState(() {
@@ -61,11 +106,13 @@ class _AddActivity extends State<AddActivity> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización de la actividad
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -81,6 +128,9 @@ class _AddActivity extends State<AddActivity> {
     }
   }
 
+  /// Despliega el reloj con las opciones de horario para la actividad
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -93,6 +143,7 @@ class _AddActivity extends State<AddActivity> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -106,9 +157,6 @@ class _AddActivity extends State<AddActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria();
                         //Navigator.of(context).pop();
                       }),
@@ -117,9 +165,6 @@ class _AddActivity extends State<AddActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara();
                     },
                   ),
@@ -130,6 +175,7 @@ class _AddActivity extends State<AddActivity> {
         });
   }
 
+  /// Pantalle de campos disponibles para la creación de la [Actividad]
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -371,6 +417,86 @@ class _AddActivity extends State<AddActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value != "" && value != "0") {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          } else if (bancoTextField.enabled) {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          }
+                                        },
                                         controller: _precioController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
@@ -410,16 +536,8 @@ class _AddActivity extends State<AddActivity> {
                                           ),
                                         ),
                                         Align(
-                                          alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _bancoController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
-                                        ),
+                                            alignment: Alignment.topLeft,
+                                            child: bancoTextField),
                                       ],
                                     ),
                                   ),
@@ -440,14 +558,7 @@ class _AddActivity extends State<AddActivity> {
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _tipoCuentaController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
+                                          child: tipoCuentaTextField,
                                         ),
                                       ],
                                     ),
@@ -474,14 +585,7 @@ class _AddActivity extends State<AddActivity> {
                                     ),
                                     Align(
                                       alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _numCuentaController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
+                                      child: numeroCuentaTextField,
                                     ),
                                   ],
                                 ),
@@ -605,7 +709,7 @@ class _AddActivity extends State<AddActivity> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  if (_bancoController.text != "") {
+                                  if (bancoTextField.enabled) {
                                     if (_tituloController.text == "" ||
                                         _ubicacionController.text == "" ||
                                         _bancoController.text == "" ||
@@ -622,7 +726,7 @@ class _AddActivity extends State<AddActivity> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Actividad actividad = Actividad(
                                         banco: Banco(
@@ -648,8 +752,8 @@ class _AddActivity extends State<AddActivity> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Actividad Agregada!",
+                                                    "¡Exito!",
+                                                    "¡Actividad Agregada!",
                                                     ruta:
                                                         "listarActividadesAdmin"));
                                       }
@@ -667,7 +771,7 @@ class _AddActivity extends State<AddActivity> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Actividad actividad = Actividad(
                                         descripcion:
@@ -688,25 +792,13 @@ class _AddActivity extends State<AddActivity> {
                                             builder: (BuildContext contex) =>
                                                 _buildPopupDialog(
                                                     context,
-                                                    "Exito!",
-                                                    "Actividad Agregada!",
+                                                    "¡Exito!",
+                                                    "¡Actividad Agregada!",
                                                     ruta:
                                                         "listarActividadesAdmin"));
                                       }
                                     }
                                   }
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (BuildContext context) {
-                                  //     return dialogoConfirmacion(
-                                  //         context,
-                                  //         "listarActividadesAdmin",
-                                  //         "Confirmación de Creación",
-                                  //         "¿Está seguro que desea crear una nueva Actividad?",
-                                  //         () {});
-                                  //   },
-                                  // );
                                 },
                                 child: Container(
                                   child: Row(
@@ -742,10 +834,14 @@ class _AddActivity extends State<AddActivity> {
   }
 }
 
+/// Dialogo de confirmación de la creación de la [Actividad]
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(
-    title: Text(tittle),
+    title: Text(
+      tittle,
+      textAlign: TextAlign.center,
+    ),
     content: new Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

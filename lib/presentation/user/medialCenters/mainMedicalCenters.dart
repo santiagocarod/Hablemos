@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
@@ -7,7 +8,12 @@ import 'package:hablemos/ux/EncabezadoMedical.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
-//TODO: HACER LA CONSULTA A FIREBASE DESDE AQUI PARA QUE SOLO SE TENGA QUE HACE 1 VEZ Y DE RESTO PASARLA POR PARAMETRO
+/// Clase que contiene el diseño de la pantalla de centros medicos
+/// Se brindan diferentes opciones tales como
+/// `Cercanos`
+/// `Gratuitos`
+/// `Pagos`
+/// `Por ciudad o departamento`
 class MainMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -136,6 +142,7 @@ class MainMedicalCenter extends StatelessWidget {
   }
 }
 
+/// Diseño del boton de medical centers
 class ButtonMedicalCenters extends StatelessWidget {
   final String _text;
   final Function _function;
@@ -148,11 +155,15 @@ class ButtonMedicalCenters extends StatelessWidget {
       height: heighButton,
       child: ElevatedButton(
         onPressed: () => _function(),
-        child: Text(
-          _text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: kLetras, fontSize: 20.3, fontFamily: 'PoppinsRegular'),
+        child: FittedBox(
+          child: AutoSizeText(
+            _text,
+            maxFontSize: 20.0,
+            minFontSize: 17.0,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: kLetras, fontSize: 20.0, fontFamily: 'PoppinsRegular'),
+          ),
         ),
         style: ElevatedButton.styleFrom(
             primary: kBlanco,

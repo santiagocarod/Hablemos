@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
 
+/// Pantalla responsable de recolectar la información necesaria para un usuario paciente menor de edad
 class SingInMinor extends StatefulWidget {
   @override
   _SingInMinorState createState() => _SingInMinorState();
@@ -78,6 +79,7 @@ class _SingInMinorState extends State<SingInMinor> {
         });
   }
 
+  ///El usuario debe escoger entre subir una imagen o pedir el permiso de sus padres
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -180,6 +182,7 @@ class _SingInMinorState extends State<SingInMinor> {
     );
   }
 
+  /// Botón para enviar autorización
   Widget buttonAutorizacion(
       String text, Function function, IconData iconData, Color color) {
     return GestureDetector(
@@ -212,6 +215,7 @@ class _SingInMinorState extends State<SingInMinor> {
     );
   }
 
+  ///Información que viene desde la pantalla de registro [SignInPage] y crea el usuario
   Widget _crearCuenta(BuildContext context) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");
@@ -236,7 +240,7 @@ class _SingInMinorState extends State<SingInMinor> {
         onTap: () {
           AuthService authService = new AuthService();
           Future<String> user =
-              authService.signUp(correo, contrasena, "nombre apellido");
+              authService.signUp(correo, contrasena, nombre + " " + apellido);
           user.then((value) {
             if (value[0] == "[") {
               showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
@@ -302,10 +306,10 @@ class _SingInMinorState extends State<SingInMinor> {
         onTap: () {
           AuthService authService = new AuthService();
           Future<String> user =
-              authService.signUp(correo, contrasena, "nombre apellido");
+              authService.signUp(correo, contrasena, nombre + " " + apellido);
           user.then((value) {
             if (value[0] == "[") {
-              showAlertDialog(context, "Hubo un error\nCorreo ya registrado");
+              showAlertDialog(context, "Hubo un Error\nCorreo ya registrado.");
             } else {
               usersRef
                   .doc(value)
@@ -314,8 +318,8 @@ class _SingInMinorState extends State<SingInMinor> {
                     'name': nombre,
                   })
                   .then((value) => Navigator.pushNamed(context, 'inicio'))
-                  .catchError((value) => showAlertDialog(
-                      context, "Hubo un error\nPor Favor intentalo mas tarde"));
+                  .catchError((value) => showAlertDialog(context,
+                      "Hubo un Error\nPor favor inténtalo más tarde."));
 
               pacienteRef.doc(value).set({
                 'name': nombre,
@@ -330,7 +334,7 @@ class _SingInMinorState extends State<SingInMinor> {
                 'emergencyContactPhone': telefonoContacto,
                 'emergencyContactRelationship': relacionContacto,
               }).catchError((value) => showAlertDialog(
-                  context, "Hubo un error\nPor Favor intentalo mas tarde"));
+                  context, "Hubo un Error\nPor favor inténtalo más tarde."));
             }
           });
         },

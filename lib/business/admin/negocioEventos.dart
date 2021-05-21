@@ -5,7 +5,9 @@ import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/model/taller.dart';
 
-//TALLERES
+///Agrega [taller] a firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool agregarTaller(Taller taller) {
   bool error = false;
   CollectionReference reference =
@@ -36,10 +38,15 @@ bool agregarTaller(Taller taller) {
           'date': taller.fecha,
           'hour': taller.hora,
           'photo': taller.foto,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Actualiza [taller] a firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool actualizarTaller(Taller taller) {
   bool error = false;
   CollectionReference reference =
@@ -72,10 +79,16 @@ bool actualizarTaller(Taller taller) {
           'hour': taller.hora,
           "participants": taller.participantes,
           'photo': taller.foto,
+          "bank": null,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Agrega [participante] a un [taller]
+///
+///Lo agrega a su lista de [taller.participantes]
 bool agregarParticipante(Participante participante, Taller taller) {
   bool error = false;
 
@@ -97,6 +110,9 @@ bool agregarParticipante(Participante participante, Taller taller) {
   return !error;
 }
 
+///Elimina un [taller] de firebase
+///
+///Llama a [eliminarPagosTaller()] para eliminar las fotos de los pagos en Cloudinary
 void eliminarTaller(Taller taller) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("workshops");
@@ -116,7 +132,9 @@ void eliminarPagosTaller(Taller taller) {
   }
 }
 
-//ACTIVIDADES
+///Agrega [actividad] a firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool agregarActividades(Actividad actividad) {
   bool error = false;
   CollectionReference reference =
@@ -147,10 +165,15 @@ bool agregarActividades(Actividad actividad) {
           'date': actividad.fecha,
           'hour': actividad.hora,
           'photo': actividad.foto,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Actualiza [actividad] en firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool actualizarActividad(Actividad actividad) {
   bool error = false;
   CollectionReference reference =
@@ -183,10 +206,16 @@ bool actualizarActividad(Actividad actividad) {
           'hour': actividad.hora,
           "participants": actividad.participantes,
           'photo': actividad.foto,
+          "bank": null,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Agrega [participante] a una [actividad]
+///
+///Lo agrega a su lista de [actividad.participantes]
 bool agregarParticipanteActividad(
     Participante participante, Actividad actividad) {
   bool error = false;
@@ -208,6 +237,9 @@ bool agregarParticipanteActividad(
   return !error;
 }
 
+///Elimina una [actividad] de firebase
+///
+///Llama a [eliminarPagosActividad()] para eliminar las fotos de los pagos en Cloudinary
 void eliminarActividad(Actividad actividad) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('activities');
@@ -227,7 +259,9 @@ void eliminarPagosActividad(Actividad actividad) {
   }
 }
 
-//GRUPOS
+///Agrega [grupo] a firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool agregarGrupo(Grupo grupo) {
   bool error = false;
   CollectionReference reference =
@@ -258,10 +292,15 @@ bool agregarGrupo(Grupo grupo) {
           'date': grupo.fecha,
           'hour': grupo.hora,
           'photo': grupo.foto,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Actualiza [grupo] a firebase
+///
+///Retorna `false` en caso de no poder realizar la operacion
 bool actualizarGrupo(Grupo grupo) {
   bool error = false;
   CollectionReference reference =
@@ -294,10 +333,16 @@ bool actualizarGrupo(Grupo grupo) {
           'hour': grupo.hora,
           "participants": grupo.participantes,
           'photo': grupo.foto,
+          "bank": null,
+        }).catchError((value) {
+          error = true;
         });
   return !error;
 }
 
+///Agrega [participante] a un [grupo]
+///
+///Lo agrega a su lista de [grupo.participantes]
 bool agregarParticipanteGrupo(Participante participante, Grupo grupo) {
   bool error = false;
   CollectionReference reference =
@@ -318,6 +363,9 @@ bool agregarParticipanteGrupo(Participante participante, Grupo grupo) {
   return !error;
 }
 
+///Elimina un [grupo] de firebase
+///
+///Llama a [eliminarPagosGrupo()] para eliminar las fotos de los pagos en Cloudinary
 void eliminarGrupo(Grupo grupo) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('groups');

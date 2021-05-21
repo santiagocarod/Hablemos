@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+// import 'package:hablemos/presentation/user/exercises/animated_box.dart';
 
 import 'constants.dart';
 
-// Initial screen, shows only the start button (COMENZAR) ======================
-
+/// Pantalla Inicial, muestra unicamente el boton de "Comenzar"
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Stack(
       children: <Widget>[
         _background(context, size),
@@ -28,6 +27,7 @@ Widget _background(BuildContext context, Size size) {
   );
 }
 
+///Pintar letra por letra para que sea responsive
 Widget _letras(BuildContext context, Size size) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,11 +155,8 @@ Widget _startButton(BuildContext context, Size size) {
                 ),
               ),
               onPressed: () {
-                /*AuthService authService = new AuthService();
-              authService.signUp("santiago@gmail.com", "123456");
-              print(
-              "User : ${authService.getCurrentUser().then((value) => print(value))}");*/
                 Navigator.pushNamed(context, 'start');
+                // Navigator.pushNamed(context, 'OpcionesEjercicios');
               },
             ),
           ),

@@ -8,6 +8,10 @@ import '../../../constants.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de una [Actividad]
+/// El administrador tiene la posibilidad de eliminar la actividad o modificarla
 class ViewActivityAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -361,6 +365,9 @@ class ViewActivityAdmin extends StatelessWidget {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _ubicacion(BuildContext context, Actividad actividad) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -457,8 +464,11 @@ class ViewActivityAdmin extends StatelessWidget {
     }
   }
 
+  /// Seccion especifica para los datos financieros/bancarios de la actividad
+  ///
+  /// En caso de que la información bancaria no exista, es decir [Actividad.banco] = `null` no se desplegaran los campos
   Widget _datosFinancieros(BuildContext context, Actividad actividad) {
-    if (actividad.ubicacion.toLowerCase() != "virtual") {
+    if (actividad.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(
@@ -510,6 +520,9 @@ class ViewActivityAdmin extends StatelessWidget {
     }
   }
 
+  /// Dialogo que confirmación el deseo del administrador para modificar contenido de la actividad
+  ///
+  /// Redirige al administrador a la pantalla de modificación e invoca el metodo [ModifyActivity()]
   AlertDialog dialogoModificacion(BuildContext context, String rutaSi,
       String titulo, String mensaje, Actividad actividad) {
     return AlertDialog(

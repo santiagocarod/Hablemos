@@ -6,6 +6,9 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase que tiene el diseño de la pantalla de ver el perfil de un [Profesional] seleccionado
+/// Esta vista es desde la perspectiva de administrador ya que los puede gestionar
+
 class ViewProfProfileManagement extends StatefulWidget {
   @override
   _ViewProfProfileManagementState createState() =>
@@ -21,7 +24,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
 
     Profesional profesional = ModalRoute.of(context).settings.arguments;
     _image = profesional.foto;
-    print(profesional.uid);
+
     return Container(
       color: kRosado,
       child: SafeArea(
@@ -47,6 +50,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
@@ -167,7 +171,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          _buildDialog(context, profesional),
+                          _buildDialog(context, profesional, size),
                     );
                   },
                   child: Center(
@@ -195,6 +199,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño inferior de la pantalla
   Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -231,7 +236,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
-  // Section, title, content and divider
+  /// Diseño de una seccion usado en el body de la pantalla
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -267,6 +272,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño de una seccion listada usada en el body de la pantalla
   Widget _sectionList(String title, List<String> content, Size size) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -300,6 +306,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Agrega informacion a la lista
   List<Widget> _list(List<String> content) {
     List<Widget> info = [];
     content.forEach((element) {
@@ -317,8 +324,9 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     return info;
   }
 
-  //Confirm PopUp Dialog
-  Widget _buildDialog(BuildContext context, Profesional profesional) {
+  /// Dialogo Confirmación de Eliminación de Profesional
+  Widget _buildDialog(
+      BuildContext context, Profesional profesional, Size size) {
     return new AlertDialog(
       title: Text(
         'Confirmación de Eliminación',
@@ -344,62 +352,68 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                eliminarUsuario(profesional);
-                eliminarProfesional(profesional).then((value) {
-                  if (value) {
-                    Navigator.pushNamed(context, 'adminManageProffessional');
-                  } else if (!value) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  eliminarUsuario(profesional);
+                  eliminarProfesional(profesional).then((value) {
+                    if (value) {
+                      Navigator.pushNamed(context, 'adminManageProffessional');
+                    } else if (!value) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

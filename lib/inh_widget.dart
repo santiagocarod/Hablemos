@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/blocs/inputs_bloc.dart';
 export 'package:hablemos/blocs/inputs_bloc.dart';
 
+///Clase general para el control del BLOC
+///
+///En donde se guarda información para consulta durante toda la ejecución
 class InhWidget extends InheritedWidget {
   static InhWidget _instancia;
 

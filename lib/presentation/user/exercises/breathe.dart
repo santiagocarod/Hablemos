@@ -6,6 +6,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 import '../../../constants.dart';
 
+/// Clase principal que tiene la interfaz para realizar ejercicios de respiración
 class BreatheClass extends StatefulWidget {
   @override
   _BreatheClassState createState() => _BreatheClassState();
@@ -108,7 +109,7 @@ class _BreatheClassState extends State<BreatheClass> {
   Widget _textoPantalla() {
     if (contador == 60) {
       return Text(
-        '¡ Felicitaciones ! \n Terminaste el ejercicio',
+        '¡Felicitaciones ! \n Terminaste el ejercicio',
         style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );

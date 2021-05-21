@@ -10,6 +10,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la información basica de un evento en este caso una [Taller]
+///
+/// En caso de que ya este inscrito
 class SubscribedWorkShop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,6 +80,7 @@ class SubscribedWorkShop extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${taller.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -425,8 +429,8 @@ class SubscribedWorkShop extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción cancelada!", taller,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Cancelada!", taller,
                                         ruta: "verTaller"));
                           }
                         },
@@ -527,7 +531,10 @@ class SubscribedWorkShop extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (BuildContext contex) => _buildPopupDialog(
-                            context, "Exito!", "Inscripción correcta!", taller,
+                            context,
+                            "¡Exito!",
+                            "¡Inscripción Correcta!",
+                            taller,
                             ruta: "verTaller"));
                   }
                 },

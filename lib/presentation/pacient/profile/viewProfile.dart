@@ -11,8 +11,15 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../inh_widget.dart';
 import 'editProfile.dart';
 
+///Clase encargada de hacer la petición del perfil [Paciente] a firebase
+///
+///Solo va a desplegar la información del usuario que esta con la sesión iniciada [auth.currentUser.uid] == [Paciente.uid]
+///En esta pantalla inicial no se puede editar nada sobre el perfil
+///Hay un boton de editar perfil que redirige a [EditProfile()]
+///Despliga la pantalla de editar perfil
 class ViewProfile extends StatefulWidget {
   @override
   _ViewProfile createState() => _ViewProfile();
@@ -23,7 +30,7 @@ class _ViewProfile extends State<ViewProfile> {
   final ImagePicker _imagePicker = new ImagePicker();
   String username;
 
-  // Set the image form camera
+  /// Pone la imagen que viene desde camara
   _imagenDesdeCamara(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -31,20 +38,23 @@ class _ViewProfile extends State<ViewProfile> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfil(paciente, value).then((val) {
+          if (paciente.foto != "falta foto") {
+            deleteImage(paciente.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen que viene de la galeria
   _imagenDesdeGaleria(Paciente paciente) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -52,6 +62,9 @@ class _ViewProfile extends State<ViewProfile> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfil(paciente, value).then((val) {
+          if (paciente.foto != "falta foto") {
+            deleteImage(paciente.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
@@ -60,18 +73,15 @@ class _ViewProfile extends State<ViewProfile> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Display las opciones para subir foto (Galeria o Camara)
   void _showPicker(context, paciente) {
-    if (paciente.foto != "falta foto") {
-      deleteImage(paciente.foto);
-    }
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -104,7 +114,7 @@ class _ViewProfile extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final FirebaseAuth auth = FirebaseAuth.instance; //OBTENER EL USUARIO ACTUAL
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser;
 
     Query pacientsCollection = FirebaseFirestore.instance
@@ -149,7 +159,7 @@ class _ViewProfile extends State<ViewProfile> {
         });
   }
 
-  // Draw app bar Style
+  /// Display la barra superior de la pantalla
   Widget pacientHead(Size size, Paciente paciente, User user) {
     return Stack(
       children: <Widget>[
@@ -286,7 +296,7 @@ class _ViewProfile extends State<ViewProfile> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          _buildDialog(context, paciente),
+                          _buildDialog(context, paciente, size),
                     );
                   },
                   child: Align(
@@ -313,7 +323,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Body of the screen
+  /// Display de toda la pantalla donde esta la informacion del usuario
   Widget _body(Size size, Paciente paciente) {
     return Container(
       width: size.width,
@@ -325,7 +335,8 @@ class _ViewProfile extends State<ViewProfile> {
           _section('Fecha de Nacimiento', paciente.fechaNacimiento),
           _section('Teléfono', paciente.telefono),
           Container(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            padding: EdgeInsets.only(
+                top: 10.0, bottom: 10.0, right: 15.0, left: 15.0),
             child: Text(
               'Información Contacto de Emergencia',
               style: TextStyle(
@@ -333,7 +344,7 @@ class _ViewProfile extends State<ViewProfile> {
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Nombre', paciente.nombreContactoEmergencia ?? "Fal "),
@@ -344,6 +355,10 @@ class _ViewProfile extends State<ViewProfile> {
               child: iconButtonSmall(
                   color: kRojoOscuro,
                   function: () {
+                    final bloc = InhWidget.of(context);
+                    bloc.changeEmail("");
+                    bloc.changePassword("");
+
                     AuthService authService = AuthService();
                     authService.logOut();
                     Navigator.pushNamedAndRemoveUntil(
@@ -357,7 +372,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Section, title, content and divider
+  /// Display la seccion que tiene un titulo y un texto
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -393,7 +408,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Password section and button
+  /// Display la sección que tiene un password
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -468,7 +483,7 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  // Change password popup Dialog
+  /// Display dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -494,8 +509,8 @@ class _ViewProfile extends State<ViewProfile> {
     );
   }
 
-  //Confirm PopUp Dialog
-  Widget _buildDialog(BuildContext context, Paciente paciente) {
+  /// Dialogo Confirmación de Eliminación de Cuenta de Paciente.
+  Widget _buildDialog(BuildContext context, Paciente paciente, Size size) {
     return new AlertDialog(
       title: Text(
         'Confirmación de Eliminación',
@@ -521,65 +536,73 @@ class _ViewProfile extends State<ViewProfile> {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                AuthService authService = AuthService();
-                authService.logOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "start", (_) => false);
-                eliminarPaciente(paciente).then((value) {
-                  eliminarUsuario(paciente);
-                  if (value) {
-                  } else if (!value) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  AuthService authService = AuthService();
+
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "start", (_) => false);
+                  eliminarPaciente(paciente).then((value) {
+                    eliminarUsuario(paciente);
+                    FirebaseAuth.instance.currentUser.delete();
+                    authService.logOut();
+                    if (value) {
+                    } else if (!value) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

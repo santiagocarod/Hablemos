@@ -3,6 +3,9 @@ import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/profesional.dart';
 
+///Agrega un [profesional] a la colección de profesionales
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> agregarProfesional(Profesional profesional, String value) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -29,6 +32,10 @@ Future<bool> agregarProfesional(Profesional profesional, String value) {
       .catchError((error) => false);
 }
 
+///Elimina el perfil del [profesional]
+///
+///En caso de ser necesario elimina la foto de perfil con [deleteImage()]
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> eliminarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -43,6 +50,7 @@ Future<bool> eliminarProfesional(Profesional profesional) {
       .catchError((error) => false);
 }
 
+///Elimina el [profesional] de la coleccion de "users"
 void eliminarUsuario(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -50,6 +58,9 @@ void eliminarUsuario(Profesional profesional) {
   reference.doc(profesional.uid).delete();
 }
 
+///Actualiza el nombre del [profesional] en la coleccion de "users"
+///
+///Retorna `false` en caso de no poder realizar la operacion
 void actualizarUsuario(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -59,6 +70,9 @@ void actualizarUsuario(Profesional profesional) {
   });
 }
 
+///Actualiza los datos del [profesional]
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> editarProfesional(Profesional profesional) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");
@@ -84,12 +98,14 @@ Future<bool> editarProfesional(Profesional profesional) {
       .catchError((error) => false);
 }
 
+///Actualiza el perfil del [profesional] dentro de la [cita.profesional]
 void actualizarProfesionalCita(Profesional profesional, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
   reference.doc(cita.id).update({"professional": profesional.toMap()});
 }
 
+///Actualiza la imagen de perfil del [profesional] con la url [imagePath]
 Future<bool> actualizarPerfilPro(Profesional profesional, String imagePath) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("professionals");

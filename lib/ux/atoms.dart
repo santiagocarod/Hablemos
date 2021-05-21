@@ -7,6 +7,10 @@ import 'package:hablemos/constants.dart';
 
 import '../constants.dart';
 
+///Este documento contiene los widgets que son usados en diferentes pantallas, asi que aca estan ya definidos
+/// Evitando diferentes diseños
+
+/// Widget que contiene el boton grande de bloc
 Widget iconButtonBigBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(
@@ -28,6 +32,7 @@ Widget iconButtonBigBloc(String text, Function function, IconData iconData,
   );
 }
 
+/// Widget que contiene el diseño de uno de los botones de la aplicacion
 Widget iconButtonBig(
     String text, Function function, IconData iconData, Color color) {
   return ElevatedButton.icon(
@@ -43,6 +48,7 @@ Widget iconButtonBig(
   );
 }
 
+/// Widget que contiene el diseño de uno de los botones de la aplicacion
 Widget iconButtonSmall(
     {String text, Function function, IconData iconData, Color color}) {
   return ElevatedButton.icon(
@@ -58,6 +64,23 @@ Widget iconButtonSmall(
   );
 }
 
+/// Widget que contiene el diseño de uno de los botones de la aplicacion
+Widget iconButtonXs(
+    {String text, Function function, IconData iconData, Color color}) {
+  return ElevatedButton.icon(
+    onPressed: function,
+    label: Text(text, style: TextStyle(fontSize: 16)),
+    icon: Padding(
+        padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+        child: Icon(iconData)),
+    style: ElevatedButton.styleFrom(
+        primary: color,
+        elevation: 10,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+  );
+}
+
+/// Widget que contiene el diseño de uno de los botones de la aplicacion
 Widget iconButtonSmallBloc(String text, Function function, IconData iconData,
     Color color, InputsBloc bloc) {
   return StreamBuilder(
@@ -79,6 +102,7 @@ Widget iconButtonSmallBloc(String text, Function function, IconData iconData,
   );
 }
 
+/// Widget que contiene el diseño de una de las cajas de texto de la aplicacion (email)
 Widget emailTextBox(InputsBloc bloc) {
   return StreamBuilder(
     stream: bloc.emailStream,
@@ -103,6 +127,7 @@ Widget emailTextBox(InputsBloc bloc) {
   );
 }
 
+/// Widget que contiene el diseño de una de las cajas de texto de la aplicacion (password)
 Widget passwordTextBox(InputsBloc bloc) {
   return StreamBuilder(
     stream: bloc.passwordStream,
@@ -128,11 +153,13 @@ Widget passwordTextBox(InputsBloc bloc) {
   );
 }
 
+/// Widget que contiene el diseño de una de las cajas de texto de la aplicacion (Cualquiera)
 Widget inputTextBox(String hText, String lText, IconData icon,
     TextEditingController controller) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 40.0),
     child: TextField(
+      maxLength: 50,
       decoration: InputDecoration(
         icon: Icon(
           icon,
@@ -146,6 +173,7 @@ Widget inputTextBox(String hText, String lText, IconData icon,
   );
 }
 
+/// Widget que contiene el diseño de una de las cajas de texto con controlador de la aplicacion
 class InputTextBoxWController extends StatelessWidget {
   final String hText;
   final String lText;
@@ -182,6 +210,7 @@ class InputTextBoxWController extends StatelessWidget {
   }
 }
 
+/// Widget que contiene el diseño de una de las cajas de texto multilinea con controlador de la aplicacion
 Widget inputTextBoxMultiline(String hText, String lText, IconData icon,
     TextEditingController controller) {
   return Container(
@@ -203,6 +232,7 @@ Widget inputTextBoxMultiline(String hText, String lText, IconData icon,
   );
 }
 
+/// Widget que contiene el diseño de uno de los textos de la aplicacion
 Widget textoFinalRojo(String texto) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 30.0),
@@ -224,6 +254,7 @@ Widget textoFinalRojo(String texto) {
   );
 }
 
+/// Widget que contiene el diseño de una de las barras superiores (AppBar) de la aplicacion
 AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
     {String atras, BuildContext context}) {
   return AppBar(
@@ -251,6 +282,7 @@ AppBar crearAppBar(String texto, IconData icono, int constante, Color color,
   );
 }
 
+/// Widget que contiene el diseño de una de las barras superiores (AppBar) de la aplicacion
 AppBar crearAppBarAction(String texto, IconData icono, int constante,
     Color color, IconData icon, Function function) {
   return AppBar(
@@ -271,6 +303,7 @@ AppBar crearAppBarAction(String texto, IconData icono, int constante,
   );
 }
 
+/// Widget que contiene el diseño de la barra superior de la seccion [Citas] de la aplicacion
 AppBar crearAppBarCitas(
     BuildContext context,
     String rutaBack,
@@ -302,6 +335,7 @@ AppBar crearAppBarCitas(
   );
 }
 
+/// Widget que contiene el diseño de la barra superior de la seccion [Eventos] de la aplicacion
 AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   return AppBar(
     backgroundColor: Colors.transparent,
@@ -327,6 +361,7 @@ AppBar crearAppBarEventos(BuildContext context, String titulo, String ruta) {
   );
 }
 
+/// Widget que contiene el diseño de una seccion usada en pantallas
 Widget secction({String title, String text, bool banco}) {
   return Container(
     width: 270.0,
@@ -369,9 +404,10 @@ Widget secction({String title, String text, bool banco}) {
         ),
       ],
     ),
-  ); //Boton como los de ejercicios queiro respirar, mindfulness, quiero meditar
+  );
 }
 
+/// Widget que contiene el diseño de botones coloreados
 Widget colorButton(
     String texto, Function funcion, Color color, Size size, double radius) {
   return Container(
@@ -394,6 +430,7 @@ Widget colorButton(
   );
 }
 
+/// Widget que contiene el diseño de la barra superior de foros
 Widget crearForosUpper(
     Size size, String text, IconData icono, double heigh, Color color) {
   return Container(
@@ -434,6 +471,7 @@ Widget crearForosUpper(
   );
 }
 
+/// Widget que contiene el diseño de la barra superior sin icono de foros
 Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   return Container(
     height: size.height,
@@ -468,21 +506,17 @@ Widget crearForosUpperNoIcon(Size size, String text, Color color) {
   );
 }
 
-Widget searchBar(
-    BuildContext context,
-    Size size,
-    TextEditingController searchController,
-    List<String> names,
-    List<dynamic> elements,
-    String ruta) {
+/// Widget que contiene el diseño de la barra de busqueda
+Widget searchBar(BuildContext context, Size size, String text,
+    List<String> names, List<dynamic> elements, String ruta) {
   return Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: size.height * 0.15),
-          height: 66.0,
-          width: 317.5,
+          height: 53.33,
+          width: size.width - 120.0,
           decoration: BoxDecoration(
             color: kBlanco,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -503,6 +537,7 @@ Widget searchBar(
                     delegate: DataSearch(
                       names: names,
                       elements: elements,
+                      route: ruta,
                     ),
                   );
                 },
@@ -514,24 +549,25 @@ Widget searchBar(
               ),
               Container(
                 width: 200,
-                child: TextField(
-                  controller: searchController,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  style: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    color: kAzulOscuro,
+                child: GestureDetector(
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: DataSearch(
+                        names: names,
+                        elements: elements,
+                        route: ruta,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: kAzulOscuro,
+                        fontFamily: 'PoppinsSemiBold'),
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  searchController.clear();
-                },
-                child: Icon(
-                  Icons.cancel_outlined,
-                  color: kMoradoClarito,
-                  size: 25.0,
                 ),
               ),
             ],
@@ -542,6 +578,7 @@ Widget searchBar(
   );
 }
 
+///Clase que tiene las funciones necesarias para hacer que la barra de busqueda funcione
 class DataSearch extends SearchDelegate<String> {
   List<String> names;
   List<dynamic> elements;
@@ -571,6 +608,8 @@ class DataSearch extends SearchDelegate<String> {
           progress: transitionAnimation,
         ),
         onPressed: () {
+          names = null;
+          query = null;
           close(context, null);
         });
   }
@@ -596,7 +635,7 @@ class DataSearch extends SearchDelegate<String> {
               arguments: elements.firstWhere(
                   (element) => element.nombre == suggestionList[index]),
             );
-          } else if (route == 'DetalleForo') {
+          } else {
             Navigator.pushNamed(
               context,
               route,
@@ -646,6 +685,8 @@ class Espacio extends StatelessWidget {
   }
 }
 
+///Widget que contiene el disñeo de un dialogo de alerta usado en la aplicacion
+/// Ej: "Datos actualizados correctamente"
 showAlertDialog(BuildContext context, String text,
     {String titulo, String ruta}) {
   String title = titulo ?? "Error";
@@ -680,6 +721,8 @@ showAlertDialog(BuildContext context, String text,
   );
 }
 
+/// Widget que contiene el dialogo de confirmación
+/// Ej: "¿Seguro quiere editar este item? --> Si/No"
 AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
     String titulo, String mensaje, Function funcionSi,
     {dynamic parametro}) {
@@ -782,6 +825,7 @@ AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
   );
 }
 
+/// Widget que contiene el diseño de donde se esta poniendo las imagenes de los usuarios en su perfil
 class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -800,6 +844,7 @@ class MyClipper extends CustomClipper<Path> {
   }
 }
 
+/// Widget que nos pasa las cartas a un listado de cartas
 List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
     String route, bool condition) {
   List<Widget> cards = [];
@@ -826,8 +871,14 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
               SizedBox(
                 height: 5,
               ),
-              Text("${element.titulo}",
-                  style: TextStyle(fontSize: 22, fontFamily: "PoppinSemiBold")),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                child: Text(
+                    "${element.titulo[0].toUpperCase()}${element.titulo.substring(1)}",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontFamily: "PoppinSemiBold")),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -837,6 +888,7 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
                     (element.cuerpo.length <= 250)
                         ? element.cuerpo
                         : "${element.cuerpo.substring(0, 250)} ...",
+                    textAlign: TextAlign.justify,
                     style:
                         TextStyle(fontFamily: "PoppinsRegular", fontSize: 14)),
               )
@@ -857,7 +909,7 @@ List<Widget> letterToCard(BuildContext context, Size size, List<Carta> cartas,
   return cards;
 }
 
-// Confirm popup dialog
+/// Widget Dialogo de confirmacion
 Widget adviceDialogLetter(
     BuildContext context, String text, String content, bool state) {
   return new AlertDialog(

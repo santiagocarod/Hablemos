@@ -6,6 +6,9 @@ import 'package:hablemos/services/auth.dart';
 
 import '../ux/Encabezado.dart';
 
+///Pantalla principal de usuario no ingresado
+///
+///Desde esta pantalla el usuario puede crear una cuenta o iniciar sesión con cualquiera de los roles.
 class StartFireBase extends StatelessWidget {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
 
@@ -20,7 +23,6 @@ class StartFireBase extends StatelessWidget {
             future: _firebaseApp,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                print("Error: ${snapshot.error.toString()}");
                 return Text("Algo salio Mal");
               } else if (snapshot.hasData) {
                 return HomeScreen();
@@ -37,7 +39,11 @@ class StartFireBase extends StatelessWidget {
   }
 }
 
-// Screen of user that wants to register or login ==============================
+///Método que se encarga de revisar si el usuario ya inicio sesión
+///
+///En caso de que ya haya iniciado sesión lo redirige a su pantalla de inicio correspondiente.
+///En caso contrario muestra la pantalla principal de usuario general.
+///Permite ver informacón general, registrarse [SignInPage()] e iniciar sesion [LoginPage()]
 class HomeScreen extends StatelessWidget {
   final AuthService _authService = new AuthService();
 
@@ -90,8 +96,8 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _button7(context, size),
-                _button8(context, size),
+                _buttonLogIn(context, size),
+                _buttonSignIn(context, size),
               ],
             ),
           ),
@@ -101,7 +107,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// Header of screen, image with title ==================================
+///Cabecera de la pantalla
 Widget _appBar(BuildContext context, Size size) {
   return AppBar(
     automaticallyImplyLeading: false,
@@ -124,7 +130,7 @@ Widget _appBar(BuildContext context, Size size) {
   );
 }
 
-// Body of the screen ==================================================
+///Cuerpo e información
 Widget _content(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 130.0),
@@ -139,18 +145,18 @@ Widget _content(BuildContext context, Size size) {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  _button1(context, size),
-                  _button3(context, size),
-                  _button6(context, size),
+                  _buttonNecesitoAyuda(context, size),
+                  _buttonCartas(context, size),
+                  _buttonInformacion(context, size),
                   SizedBox(height: 10.0),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  _button2(context, size),
-                  _button4(context, size),
-                  _button5(context, size),
+                  _buttonEventos(context, size),
+                  _buttonActividades(context, size),
+                  _buttonRedes(context, size),
                   SizedBox(height: 10.0),
                 ],
               ),
@@ -162,7 +168,7 @@ Widget _content(BuildContext context, Size size) {
   );
 }
 
-// Background image ================================================
+///Imagen de fondo
 Widget _background(BuildContext context, Size size) {
   return Image.asset(
     "assets/images/pantallaInicio.png",
@@ -173,8 +179,8 @@ Widget _background(BuildContext context, Size size) {
   );
 }
 
-// Button of "Necesito Ayuda" ======================================
-Widget _button1(BuildContext context, Size size) {
+/// Boton "Necesito Ayuda"
+Widget _buttonNecesitoAyuda(BuildContext context, Size size) {
   return Container(
     width: 146.0,
     height: 196.0,
@@ -213,8 +219,8 @@ Widget _button1(BuildContext context, Size size) {
   );
 }
 
-// Button of "Qué hay pa hacer" ====================================
-Widget _button2(BuildContext context, Size size) {
+///Botón de eventos
+Widget _buttonEventos(BuildContext context, Size size) {
   return Container(
     width: 146.0,
     height: 128.0,
@@ -252,8 +258,8 @@ Widget _button2(BuildContext context, Size size) {
   );
 }
 
-// Button of "Cartas" ==============================================
-Widget _button3(BuildContext context, Size size) {
+/// Botón de Cartas
+Widget _buttonCartas(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 20.0),
     width: 146.0,
@@ -292,8 +298,8 @@ Widget _button3(BuildContext context, Size size) {
   );
 }
 
-// Button of "Quiero un momento" ===================================
-Widget _button4(BuildContext context, Size size) {
+/// Botón de Actividades
+Widget _buttonActividades(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 20.0),
     width: 146.0,
@@ -335,8 +341,8 @@ Widget _button4(BuildContext context, Size size) {
   );
 }
 
-// Button of "Redes" ===============================================
-Widget _button5(BuildContext context, Size size) {
+/// Botón de redes
+Widget _buttonRedes(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 20.0),
     width: 146.0,
@@ -379,8 +385,8 @@ Widget _button5(BuildContext context, Size size) {
   );
 }
 
-// Button of "Información" =========================================
-Widget _button6(BuildContext context, Size size) {
+/// Botón información
+Widget _buttonInformacion(BuildContext context, Size size) {
   return Container(
     padding: EdgeInsets.only(top: 20.0),
     width: 146.0,
@@ -425,8 +431,8 @@ Widget _button6(BuildContext context, Size size) {
   );
 }
 
-// Button of "Iniciar Sesión" ======================================
-Widget _button7(BuildContext context, Size size) {
+/// Botón que redirecciona a la pantalla de iniciar sesión
+Widget _buttonLogIn(BuildContext context, Size size) {
   return Container(
     //padding: EdgeInsets.only(top: 20.0),
     width: size.width / 2,
@@ -454,8 +460,8 @@ Widget _button7(BuildContext context, Size size) {
   );
 }
 
-// Button of "Registrarme" =========================================
-Widget _button8(BuildContext context, Size size) {
+/// Botón que redirecciona a la pantalla de registro
+Widget _buttonSignIn(BuildContext context, Size size) {
   return Container(
     //padding: EdgeInsets.only(top: 20.0),
     width: size.width / 2,

@@ -5,6 +5,7 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase encargada de mostrar la lista de todos los [Profesional]es de la organización para consulta de los pacientes
 class ListProfessional extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,9 @@ class ListProfessional extends StatelessWidget {
     );
   }
 
+  /// Metodo que convierte cada [Profesional] en una [Card] para ser mostrada al usuario con información básica
+  ///
+  /// Ademas si se hace Click sobre algun profesional se redirige a [ProfessionalDetails()] para ver la información del perfil ampliada
   List<Widget> profToCard(
       BuildContext context, List<Profesional> profesionales) {
     List<Widget> cards = [];
@@ -71,21 +75,16 @@ class ListProfessional extends StatelessWidget {
               ListTile(
                 title: Text(
                   '${element.nombre + " " + element.apellido}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'PoppinsBold',
                   ),
                 ),
-                subtitle: Text(
-                  '${element.experiencia}',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontFamily: 'PoppinsBold',
-                  ),
-                ),
-                contentPadding: const EdgeInsets.all(10.0),
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
                 leading: Icon(Icons.account_circle_rounded,
-                    color: Colors.cyan, size: 50.0),
+                    color: Colors.cyan, size: 30.0),
               ),
               // Central Picture
               ClipRRect(
@@ -97,23 +96,27 @@ class ListProfessional extends StatelessWidget {
                     ? Icon(
                         Icons.account_circle,
                         color: Colors.indigo[100],
-                        size: 200.0,
+                        size: 190.0,
                       )
                     : Image.network(
                         '${element.foto}', //Foto del profesional
-                        height: 250,
-                        fit: BoxFit.fill,
+                        height: 190,
+                        width: 180,
+                        fit: BoxFit.contain,
                       ),
               ),
               // Especialty below the picture
               ListTile(
                 title: Text(
                   '${element.especialidad}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: 'PoppinsRegular',
                   ),
                 ),
+                contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
               ),
             ],
           ),

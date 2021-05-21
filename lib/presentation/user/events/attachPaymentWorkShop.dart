@@ -7,6 +7,9 @@ import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Clase que permite subir el comprobate de pago a una [Taller]
+///
+/// Este pago es necesario cuando el Evento es virtual y Pago
 class AttachPaymentWorkShop extends StatefulWidget {
   @override
   _AttachPaymentWorkShopState createState() => _AttachPaymentWorkShopState();
@@ -28,7 +31,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -47,7 +50,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -193,16 +196,16 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", taller,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", taller,
                                         ruta: "tallerSubscripto"));
                           }
                         } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Fallo!",
-                                      "Agregue la foto del pago", taller));
+                                  _buildPopupDialog(context, "¡Fallo!",
+                                      "Agregue la foto del pago.", taller));
                         }
                       },
                       child: Container(
@@ -240,6 +243,7 @@ class _AttachPaymentWorkShopState extends State<AttachPaymentWorkShop> {
   }
 }
 
+/// Dialogo de confirmación de envio de pago
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Taller taller,
     {String ruta}) {

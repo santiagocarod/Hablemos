@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:hablemos/validators/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
+///Clase encargada de mantener el email [_emailController], password [_passwordController]
+///y nombre [_nameController] de forma transversal a la aplicación y usarla en ciertos campos
+
 class InputsBloc with Validator {
   //Streams
   final _emailController = BehaviorSubject<String>();
@@ -21,7 +24,7 @@ class InputsBloc with Validator {
   Stream<bool> get formValidStream =>
       Rx.combineLatest2(emailStream, passwordStream, (e, p) => true);
 
-  //No recuerdo que era esto jeje
+  //Funciones para cambiar el valor
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
   Function(String) get changeName => _nameController.sink.add;

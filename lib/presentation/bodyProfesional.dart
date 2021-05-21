@@ -4,6 +4,9 @@ import '../ux/ColumnaDosProfesional.dart';
 import '../ux/ColumnasInicioProfesional.dart';
 import '../ux/Encabezado.dart';
 
+///Método que retnorna la página principal para el profesional
+///
+///Crea el saludo y llama métodos para crear los botones de cada sección
 class BodyProfesional extends StatelessWidget {
   const BodyProfesional({
     Key key,
@@ -62,6 +65,7 @@ class BodyProfesional extends StatelessWidget {
   }
 }
 
+///Método que retorna un [Widget] para crear un espacio
 class Espacio extends StatelessWidget {
   const Espacio({
     Key key,

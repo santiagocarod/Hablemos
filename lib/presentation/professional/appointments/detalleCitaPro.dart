@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/pacient/negocioCitas.dart';
@@ -8,6 +9,9 @@ import 'package:hablemos/presentation/professional/appointments/pacientDetails.d
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 
+/// Clase encargada de mostrar la informacion de una [Cita] al profesional
+///
+/// Recibe una [Cita] como parámetro y muestra su información completa.
 class DetalleCitaPro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,68 +45,76 @@ class DetalleCitaPro extends StatelessWidget {
           ),
         ),
         SafeArea(
+          bottom: false,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Stack(
               children: <Widget>[
-                Container(
-                  height: size.height,
-                  padding: EdgeInsets.only(
-                    top: size.height * 0.025,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      _pageHeader(context, size, "Detalle Cita Profesional"),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.center,
-                            //margin: EdgeInsets.all(20),
-                            width: 359.0,
-                            height: 610.0,
-                            decoration: BoxDecoration(
-                              color: kBlanco,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(0, 0),
-                                    blurRadius: 5.0,
-                                    color: Colors.grey.withOpacity(0.5)),
-                              ],
+                Center(
+                  child: Container(
+                    width: size.width * 0.9,
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.025,
+                      bottom: 30.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _pageHeader(context, size, "Detalle Cita Profesional"),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              //margin: EdgeInsets.all(20),
+                              width: 359.0,
+                              height: 630.0,
+                              decoration: BoxDecoration(
+                                color: kBlanco,
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 5.0,
+                                      color: Colors.grey.withOpacity(0.5)),
+                                ],
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  _headerDate(context, cita),
+                                  secction(title: 'Hora:', text: hour),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Fecha:', text: date),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Costo:', text: priceDate),
+                                  SizedBox(height: 3.0),
+                                  secction(
+                                      title: 'Detalles de Pago:',
+                                      text: paymentDetails,
+                                      banco: true),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Lugar:', text: place),
+                                  SizedBox(height: 3.0),
+                                  secction(
+                                      title: 'Especialidad:', text: specialty),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Tipo:', text: type),
+                                  SizedBox(height: 3.0),
+                                  secction(title: 'Contacto:', text: contact),
+                                  SizedBox(height: 3.0),
+                                  _dateState(context, cita),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  _buttons(context, cita),
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                _headerDate(context, cita),
-                                secction(title: 'Hora:', text: hour),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Fecha:', text: date),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Costo:', text: priceDate),
-                                SizedBox(height: 3.0),
-                                secction(
-                                    title: 'Detalles de Pago:',
-                                    text: paymentDetails,
-                                    banco: true),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Lugar:', text: place),
-                                SizedBox(height: 3.0),
-                                secction(
-                                    title: 'Especialidad:', text: specialty),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Tipo:', text: type),
-                                SizedBox(height: 3.0),
-                                secction(title: 'Contacto:', text: contact),
-                                SizedBox(height: 3.0),
-                                _dateState(context, cita),
-                                _buttons(context, cita),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -112,6 +124,10 @@ class DetalleCitaPro extends StatelessWidget {
   }
 }
 
+/// Widget que determina el icono según [Cita.estado]
+///
+/// En caso de estar aprobado pone un icono verde
+/// En caso contrario pone un icono rojo
 Widget _dateState(BuildContext context, Cita cita) {
   final bool state = cita.estado;
   return Container(
@@ -137,6 +153,7 @@ Widget _dateState(BuildContext context, Cita cita) {
   );
 }
 
+/// Método encargado de desplegar el icono de [_dateState()]
 Widget _stateIcon(bool state) {
   if (state == false) {
     return Container(
@@ -159,6 +176,11 @@ Widget _stateIcon(bool state) {
   }
 }
 
+/// Método encargado de mostrar la cabera de la cita
+///
+/// En la cabecera se va a poner el nombre del paciente con el cual se tiene la cita.
+/// Además se tiene el botón que redirige a [EditCitaPro()] para editar la cita.
+/// En el nombre del [Paciente] tiene un hipervinculo a su Perfil
 Widget _headerDate(BuildContext context, Cita cita) {
   String pacientName = cita.paciente.nombreCompleto();
   return Container(
@@ -174,52 +196,44 @@ Widget _headerDate(BuildContext context, Cita cita) {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => EditCitaPro(cita: cita)));
-            // Navigator.pushNamed(context, 'editarCitaProfesional',
-            //     arguments: cita);
           },
           child: Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: 15.0,
-              ),
-              child: Icon(Icons.edit, size: 47)),
+              margin: EdgeInsets.only(top: 10.0, right: 15.0, bottom: 5.0),
+              child: Icon(Icons.edit, size: 37)),
         ),
         Container(
+          width: 359.0,
           alignment: Alignment.center,
           margin: EdgeInsets.only(
-            top: 40.0,
-            bottom: 30.0,
+            top: 50.0,
+            bottom: 15.0,
+            right: 15.0,
+            left: 15.0,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Cita con ",
-                style: GoogleFonts.roboto(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 18,
-                    color: kNegro,
-                    decoration: TextDecoration.none),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      PacientDetails(paciente: cita.paciente)));
+            },
+            child: AutoSizeText(
+              "Cita con $pacientName",
+              maxFontSize: 18.0,
+              minFontSize: 15.0,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'PoppinsRegular',
+                fontStyle: FontStyle.normal,
+                fontSize: 18,
+                color: kAzulOscuro,
+                decoration: TextDecoration.underline,
+                decorationColor: kNegro,
+                decorationStyle: TextDecorationStyle.solid,
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          PacientDetails(paciente: cita.paciente)));
-                },
-                child: Text(
-                  "$pacientName",
-                  style: GoogleFonts.roboto(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20,
-                    color: kAzulOscuro,
-                    decoration: TextDecoration.underline,
-                    decorationColor: kNegro,
-                    decorationStyle: TextDecorationStyle.solid,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ],
@@ -227,9 +241,12 @@ Widget _headerDate(BuildContext context, Cita cita) {
   );
 }
 
+/// Método encargado de mostrar los botones de acciones con la [Cita]
+///
+/// Va a mostrar los botones de ver el pago y cancelar la cita.
+/// El botón de ver el pago solo se va a poder ver cuando la [Cita.pago] sea diferente a vacio `""` o `null`
 @override
 Widget _buttons(BuildContext context, Cita cita) {
-  print(cita.pago);
   if (cita.pago == "" || cita.pago == null) {
     return Container(
       width: 359.0,
@@ -357,6 +374,7 @@ Widget _buttons(BuildContext context, Cita cita) {
   }
 }
 
+/// Mostrar la cebecera de la pantalla total
 Widget _pageHeader(BuildContext context, Size size, String titulo) {
   return Container(
     padding: EdgeInsets.only(bottom: size.height * 0.03),

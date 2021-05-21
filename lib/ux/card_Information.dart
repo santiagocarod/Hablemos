@@ -5,6 +5,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/presentation/admin/health%20information/newInformation.dart';
 
+/// Clase que contiene el card con la informacion ya organizada, se usa en diferentes pantallas
+
 const listaColoresAdmin = [
   kMorado,
   kMoradoClarito,
@@ -72,18 +74,15 @@ class CardInformation extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                        child: Flexible(
-                          flex: 1,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            maxLines: 12,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              text: list[index].definicion,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'PoppinsRegular',
-                              ),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          maxLines: 12,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            text: list[index].definicion,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'PoppinsRegular',
                             ),
                           ),
                         ),

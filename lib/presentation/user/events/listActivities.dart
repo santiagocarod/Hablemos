@@ -6,6 +6,9 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de desplegar las Actividades disponibles con su información básica y fotos
+///
+/// Es encargada de ir a Firebase y traer todoos los eventos de tipo [Actividad]
 class ListActivities extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final List<String> names = [];
@@ -30,7 +33,9 @@ class ListActivities extends StatelessWidget {
         List<Actividad> actividades = actividadMapToList(snapshot);
 
         actividades.forEach((element) {
-          names.add(element.titulo);
+          if (!names.contains(element.titulo)) {
+            names.add(element.titulo);
+          }
         });
 
         return Stack(
@@ -53,7 +58,7 @@ class ListActivities extends StatelessWidget {
                     context, "Actividades", "eventosPrincipal"),
                 body: Stack(
                   children: <Widget>[
-                    searchBar(context, size, searchController, names,
+                    searchBar(context, size, 'Buscar Actividades', names,
                         actividades, "verActividad"),
                     Material(
                       type: MaterialType.transparency,
@@ -79,6 +84,7 @@ class ListActivities extends StatelessWidget {
   }
 }
 
+/// Hace la transformación del objeto a una Card la cual puede ser vista de mejor manera
 List<Widget> objectCard(
     BuildContext context, Size size, List<Actividad> actividades) {
   List<Widget> cards = [];

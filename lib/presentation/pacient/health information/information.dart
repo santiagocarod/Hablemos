@@ -9,6 +9,10 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de desplegar listado de [Diagnostico]
+///
+/// Se puede ver la informacion de cada [Diagnostico] dando click sobre este
+/// y el sistema despliega la pantalla creada para el usuario [Paciente]
 class Information extends StatelessWidget {
   final List<String> names = [];
 
@@ -33,7 +37,9 @@ class Information extends StatelessWidget {
         List<Diagnostico> diagnosticos = diagnosticoMapToList(snapshot);
 
         diagnosticos.forEach((element) {
-          names.add(element.nombre);
+          if (!names.contains(element.nombre)) {
+            names.add(element.nombre);
+          }
         });
 
         return Container(
@@ -123,6 +129,7 @@ class Information extends StatelessWidget {
   }
 }
 
+/// Display la lista de [Diagnostico]
 List<Widget> _information(
     BuildContext context, List<Diagnostico> trastornos, Size size) {
   List<Widget> topics = [];

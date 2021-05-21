@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 
+/// Clase que contiene el diseño de la pantalla de creacion de profesionales
+/// Esto es desde la perspeciva del administrador
 class CreateProfileProfessionalAdmin extends StatefulWidget {
   @override
   _CreateProfileProfessionalAdmin createState() =>
@@ -79,6 +81,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
+  /// Diseño superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size) {
     return Stack(
       children: <Widget>[
@@ -154,16 +157,11 @@ class _CreateProfileProfessionalAdmin
                         showDialog(
                           context: context,
                           builder: (BuildContext context) =>
-                              _buildDialog(context, prof, password),
+                              _buildDialog(context, prof, password, size),
                         );
                       } else {
-                        // print(_nameController.text);
-                        // print(_lastNameController.text);
-                        // print(_mailController.text);
-                        // print(_cityController.text);
-                        // print("nose pudo");
                         showAlertDialog(
-                            context, "Por Favor complete la información");
+                            context, "Por favor completa la información.");
                       }
                     },
                     child: Row(
@@ -268,6 +266,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
+  /// Diseño inferior de la pantalla
   Widget _body(Size size) {
     return Container(
       width: size.width,
@@ -309,7 +308,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  //Section non editable
+  //seccion No Editable
   Widget _nonEditSection(String title, TextEditingController _nameController,
       TextEditingController _passwordController) {
     return Container(
@@ -346,7 +345,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  // Section: Password
+  // Seccion del password
   Widget _editSection(String text, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 10.0),
@@ -380,7 +379,7 @@ class _CreateProfileProfessionalAdmin
     );
   }
 
-  // Picker Date
+  // Modal de seleccion de fecha
   _selectDate(BuildContext context) async {
     DateTime picked = await showDatePicker(
       context: context,
@@ -397,9 +396,9 @@ class _CreateProfileProfessionalAdmin
     }
   }
 
-  // Confirm popup dialog
-  Widget _buildDialog(
-      BuildContext context, Profesional profesional, String password) {
+  /// Dialogo Confirmación de Creación de Profesional
+  Widget _buildDialog(BuildContext context, Profesional profesional,
+      String password, Size size) {
     String title = "";
     String content = "";
     return new AlertDialog(
@@ -427,114 +426,116 @@ class _CreateProfileProfessionalAdmin
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                String nombre = profesional.nombre;
-                final CollectionReference usersRef =
-                    FirebaseFirestore.instance.collection("users");
-                FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  String nombre = profesional.nombre;
+                  final CollectionReference usersRef =
+                      FirebaseFirestore.instance.collection("users");
+                  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-                Future<UserCredential> user =
-                    firebaseAuth.createUserWithEmailAndPassword(
-                        email: profesional.correo, password: password);
-                // authService.signUp(profesional.correo,
-                //     password, '$nombre ${profesional.apellido}');
+                  Future<UserCredential> user =
+                      firebaseAuth.createUserWithEmailAndPassword(
+                          email: profesional.correo, password: password);
+                  user.then((valor) {
+                    valor.user.updateProfile(
+                        displayName: '$nombre ${profesional.apellido}');
+                    String value = valor.user.uid;
 
-                user.then((valor) {
-                  valor.user.updateProfile(
-                      displayName: '$nombre ${profesional.apellido}');
-                  String value = valor.user.uid;
+                    profesional.uid = value;
+                    usersRef
+                        .doc(value)
+                        .set({
+                          'role': 'professional',
+                          'name': nombre,
+                        })
+                        .then((value) => Navigator.pushNamed(
+                            context, 'adminManageProffessional'))
+                        .catchError((value) => showAlertDialog(context,
+                            "Hubo un error\nPor favor inténtalo más tarde"));
 
-                  profesional.uid = value;
-                  usersRef
-                      .doc(value)
-                      .set({
-                        'role': 'professional',
-                        'name': nombre,
-                      })
-                      .then((value) => Navigator.pushNamed(
-                          context, 'adminManageProffessional'))
-                      .catchError((value) => showAlertDialog(context,
-                          "Hubo un error\nPor Favor intentalo mas tarde"));
+                    crearPago(profesional);
 
-                  crearPago(profesional);
-
-                  agregarProfesional(profesional, value).then((value) {
-                    bool state;
-                    if (value) {
-                      title = 'Profesional Creado ';
-                      content = "Su profesional ha sido creado exitosamente.";
-                      state = true;
-                    } else {
-                      title = 'Error de Creación';
-                      content =
-                          "Hubo un error creando el profesional, inténtelo nuevamente";
-                      state = false;
-                    }
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => _adviceDialog(
-                              context,
-                              title,
-                              content,
-                              state,
-                            ));
-                  });
-                }).catchError(showAlertDialog(
-                    context, "Hubo un error\nCorreo ya registrado"));
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+                    agregarProfesional(profesional, value).then((value) {
+                      bool state;
+                      if (value) {
+                        title = 'Profesional Creado ';
+                        content = "Su profesional ha sido creado exitosamente.";
+                        state = true;
+                      } else {
+                        title = 'Error de Creación';
+                        content =
+                            "Hubo un error creando el profesional, inténtalo nuevamente.";
+                        state = false;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => _adviceDialog(
+                                context,
+                                title,
+                                content,
+                                state,
+                              ));
+                    });
+                  }).catchError(showAlertDialog(
+                      context, "Hubo un error\nCorreo ya registrado."));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(width: 20),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
+  /// Dialogo de advertencia de creacion de un profesional
   Widget _adviceDialog(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(

@@ -7,6 +7,9 @@ import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Clase que permite subir el comprobate de pago a un [Grupo]
+///
+/// Este pago es necesario cuando el Evento es virtual y Pago
 class AttachPaymentGroup extends StatefulWidget {
   @override
   _AttachPaymentGroupState createState() => _AttachPaymentGroupState();
@@ -28,7 +31,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -47,7 +50,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtalo nuevamente.");
       }
     });
   }
@@ -192,16 +195,16 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", grupo,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", grupo,
                                         ruta: "grupoSubscripto"));
                           }
                         } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
-                                  _buildPopupDialog(context, "Fallo!",
-                                      "Agregue la foto del pago", grupo));
+                                  _buildPopupDialog(context, "¡Fallo!",
+                                      "Agregue la foto del pago.", grupo));
                         }
                       },
                       child: Container(
@@ -239,6 +242,7 @@ class _AttachPaymentGroupState extends State<AttachPaymentGroup> {
   }
 }
 
+/// Dialogo de confirmación de envio de pago
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Grupo grupo,
     {String ruta}) {

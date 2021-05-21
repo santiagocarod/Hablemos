@@ -10,11 +10,17 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Clase que permite la creación de un nuevo [Grupo]
+///
+///Se alamacena la toda la información relacionada a un grupo.
+///La creacion deel grupo se hace desde la perspectiva del Administrador
+///Hay un botón de guardar que hara la peticion a firebase y guardara la entidad [Grupo]
 class AddGroup extends StatefulWidget {
   @override
   _AddGroup createState() => _AddGroup();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _AddGroup extends State<AddGroup> {
   String _date = '';
   String _time = '';
@@ -29,30 +35,70 @@ class _AddGroup extends State<AddGroup> {
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
 
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  /// Inicializa cada uno de los campos de texto [TextField] relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _tipoCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _numCuentaController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
+
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (_image != null) {
+        deleteImage(_image);
+      }
       if (value != null) {
         _image = value;
         Navigator.pop(context);
@@ -61,11 +107,14 @@ class _AddGroup extends State<AddGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del Grupo
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -81,6 +130,8 @@ class _AddGroup extends State<AddGroup> {
     }
   }
 
+  /// Despliega n reloj con las opciones de horario para el grupo de apoyo
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -93,6 +144,7 @@ class _AddGroup extends State<AddGroup> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -130,6 +182,7 @@ class _AddGroup extends State<AddGroup> {
         });
   }
 
+  /// Pantalle de campos disponibles para la creación del [Grupo]
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -370,6 +423,86 @@ class _AddGroup extends State<AddGroup> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value != "" && value != "0") {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: true,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: true,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          } else if (bancoTextField.enabled) {
+                                            setState(() {
+                                              bancoTextField = TextField(
+                                                enabled: false,
+                                                controller: _bancoController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              tipoCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _tipoCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                              numeroCuentaTextField = TextField(
+                                                enabled: false,
+                                                controller:
+                                                    _numCuentaController,
+                                                enableInteractiveSelection:
+                                                    false,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "PoppinsRegular",
+                                                    color: kLetras,
+                                                    fontSize: 15.0),
+                                              );
+                                            });
+                                          }
+                                        },
                                         controller: _precioController,
                                         enableInteractiveSelection: false,
                                         style: TextStyle(
@@ -410,14 +543,7 @@ class _AddGroup extends State<AddGroup> {
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _bancoController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
+                                          child: bancoTextField,
                                         ),
                                       ],
                                     ),
@@ -439,14 +565,7 @@ class _AddGroup extends State<AddGroup> {
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
-                                          child: TextField(
-                                            controller: _tipoCuentaController,
-                                            enableInteractiveSelection: false,
-                                            style: TextStyle(
-                                                fontFamily: "PoppinsRegular",
-                                                color: kLetras,
-                                                fontSize: 15.0),
-                                          ),
+                                          child: tipoCuentaTextField,
                                         ),
                                       ],
                                     ),
@@ -472,16 +591,8 @@ class _AddGroup extends State<AddGroup> {
                                       ),
                                     ),
                                     Align(
-                                      alignment: Alignment.topLeft,
-                                      child: TextField(
-                                        controller: _numCuentaController,
-                                        enableInteractiveSelection: false,
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsRegular",
-                                            color: kLetras,
-                                            fontSize: 15.0),
-                                      ),
-                                    ),
+                                        alignment: Alignment.topLeft,
+                                        child: numeroCuentaTextField),
                                   ],
                                 ),
                               ),
@@ -604,7 +715,7 @@ class _AddGroup extends State<AddGroup> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  if (_bancoController.text != "") {
+                                  if (bancoTextField.enabled) {
                                     if (_tituloController.text == "" ||
                                         _ubicacionController.text == "" ||
                                         _bancoController.text == "" ||
@@ -621,7 +732,7 @@ class _AddGroup extends State<AddGroup> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Grupo grupo = Grupo(
                                         banco: Banco(
@@ -645,8 +756,10 @@ class _AddGroup extends State<AddGroup> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext contex) =>
-                                                _buildPopupDialog(context,
-                                                    "Exito!", "Grupo Agregado!",
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "¡Exito!",
+                                                    "¡Grupo Agregado!",
                                                     ruta: "listarGruposAdmin"));
                                       }
                                     }
@@ -663,7 +776,7 @@ class _AddGroup extends State<AddGroup> {
                                               _buildPopupDialog(
                                                   context,
                                                   "Error",
-                                                  "Por favor ingresa todos los valores"));
+                                                  "Por favor ingresa todos los valores."));
                                     } else {
                                       Grupo grupo = Grupo(
                                         descripcion:
@@ -682,24 +795,14 @@ class _AddGroup extends State<AddGroup> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext contex) =>
-                                                _buildPopupDialog(context,
-                                                    "Exito!", "Grupo Agregado!",
+                                                _buildPopupDialog(
+                                                    context,
+                                                    "¡Exito!",
+                                                    "¡Grupo Agregado!",
                                                     ruta: "listarGruposAdmin"));
                                       }
                                     }
                                   }
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (BuildContext context) {
-                                  //     return dialogoConfirmacion(
-                                  //         context,
-                                  //         "listarGruposAdmin",
-                                  //         "Confirmación de Creación",
-                                  //         "¿Está seguro que desea crear un nuevo Grupo?",
-                                  //         () {});
-                                  //   },
-                                  // );
                                 },
                                 child: Container(
                                   child: Row(
@@ -735,6 +838,7 @@ class _AddGroup extends State<AddGroup> {
   }
 }
 
+/// Dialogo de confirmación de la creación del [Grupo]
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

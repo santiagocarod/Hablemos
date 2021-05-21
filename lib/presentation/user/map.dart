@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:hablemos/ux/atoms.dart';
 
+///Clase principal de los mapas, la cual maneja todos los metodos y movimientos de camara
+///que necesite el mapa para que el usuario pueda trabajar correctamente
+
 class MapBoxClass extends StatefulWidget {
   @override
   _MapBoxClassState createState() => _MapBoxClassState();
@@ -38,7 +41,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                       height: size.height * 0.1,
                     ),
                     Text(
-                      'No te preocupes!',
+                      '¡No te preocupes!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 30),
                     ),
@@ -46,7 +49,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                       height: 10,
                     ),
                     Text(
-                      'Actualmente no esta implementada esta pantalla para ver el mapa automaticamente!',
+                      '¡Actualmente no esta implementada esta pantalla para ver el mapa automaticamente!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 17),
                     ),
@@ -117,7 +120,7 @@ class _MapBoxClassState extends State<MapBoxClass> {
                             height: size.height * 0.1,
                           ),
                           Text(
-                            'No te preocupes!',
+                            '¡No te preocupes!',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 30),
                           ),

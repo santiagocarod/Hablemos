@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
+import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/ux/atoms.dart';
+
+import 'animated_box.dart';
+import 'helper/coming_soon.dart';
+
+///Clase principal que contiene las diferentes opciones de `Quiero respirar`
+///Las opciones de ejercicios posibles (por el momento) son:
+/// - `Conectar con el presente`
+/// - `Siento ansiedad`
+/// - `Dormir`
+///
+/// En caso de que el ejercicio se encuentre en desarrollo se muestra un cuadro explicandole al usuario
 
 class OptionsBreathe extends StatelessWidget {
   @override
@@ -91,13 +103,33 @@ class OptionsBreathe extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   colorButton('Conectar con el presente', () {
-                    Navigator.pushNamed(context, 'respirar');
+                    showCustomDialog(
+                      context,
+                      title: "Muy pronto",
+                      subTitle: "Esta sección se encuentra en desarrollo!",
+                    );
+
+                    // Navigator.pushNamed(context, 'respirar');
                   }, kAzul1, size * 0.75, 50.0),
                   colorButton('Siento ansiedad', () {
-                    Navigator.pushNamed(context, 'respirar');
+                    showCustomDialog(
+                      context,
+                      title: "Muy pronto",
+                      subTitle: "Esta sección se encuentra en desarrollo!",
+                    );
+
+                    // Navigator.pushNamed(context, 'respirar');
                   }, kAzul2, size * 0.75, 50.0),
                   colorButton('Dormir', () {
-                    Navigator.pushNamed(context, 'respirar');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AnimatedBox(
+                          instrucciones: dormirMejorInstrucciones,
+                          numeroPaso: 0,
+                        ),
+                      ),
+                    );
                   }, kAzul3, size * 0.75, 50.0),
                 ],
               ))

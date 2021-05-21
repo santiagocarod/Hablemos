@@ -3,12 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
-
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de un [Taller]
+/// El administrador tiene la posibilidad de eliminar o modificar el taller
 class ViewWorkShopAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -362,6 +364,9 @@ class ViewWorkShopAdmin extends StatelessWidget {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _ubicacion(BuildContext context, Taller taller) {
     if (taller.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -458,8 +463,11 @@ class ViewWorkShopAdmin extends StatelessWidget {
     }
   }
 
+  /// Seccion especifica para los datos financieros/bancarios del taller
+  ///
+  /// En caso de que la información bancaria no exista, es decir [Taller.banco] = `null` no se desplegarán los campos
   Widget _datosFinancieros(BuildContext context, Taller taller) {
-    if (taller.ubicacion.toLowerCase() != "virtual") {
+    if (taller.banco == null) {
       return SizedBox(height: 5.0);
     } else {
       return Container(
@@ -511,6 +519,9 @@ class ViewWorkShopAdmin extends StatelessWidget {
     }
   }
 
+  /// Dialogo que confirmación el deseo del administrador para modificar contenido del taller
+  ///
+  /// Redirige al administrador a la pantalla de modificación e invoca el metodo [ModifyWorkShop()]
   AlertDialog dialogoModificacion(BuildContext context, String rutaSi,
       String titulo, String mensaje, Taller taller) {
     return AlertDialog(

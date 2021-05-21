@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 
+/// Clase de la pagina principal de los eventos para cualquier usuario
+///
+/// Da la opción de ir a la lista de cada evento [Actividad], [Grupo] y [Taller]
 class EventsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class EventsMain extends StatelessWidget {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
-            appBar: crearAppBarEventos(context, "¿Qué hay p'a hacer?", 'start'),
+            appBar: crearAppBarEventos(context, "¿Qué hay pa' hacer?", 'start'),
             body: Stack(
               children: <Widget>[
                 SingleChildScrollView(
@@ -65,6 +68,7 @@ class EventsMain extends StatelessWidget {
     );
   }
 
+  /// App bar principal de la pantalla
   AppBar appBarEvento(
       String texto, IconData icono, int constante, Color color) {
     return AppBar(
@@ -89,6 +93,7 @@ class EventsMain extends StatelessWidget {
   }
 }
 
+/// Boton general para cada opción en tipo de eventos.
 Widget _opciones(
     BuildContext context, Size size, String titulo, String paginaRedireccion) {
   return GestureDetector(

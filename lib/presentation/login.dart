@@ -6,6 +6,10 @@ import 'package:hablemos/services/auth.dart';
 
 import '../ux/atoms.dart';
 
+///Pantalla que permite al usuario iniciar sesión
+///
+///Recibe la información de correo y contraseña, la envia a firebase que revisa su veracidad.
+///En caso de que sean correctas redirecciona a la pantalla principal de cada Rol.
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,6 @@ class LoginPage extends StatelessWidget {
                           SizedBox(
                             height: 30,
                           ),
-                          //background aquii
                           _centerLogin(context),
                           SizedBox(
                             height: 15,
@@ -60,6 +63,10 @@ class LoginPage extends StatelessWidget {
   }
 }
 
+///Campos encargados de recibir la información
+///
+///Además tiene los botones de iniciar sesion que llama a [loginLogic()].
+///Y el de olvide mi contraseña que redirige a [ForgotPassword()]
 Widget _centerLogin(BuildContext context) {
   final bloc = InhWidget.of(context);
   return Expanded(
@@ -88,13 +95,17 @@ Widget _centerLogin(BuildContext context) {
   );
 }
 
+///Método encargado de la enviar la información a la lógica de iniciar sesión.
+///
+///En caso de que al lógica retorne un `null` significa que las credenciales estan mal.
+///La lógica del incio de sesión esta en [AuthService.logIn()]
 loginLogic(dynamic bloc, BuildContext context) {
   AuthService authService = new AuthService();
   Future<User> user = authService.logIn(bloc.email, bloc.password);
   user.then((value) {
     if (value == null) {
       showAlertDialog(
-          context, "Hubo un error😔\nRevisa tu Usuario y Contraseña");
+          context, "Hubo un Error 😔\nRevisa tu usuario y contraseña.");
     } else {
       FirebaseFirestore.instance
           .collection('users')
@@ -114,8 +125,7 @@ loginLogic(dynamic bloc, BuildContext context) {
           } else if (documentSnapshot.get('role') == 'administrator') {
             Navigator.pushNamed(context, 'inicioAdministrador');
           } else {
-            Navigator.pushNamed(
-                context, 'inicio'); //TODO: CAmbiar a panatalla de admin
+            Navigator.pushNamed(context, 'inicio');
           }
         }
       });

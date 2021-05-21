@@ -3,17 +3,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/actividad.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
 import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// El administrador tiene la capacidad de Modificar una [Actividad]
+///
+/// Recibe una [Actividad] como argumento de la ruta.
 class ModifyActivity extends StatefulWidget {
   @override
   _ModifyActivity createState() => _ModifyActivity();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _ModifyActivity extends State<ModifyActivity> {
   String _date = '';
   String _time = '';
@@ -27,15 +32,22 @@ class _ModifyActivity extends State<ModifyActivity> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (actividad.foto != null) {
+        deleteImage(actividad.foto);
+      }
       if (value != null) {
         _image = value;
         actividad.foto = value;
@@ -43,16 +55,20 @@ class _ModifyActivity extends State<ModifyActivity> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria(Actividad actividad) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, ACTIVITY_FOLDER).then((value) {
+      if (actividad.foto != null) {
+        deleteImage(actividad.foto);
+      }
       if (value != null) {
         _image = value;
         actividad.foto = value;
@@ -62,11 +78,14 @@ class _ModifyActivity extends State<ModifyActivity> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del taller
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -82,6 +101,9 @@ class _ModifyActivity extends State<ModifyActivity> {
     }
   }
 
+  /// Despliega el  reloj con las opciones de horario para la actividad
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -94,6 +116,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, actividad) {
     showModalBottomSheet(
         context: context,
@@ -107,9 +130,6 @@ class _ModifyActivity extends State<ModifyActivity> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(actividad);
                         //Navigator.of(context).pop();
                       }),
@@ -118,9 +138,6 @@ class _ModifyActivity extends State<ModifyActivity> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(actividad);
                     },
                   ),
@@ -131,6 +148,8 @@ class _ModifyActivity extends State<ModifyActivity> {
         });
   }
 
+  /// Descarta la información contenida adentro de los [TextEditinController]
+  /// Asegura descartar recursos utilizados por el controlador
   @override
   void dispose() {
     _inputFieldDateController.dispose();
@@ -147,6 +166,7 @@ class _ModifyActivity extends State<ModifyActivity> {
     super.dispose();
   }
 
+  /// Pantalle de todos los campos disponibles para edición con la información especifica de la [Actividad] a modificar
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -208,6 +228,52 @@ class _ModifyActivity extends State<ModifyActivity> {
           TextPosition(offset: _sesionesController.text.length));
       _image = actividad.foto;
     }
+
+    bancoTextField = TextField(
+        controller: _bancoController,
+        enabled: actividad.banco == null ? false : true,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.banco = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    tipoCuentaTextField = TextField(
+        enabled: actividad.banco == null ? false : true,
+        controller: _tipoCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.tipoCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    numeroCuentaTextField = TextField(
+        enabled: actividad.banco == null ? false : true,
+        controller: _numCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            actividad.banco.numCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
 
     return Container(
       color: kAmarilloClaro,
@@ -567,10 +633,21 @@ class _ModifyActivity extends State<ModifyActivity> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
                                         controller: _precioController,
                                         onChanged: (text) {
                                           if (text.isNotEmpty) {
                                             actividad.valor = text;
+                                            setState(() {
+                                              if (text != "" && text != "0") {
+                                                actividad.banco = Banco(
+                                                    banco: "",
+                                                    numCuenta: "",
+                                                    tipoCuenta: "");
+                                              } else {
+                                                actividad.banco = null;
+                                              }
+                                            });
                                           }
                                         },
                                         enableInteractiveSelection: false,
@@ -595,13 +672,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-                        _datosFinancieros(
-                          context,
-                          actividad,
-                          _bancoController,
-                          _numCuentaController,
-                          _tipoCuentaController,
-                        ),
+                        _datosFinancieros(context, actividad),
                         SizedBox(height: size.height * 0.04),
                         Container(
                           width: 330.5,
@@ -655,153 +726,92 @@ class _ModifyActivity extends State<ModifyActivity> {
     );
   }
 
-  Widget _datosFinancieros(
-      BuildContext context,
-      Actividad actividad,
-      TextEditingController _bancoController,
-      TextEditingController _numCuentaController,
-      TextEditingController _tipoCuentaController) {
-    if (actividad.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  /// Creación de la sección dedicada a los datos financieros de la actividad
+  Widget _datosFinancieros(BuildContext context, Actividad actividad) {
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _bancoController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                actividad.banco.banco = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _tipoCuentaController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                actividad.banco.tipoCuenta = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _numCuentaController,
-                        onChanged: (text) {
-                          if (text.isNotEmpty) {
-                            actividad.banco.numCuenta = text;
-                          }
-                        },
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
+  /// Dialogo de Confirmación de Guardar los cambios realizados a la [Actividad]
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Actividad actividad) {
     return AlertDialog(
@@ -842,7 +852,7 @@ class _ModifyActivity extends State<ModifyActivity> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      if (_bancoController.text != "") {
+                      if (bancoTextField.enabled) {
                         if (_tituloController.text == "" ||
                             _ubicacionController.text == "" ||
                             _bancoController.text == "" ||
@@ -855,14 +865,14 @@ class _ModifyActivity extends State<ModifyActivity> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarActividad(actividad)) {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(
-                                        context, "Exito!", "Actividad editada!",
+                                    _buildPopupDialog(context, "!Exito!",
+                                        "¡Actividad Editada!",
                                         ruta: "listarActividadesAdmin"));
                           }
                         }
@@ -877,23 +887,21 @@ class _ModifyActivity extends State<ModifyActivity> {
                             builder: (BuildContext contex) => _buildPopupDialog(
                                 context,
                                 "Error",
-                                "Por favor ingresa todos los valores"),
+                                "Por favor ingresa todos los valores."),
                           );
                         } else {
+                          actividad.banco = null;
                           if (actualizarActividad(actividad)) {
                             showDialog(
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(
-                                      context, "Exito!", "Actividad editada!",
+                                      context, "!Exito!", "!Actividad Editada!",
                                       ruta: "listarActividadesAdmin"),
                             );
                           }
                         }
                       }
-
-                      // Navigator.pushNamed(context, rutaSi,
-                      //     arguments: actividad);
                     },
                     child: Container(
                       height: 30,
@@ -947,6 +955,7 @@ class _ModifyActivity extends State<ModifyActivity> {
   }
 }
 
+/// Dialogo indicativo del exito o fracaso de modificación y guardado de la actividad.
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

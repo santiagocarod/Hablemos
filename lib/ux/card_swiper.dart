@@ -3,6 +3,8 @@ import 'package:hablemos/constants.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+/// Clase que contiene la estructura de los swipers horizontales ya que esta es usada en diferentes pantallas
+
 const listaColoresEjercicios = [
   kVerdeMuyClaro,
   kRojoMuyClaro,
@@ -17,9 +19,10 @@ const listaColoresAdmin = [
 
 class CardSwiper extends StatelessWidget {
   final List<dynamic> list;
+  final List<String> imagenes;
   final String route;
 
-  CardSwiper({@required this.list, this.route});
+  CardSwiper({@required this.list, this.route, this.imagenes});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class CardSwiper extends StatelessWidget {
       height: size.height * 0.55,
       child: Swiper(
         autoplay: true,
+        autoplayDelay: 5000,
         layout: SwiperLayout.STACK,
         itemWidth: size.width * 0.8,
         itemBuilder: (BuildContext context, int index) {

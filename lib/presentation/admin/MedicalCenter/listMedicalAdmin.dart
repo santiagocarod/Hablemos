@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/centro_atencion.dart';
@@ -9,6 +10,9 @@ import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
+/// Listado de todos los [CentroAtencion] para el administrador
+///
+/// Clase encargada de descargar todos los centros de antecion y desplegarlos en forma de lista
 class ListMedicalAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -96,6 +100,9 @@ class ListMedicalAdmin extends StatelessWidget {
         });
   }
 
+  /// Método encargado de convertir cada [CentroAtencion] en un elemento Card
+  ///
+  /// Esto para ser mostrado. Cada card puede ser clickeada y lleva a [DetailsMedicalAdmin()]
   List<Widget> centersToWidgetsMedical(
       BuildContext context, List<CentroAtencion> _medicalCenters) {
     List<Widget> widgets = [];
@@ -104,10 +111,35 @@ class ListMedicalAdmin extends StatelessWidget {
         child: Container(
           height: 100,
           child: Center(
-            child: Text(
-              element.nombre + "\n" + element.telefono,
-              style: TextStyle(
-                  color: kLetras, fontSize: 20, fontFamily: "PoppinsRegular"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AutoSizeText(
+                  element.nombre,
+                  maxLines: 1,
+                  maxFontSize: 20.0,
+                  minFontSize: 15.0,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kLetras,
+                      fontSize: 20,
+                      fontFamily: "PoppinsRegular"),
+                ),
+                SizedBox(height: 7.0),
+                AutoSizeText(
+                  element.telefono,
+                  maxLines: 1,
+                  maxFontSize: 20.0,
+                  minFontSize: 15.0,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kLetras,
+                      fontSize: 20,
+                      fontFamily: "PoppinsRegular"),
+                ),
+              ],
             ),
           ),
         ),
@@ -121,8 +153,6 @@ class ListMedicalAdmin extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   DetailsMedicalAdmin(centroAtencion: element)));
-          // Navigator.pushNamed(context, "detailsCentrosMedicosAdmin",
-          //     arguments: element);
         },
         child: card,
       );

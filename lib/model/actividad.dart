@@ -1,5 +1,10 @@
 import 'banco.dart';
 
+/// Evento especifico de la papaya.
+///
+/// Puede ser pago o gratis.
+/// Puede ser virtual o presencial.
+/// En el caso de que sea virtual y pago, en la lista de [participantes] se guarda tambien su pago.
 class Actividad {
   String id;
   String titulo;
@@ -51,7 +56,7 @@ class Actividad {
       descripcion: data["description"],
       foto: data["photo"],
       ubicacion: data["location"],
-      banco: Banco.fromMap(data["bank"]),
+      banco: data["bank"] == null ? null : Banco.fromMap(data["bank"]),
       fecha: data["date"],
       hora: data["hour"],
       participantes:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/grupo.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -9,11 +10,15 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// El administrador tiene la capacidad de Modificar un [Grupo]
+///
+/// Recibe un [Grupo] como argumento de la ruta.
 class ModifyGroup extends StatefulWidget {
   @override
   _ModifyGroup createState() => _ModifyGroup();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _ModifyGroup extends State<ModifyGroup> {
   String _date = '';
   String _time = '';
@@ -27,15 +32,50 @@ class _ModifyGroup extends State<ModifyGroup> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  /// Inicializa cada uno de los campos de texto [TextField]relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -43,16 +83,20 @@ class _ModifyGroup extends State<ModifyGroup> {
         setState(() {});
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria(Grupo grupo) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, GROUP_FOLDER).then((value) {
+      if (grupo.foto != null) {
+        deleteImage(grupo.foto);
+      }
       if (value != null) {
         _image = value;
         grupo.foto = value;
@@ -62,11 +106,14 @@ class _ModifyGroup extends State<ModifyGroup> {
         });
       } else {
         showAlertDialog(
-            context, "Hubo un error subiendo la foto, inténtelo nuevamente");
+            context, "Hubo un error subiendo la foto, inténtelo nuevamente.");
       }
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del grupo de apoyo
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -82,6 +129,9 @@ class _ModifyGroup extends State<ModifyGroup> {
     }
   }
 
+  /// Despliega el  reloj con las opciones de horario para el grupo de apoyo
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -94,6 +144,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, grupo) {
     showModalBottomSheet(
         context: context,
@@ -108,9 +159,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(grupo);
                         //Navigator.of(context).pop();
                       }),
@@ -119,9 +167,6 @@ class _ModifyGroup extends State<ModifyGroup> {
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(grupo);
                     },
                   ),
@@ -132,6 +177,8 @@ class _ModifyGroup extends State<ModifyGroup> {
         });
   }
 
+  /// Descarta la información contenida adentro de los [TextEditinController]
+  /// Asegura descartar recursos utilizados por el controlador
   @override
   void dispose() {
     _inputFieldDateController.dispose();
@@ -148,6 +195,7 @@ class _ModifyGroup extends State<ModifyGroup> {
     super.dispose();
   }
 
+  /// Pantalle de todos los campos disponibles para edición con la información especifica del [Grupo] a modificar
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -196,7 +244,7 @@ class _ModifyGroup extends State<ModifyGroup> {
       _tipoCuentaController = TextEditingController()
         ..text = grupo.banco.tipoCuenta.toString();
       _tipoCuentaController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _numCuentaController.text.length));
+          TextPosition(offset: _tipoCuentaController.text.length));
       _precioController = TextEditingController()..text = grupo.valor;
       _precioController.selection = TextSelection.fromPosition(
           TextPosition(offset: _precioController.text.length));
@@ -206,6 +254,52 @@ class _ModifyGroup extends State<ModifyGroup> {
           TextPosition(offset: _sesionesController.text.length));
       _image = grupo.foto;
     }
+
+    bancoTextField = TextField(
+        controller: _bancoController,
+        enabled: grupo.banco == null ? false : true,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            grupo.banco.banco = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    tipoCuentaTextField = TextField(
+        enabled: grupo.banco == null ? false : true,
+        controller: _tipoCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            grupo.banco.tipoCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    numeroCuentaTextField = TextField(
+        enabled: grupo.banco == null ? false : true,
+        controller: _numCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            grupo.banco.numCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
 
     return Container(
       color: kAmarilloClaro,
@@ -564,9 +658,20 @@ class _ModifyGroup extends State<ModifyGroup> {
                                       alignment: Alignment.topLeft,
                                       child: TextField(
                                           controller: _precioController,
+                                          keyboardType: TextInputType.number,
                                           onChanged: (text) {
                                             if (text.isNotEmpty) {
                                               grupo.valor = text;
+                                              setState(() {
+                                                if (text != "" && text != "0") {
+                                                  grupo.banco = Banco(
+                                                      banco: "",
+                                                      numCuenta: "",
+                                                      tipoCuenta: "");
+                                                } else {
+                                                  grupo.banco = null;
+                                                }
+                                              });
                                             }
                                           },
                                           enableInteractiveSelection: false,
@@ -644,153 +749,97 @@ class _ModifyGroup extends State<ModifyGroup> {
     );
   }
 
+  /// Creación de la sección dedicada a los datos financieros del grupo de apoyo
   Widget _datosFinancieros(
       BuildContext context,
       Grupo grupo,
       TextEditingController _bancoController,
       TextEditingController _numCuentaController,
       TextEditingController _tipoCuentaController) {
-    if (grupo.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _bancoController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                grupo.banco.banco = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _tipoCuentaController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                grupo.banco.tipoCuenta = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _numCuentaController,
-                        onChanged: (text) {
-                          if (text.isNotEmpty) {
-                            grupo.banco.numCuenta = text;
-                          }
-                        },
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
+  /// Dialogo que Confirmación la Modificación del contenido de un [Grupo].
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Grupo grupo) {
     return AlertDialog(
@@ -831,7 +880,7 @@ class _ModifyGroup extends State<ModifyGroup> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      if (_bancoController.text != "") {
+                      if (bancoTextField.enabled) {
                         if (_tituloController.text == "" ||
                             _ubicacionController.text == "" ||
                             _bancoController.text == "" ||
@@ -844,14 +893,14 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "!Exito!", "!Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }
@@ -865,20 +914,19 @@ class _ModifyGroup extends State<ModifyGroup> {
                               context: context,
                               builder: (BuildContext contex) =>
                                   _buildPopupDialog(context, "Error",
-                                      "Por favor ingresa todos los valores"));
+                                      "Por favor ingresa todos los valores."));
                         } else {
                           if (actualizarGrupo(grupo)) {
+                            grupo.banco = null;
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
                                     _buildPopupDialog(
-                                        context, "Exito!", "Grupo editado!",
+                                        context, "¡Exito!", "¡Grupo editado!",
                                         ruta: "listarGruposAdmin"));
                           }
                         }
                       }
-
-                      // Navigator.pushNamed(context, rutaSi, arguments: grupo);
                     },
                     child: Container(
                       height: 30,
@@ -932,6 +980,7 @@ class _ModifyGroup extends State<ModifyGroup> {
   }
 }
 
+/// Dialogo indicativo del exito o fracaso de modificación y guardado del grupo de apoyo.
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

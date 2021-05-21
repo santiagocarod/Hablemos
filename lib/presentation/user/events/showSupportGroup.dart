@@ -11,6 +11,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de una [Grupo]
+/// En caso de que el usuario quiera inscribirse lo puede hacer por medio de esta pagina.
+/// Por eso se hace la consulta para saber que rol tiene el usuario y con esto obtener su perfil completo.
 class ShowSupportGroup extends StatefulWidget {
   @override
   _ShowSupportGroupState createState() => _ShowSupportGroupState();
@@ -43,7 +48,6 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }
@@ -170,6 +174,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${grupoApoyo.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -274,6 +279,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
     if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -371,6 +379,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Dialogo de confirmación de intención de inscripción al envento
   AlertDialog dialogoConfirmacion(BuildContext context, Grupo grupo,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -415,8 +424,8 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", grupo,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", grupo,
                                         ruta: "grupoSubscripto"));
                           }
                         },
@@ -469,6 +478,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
             )));
   }
 
+  /// En caso de que el evento sea virtual y pago para poder inscribirse es necesario adjuntar una prueba de pago
+  ///
+  /// Este dialogo confirma que el usuario ya tenga el pago
   AlertDialog dialogoConfirmacionPago(BuildContext context, Grupo grupo,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -564,6 +576,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
             )));
   }
 
+  /// Seccion describiendo la cuenta del banco del evento
+  ///
+  /// En caso de que sea gratis no va a desplegar nada
   Widget _sectionAccountNum(BuildContext context, Grupo grupo) {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
@@ -620,6 +635,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Seccion describiendo el costo del evento
   Widget _sectionCosto(BuildContext context, Grupo grupo) {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
@@ -786,6 +802,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Boton a cargo del evento del usuario con intencion de inscribirse al evento
   Widget _inscripcion(BuildContext context, Grupo grupoApoyo) {
     if (auth.currentUser != null) {
       return GestureDetector(
@@ -805,8 +822,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
                     "¿Estás seguro que deseas inscribirte en este Grupo de Apoyo?",
                     kMoradoClarito,
                   );
-                } else if (grupoApoyo.ubicacion == "virtual" ||
-                    grupoApoyo.ubicacion == "Virtual") {
+                } else if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     grupoApoyo,
@@ -852,22 +868,27 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
         ),
       );
     } else {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        padding: EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(228, 88, 101, 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        height: 80.0,
-        child: Center(
-          child: Text(
-            "Para Inscribirse a este Grupo de Apoyo debe Registarse",
-            style: TextStyle(
-              color: kLetras,
-              fontSize: 17.0,
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, 'registro');
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          padding: EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(228, 88, 101, 0.5),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          height: 80.0,
+          child: Center(
+            child: Text(
+              "Para Inscribirse a este Grupo de Apoyo debe Registarse",
+              style: TextStyle(
+                color: kLetras,
+                fontSize: 17.0,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );
@@ -875,6 +896,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
   }
 }
 
+/// Dialogo de confirmación de inscripción al evento
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Grupo grupo,
     {String ruta}) {

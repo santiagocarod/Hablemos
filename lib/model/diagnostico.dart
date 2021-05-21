@@ -1,3 +1,7 @@
+///Información de diagnosticos de enfermedades
+///
+///Esta información es de utilidad para los pacientes y los profesionales
+///Es administrada por el Administrador quien se encarga de Crear,modificar y eliminar.
 class Diagnostico {
   String id;
   String nombre;

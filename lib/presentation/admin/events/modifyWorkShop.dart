@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hablemos/business/admin/negocioEventos.dart';
 import 'package:hablemos/business/cloudinary.dart';
+import 'package:hablemos/model/banco.dart';
 import 'package:hablemos/model/taller.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'dart:async';
@@ -9,11 +10,15 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// El administrador tiene la capacidad de Modificar un [Taller]
+///
+/// Recibe un [Taller] como argumento de la ruta.
 class ModifyWorkShop extends StatefulWidget {
   @override
   _ModifyWorkShop createState() => _ModifyWorkShop();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _ModifyWorkShop extends State<ModifyWorkShop> {
   String _date = '';
   String _time = '';
@@ -27,15 +32,50 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   TextEditingController _numCuentaController = new TextEditingController();
   TextEditingController _tipoCuentaController = new TextEditingController();
   TextEditingController _tituloController = new TextEditingController();
+  TextField bancoTextField;
+  TextField tipoCuentaTextField;
+  TextField numeroCuentaTextField;
+
+  /// Inicializa cada uno de los campos de texto [TextField]relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
+  void initState() {
+    super.initState();
+    bancoTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    tipoCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+    numeroCuentaTextField = TextField(
+      enabled: false,
+      controller: _bancoController,
+      enableInteractiveSelection: false,
+      style: TextStyle(
+          fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+    );
+  }
 
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (taller.foto != null) {
+        deleteImage(taller.foto);
+      }
       if (value != null) {
         _image = value;
         taller.foto = value;
@@ -48,11 +88,15 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria(Taller taller) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
 
     uploadImage(image.path, WORKSHOP_FOLDER).then((value) {
+      if (taller.foto != null) {
+        deleteImage(taller.foto);
+      }
       if (value != null) {
         _image = value;
         taller.foto = value;
@@ -67,6 +111,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del taller
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -82,6 +129,9 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     }
   }
 
+  /// Despliega el  reloj con las opciones de horario para el taller
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -94,6 +144,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, taller) {
     showModalBottomSheet(
         context: context,
@@ -107,20 +158,13 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                       title: new Text('Galeria de Fotos'),
                       trailing: new Icon(Icons.cloud_upload),
                       onTap: () {
-                        if (_image != null) {
-                          deleteImage(_image);
-                        }
                         _imagenDesdeGaleria(taller);
-                        //Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Cámara'),
                     trailing: new Icon(Icons.cloud_upload),
                     onTap: () {
-                      if (_image != null) {
-                        deleteImage(_image);
-                      }
                       _imagenDesdeCamara(taller);
                     },
                   ),
@@ -131,6 +175,8 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
         });
   }
 
+  /// Descarta la información contenida adentro de los [TextEditinController]
+  /// Asegura descartar recursos utilizados por el controlador
   @override
   void dispose() {
     _inputFieldDateController.dispose();
@@ -147,6 +193,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     super.dispose();
   }
 
+  /// Pantalle de todos los campos disponibles para edición con la información especifica del [Taller] a modificar
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -195,7 +242,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
       _tipoCuentaController = TextEditingController()
         ..text = taller.banco.tipoCuenta.toString();
       _tipoCuentaController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _numCuentaController.text.length));
+          TextPosition(offset: _tipoCuentaController.text.length));
       _precioController = TextEditingController()..text = taller.valor;
       _precioController.selection = TextSelection.fromPosition(
           TextPosition(offset: _precioController.text.length));
@@ -205,6 +252,52 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
           TextPosition(offset: _sesionesController.text.length));
       _image = taller.foto;
     }
+
+    bancoTextField = TextField(
+        controller: _bancoController,
+        enabled: taller.banco == null ? false : true,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.banco = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    tipoCuentaTextField = TextField(
+        enabled: taller.banco == null ? false : true,
+        controller: _tipoCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.tipoCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
+    numeroCuentaTextField = TextField(
+        enabled: taller.banco == null ? false : true,
+        controller: _numCuentaController,
+        onChanged: (text) {
+          if (text.isNotEmpty) {
+            taller.banco.numCuenta = text;
+          }
+        },
+        enableInteractiveSelection: false,
+        style: TextStyle(
+            fontFamily: "PoppinsRegular", color: kLetras, fontSize: 15.0),
+        decoration: InputDecoration(
+            hintStyle: TextStyle(
+                fontFamily: "PoppinsRegular", fontSize: 15.0, color: kLetras),
+            contentPadding: EdgeInsets.only(top: 5.0, bottom: 10.0)));
 
     return Container(
       color: kAmarilloClaro,
@@ -567,9 +660,20 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
                                         onChanged: (text2) {
                                           if (text2.isNotEmpty) {
                                             taller.valor = text2;
+                                            setState(() {
+                                              if (text2 != "" && text2 != "0") {
+                                                taller.banco = Banco(
+                                                    banco: "",
+                                                    numCuenta: "",
+                                                    tipoCuenta: "");
+                                              } else {
+                                                taller.banco = null;
+                                              }
+                                            });
                                           }
                                         },
                                         controller: _precioController,
@@ -650,153 +754,97 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
     );
   }
 
+  /// Creación de la sección dedicada a los datos financieros del taller
   Widget _datosFinancieros(
       BuildContext context,
       Taller taller,
       TextEditingController _bancoController,
       TextEditingController _numCuentaController,
       TextEditingController _tipoCuentaController) {
-    if (taller.ubicacion.toLowerCase() == "virtual") {
-      return Container(
-        width: 330.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      width: 330.5,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 133.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Banco",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: bancoTextField,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 183.5,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Tipo de Cuenta",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "PoppinsRegular",
+                            color: kLetras.withOpacity(0.7),
+                            fontSize: 18.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: tipoCuentaTextField,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+            width: 330.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: 133.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Banco",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _bancoController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                taller.banco.banco = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Número de Cuenta",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontFamily: "PoppinsRegular",
+                        color: kLetras.withOpacity(0.7),
+                        fontSize: 18.0),
                   ),
                 ),
-                Container(
-                  width: 183.5,
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Tipo de Cuenta",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: "PoppinsRegular",
-                              color: kLetras.withOpacity(0.7),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                            controller: _tipoCuentaController,
-                            onChanged: (text) {
-                              if (text.isNotEmpty) {
-                                taller.banco.tipoCuenta = text;
-                              }
-                            },
-                            enableInteractiveSelection: false,
-                            style: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                color: kLetras,
-                                fontSize: 15.0),
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                    fontFamily: "PoppinsRegular",
-                                    fontSize: 15.0,
-                                    color: kLetras),
-                                contentPadding:
-                                    EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                      ),
-                    ],
-                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: numeroCuentaTextField,
                 ),
               ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              width: 330.5,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Número de Cuenta",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: "PoppinsRegular",
-                          color: kLetras.withOpacity(0.7),
-                          fontSize: 18.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                        controller: _numCuentaController,
-                        onChanged: (text) {
-                          if (text.isNotEmpty) {
-                            taller.banco.numCuenta = text;
-                          }
-                        },
-                        enableInteractiveSelection: false,
-                        style: TextStyle(
-                            fontFamily: "PoppinsRegular",
-                            color: kLetras,
-                            fontSize: 15.0),
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontFamily: "PoppinsRegular",
-                                fontSize: 15.0,
-                                color: kLetras),
-                            contentPadding:
-                                EdgeInsets.only(top: 5.0, bottom: 10.0))),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(height: 10.0);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
+  /// Dialogo que Confirmación la Modificación del contenido de un [Taller]
   AlertDialog dialogoConfirmacionMod(BuildContext context, String rutaSi,
       String titulo, String mensaje, Taller taller) {
     return AlertDialog(
@@ -874,6 +922,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                                       "Por favor ingresa todos los valores"));
                         } else {
                           if (actualizarTaller(taller)) {
+                            taller.banco = null;
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
@@ -883,8 +932,6 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
                           }
                         }
                       }
-
-                      // Navigator.pushNamed(context, rutaSi, arguments: taller);
                     },
                     child: Container(
                       height: 30,
@@ -938,6 +985,7 @@ class _ModifyWorkShop extends State<ModifyWorkShop> {
   }
 }
 
+/// Dialogo indicativo del exito o fracaso de modificación y guardado del taller.
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

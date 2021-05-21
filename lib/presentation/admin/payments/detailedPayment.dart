@@ -5,6 +5,12 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/pagoadmin.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clse encargada de mostrar el detalle del pago que tiene que hacer un [Prfesional] al administrador
+///
+/// Se muestra una lista de citas por las cuales tiene que hacer el pago y ademas un costo final total
+/// En esta pantalla se puede ademas agrregar un cobro a ser necesario.
+/// También se pueden dejar las cuentas en `0` cuando el profesional haya pagado
+/// Esta informacion la despliega de un [Pagoadmin] que viene como argumento de la ruta.
 class DetailedPaymentAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  // Display Backgorund
+  /// Fondo de pantalla
   Widget _background(Size size) {
     return Image.asset(
       'assets/images/verdeAdminPagos.png',
@@ -44,10 +50,11 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Crea el cuerpo de la información que se quiere mostrar para el [Profesional] especifico
   Widget _crearBody(BuildContext context, Size size, Pagoadmin pagoAdmin) {
     String nombreCompleto =
         "${pagoAdmin.profesional.nombre}  ${pagoAdmin.profesional.apellido}";
-    print(nombreCompleto);
+
     return Container(
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -77,6 +84,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Sección general con un [titulo] y una [info]
   Widget _createText(
       BuildContext context, Size size, String titulo, String info) {
     return Container(
@@ -111,6 +119,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Encargado de crear la tabla de citas en donde se da el detalle a pagar por cada una
   Widget _createTable(
       BuildContext context, Size size, List<Map<String, dynamic>> pagos) {
     List<DataRow> rows = [];
@@ -175,6 +184,10 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
+  /// Encargado de los eventos del Administrador
+  ///
+  /// En caso de que el administrador quiera confirmar el pago del profesional
+  /// O añadir un pago adicional
   Widget _crearBotones(BuildContext context, Size size, Pagoadmin pagoadmin) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +200,8 @@ class DetailedPaymentAdmin extends StatelessWidget {
                   context,
                   "Confirmación de pago",
                   "¿Seguro que el profesional ya pagó?",
-                  pagoadmin),
+                  pagoadmin,
+                  size),
             );
           },
           child: Row(
@@ -214,11 +228,13 @@ class DetailedPaymentAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildDialog(
-      BuildContext context, String title, String content, Pagoadmin pagoadmin) {
+  /// Dialogo Confirmación de Pago del Profesional
+  Widget _buildDialog(BuildContext context, String title, String content,
+      Pagoadmin pagoadmin, Size size) {
     return new AlertDialog(
       title: Text(
         title,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 15.0,
@@ -228,6 +244,7 @@ class DetailedPaymentAdmin extends StatelessWidget {
       ),
       content: Text(
         content,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: kNegro,
           fontSize: 14.0,
@@ -239,76 +256,82 @@ class DetailedPaymentAdmin extends StatelessWidget {
         side: BorderSide(color: kNegro, width: 2.0),
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                aceptarPago(pagoadmin).then((value) {
-                  if (value) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => adviceDialogLetter(
-                        context,
-                        "Confirmación",
-                        "Pago actualizado correctamente",
-                        true,
-                      ),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => adviceDialogLetter(
-                        context,
-                        "Error",
-                        "Hubo un error actualizando el pago, inténtelo nuevamente",
-                        true,
-                      ),
-                    );
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  aceptarPago(pagoadmin).then((value) {
+                    if (value) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => adviceDialogLetter(
+                          context,
+                          "¡Confirmación!",
+                          "¡Pago actualizado correctamente!",
+                          true,
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => adviceDialogLetter(
+                          context,
+                          "Error",
+                          "Hubo un error actualizando el pago, inténtalo nuevamente.",
+                          true,
+                        ),
+                      );
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
                 ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'Si',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                minimumSize: Size(99.0, 30.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22.0),
-                  side: BorderSide(color: kNegro),
-                ),
-                shadowColor: Colors.black,
-              ),
-              child: const Text(
-                'No',
-                style: TextStyle(
-                  color: kNegro,
-                  fontSize: 14.0,
-                  fontFamily: 'PoppinsRegular',
+                child: const Text(
+                  'Si',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: size.width * 0.065,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(99.0, 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    side: BorderSide(color: kNegro),
+                  ),
+                  shadowColor: Colors.black,
+                ),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: 14.0,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

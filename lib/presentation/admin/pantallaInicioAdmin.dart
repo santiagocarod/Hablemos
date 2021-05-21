@@ -3,6 +3,11 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../inh_widget.dart';
+
+///Clase encargada de la pantalla principal del administrador
+///
+///En esta pantalla el Administrador va a poder ver todas las acciones que puede realizar.
 class PantallaInicioAdmin extends StatefulWidget {
   @override
   _PantallaInicioAdminState createState() => _PantallaInicioAdminState();
@@ -85,6 +90,10 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                final bloc = InhWidget.of(context);
+                                bloc.changeEmail("");
+                                bloc.changePassword("");
+
                                 AuthService authService = AuthService();
                                 authService.logOut();
                                 Navigator.pushNamedAndRemoveUntil(
@@ -176,6 +185,9 @@ class _PantallaInicioAdminState extends State<PantallaInicioAdmin> {
   }
 }
 
+///Widget general para la generacion de un botón grande.
+///
+///Este boton reenvia a la ruta especificada en [routeName]
 Widget _smallButton(BuildContext context, String titulo, String icon,
     double letra, String routeName) {
   return GestureDetector(
@@ -220,6 +232,9 @@ Widget _smallButton(BuildContext context, String titulo, String icon,
   );
 }
 
+///Widget general para la generacion de un botón pequeño.
+///
+///Este boton reenvia a la ruta especificada en [routeName]
 Widget _bigButton(BuildContext context, String titulo, String icon,
     double bottom, double top, String routeName) {
   return GestureDetector(

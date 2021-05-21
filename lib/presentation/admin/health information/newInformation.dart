@@ -4,6 +4,10 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/diagnostico.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+///Clase encargada de recolectar la información de un nuevo Diagnostico
+///
+///En caso de que se reciba como argumento un [Diagnostico] se trata de una modificación
+///En caso de que este atributo [trastorno] sea `null` es un [Diagnostico] nuevo
 class NewInformation extends StatefulWidget {
   final Diagnostico trastorno;
   NewInformation({this.trastorno});
@@ -12,6 +16,7 @@ class NewInformation extends StatefulWidget {
   _NewInformation createState() => _NewInformation();
 }
 
+/// Para cada campo de texto se tiene un [TextEditinController]
 class _NewInformation extends State<NewInformation> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _definitionController = new TextEditingController();
@@ -19,6 +24,7 @@ class _NewInformation extends State<NewInformation> {
   TextEditingController _helpController = new TextEditingController();
   TextEditingController _sourceController = new TextEditingController();
 
+  ///En caso de ser una modificación se debe inicializar los controladores
   @override
   void initState() {
     super.initState();
@@ -97,6 +103,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Formulario de datos para crear un [Diagnostico nuevo]
   Widget _detail(BuildContext context, Size size, Diagnostico trastorno) {
     return Container(
       child: Column(
@@ -127,6 +134,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Sección especifica para ingresar el nombre del [Diagnostico]
   Widget _nameSection(TextEditingController controller) {
     return Center(
       child: TextField(
@@ -146,6 +154,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Seccion general para la recolección de datos para el [Diagnostico]
   Widget _secction(String title, TextEditingController controller, Size size) {
     return Container(
       padding: EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
@@ -183,6 +192,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Función dedicada a la conversion de una lista en una cadena de caracteres
   String _convert(List<String> content) {
     String aux = "";
     content.forEach((element) {
@@ -192,10 +202,15 @@ class _NewInformation extends State<NewInformation> {
     return aux;
   }
 
+  ///El botón encargado de guardar la información
+  ///
+  ///En caso de que [trastorno] sea `null` entonces el Botón dice "Crear", en caso contrario dice "Actualizar"
+  ///La información que son listas las divide por el caracter `;`.
+  ///En caso de ser una actualización se envia la información al método [actualizarDiagnostico()]
+  ///En caso de ser una creación se envia la información al método [agregarDiagnostico()]
   Widget _button(Size size, Diagnostico trastorno) {
     String text = 'Información Creada';
     String button = ' Crear';
-    // Chage the text of button if it is an update
     if (trastorno != null) {
       button = ' Actualizar';
       text = 'Información Actualizada';
@@ -218,17 +233,17 @@ class _NewInformation extends State<NewInformation> {
             showDialog(
               context: context,
               builder: (BuildContext context) => _errorDialog(context,
-                  "Por favor ingrese información de\nNombre y Descripción"),
+                  "Por favor ingrese información de\n nombre y descripción."),
             );
           } else {
             if (trastorno == null) {
               if (!agregarDiagnostico(diagnostico)) {
-                text = 'Ocurrió un Error intentelo mas tarde';
+                text = 'Ocurrió un Error inténtalo más tarde';
               }
             } else {
               diagnostico.id = trastorno.id;
               if (!actualizarDiagnostico(diagnostico)) {
-                text = 'Ocurrió un Error intentelo mas tarde';
+                text = 'Ocurrió un Error inténtelo más tarde.';
               }
             }
             showDialog(
@@ -257,6 +272,9 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Botón encargado de recibir el evento cuando el administrador quiera Eliminar el [Diagnostico]
+  ///
+  ///Debe mostrar un dialogo [dialogoConfirmacion()] para confirmar que este seguro de realizar la acción
   Widget _buttonEliminar(Size size, Diagnostico trastorno) {
     String button = 'Eliminar';
 
@@ -296,7 +314,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
-  // Confirm popup dialog
+  ///Dialogo de confirmación que la acción fue realizada
   Widget _adviceDialog(BuildContext context, String text) {
     return AlertDialog(
       title: Text(
@@ -336,6 +354,7 @@ class _NewInformation extends State<NewInformation> {
     );
   }
 
+  ///Dialogo de error en caso de que se presente alguno
   Widget _errorDialog(BuildContext context, String text) {
     return AlertDialog(
       title: Text(

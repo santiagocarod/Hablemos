@@ -6,14 +6,23 @@ import 'package:hablemos/model/profesional.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:intl/intl.dart';
 
+import '../../constants.dart';
 import '../cloudinary.dart';
 
-//TODO: Agregar registro en la parte de pago y eliminarlo
-
+///Agrega una [cita] a la colección de firebase
+///
+///El limite de agendar una cita son 3 dias de anticipación
+///La crea con estado no aceptada, hasta que el profesional no la acepte.
+///Le asigna el precio con la constante [COSTO_CITA]
+///Asigna el paciente como el usuario que esta en la sesion
 Future<bool> agregarCita(Cita cita) async {
   final now = DateTime.now();
   final limite = DateTime(
-      now.year, now.month, now.day + 2); //LIMITE DE PONER UNA CITA SON 3 DIAS
+
+      ///LIMITE DE PONER UNA CITA SON 3 DIAS
+      now.year,
+      now.month,
+      now.day + 2);
   bool error = false;
   if (limite.isAfter(cita.dateTime)) {
     error = true;
@@ -22,7 +31,7 @@ Future<bool> agregarCita(Cita cita) async {
     error = true;
   }
   cita.estado = false;
-  cita.costo = 20000; //TODO:Definir precios
+  cita.costo = COSTO_CITA;
   cita.pago = "";
   AuthService authService = AuthService();
 
@@ -44,6 +53,10 @@ Future<bool> agregarCita(Cita cita) async {
   return !error;
 }
 
+/// Cancelar una [cita]
+///
+/// Se debe verificar que la fecha de la [cita] no se encuentre dentro de los próximos 3 dias al dia de `hoy`
+/// En caso de que no se cumpla esa condición, se puede eliminar de la colección
 void cancelarCita(Cita cita) {
   final now = DateTime.now();
   final limite = DateTime(now.year, now.month,
@@ -58,17 +71,20 @@ void cancelarCita(Cita cita) {
         FirebaseFirestore.instance.collection('appoinments');
     reference.doc(cita.id).delete();
   }
-  // else {
-  //   throw new Exception("No se puede cancelar");
-  // }
 }
 
+///Actualizar el estado de una [ctia]
+///
+///Esto lo hace el profesional cuando acepta un pago.
 void actualizarEstado(Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('appoinments');
   reference.doc(cita.id).update({"state": true});
 }
 
+///En caso de que el [paciente] actualice alguno de los campos de la [cita]
+///
+///Solo se puede hacer si la cita no esta dentro de los siguientes 3 dias
 bool actualizarCitaPaciente(
     Cita cita, Profesional profesional, DateTime date, String typeController) {
   final now = DateTime.now();
@@ -90,6 +106,9 @@ bool actualizarCitaPaciente(
   return !error;
 }
 
+///En caso de que el [profesional] actualice alguno de los campos de la [cita]
+///
+///Solo se puede hacer si la cita no esta dentro de los siguientes 3 dias
 bool actualizarCitaProfesional(Cita cita, Map data) {
   DateTime date = DateFormat('d/M/yyyy hh:mm a')
       .parse(data["fecha"].text + ' ' + data["hora"].text);
@@ -101,7 +120,6 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
     error = true;
   }
   int precio = int.parse(data["precio"].text);
-  // String detalles = data["detalles"].text;
   String lugar = data["lugar"].text;
   String especialidad = data["especialidad"].text;
   String tipo = data["tipo"].text;
@@ -124,6 +142,9 @@ bool actualizarCitaProfesional(Cita cita, Map data) {
   return !error;
 }
 
+///Cuando un paciente agrega un pago a la [cita]
+///
+///[imagePath] es la url a la imagen
 Future<bool> actualizarPago(Cita cita, String imagePath) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection('appoinments');

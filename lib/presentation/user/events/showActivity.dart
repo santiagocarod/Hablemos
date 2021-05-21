@@ -10,6 +10,11 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de una [Actividad]
+/// En caso de que el usuario quiera inscribirse lo puede hacer por medio de esta pagina.
+/// Por eso se hace la consulta para saber que rol tiene el usuario y con esto obtener su perfil completo.
 class ShowActivity extends StatefulWidget {
   @override
   _ShowActivityState createState() => _ShowActivityState();
@@ -42,7 +47,6 @@ class _ShowActivityState extends State<ShowActivity> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            print(documentSnapshot.get("role"));
             rol = documentSnapshot.get("role");
           });
         }
@@ -164,6 +168,7 @@ class _ShowActivityState extends State<ShowActivity> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "${actividad.descripcion}",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontFamily: "PoppinsRegular",
                                   color: kLetras,
@@ -267,6 +272,9 @@ class _ShowActivityState extends State<ShowActivity> {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -367,6 +375,7 @@ class _ShowActivityState extends State<ShowActivity> {
     }
   }
 
+  /// Dialogo de confirmación de intención de inscripción al envento
   AlertDialog dialogoConfirmacion(BuildContext context, Actividad actividad,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -412,8 +421,8 @@ class _ShowActivityState extends State<ShowActivity> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext contex) =>
-                                    _buildPopupDialog(context, "Exito!",
-                                        "Inscripción correcta!", actividad,
+                                    _buildPopupDialog(context, "¡Exito!",
+                                        "¡Inscripción Correcta!", actividad,
                                         ruta: "actividadSubscripto"));
                           }
                         },
@@ -466,6 +475,9 @@ class _ShowActivityState extends State<ShowActivity> {
             )));
   }
 
+  /// En caso de que el evento sea virtual y pago para poder inscribirse es necesario adjuntar una prueba de pago
+  ///
+  /// Este dialogo confirma que el usuario ya tenga el pago
   AlertDialog dialogoConfirmacionPago(BuildContext context, Actividad actividad,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -562,6 +574,9 @@ class _ShowActivityState extends State<ShowActivity> {
             )));
   }
 
+  /// Seccion describiendo la cuenta del banco del evento
+  ///
+  /// En caso de que sea gratis no va a desplegar nada
   Widget _sectionAccountNum(BuildContext context, Actividad actividad) {
     if (actividad.valor.toLowerCase() == "sin costo" ||
         actividad.valor.toLowerCase() == "gratis" ||
@@ -622,6 +637,7 @@ class _ShowActivityState extends State<ShowActivity> {
     }
   }
 
+  /// Seccion describiendo el costo del evento
   Widget _sectionCosto(BuildContext context, Actividad actividad) {
     return Container(
       width: 330.5,
@@ -703,6 +719,7 @@ class _ShowActivityState extends State<ShowActivity> {
     );
   }
 
+  /// Boton a cargo del evento del usuario con intencion de inscribirse al evento
   Widget _inscripcion(BuildContext context, Actividad actividad) {
     if (auth.currentUser != null) {
       return GestureDetector(
@@ -722,8 +739,7 @@ class _ShowActivityState extends State<ShowActivity> {
                     "¿Estás seguro que deseas inscribirte en esta Actividad?",
                     kMoradoClarito,
                   );
-                } else if (actividad.ubicacion == "virtual" ||
-                    actividad.ubicacion == "Virtual") {
+                } else if (actividad.ubicacion.toLowerCase() == "virtual") {
                   return dialogoConfirmacionPago(
                     context,
                     actividad,
@@ -770,22 +786,27 @@ class _ShowActivityState extends State<ShowActivity> {
         ),
       );
     } else {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        padding: EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(228, 88, 101, 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        height: 80.0,
-        child: Center(
-          child: Text(
-            "Para Inscribirse a esta Actividad debe Registarse",
-            style: TextStyle(
-              color: kLetras,
-              fontSize: 17.0,
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, 'registro');
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          padding: EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(228, 88, 101, 0.5),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          height: 80.0,
+          child: Center(
+            child: Text(
+              "Para Inscribirse a esta Actividad debe Registarse",
+              style: TextStyle(
+                color: kLetras,
+                fontSize: 17.0,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );
@@ -793,6 +814,7 @@ class _ShowActivityState extends State<ShowActivity> {
   }
 }
 
+/// Dialogo de confirmación de inscripción al evento
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Actividad actividad,
     {String ruta}) {

@@ -12,6 +12,15 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../inh_widget.dart';
+
+///Clase encargada de hacer la petición del perfil [Profesional] a firebase
+///
+///Solo va a desplegar la información del usuario que esta con la sesión iniciada [auth.currentUser.uid] == [Profesional.uid]
+///En esta pantalla inicial no se puede editar nada sobre el perfil
+///Hay un boton de editar perfil que redirige a [EditProfile()]
+///Despliga la pantalla de editar perfil
+
 class ProfileProView extends StatefulWidget {
   @override
   _ProfileProViewState createState() => _ProfileProViewState();
@@ -22,7 +31,7 @@ class _ProfileProViewState extends State<ProfileProView> {
   final ImagePicker _imagePicker = new ImagePicker();
   final String id = FirebaseAuth.instance.currentUser.uid;
 
-  // Set the image form camera
+  /// Pone la imagen que viene desde camara
   _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -30,20 +39,23 @@ class _ProfileProViewState extends State<ProfileProView> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfilPro(profesional, value).then((val) {
+          if (profesional.foto != null) {
+            deleteImage(profesional.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
             setState(() {});
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen que viene de la galeria
   _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -51,6 +63,9 @@ class _ProfileProViewState extends State<ProfileProView> {
     uploadImage(image.path, PROFILE_FOLDER).then((value) {
       if (value != null) {
         actualizarPerfilPro(profesional, value).then((val) {
+          if (profesional.foto != null) {
+            deleteImage(profesional.foto);
+          }
           if (val) {
             _image = value;
             Navigator.pop(context);
@@ -59,14 +74,14 @@ class _ProfileProViewState extends State<ProfileProView> {
             });
           } else {
             showAlertDialog(context,
-                "Hubo un error subiendo la foto, inténtelo nuevamente");
+                "Hubo un error subiendo la foto, inténtalo nuevamente.");
           }
         });
       }
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Display las opciones para subir foto (Galeria o Camara)
   void _showPicker(context, profesional) {
     showModalBottomSheet(
         context: context,
@@ -106,7 +121,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     Query professionalCollection = FirebaseFirestore.instance
         .collection("professionals")
         .where("uid", isEqualTo: user.uid);
-    print(user.uid);
+
     return StreamBuilder<QuerySnapshot>(
         stream: professionalCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -131,7 +146,7 @@ class _ProfileProViewState extends State<ProfileProView> {
                   children: <Widget>[
                     cabeceraPerfilProfesional(size, profesional),
                     Container(
-                      padding: EdgeInsets.only(top: size.height * 0.53),
+                      padding: EdgeInsets.only(top: size.height * 0.51),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: cuerpoPerfilProfesional(size, profesional),
@@ -145,6 +160,7 @@ class _ProfileProViewState extends State<ProfileProView> {
         });
   }
 
+  /// Display la barra superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
@@ -153,136 +169,135 @@ class _ProfileProViewState extends State<ProfileProView> {
           clipper: MyClipper(),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            height: size.height * 0.58,
+            height: size.height * 0.54,
             width: double.infinity,
             color: kRosado,
           ),
         ),
-        // Draw profile picture
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.05),
-          alignment: Alignment.topCenter,
-          child: ClipOval(
-            child: Container(
-              color: Colors.white,
-              width: 200,
-              height: 200,
-              child: _image == null
-                  ? Icon(
-                      Icons.account_circle,
-                      color: Colors.indigo[100],
-                      size: 200,
-                    )
-                  : Image.network(
-                      _image,
+        Column(
+          children: <Widget>[
+            Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: size.height * 0.04),
+                  alignment: Alignment.topCenter,
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white,
                       width: 200,
                       height: 200,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
+                      child: _image == null
+                          ? Icon(
+                              Icons.account_circle,
+                              color: Colors.indigo[100],
+                              size: 200,
+                            )
+                          : Image.network(
+                              _image,
+                              width: 200,
+                              height: 200,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                     ),
-            ),
-          ),
-        ),
-        // Draw camera icon
-        Container(
-          padding: EdgeInsets.only(
-            top: (size.height / 2) * 0.45,
-            left: (size.width / 2) * 0.55,
-          ),
-          alignment: Alignment.topCenter,
-          child: GestureDetector(
-            onTap: () {
-              _showPicker(context, profesional);
-            },
-            child: ClipOval(
-              child: Container(
-                color: Colors.white,
-                width: 43.0,
-                height: 43.0,
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 30.0,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        // Plus icon and edit text
-        Container(
-          padding: EdgeInsets.only(top: size.height * 0.33),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      EditProfileProfesional(profesional: profesional)));
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.add_circle_outline,
-                  size: 20.0,
-                  color: kNegro,
-                ),
-                Text(
-                  ' Modificar',
-                  style: TextStyle(
-                    color: kNegro,
-                    fontSize: 15.0,
-                    fontFamily: 'PoppinsRegular',
+                // Draw camera icon
+                Container(
+                  padding: EdgeInsets.only(
+                    top: (size.height / 2) * 0.45,
+                    left: (size.width / 2) * 0.55,
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showPicker(context, profesional);
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.white,
+                        width: 43.0,
+                        height: 43.0,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        // Display text name
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.35),
-            alignment: Alignment.topCenter,
-            child: Text(
-              profesional.nombre + " " + profesional.apellido,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kNegro,
-                fontSize: (size.height / 2) * 0.08,
-                fontFamily: 'PoppinsRegular',
+            // Plus icon and edit text
+            Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfileProfesional(profesional: profesional)));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.add_circle_outline,
+                      size: 20.0,
+                      color: kNegro,
+                    ),
+                    Text(
+                      ' Modificar',
+                      style: TextStyle(
+                        color: kNegro,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsRegular',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
-        Center(
-          child: Container(
-            padding: EdgeInsets.only(top: size.height * 0.40),
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Profesional',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kRojo,
-                fontSize: (size.height / 2) * 0.07,
-                fontFamily: 'PoppinsRegular',
+            // Display text name
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                width: size.width * 0.8,
+                alignment: Alignment.topCenter,
+                child: Text(
+                  profesional.nombre + " " + profesional.apellido,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: kNegro,
+                    fontSize: (size.height / 2.5) * 0.08,
+                    fontFamily: 'PoppinsRegular',
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
+        // Draw profile picture
       ],
     );
   }
 
+  /// Display de toda la pantalla donde esta la informacion del usuario
   Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -291,22 +306,22 @@ class _ProfileProViewState extends State<ProfileProView> {
           _sectionButton(),
           _section('Correo', profesional.correo),
           _section('Ciudad', profesional.ciudad ?? ''),
-          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           _section('Especialidad', profesional.especialidad ?? ''),
-          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
-          _section('Experiencia', profesional.experiencia ?? ''),
           _section('Descripcion', profesional.descripcion ?? ''),
+          _section('Experiencia', profesional.experiencia ?? ''),
+          _sectionList('Proyectos', profesional.proyectos, size ?? ['']),
+          _sectionList('Convenio', profesional.convenios, size ?? ['']),
           Container(
-            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(right: 15.0, left: 15.0),
             child: Text(
               "Información Bancaria",
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 23.0,
                 color: kRojoOscuro,
                 fontFamily: 'PoppinsRegular',
               ),
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.start,
             ),
           ),
           _section('Banco', profesional.banco.banco ?? " "),
@@ -317,6 +332,9 @@ class _ProfileProViewState extends State<ProfileProView> {
               child: iconButtonSmall(
                   color: kRojoOscuro,
                   function: () {
+                    final bloc = InhWidget.of(context);
+                    bloc.changeEmail("");
+                    bloc.changePassword("");
                     AuthService authService = AuthService();
                     authService.logOut();
                     Navigator.pushNamedAndRemoveUntil(
@@ -330,7 +348,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Section, title, content and divider
+  /// Display la seccion que tiene un titulo y un texto
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -366,7 +384,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Password section and button
+  /// Display la sección que tiene un password
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -441,7 +459,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
-  // Change password popup dialog
+  /// Display dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -467,6 +485,9 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
+  /// Display de la secciond de lista de profesionales
+  /// Los listados posibles
+  /// [Profesional.convenios] y [Profesional.proyectos]
   Widget _sectionList(String title, List<String> content, Size size) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -500,6 +521,7 @@ class _ProfileProViewState extends State<ProfileProView> {
     );
   }
 
+  /// Funcion que agrega a lista de [_sectionList()]
   List<Widget> _list(List<String> content) {
     List<Widget> info = [];
     content.forEach((element) {

@@ -1,3 +1,7 @@
+///Centros de atención independiente de la organización de La Papaya
+///
+///Estos son centros de atención de ayuda psicologica que atienden Emergencias y son especializados
+///Información útil que dispone la aplicación.
 class CentroAtencion {
   String id;
   String nombre;
