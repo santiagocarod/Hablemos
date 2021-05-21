@@ -8,6 +8,11 @@ import 'package:hablemos/ux/atoms.dart';
 import '../../../constants.dart';
 import 'DptosyCiudades.dart';
 
+/// Clase encargada de mostrar la informacion especifica de un [CentroAtencion] al Administrador
+///
+/// El [CentroAtencion] va a llegar a la clase como un parametro de la Clase
+/// La asignacion de [CentroAtencion.departamento] y [CentroAtencion.ciudad] se hace con la lista de [locacionesString] la cual para cada departamento trae una lista de ciudades
+/// Asi se asegura que corresponda la ciudad con el departamento.
 class DetailsMedicalAdmin extends StatefulWidget {
   final CentroAtencion centroAtencion;
   DetailsMedicalAdmin({this.centroAtencion});
@@ -32,6 +37,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
   Map departamento;
   List<dynamic> ciudades = [];
 
+  /// Método ejecutado al principio para incializar los controladores con los valores ya guardados
   @override
   void initState() {
     super.initState();
@@ -112,6 +118,8 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
                               }).toList(),
                               onChanged: (value) {
                                 ciudad = null;
+
+                                /// Cuando se cambia el departamento, es necesario cambiar la lista de ciudades
                                 setState(() {
                                   departamento = value;
                                   ciudades = value["ciudades"];
@@ -242,6 +250,7 @@ class _DetailsMedicalAdminState extends State<DetailsMedicalAdmin> {
     );
   }
 
+  /// Dialogo de confirmación que los cambios han sido guardados
   Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(

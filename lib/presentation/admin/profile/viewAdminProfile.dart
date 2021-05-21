@@ -9,6 +9,9 @@ import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar el perfil especificamente del administrador
+///
+/// Solo debe existir un Administrador por esto solo debe traer la información del unico.
 class ViewAdminProfile extends StatefulWidget {
   @override
   _ViewAdminProfileState createState() => _ViewAdminProfileState();
@@ -62,6 +65,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
     );
   }
 
+  /// Cabecera de la pantalla del perfil
   Widget adminHead(Size size, Administrador admin) {
     return ClipPath(
       clipper: MyClipper(),
@@ -117,6 +121,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
     );
   }
 
+  /// Sección del cuerpo de la información del perfil
   Widget _body(Size size, Administrador admin) {
     return Container(
       width: size.width,
@@ -144,6 +149,10 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
     );
   }
 
+  /// En esta sección el administrador puede hacer click sobre el boton de "Cambiar"
+  ///
+  /// Cuando haga esto el sistema debe enviar un correo al correo inscrito del administrador.
+  /// Dentro de este correo podrá actualizar a una contraseña nueva.
   Container _sectionPassword() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -218,7 +227,9 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
     );
   }
 
-  // Section, title, content and divider
+  /// Seccion general para mostrar información del perfil
+  ///
+  /// Esta informacion va a mostrar tiene un titulo [title] y contenido [content]
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -255,6 +266,7 @@ class _ViewAdminProfileState extends State<ViewAdminProfile> {
   }
 }
 
+/// Dialogo de confirmación de que se ha enviado un correo para cambiar la contraseña
 Widget _buildPopupDialog(BuildContext context) {
   return new AlertDialog(
     title: Text('Cambio de Contraseña'),

@@ -8,6 +8,9 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de recibir la información de un nuevo [CentroAtencion]
+///
+/// La [CentroAtencion.ciudad] va a depender de [CentroAtencion.departamento] por lo tanto cuando cambia la seleccion del departamento va a cambiar la lista de ciudades.
 class NewMedicalAdmin extends StatefulWidget {
   @override
   _NewMedicalAdminState createState() => _NewMedicalAdminState();
@@ -212,6 +215,7 @@ class _NewMedicalAdminState extends State<NewMedicalAdmin> {
     );
   }
 
+  /// Dialogo de confirmación de creacion del nuevo [CentroAtención]
   Widget _buildPopupDialog(BuildContext context, String tittle, String content,
       {String ruta}) {
     return new AlertDialog(
