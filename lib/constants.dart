@@ -69,5 +69,6 @@ const WORKSHOP_PAYMENT = "paymentsWorkshops";
 ///Constantes Lógicas para ejecución
 const HORA_INICIO_CONSULTAS = 7;
 const HORA_FIN_CONSULTAS = 18;
-const PORCENTAJE_PAGO = 15000;
-const COSTO_CITA = 75000;
+const PORCENTAJE_PAGO = 5000;
+const COSTO_CITA = 80000;
+const TIPOS_DE_CITA = ['Proceso', 'Cita Unica'];
