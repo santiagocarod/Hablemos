@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../inh_widget.dart';
 
@@ -185,6 +187,33 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                           ),
                         ), //Datos Adicionales
+                        SizedBox(height: 30.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Cuando re registras aceptas que guardemos tus datos con fines de la aplicación",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        SizedBox(height: 30.0),
+                        GestureDetector(
+                          onTap: () {
+                            launch(
+                                "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981");
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Términos y Condiciones",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "PoppinsBold",
+                                  decoration: TextDecoration.underline,
+                                  color: kAzulOscuro),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 30.0),
                         iconButtonBigBloc("Crear Cuenta", () {
                           signInLogic(bloc, context);
