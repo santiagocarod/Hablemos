@@ -4,6 +4,10 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../inh_widget.dart';
 
+///Pantalla en donde el usuario ha manifestado que olvidó su contraseña
+///
+///El usuario pone su correo dentro de un recuadro de texto y oprime el botón
+///El botón le pide a Firebase enviar un correo de recuperación
 class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,11 @@ class ForgotPassword extends StatelessWidget {
     );
   }
 
+  ///Metodo encargado de recibir el evento de oprimir el botón y enviar la información
+  ///
+  ///Cuando se oprime el botón se verifica que el correo sea válido.
+  ///Se llama al metodo [olvideMiContrasena()] quien se encarga de enviar el correo.
+  ///En caso de que el correo no exista retonra un vacio y muestra un mensaje en pantalla.
   Widget _forgotPassword(
       BuildContext context, TextEditingController emailController) {
     final bloc = InhWidget.of(context);

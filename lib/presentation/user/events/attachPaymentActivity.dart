@@ -7,6 +7,9 @@ import 'package:hablemos/model/participante.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Clase que permite subir el comprobate de pago a una [Actividad]
+///
+/// Este pago es necesario cuando el Evento es virtual y Pago
 class AttachPaymentActivity extends StatefulWidget {
   @override
   _AttachPaymentActivityState createState() => _AttachPaymentActivityState();
@@ -237,6 +240,7 @@ class _AttachPaymentActivityState extends State<AttachPaymentActivity> {
   }
 }
 
+/// Dialogo de confirmación de envio de pago
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Actividad actividad,
     {String ruta}) {

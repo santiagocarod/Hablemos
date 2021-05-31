@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 
+/// Clase encargada de desplegar una [Carta] especifica al Profesional
+///
+/// Esta [Carta] es enviada como parametro de la ruta.
 class ShowLetterPro extends StatelessWidget {
   final Carta carta = Carta();
   @override
@@ -89,6 +92,7 @@ class ShowLetterPro extends StatelessWidget {
   }
 }
 
+/// Cabecera principal de la pantalla
 AppBar appBarCarta(String texto, IconData icono, int constante, Color color) {
   return AppBar(
     backgroundColor: Colors.transparent,

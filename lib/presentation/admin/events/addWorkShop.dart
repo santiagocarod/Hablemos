@@ -11,11 +11,17 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Clase que permite la creación de un nuevo [Taller]
+///
+///Se alamacena la toda la información relacionada a un taller.
+///La creacion del taller se hace desde la perspectiva del Administrador
+///Hay un botón de guardar que hara la peticion a firebase y guardara la entidad [Taller]
 class AddWorkShop extends StatefulWidget {
   @override
   _AddWorkShop createState() => _AddWorkShop();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _AddWorkShop extends State<AddWorkShop> {
   String _date = '';
   String _time = '';
@@ -34,6 +40,9 @@ class _AddWorkShop extends State<AddWorkShop> {
   TextField tipoCuentaTextField;
   TextField numeroCuentaTextField;
 
+  /// Inicializa cada uno de los campos de texto [TextField] relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
   void initState() {
     super.initState();
     bancoTextField = TextField(
@@ -62,6 +71,7 @@ class _AddWorkShop extends State<AddWorkShop> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -81,6 +91,7 @@ class _AddWorkShop extends State<AddWorkShop> {
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -102,6 +113,9 @@ class _AddWorkShop extends State<AddWorkShop> {
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del taller
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -117,6 +131,9 @@ class _AddWorkShop extends State<AddWorkShop> {
     }
   }
 
+  /// Despliega n reloj con las opciones de horario para el taller
+  ///
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -129,6 +146,7 @@ class _AddWorkShop extends State<AddWorkShop> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -167,6 +185,7 @@ class _AddWorkShop extends State<AddWorkShop> {
         });
   }
 
+  /// Pantalle de campos disponibles para la creación del [Taller]
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -823,6 +842,7 @@ class _AddWorkShop extends State<AddWorkShop> {
   }
 }
 
+/// Dialogo de confirmación de la creación del [Taller]
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

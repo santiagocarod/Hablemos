@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/model/ejercicio.dart';
+import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase principal que contiene las informacion detallada de algun ejercicio en especifico
 class InfoClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -86,17 +88,48 @@ class InfoClass extends StatelessWidget {
                 style: TextStyle(fontSize: 40.0),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: 25.0,
-              ),
-              Text(
-                ej.descripcion,
-                style: TextStyle(fontSize: 20.0),
+              ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: generarPasos(ej.pasos, mindfulnessAcom1),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> generarPasos(List<String> pasos, List<String> imagenes) {
+    List<Widget> lista = [];
+    int index = 0;
+    for (String paso in pasos) {
+      lista.add(Container(
+        child: Image.asset(
+          imagenes[index],
+          // height: 50,
+          // width: 50,
+        ),
+      ));
+      lista.add(SizedBox(
+        height: 10,
+      ));
+
+      lista.add(Container(
+        child: Text(
+          paso,
+          style: TextStyle(fontSize: 20),
+        ),
+      ));
+      lista.add(Divider(
+        thickness: 5,
+      ));
+      lista.add(SizedBox(
+        height: 20,
+      ));
+      index += 1;
+    }
+
+    return lista;
   }
 }

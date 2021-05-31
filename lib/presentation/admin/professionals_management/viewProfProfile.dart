@@ -6,6 +6,9 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase que tiene el diseño de la pantalla de ver el perfil de un [Profesional] seleccionado
+/// Esta vista es desde la perspectiva de administrador ya que los puede gestionar
+
 class ViewProfProfileManagement extends StatefulWidget {
   @override
   _ViewProfProfileManagementState createState() =>
@@ -47,6 +50,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size, Profesional profesional) {
     return Stack(
       children: <Widget>[
@@ -195,6 +199,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño inferior de la pantalla
   Widget cuerpoPerfilProfesional(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -231,7 +236,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
-  // Section, title, content and divider
+  /// Diseño de una seccion usado en el body de la pantalla
   Widget _section(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -267,6 +272,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Diseño de una seccion listada usada en el body de la pantalla
   Widget _sectionList(String title, List<String> content, Size size) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -300,6 +306,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     );
   }
 
+  /// Agrega informacion a la lista
   List<Widget> _list(List<String> content) {
     List<Widget> info = [];
     content.forEach((element) {
@@ -317,7 +324,7 @@ class _ViewProfProfileManagementState extends State<ViewProfProfileManagement> {
     return info;
   }
 
-  // Dialogo Confirmación de Eliminación de Profesional
+  /// Dialogo Confirmación de Eliminación de Profesional
   Widget _buildDialog(
       BuildContext context, Profesional profesional, Size size) {
     return new AlertDialog(

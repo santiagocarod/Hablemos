@@ -6,11 +6,15 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// Clase que permite al Profesional crear una nueva carta.
+///
+/// En este caso la carta es aprobada automaticamente.
 class AddLetterPro extends StatefulWidget {
   @override
   _AddLetterPro createState() => _AddLetterPro();
 }
 
+/// Recibe la información de la carta y despliega un dialogo de confirmación.
 class _AddLetterPro extends State<AddLetterPro> {
   TextEditingController tituloCarta = new TextEditingController();
   TextEditingController contenidoCarta = new TextEditingController();
@@ -139,7 +143,9 @@ class _AddLetterPro extends State<AddLetterPro> {
     );
   }
 
-  // Dialogo Confirmación de Envío de Carta.
+  /// Dialogo Confirmación de Envío de Carta.
+  ///
+  /// Si Acepta enviar la carta se envia a [agregarCarta()]
   Widget _buildDialog(BuildContext context, Carta carta, Size size) {
     String title = "";
     String content = "";

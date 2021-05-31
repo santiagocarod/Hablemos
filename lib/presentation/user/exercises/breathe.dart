@@ -6,6 +6,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 import '../../../constants.dart';
 
+/// Clase principal que tiene la interfaz para realizar ejercicios de respiración
 class BreatheClass extends StatefulWidget {
   @override
   _BreatheClassState createState() => _BreatheClassState();

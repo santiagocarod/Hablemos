@@ -1,7 +1,11 @@
 import 'banco.dart';
 
+/// Clase encargada de guardar la información de los profesionales
+///
+/// Tienen dos listas, [convenios] con EPS o otras empresas para que el paciente tenga esa información en cuenta.
+/// [proyectos] principales en los que puede decir que ha trabajado.
+/// [banco] referencia a su cuenta Bancaria para que el paciente pueda realizar el pago.
 class Profesional {
-  //Unias del profesional
   String uid;
   String nombre;
   String apellido;
@@ -17,7 +21,6 @@ class Profesional {
   String celular;
   String correo;
 
-  //
   Profesional(
       {this.uid,
       this.nombre,
@@ -89,9 +92,13 @@ class Profesional {
     return this.nombre + " " + this.apellido;
   }
 
+  ///Sobre-escritura del operador`==` para poder comparar si dos profesionales son iguales
+  ///
+  ///Se compara por medio de su UID
   bool operator ==(other) {
     return (other is Profesional) && other.uid == uid;
   }
 
+  ///Funcion necesaria para la sobreescritura del operador `==`
   int get hashCode => uid.hashCode;
 }

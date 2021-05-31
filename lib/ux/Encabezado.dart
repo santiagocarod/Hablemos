@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import '../constants.dart';
 
+/// Clase que usamos para el diseño superior de uno de los encabezados usados
+/// De esta forma evitamos repetir codigo en pantallas donde esto no va a cambiar
 class EncabezadoHablemos extends StatelessWidget {
   const EncabezadoHablemos({
     Key key,

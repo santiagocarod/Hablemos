@@ -1,3 +1,6 @@
+///Clase encargada de almacenar información de un participante a algún evento
+///
+///Los eventos posibles son: [Actividad],[Grupo] y [Taller]
 class Participante {
   String nombre;
   String apellido;

@@ -5,6 +5,10 @@ import 'package:hablemos/ux/card_swiper.dart';
 
 import '../../../constants.dart';
 
+/// Clase principal que contiene las diferentes opciones de `Quiero Meditar`
+/// Las opciones de esta seccion seran dinamicas en un futuro
+///
+/// No existen ejercicios por el momento
 class MeditationClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

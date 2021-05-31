@@ -8,6 +8,10 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de un [Grupo]
+/// El administrador tiene la posibilidad de eliminar o modificar el grupo
 class ViewGroupAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -362,6 +366,9 @@ class ViewGroupAdmin extends StatelessWidget {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _ubicacion(BuildContext context, Grupo grupo) {
     if (grupo.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -458,6 +465,9 @@ class ViewGroupAdmin extends StatelessWidget {
     }
   }
 
+  /// Seccion especifica para los datos financieros/bancarios del grupo de apoyo
+  ///
+  /// En caso de que la información bancaria no exista, es decir [Grupo.banco] = `null` no se desplegarán los campos
   Widget _datosFinancieros(BuildContext context, Grupo grupo) {
     if (grupo.banco == null) {
       return SizedBox(height: 5.0);
@@ -511,6 +521,9 @@ class ViewGroupAdmin extends StatelessWidget {
     }
   }
 
+  /// Dialogo que confirmación el deseo del administrador para modificar contenido del grupo de apoyo
+  ///
+  /// Redirige al administrador a la pantalla de modificación e invoca el metodo [ModifyGroup()]
   AlertDialog dialogoModificacion(BuildContext context, String rutaSi,
       String titulo, String mensaje, Grupo grupo) {
     return AlertDialog(

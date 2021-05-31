@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+// import 'package:hablemos/presentation/user/exercises/animated_box.dart';
 
 import 'constants.dart';
 
-// Pantalla Inicial, muestra unicamente el boton de "Comenzar" ======================
-
+/// Pantalla Inicial, muestra unicamente el boton de "Comenzar"
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,7 @@ Widget _background(BuildContext context, Size size) {
   );
 }
 
+///Pintar letra por letra para que sea responsive
 Widget _letras(BuildContext context, Size size) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,6 +156,7 @@ Widget _startButton(BuildContext context, Size size) {
               ),
               onPressed: () {
                 Navigator.pushNamed(context, 'start');
+                // Navigator.pushNamed(context, 'OpcionesEjercicios');
               },
             ),
           ),

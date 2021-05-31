@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
 
+/// Clase que contiene la estructura de la pantalla de carga mientras los datos son traidos desde Firebase
+
 Widget loadingScreen() {
   return Scaffold(
     backgroundColor: Colors.transparent,

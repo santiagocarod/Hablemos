@@ -7,6 +7,10 @@ import 'package:hablemos/util/snapshotConvertes.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 
+/// Clase encargada de desplegar los talleres disponibles con su información básica: nombre y fecha de realización
+///
+/// Es encargada de ir a Firebase y traer todoos los eventos de tipo [Taller]
+
 class ListWorkShopsAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -118,6 +122,9 @@ class ListWorkShopsAdmin extends StatelessWidget {
         });
   }
 
+  /// Hace la transformación del la lista de objetos a una tabla, la cual puede ser vista de mejor manera
+  ///
+  /// Cada fila representa un [Taller] individual e indica el nombre y la fecha de realización de este
   Widget _talleresTable(
       BuildContext context, Size size, List<Taller> talleres) {
     List<DataRow> rows = [];

@@ -9,7 +9,9 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-// Funcion Inicial de la Aplicación Hablemos ============================================================
+/// Funcion Inicial de la Aplicación Hablemos
+///
+/// Carga el archivo de rutas para ser usadas en toda la ejecución [getApplicationRoutes()]
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

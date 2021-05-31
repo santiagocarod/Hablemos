@@ -14,6 +14,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
 
+///Clase encargada de organizar la informacion de [Profesional] para ser editada
+///
+///Hay un boton de guardar que hara la peticion a firebase y guardara la entidad [Profesional]
+///Hay un boton de eliminar el cual elimina en firebase la entidad [Profesional]
+
 class EditProfileProfesional extends StatefulWidget {
   final Profesional profesional;
   const EditProfileProfesional({this.profesional});
@@ -69,7 +74,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     _image = widget.profesional.foto;
   }
 
-  // Set the image form camera
+  /// Pone la imagen desde camara
   _imagenDesdeCamara(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -95,7 +100,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     });
   }
 
-  // Set the image form gallery
+  /// Pone la imagen desde galeria
   _imagenDesdeGaleria(Profesional profesional) async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -121,7 +126,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     });
   }
 
-  // Display options (Camera or Gallery)
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context, profesional) {
     deleteImage(profesional.foto);
     showModalBottomSheet(
@@ -183,6 +188,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
+  /// Despliega la interfaz del appbar de la pantalla
   Widget cabeceraPerfilProfesional(
       Size size,
       TextEditingController _nameController,
@@ -344,6 +350,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
+  /// Despliega la seccion de la pantalla con la información del usuario
   Widget _body(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -379,6 +386,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
+  /// Despliega la seccion que no es editable
   Widget _editSectionCorreo(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -414,7 +422,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Section: title and text field
+  /// Despliega la seccion donde se puede editar
   Widget _editSection(
       String text, TextEditingController controller, int categoria) {
     return Container(
@@ -480,7 +488,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Password section and button
+  /// Sección de password y boton
   Widget _sectionButton() {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),
@@ -554,7 +562,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Verificación Asociación del Profesional con Citas
+  /// Verificación Asociación de [Profesional] con [Cita]
   Widget _buildDialog(BuildContext context, Profesional profesional,
       String usuario, Size size) {
     Query citasCollection = FirebaseFirestore.instance
@@ -580,7 +588,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
         });
   }
 
-  // Dialogo Confirmación de Modificación de Profesional sin Citas asociadas.
+  /// Dialogo Confirmación de Modificación de [Profesional] sin [Cita] asociadas.
   Widget modificacionDialogs(
       BuildContext context, Profesional profesional, Size size) {
     String title2 = "";
@@ -691,8 +699,8 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Dialogo Confirmación de Modificación de Profesional con Citas asociadas.
-  // Modificación del profesional en la información de las Citas asociadas.
+  /// Dialogo Confirmación de Modificación de [Profesional] con [Cita] asociadas.
+  /// Modificación del paciente en la información de las [Cita] asociadas.
   Widget modificacionDialogsCita(BuildContext context, Profesional profesional,
       List<Cita> citas, Size size) {
     String title2 = "";
@@ -805,7 +813,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Dialogo de instrucciones de cambio de contraseña.
+  /// Dialogo de cambiar password
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
       title: Text('Cambio de Contraseña'),
@@ -831,7 +839,7 @@ class _EditProfileProfesionalState extends State<EditProfileProfesional> {
     );
   }
 
-  // Dialogo de Confirmación de operacion realizada
+  /// Dialogo confirmacion de cambiar password
   Widget adviceDialogProfesional(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(

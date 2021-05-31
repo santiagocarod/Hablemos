@@ -10,11 +10,17 @@ import 'package:hablemos/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Clase que permite la creación de un nuevo [Grupo]
+///
+///Se alamacena la toda la información relacionada a un grupo.
+///La creacion deel grupo se hace desde la perspectiva del Administrador
+///Hay un botón de guardar que hara la peticion a firebase y guardara la entidad [Grupo]
 class AddGroup extends StatefulWidget {
   @override
   _AddGroup createState() => _AddGroup();
 }
 
+/// Para cada campo de texto se define un [TextEditinController] que almacenara la información ingresada
 class _AddGroup extends State<AddGroup> {
   String _date = '';
   String _time = '';
@@ -33,6 +39,9 @@ class _AddGroup extends State<AddGroup> {
   TextField tipoCuentaTextField;
   TextField numeroCuentaTextField;
 
+  /// Inicializa cada uno de los campos de texto [TextField] relacionados con la información bancaria
+  ///
+  /// Indica para cada uno de ellos un [TextEditinController] y el estilo del texto incluyendo: fuente, color, tamaño.
   void initState() {
     super.initState();
     bancoTextField = TextField(
@@ -61,6 +70,7 @@ class _AddGroup extends State<AddGroup> {
   String _image;
   final ImagePicker _imagePicker = new ImagePicker();
 
+  /// Pone la imagen desde camara
   _imagenDesdeCamara() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.camera, imageQuality: 50);
@@ -80,6 +90,7 @@ class _AddGroup extends State<AddGroup> {
     });
   }
 
+  /// Pone la imagen desde la galeria
   _imagenDesdeGaleria() async {
     PickedFile image = await _imagePicker.getImage(
         source: ImageSource.gallery, imageQuality: 50);
@@ -101,6 +112,9 @@ class _AddGroup extends State<AddGroup> {
     });
   }
 
+  /// Posibilita la selccion de un fecha de realización del Grupo
+  ///
+  /// Despliega un calendario con fecha desde el 2016 hasta 2030
   Future<Null> _selectdate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -116,6 +130,8 @@ class _AddGroup extends State<AddGroup> {
     }
   }
 
+  /// Despliega n reloj con las opciones de horario para el grupo de apoyo
+  /// Permite la seleccion de una hora, minuto y indicio de tarde o mañana
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked = await showTimePicker(
         context: context, initialTime: new TimeOfDay.now());
@@ -128,6 +144,7 @@ class _AddGroup extends State<AddGroup> {
     }
   }
 
+  /// Despliega las opciones de imagenes (Camara o galeria)
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -165,6 +182,7 @@ class _AddGroup extends State<AddGroup> {
         });
   }
 
+  /// Pantalle de campos disponibles para la creación del [Grupo]
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -820,6 +838,7 @@ class _AddGroup extends State<AddGroup> {
   }
 }
 
+/// Dialogo de confirmación de la creación del [Grupo]
 Widget _buildPopupDialog(BuildContext context, String tittle, String content,
     {String ruta}) {
   return new AlertDialog(

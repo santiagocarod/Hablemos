@@ -11,6 +11,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de un [Taller]
+/// En caso de que el usuario quiera inscribirse lo puede hacer por medio de esta pagina.
+/// Por eso se hace la consulta para saber que rol tiene el usuario y con esto obtener su perfil completo.
 class ShowWorkShop extends StatefulWidget {
   @override
   _ShowWorkShopState createState() => _ShowWorkShopState();
@@ -343,6 +348,9 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     );
   }
 
+  /// Sección con la infromación del pago
+  ///
+  /// En caso de ser un evento gratis no va a mostrar nada
   Widget _seccionFinanciera(BuildContext context, Taller taller) {
     if (taller.valor.toLowerCase() == "sin costo" ||
         taller.valor.toLowerCase() == "gratis" ||
@@ -405,6 +413,9 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     }
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _seccionUbicacion(BuildContext context, Taller taller) {
     if (taller.ubicacion.toLowerCase() == "virtual") {
       return Column(
@@ -506,6 +517,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     }
   }
 
+  /// Dialogo de confirmación de intención de inscripción al envento
   AlertDialog dialogoConfirmacion(BuildContext context, Size size,
       Taller taller, String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -604,6 +616,9 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
             )));
   }
 
+  /// En caso de que el evento sea virtual y pago para poder inscribirse es necesario adjuntar una prueba de pago
+  ///
+  /// Este dialogo confirma que el usuario ya tenga el pago
   AlertDialog dialogoConfirmacionPago(BuildContext context, Taller taller,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -699,6 +714,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
     );
   }
 
+  /// Boton a cargo del evento del usuario con intencion de inscribirse al evento
   Widget _inscripcion(BuildContext context, Taller taller, Size size) {
     if (auth.currentUser != null) {
       return GestureDetector(
@@ -794,6 +810,7 @@ class _ShowWorkShopState extends State<ShowWorkShop> {
   }
 }
 
+/// Dialogo de confirmación de inscripción al evento
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Taller taller,
     {String ruta}) {

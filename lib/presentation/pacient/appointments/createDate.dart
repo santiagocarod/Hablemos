@@ -11,17 +11,25 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de la creación y modificacion de las [Cita] para el paciente.
+///
+/// Puede escoger un dia, con un horario disponible y un profesional especifico.
+/// Tambien pueden escoger el tipo de la cita.
 class CreateDate extends StatefulWidget {
   @override
   _CreateDate createState() => _CreateDate();
 }
 
+/// Esta misma clase se usa para la modifiación por lo que recibe una [Cita] por argumento de la ruta.
+///
+/// En caso de ser `null` es una creacion y en caso diferente es una moficación
 class _CreateDate extends State<CreateDate> {
   // Provisional list of professionals
   List<Profesional> professionals = [];
-  // Provisional List of types
-  List<String> types = ['Proceso', 'Cita Unica'];
-  // Text Controllers
+
+  /// Lista provisional de los tipos de citas
+  List<String> types = TIPOS_DE_CITA;
+
   TextEditingController _inputFieldDateController = new TextEditingController();
   TextEditingController _timeController = new TextEditingController();
   Profesional _profController;
@@ -36,7 +44,6 @@ class _CreateDate extends State<CreateDate> {
     final Cita cita = ModalRoute.of(context).settings.arguments;
     DateFormat format = DateFormat('hh:mm');
 
-    // Validates if it is update or creation
     if (cita != null) {
       textDate = cita.dateTime.day.toString() +
           '/' +
@@ -78,11 +85,9 @@ class _CreateDate extends State<CreateDate> {
           }
           professionals = profesionalMapToList(snapshot);
 
-          // Screen
           return Stack(
             children: [
               Container(
-                //Background Image
                 child: Image.asset(
                   'assets/images/dateBack.png',
                   alignment: Alignment.center,
@@ -100,7 +105,6 @@ class _CreateDate extends State<CreateDate> {
                       context: context),
                   body: Stack(
                     children: <Widget>[
-                      // Information
                       Padding(
                         padding: const EdgeInsets.only(top: 100.0),
                         child: SingleChildScrollView(
@@ -137,6 +141,9 @@ class _CreateDate extends State<CreateDate> {
         });
   }
 
+  /// Seccion de información general
+  ///
+  /// Esta seccion se usa de manera general para crear avisos e información general útil
   Widget _informationSection(String text) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -150,7 +157,9 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Date and Time text Fields
+  /// Sección que permite escoger la fecha y la hora
+  ///
+  /// La hora es una lista de horas disponibles (Eliminando las que ya estan tomadas)
   Widget _dateInfo(BuildContext context, Size size, Cita cita) {
     return Container(
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -216,7 +225,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Picker Date
+  /// Crea un picker para la fecha en especifico
   _selectDate(BuildContext context, Cita cita) async {
     DateTime picked = await showDatePicker(
       context: context,
@@ -236,7 +245,10 @@ class _CreateDate extends State<CreateDate> {
     }
   }
 
-// Professional Text Field and Button
+  /// Crea una lista desplegable con una lista de [Profesional]
+  ///
+  /// Además tiene un botón que redirije a [ListProfessional()] en donde se muestra una lista de todos los profesionales
+  /// de la organización con su respectivo perfil.
   Widget _professionalInfo(BuildContext context, Size size,
       List<Profesional> professionals, Cita cita) {
     return Container(
@@ -246,7 +258,6 @@ class _CreateDate extends State<CreateDate> {
         children: [
           Row(
             children: <Widget>[
-              // Icon
               SizedBox(
                 width: 48,
                 height: 48,
@@ -256,7 +267,6 @@ class _CreateDate extends State<CreateDate> {
                   size: 48,
                 ),
               ),
-              // Scroll List
               SizedBox(
                 width: size.width - 88,
                 height: 42,
@@ -300,9 +310,7 @@ class _CreateDate extends State<CreateDate> {
               ),
             ],
           ),
-          // Space
           SizedBox(height: 15.0),
-          // Button Professionals
           SizedBox(
             width: 176,
             height: 46,
@@ -335,6 +343,10 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
+  /// Cuando se hace la actualización de el profesional escogido para la cita o la fecha escogida es necesario actualizar la lista de horas disponibles
+  ///
+  /// Esto se hace consultando las citas que ya estan tomadas en las horas especificas
+  /// A la lista de horas posibles le quita las horas ya tomadas y esta es la lista desplegable.
   void _updateHours(String profUid, String date, Cita cita) {
     List<String> horas = [];
     for (int i = HORA_INICIO_CONSULTAS; i <= HORA_FIN_CONSULTAS; i++) {
@@ -389,7 +401,9 @@ class _CreateDate extends State<CreateDate> {
     });
   }
 
-// Type Text Field
+  /// Lista desplegable del tipo de citas
+  ///
+  /// Los valores vienen de [TIPOS_DE_CITA]
   Widget _dateType(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
@@ -444,7 +458,13 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Crea el botón encargado de crear una cita.
+  /// Botón encargado del evento final al momento de crear o actualizar una [Cita].
+  ///
+  /// Toma los valores consignados en los campos anteriores y crea una [Cita]
+  /// Si es una creacion envia los datos a [agregarCita()]
+  /// Si es una Modificación envia los datos a [actualizarCitaPaciente()]
+  ///
+  /// Si ocurrió algún error muestra un dialogo
   Widget _create(BuildContext context, Cita cita) {
     String button = "CREAR";
     // Cambiar el texto del boton, si es una modificacion de cita
@@ -554,7 +574,7 @@ class _CreateDate extends State<CreateDate> {
     );
   }
 
-// Construcción de Dialogo de confirmación de cita.
+  /// Construcción de Dialogo de confirmación de cita.
   Widget _buildPopupDialog(
       BuildContext context, String tittle, String content) {
     return new AlertDialog(

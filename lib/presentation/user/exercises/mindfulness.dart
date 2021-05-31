@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/constants.dart';
-import 'package:hablemos/services/providers/exercises_provider.dart';
+import 'package:hablemos/presentation/user/exercises/provider/ejerciciosEstaticos.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/card_swiper.dart';
+
+/// Clase principal que contiene las diferentes opciones de `Mindfulness`
+/// Las opciones de esta seccion seran dinamicas en un futuro
+///
+/// Solo existe un ejercicio por el momento
 
 class MindfulnessClass extends StatelessWidget {
   @override
@@ -82,7 +87,8 @@ class MindfulnessClass extends StatelessWidget {
         width: size.width,
         height: size.height * 0.6,
         child: CardSwiper(
-          list: ExerciseProvider.getMindfulnes(),
+          list: listaDeMindfulness,
+          imagenes: mindfulnessAcom1,
           route: 'infoEjercicio',
         ),
       ),

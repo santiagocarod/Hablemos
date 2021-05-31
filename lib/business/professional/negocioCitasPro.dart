@@ -5,6 +5,9 @@ import '../../model/cita.dart';
 import '../../model/pagoadmin.dart';
 import '../cloudinary.dart';
 
+///Cuando se complete la [cita] el profesional [cita.profesional] la termina
+///
+///Agregando la [cita] y el valor [cita.costo] a su sección de pagos
 void terminarCita(Cita cita) {
   String uid = cita.profesional.uid;
   if (cita.pago != null && cita.pago != "") {

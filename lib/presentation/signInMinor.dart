@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
 
+/// Pantalla responsable de recolectar la información necesaria para un usuario paciente menor de edad
 class SingInMinor extends StatefulWidget {
   @override
   _SingInMinorState createState() => _SingInMinorState();
@@ -78,6 +79,7 @@ class _SingInMinorState extends State<SingInMinor> {
         });
   }
 
+  ///El usuario debe escoger entre subir una imagen o pedir el permiso de sus padres
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -180,6 +182,7 @@ class _SingInMinorState extends State<SingInMinor> {
     );
   }
 
+  /// Botón para enviar autorización
   Widget buttonAutorizacion(
       String text, Function function, IconData iconData, Color color) {
     return GestureDetector(
@@ -212,6 +215,7 @@ class _SingInMinorState extends State<SingInMinor> {
     );
   }
 
+  ///Información que viene desde la pantalla de registro [SignInPage] y crea el usuario
   Widget _crearCuenta(BuildContext context) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");

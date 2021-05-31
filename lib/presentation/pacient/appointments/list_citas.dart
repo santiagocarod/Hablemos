@@ -11,6 +11,10 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:hablemos/ux/loading_screen.dart';
 import 'package:intl/intl.dart';
 
+/// Clase encargada de desplegar las [Cita]s activas que tiene el paciente
+///
+/// Muestra una lista de cartas con la información básica de cada [Cita]
+/// Ademas en el FloatingActionButton tiene la opción de ir a la pantalla [CreateDate()] para crear una nueva [Cita]
 class ListCitas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -88,6 +92,9 @@ class ListCitas extends StatelessWidget {
         });
   }
 
+  /// Método que convierte cada cita en una [Card] para ser mostrada al usuario
+  ///
+  /// Cada [Card] y puede ser clickeada y redirige a [DateDetails()] para ver la información especifica de la [Cita]
   List<Widget> citasToCard(List<Cita> citas, BuildContext context) {
     final DateFormat format = DateFormat('hh:mm a');
     List<Widget> cards = [];

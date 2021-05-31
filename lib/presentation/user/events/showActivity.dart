@@ -10,6 +10,11 @@ import 'package:hablemos/ux/atoms.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de una [Actividad]
+/// En caso de que el usuario quiera inscribirse lo puede hacer por medio de esta pagina.
+/// Por eso se hace la consulta para saber que rol tiene el usuario y con esto obtener su perfil completo.
 class ShowActivity extends StatefulWidget {
   @override
   _ShowActivityState createState() => _ShowActivityState();
@@ -267,6 +272,9 @@ class _ShowActivityState extends State<ShowActivity> {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _seccionUbicacion(BuildContext context, Actividad actividad) {
     if (actividad.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -367,6 +375,7 @@ class _ShowActivityState extends State<ShowActivity> {
     }
   }
 
+  /// Dialogo de confirmación de intención de inscripción al envento
   AlertDialog dialogoConfirmacion(BuildContext context, Actividad actividad,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -466,6 +475,9 @@ class _ShowActivityState extends State<ShowActivity> {
             )));
   }
 
+  /// En caso de que el evento sea virtual y pago para poder inscribirse es necesario adjuntar una prueba de pago
+  ///
+  /// Este dialogo confirma que el usuario ya tenga el pago
   AlertDialog dialogoConfirmacionPago(BuildContext context, Actividad actividad,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -562,6 +574,9 @@ class _ShowActivityState extends State<ShowActivity> {
             )));
   }
 
+  /// Seccion describiendo la cuenta del banco del evento
+  ///
+  /// En caso de que sea gratis no va a desplegar nada
   Widget _sectionAccountNum(BuildContext context, Actividad actividad) {
     if (actividad.valor.toLowerCase() == "sin costo" ||
         actividad.valor.toLowerCase() == "gratis" ||
@@ -622,6 +637,7 @@ class _ShowActivityState extends State<ShowActivity> {
     }
   }
 
+  /// Seccion describiendo el costo del evento
   Widget _sectionCosto(BuildContext context, Actividad actividad) {
     return Container(
       width: 330.5,
@@ -703,6 +719,7 @@ class _ShowActivityState extends State<ShowActivity> {
     );
   }
 
+  /// Boton a cargo del evento del usuario con intencion de inscribirse al evento
   Widget _inscripcion(BuildContext context, Actividad actividad) {
     if (auth.currentUser != null) {
       return GestureDetector(
@@ -797,6 +814,7 @@ class _ShowActivityState extends State<ShowActivity> {
   }
 }
 
+/// Dialogo de confirmación de inscripción al evento
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Actividad actividad,
     {String ruta}) {

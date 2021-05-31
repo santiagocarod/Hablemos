@@ -3,6 +3,9 @@ import 'package:hablemos/business/cloudinary.dart';
 import 'package:hablemos/model/cita.dart';
 import 'package:hablemos/model/paciente.dart';
 
+///Editar un [Paciente]
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> editarPaciente(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("pacients");
@@ -25,12 +28,14 @@ Future<bool> editarPaciente(Paciente paciente) {
       .catchError((error) => false);
 }
 
+///Actualiza el [paciente] dentro de una [cita]
 void actualizarPacienteCita(Paciente paciente, Cita cita) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("appoinments");
   reference.doc(cita.id).update({"pacient": paciente.toMap()});
 }
 
+///Actualiza el nombre de un [paciente] dentro de la coleccion de "users"
 void actualizarUsuario(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -40,6 +45,9 @@ void actualizarUsuario(Paciente paciente) {
   });
 }
 
+///Elimina un [paciente] dentro de la colección de pacientes
+///
+///Retorna `false` en caso de no poder realizar la operacion
 Future<bool> eliminarPaciente(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("pacients");
@@ -54,6 +62,7 @@ Future<bool> eliminarPaciente(Paciente paciente) {
       .catchError((error) => false);
 }
 
+///Elimina el usuario al que corresponde el [paciente]
 void eliminarUsuario(Paciente paciente) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("users");
@@ -61,6 +70,7 @@ void eliminarUsuario(Paciente paciente) {
   reference.doc(paciente.uid).delete();
 }
 
+///Actualiza la foto de perfil del [paciente] con la ruta de [imagePath]
 Future<bool> actualizarPerfil(Paciente paciente, String imagePath) {
   CollectionReference reference =
       FirebaseFirestore.instance.collection("pacients");

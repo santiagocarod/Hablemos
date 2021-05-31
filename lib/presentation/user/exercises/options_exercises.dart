@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
+import 'helper/coming_soon.dart';
 
+///Clase principal que contiene las diferentes opciones de ejercicios
+///Las opciones de ejercicios posibles (por el momento) son:
+///- `Quiero respirar`
+///- `Mindfulness`
+///- `Quiero meditar`
+///
+/// En caso de que el ejercicio se encuentre en desarrollo se muestra un cuadro explicandole al usuario
 class OptionsExercises extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -71,10 +79,21 @@ class OptionsExercises extends StatelessWidget {
               Navigator.pushNamed(context, 'opcionesRespirar');
             }, kVerdeMuyClaro, size * 0.9, 20.0),
             colorButton('Mindfulness', () {
+              // showCustomDialog(
+              //   context,
+              //   title: "Muy pronto",
+              //   subTitle: "Esta sección se encuentra en desarrollo!",
+              // );
               Navigator.pushNamed(context, 'mindfulness');
             }, kAmarilloMuyClaro, size * 0.9, 20.0),
             colorButton('Quiero meditar', () {
-              Navigator.pushNamed(context, 'meditar');
+              showCustomDialog(
+                context,
+                title: "Muy pronto",
+                subTitle: "Esta sección se encuentra en desarrollo!",
+              );
+
+              // Navigator.pushNamed(context, 'meditar');
             }, kRojoMuyClaro, size * 0.9, 20.0),
           ],
         ),

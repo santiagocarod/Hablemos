@@ -5,6 +5,9 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/model/carta.dart';
 import 'package:hablemos/ux/atoms.dart';
 
+/// El profesional tiene la capacidad de Editar una [Carta]
+///
+/// Recibe una [Carta] como argumento de la ruta.
 class EditLetterPro extends StatefulWidget {
   @override
   _EditLetterPro createState() => _EditLetterPro();
@@ -169,6 +172,7 @@ class _EditLetterPro extends State<EditLetterPro> {
     );
   }
 
+  /// AppBar de la Carta especifica
   AppBar appBarCarta(String texto, IconData icono, int constante, Color color) {
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -199,6 +203,9 @@ class _EditLetterPro extends State<EditLetterPro> {
   }
 }
 
+/// Dialogo de confirmación para editar la carta
+///
+/// En caso de confirmar la edición se envia a [editarCarta()]
 AlertDialog dialogoConfirmacion(BuildContext context, String rutaSi,
     String titulo, String mensaje, Carta carta) {
   String title2 = "";

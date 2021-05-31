@@ -5,6 +5,8 @@ import 'package:hablemos/ux/atoms.dart';
 
 import '../../../constants.dart';
 
+/// Clase que ayuda a filtrar los centros medicos
+/// El filtro se realiza segun la opcion seleccionada
 class FilterMedicalCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class FilterMedicalCenter extends StatelessWidget {
     );
   }
 
+  ///Diseño que ayuda a pasar las ubicaciones a widgets y manejar todo de forma mas eficiente
   locationsToWidgets(BuildContext context, List<String> locations,
       List<CentroAtencion> centrosAtencion, String filter) {
     List<Widget> widgets = [];

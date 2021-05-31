@@ -11,6 +11,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la informacion completa de un evento
+///
+/// En este caso se muestra la información de una [Grupo]
+/// En caso de que el usuario quiera inscribirse lo puede hacer por medio de esta pagina.
+/// Por eso se hace la consulta para saber que rol tiene el usuario y con esto obtener su perfil completo.
 class ShowSupportGroup extends StatefulWidget {
   @override
   _ShowSupportGroupState createState() => _ShowSupportGroupState();
@@ -274,6 +279,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     );
   }
 
+  /// Seccion especifica para la Ubicación del evento
+  ///
+  /// En caso de no ser virtual se puede abrir el mapa
   Widget _seccionUbicacion(BuildContext context, Grupo grupoApoyo) {
     if (grupoApoyo.ubicacion.toLowerCase() == "virtual") {
       return Container(
@@ -371,6 +379,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Dialogo de confirmación de intención de inscripción al envento
   AlertDialog dialogoConfirmacion(BuildContext context, Grupo grupo,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -469,6 +478,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
             )));
   }
 
+  /// En caso de que el evento sea virtual y pago para poder inscribirse es necesario adjuntar una prueba de pago
+  ///
+  /// Este dialogo confirma que el usuario ya tenga el pago
   AlertDialog dialogoConfirmacionPago(BuildContext context, Grupo grupo,
       String titulo, String pregunta, Color color) {
     return AlertDialog(
@@ -564,6 +576,9 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
             )));
   }
 
+  /// Seccion describiendo la cuenta del banco del evento
+  ///
+  /// En caso de que sea gratis no va a desplegar nada
   Widget _sectionAccountNum(BuildContext context, Grupo grupo) {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
@@ -620,6 +635,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Seccion describiendo el costo del evento
   Widget _sectionCosto(BuildContext context, Grupo grupo) {
     if (grupo.valor.toLowerCase() == "sin costo" ||
         grupo.valor.toLowerCase() == "gratis" ||
@@ -786,6 +802,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
     }
   }
 
+  /// Boton a cargo del evento del usuario con intencion de inscribirse al evento
   Widget _inscripcion(BuildContext context, Grupo grupoApoyo) {
     if (auth.currentUser != null) {
       return GestureDetector(
@@ -879,6 +896,7 @@ class _ShowSupportGroupState extends State<ShowSupportGroup> {
   }
 }
 
+/// Dialogo de confirmación de inscripción al evento
 Widget _buildPopupDialog(
     BuildContext context, String tittle, String content, Grupo grupo,
     {String ruta}) {

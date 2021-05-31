@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:intl/intl.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../inh_widget.dart';
 
+///Pantalla encargada del recibir los datos del registro de un paciente
 class SignInPage extends StatefulWidget {
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -57,6 +60,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+  ///Formulario con todos los campos para crear un paciente
   Widget _signinForm(BuildContext context, Size size) {
     final bloc = InhWidget.of(context);
     return Padding(
@@ -184,6 +188,33 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ), //Datos Adicionales
                         SizedBox(height: 30.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Cuando re registras aceptas que guardemos tus datos con fines de la aplicación",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        SizedBox(height: 30.0),
+                        GestureDetector(
+                          onTap: () {
+                            launch(
+                                "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981");
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Términos y Condiciones",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "PoppinsBold",
+                                  decoration: TextDecoration.underline,
+                                  color: kAzulOscuro),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30.0),
                         iconButtonBigBloc("Crear Cuenta", () {
                           signInLogic(bloc, context);
                         }, Icons.login, Colors.yellow[700],
@@ -204,6 +235,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+  ///Widget encargado de recibir la fecha de nacimiento de un paciente
   Widget _crearEdad(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -245,6 +277,12 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  ///Logica encargada de verificar que la información sea correcta y enviarla
+  ///
+  ///Se envia al metodo [AuthService.signUp()] quien corrobora la información y la envia a Firebase
+  ///En caso de error muestra un mensaje de error en la pantalla.
+  ///En el caso de que la persona que se esta registrando sea un menor de edad,
+  ///Lo reenvia a la pantalla de resgistro con datos adicionales para menores [SingInMinor()]
   signInLogic(dynamic bloc, BuildContext context) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("users");

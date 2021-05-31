@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hablemos/presentation/bodyProfesional.dart';
-/*import 'package:hablemos/model/paciente.dart';
-import 'package:hablemos/services/providers/pacientes_provider.dart';*/
+
 import '../constants.dart';
 import 'bodyProfesional.dart';
 import 'package:hablemos/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+///Pantalla principal del Profesional
+///
+///En donde se le muestran todas las opciones que puede realizar con la aplicación.
 class PantallaInicioProfesional extends StatefulWidget {
   @override
   _PantallaInicioProfesionalState createState() =>
@@ -17,6 +19,7 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
   String username;
   AuthService _authService = new AuthService();
 
+  ///Cuando se inica la pantalla se obtiene el nombre de la colección "users"
   @override
   void initState() {
     super.initState();
@@ -35,9 +38,9 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
     });
   }
 
+  /// Metodo que crea un [BodyProfesional()] que se encarga de mostar las opciones
   @override
   Widget build(BuildContext context) {
-    //Paciente paciente = PacientesProvider.getPaciente();
     Size size = MediaQuery.of(context).size;
     return Container(
       color: kAzulPrincipal,
@@ -56,8 +59,8 @@ class _PantallaInicioProfesionalState extends State<PantallaInicioProfesional> {
   }
 }
 
+///Construye la barra superior de la aplicación.
 AppBar buildAppBar(Size size) {
-  //EncabezadoHablemos(size: size, text1: "Diana");
   return AppBar(
     backgroundColor: kAzulPrincipal,
     elevation: 0,

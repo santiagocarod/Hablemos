@@ -10,6 +10,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la información basica de un evento en este caso una [Taller]
+///
+/// En caso de que ya este inscrito
 class SubscribedWorkShop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

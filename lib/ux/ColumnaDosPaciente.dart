@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
 
+/// Clase que usamos para organizar los botones que contienen la columna 2 la pantalla principal de paciente
+/// De esta forma evitamos repetir codigo en pantallas donde esto no va a cambiar
 class ColumnaDosPaciente extends StatelessWidget {
   const ColumnaDosPaciente({
     Key key,

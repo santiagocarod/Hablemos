@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 
+/// Clase que contiene el diseño de una edición de un profesional
+/// De esta forma el administrador puede tener una mejor gestion sobre ellos
 class EditProfileProfessionalAdmin extends StatefulWidget {
   @override
   _EditProfileProfessionalAdminState createState() =>
@@ -103,6 +105,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
+  /// Diseño de la parte superior de la pantalla
   Widget cabeceraPerfilProfesional(Size size, TextEditingController textNombre,
       TextEditingController textApellido) {
     return Stack(
@@ -262,6 +265,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
+  /// Diseño de la parte inferior de la pantalla
   Widget _body(Size size, Profesional profesional) {
     return Container(
       width: size.width,
@@ -298,7 +302,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Section: title and text field
+  /// Diseño de la seccion de edicion
   Widget _editSection(
       String text, TextEditingController controller, int categoria) {
     return Container(
@@ -368,7 +372,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Picker Date
+  /// Modal de seleccion de una fecha
   _selectDate(BuildContext context) async {
     DateTime picked = await showDatePicker(
       context: context,
@@ -385,7 +389,7 @@ class _EditProfileProfessionalAdminState
     }
   }
 
-  // Verificación Asociación de Profesional con Citas
+  /// Verificación Asociación de [Profesional] con [Cita]
   Widget _buildDialog(BuildContext context, Profesional profesional,
       String usuario, Size size) {
     Query citasCollection = FirebaseFirestore.instance
@@ -412,7 +416,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Dialogo Confirmación de Modificación de Profesional sin Citas asociadas
+  /// Dialogo Confirmación de Modificación de [Profesional] sin [Cita] asociadas
   Widget modificacionDialogs(
       BuildContext context, Profesional profesional, Size size) {
     String title2 = "";
@@ -525,8 +529,8 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Dialogo Confirmación de Modificación de Profesional con Citas asociadas.
-  // Modificación del profesional en la información de las Citas asociadas.
+  /// Dialogo Confirmación de Modificación de [Profesional] con [Cita] asociadas.
+  /// Modificación del [profesional] en la información de las [Cita] asociadas.
   Widget modificacionDialogsCita(BuildContext context, Profesional profesional,
       List<Cita> citas, Size size) {
     String title2 = "";
@@ -639,7 +643,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  // Confirm popup dialog
+  /// Dialogo de confirmacion
   Widget adviceDialogProfesional(
       BuildContext context, String text, String content, bool state) {
     return new AlertDialog(
@@ -684,7 +688,7 @@ class _EditProfileProfessionalAdminState
     );
   }
 
-  //Section non editable
+  /// Section No editable
   Widget _nonEditSection(String title, String content) {
     return Container(
       padding: EdgeInsets.only(right: 15.0, left: 15.0),

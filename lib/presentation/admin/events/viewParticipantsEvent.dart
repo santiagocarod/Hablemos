@@ -4,6 +4,10 @@ import 'package:hablemos/constants.dart';
 import 'package:hablemos/ux/atoms.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Clase que tiene el diseño de la pantalla principal de los ver los [Profeisonal]es y [Paciente]s inscritos a un evento
+///
+/// Es desde la perspectiva de un admnistrador y va a ver un listado referente al tipo de evento ([Actividad], [Taller], [Grupo]) que realice el llamado
+
 class ParticipantsEvent extends StatefulWidget {
   @override
   _ParticipantsEventState createState() => _ParticipantsEventState();
@@ -43,6 +47,10 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
     );
   }
 
+  /// Diseño del cuerpo o body de la pantalla
+  ///
+  /// Despliega la lista de inscritos del evento
+  /// En caso de que [Evento.participantes]  = `null` se desplegara un mensaje de la no existencia de pacientes inscritos
   Widget _crearBody(BuildContext context, Size size, dynamic evento) {
     if (evento.participantes == null || evento.participantes.length == 0) {
       return Container(
@@ -80,6 +88,7 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
     );
   }
 
+  /// Seccion especifica para identificar el total de los inscritos en el evento
   Widget _createText(
       BuildContext context, Size size, String titulo, String total) {
     return Container(
@@ -108,6 +117,9 @@ class _ParticipantsEventState extends State<ParticipantsEvent> {
     );
   }
 
+  /// Hace la transformación del la lista de pacticipantes a una tabla, la cual puede ser vista de mejor manera
+  ///
+  /// Cada fila representa un participante individual e indica su nombre
   Widget _createTable(BuildContext context, Size size,
       List<dynamic> participantes, dynamic event) {
     List<DataRow> rows = [];

@@ -8,6 +8,9 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../../constants.dart';
 
+/// Clase encargada de mostrar la información basica de un evento en este caso un [Grupo]
+///
+/// En caso de que ya este inscrito
 class SubscribedGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

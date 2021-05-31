@@ -1,5 +1,8 @@
 import 'package:hablemos/model/profesional.dart';
 
+///Clase encargada de almacenar la cantidad de dinero que debe ser pagada por el [profesional] al administrador por el uso del servicio
+///
+///Cuando el profesional termina una cita, se agrega esa cita a [listCitasProfesional] y se adiciona el porcentaje del costo de la cita a [pago]
 class Pagoadmin {
   String uid;
   Profesional profesional;

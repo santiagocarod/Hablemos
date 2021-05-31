@@ -7,6 +7,9 @@ import 'package:hablemos/ux/loading_screen.dart';
 
 import '../../../constants.dart';
 
+/// Clase encargada de desplegar las Actividades disponibles con su información básica y fotos
+///
+/// Es encargada de ir a Firebase y traer todoos los eventos de tipo [Taller]
 class ListWorkShops extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final List<String> names = [];
@@ -77,6 +80,7 @@ class ListWorkShops extends StatelessWidget {
         });
   }
 
+  /// Hace la transformación del objeto a una Card la cual puede ser vista de mejor manera
   List<Widget> objectCard(
       BuildContext context, Size size, List<Taller> talleres) {
     List<Widget> cards = [];
