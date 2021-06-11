@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hablemos/cloudinary.dart';
 
 /// Paleta de Colores utilizada dentro de la aplicación
 const kAzulPrincipal = Color(0xFF202830);
@@ -54,8 +55,8 @@ const listColoresForo = [
 const grisSuave = Color(0xFFEAECFF);
 
 /// Constantes de claves y carpetas para Cloudinary
-const API_KEY = "975698479996151";
-const API_SECRET = "wtgtBmSssA1UixdejKpU53XTLTk";
+const API_KEY = CLOUDINARY_API_KEY;
+const API_SECRET = CLOUDINARY_API_SECRET;
 const CLOUD_NAME = "hablemos";
 const PAY_FOLDER = "payment_pictures";
 const PROFILE_FOLDER = "profile_pictures";
