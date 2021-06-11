@@ -1,0 +1,2 @@
+const CLOUDINARY_API_KEY = "";
+const CLOUDINARY_API_SECRET = "";
