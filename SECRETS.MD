@@ -22,8 +22,12 @@ Es necesario generar las claves desde la consola de firebase.
 
 * Para Cloudinary
 
-    Generar las claves de API en la página de Cloudinary y reemplazar en el archivo [lib/constants.dart](lib/constants.dart) en las constantes de:
+    Generar las claves de API en la página de Cloudinary y CREAR el archivo [lib/cloudinary.dart](lib/cloudinary.dart)con las constantes
     
-    * API_KEY
-    * API_SECRET 
-
+    * CLOUDINARY_API_KEY
+    * CLOUDINARY_API_SECRET 
+        * EJEMPLO: 
+        ```
+        const CLOUDINARY_API_KEY = "684262316872646";
+        const CLOUDINARY_API_SECRET = "qowuioemnfasijhflkajsd";
+        ```
